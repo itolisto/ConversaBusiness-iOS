@@ -1,0 +1,12 @@
+.DS_Store
+build
+*.mode1v3
+*.pbxuser
+ConversaBusiness.xcworkspace
+xcuserdata
+.svn
+DerivedData
+*.orig
+*.xccheckout
+Podfile.lock
+/Pods/
