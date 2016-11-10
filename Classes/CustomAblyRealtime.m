@@ -108,13 +108,13 @@
 
     switch (status.current) {
         case ARTRealtimeInitialized:
-            DDLogError(@"onConnectionStateChgd: Initialized");
+            //DDLogError(@"onConnectionStateChgd: Initialized");
             break;
         case ARTRealtimeConnecting:
-            DDLogError(@"onConnectionStateChgd: Connecting");
+            //DDLogError(@"onConnectionStateChgd: Connecting");
             break;
         case ARTRealtimeConnected:
-            DDLogError(@"onConnectionStateChgd: Connected");
+            //DDLogError(@"onConnectionStateChgd: Connected");
             if (self.firstLoad) {
                 // Subscribe to all Channels
                 [self subscribeToChannels];
@@ -132,29 +132,29 @@
             }
             break;
         case ARTRealtimeDisconnected:
-            DDLogError(@"onConnectionStateChgd: Disconnected");
+            //DDLogError(@"onConnectionStateChgd: Disconnected");
             break;
         case ARTRealtimeSuspended:
-            DDLogError(@"onConnectionStateChgd: Suspended");
+            //DDLogError(@"onConnectionStateChgd: Suspended");
             break;
         case ARTRealtimeClosing:
-            DDLogError(@"onConnectionStateChgd: Closing");
+            //DDLogError(@"onConnectionStateChgd: Closing");
             for (ARTRealtimeChannel * channel in self.ably.channels) {
                 [channel unsubscribe];
                 [[channel getPresence] unsubscribe];
             }
             break;
         case ARTRealtimeClosed:
-            DDLogError(@"onConnectionStateChgd: Closed");
+            //DDLogError(@"onConnectionStateChgd: Closed");
             break;
         case ARTRealtimeFailed:
-            DDLogError(@"onConnectionStateChgd: Failed");
+            //DDLogError(@"onConnectionStateChgd: Failed");
             break;
     }
 }
 
 - (void)onMessage:(ARTMessage *) messages {
-    DDLogError(@"onMessage: message received --> %@", messages.description);
+    //DDLogError(@"onMessage: message received --> %@", messages.description);
 
 
 //    try {
@@ -176,7 +176,7 @@
 }
 
 - (void)onPresenceMessage:(ARTPresenceMessage *)messages {
-    DDLogError(@"onPresenceMessage: message received --> %@", messages.clientId);
+    //DDLogError(@"onPresenceMessage: message received --> %@", messages.clientId);
 
     switch (messages.action) {
         case ARTPresenceEnter:
@@ -192,7 +192,7 @@
 
 - (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *) reason {
     if (reason != nil) {
-        DDLogError(@"fasdf --> %@", reason.message);
+        //DDLogError(@"fasdf --> %@", reason.message);
         return;
     }
 
@@ -258,7 +258,7 @@
     if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:)]) {
         [self.delegate messageReceived:additionalData];
     } else {
-        DDLogInfo(@"ConversationListener protocol isn't set to receive message");
+        //DDLogInfo(@"ConversationListener protocol isn't set to receive message");
         // Process message here
     }
 }

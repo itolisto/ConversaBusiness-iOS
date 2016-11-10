@@ -7,10 +7,11 @@
 //
 
 @import UIKit;
-#import <OHQBImagePicker/QBImagePicker.h>
+//#import <OHQBImagePicker/QBImagePicker.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 
-@interface DetailAccountViewController : UITableViewController <UITextFieldDelegate, QBImagePickerControllerDelegate, UIImagePickerControllerDelegate>
+@interface DetailAccountViewController : UITableViewController <UITextFieldDelegate, UIImagePickerControllerDelegate>
+//QBImagePickerControllerDelegate
 
 @property(weak, nonatomic)UIImage *avatar;
 

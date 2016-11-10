@@ -163,26 +163,26 @@
     }
 }
 
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
-{
-    for (PHAsset *asset in items) {
-        PHImageManager *manager = [PHImageManager defaultManager];
-        [manager requestImageDataForAsset:asset
-                                  options:nil
-                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
-         {
-             if (imageData) {
-                 [self processImage:UIImageJPEGRepresentation(compressImage([UIImage imageWithData:imageData], NO), 1)];
-             }
-         }];
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
+//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
+//{
+//    for (PHAsset *asset in items) {
+//        PHImageManager *manager = [PHImageManager defaultManager];
+//        [manager requestImageDataForAsset:asset
+//                                  options:nil
+//                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+//         {
+//             if (imageData) {
+//                 [self processImage:UIImageJPEGRepresentation(compressImage([UIImage imageWithData:imageData], NO), 1)];
+//             }
+//         }];
+//    }
+//    
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//}
+//
+//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//}
 
 - (void)processImage:(NSData *)picture {
     if (picture) {

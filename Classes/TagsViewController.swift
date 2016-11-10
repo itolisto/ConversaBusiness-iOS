@@ -24,28 +24,28 @@ class TagsViewController: UIViewController, TFBubbleItUpViewDelegate {
         self.bubbleItUpView.setPlaceholderText("")
         let validation = TFBubbleItUpValidation.testEmptiness()
         TFBubbleItUpViewConfiguration.itemValidation = validation
-        TFBubbleItUpViewConfiguration.numberOfItems = .Quantity(5)
-        TFBubbleItUpViewConfiguration.keyboardType = UIKeyboardType.Alphabet
-        TFBubbleItUpViewConfiguration.autoCapitalization = UITextAutocapitalizationType.None
+        //TFBubbleItUpViewConfiguration.numberOfItems = .Quantity(5)
+        //TFBubbleItUpViewConfiguration.keyboardType = UIKeyboardType.Alphabet
+        //TFBubbleItUpViewConfiguration.autoCapitalization = UITextAutocapitalizationType.None
         
 //        self.bubbleItUpView.addStringItem("ales@thefuntasty.com")
 //        self.bubbleItUpView.removeStringItem("ales@thefuntasty.com")
 //        self.textLabel.text = view.validStrings().joinWithSeparator(", ")
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DatabaseManager.sharedInstance().newConnection().asyncReadWithBlock({ (transaction) in
-            self.tags = YapTag.getAllTagsWithTransaction(transaction);
+        DatabaseManager.sharedInstance().newConnection().asyncRead({ (transaction) in
+            self.tags = YapTag.getAllTags(with: transaction) as NSArray;
             }) {
                 for(tag) in self.tags {
-                    self.bubbleItUpView.addStringItem(tag.tag)
+                    //self.bubbleItUpView.addStringItem(tag.tag)
                 }
         }
     }
     
     // MARK:- TFBubbleItUpDelegate
-    func bubbleItUpViewDidFinishEditingBubble(view: TFBubbleItUpView, text: String, index: Int) {
+    func bubbleItUpViewDidFinishEditingBubble(_ view: TFBubbleItUpView, text: String, index: Int) {
         NSLog("\nbubbleItUpViewDidFinishEditingBubble text:  %@", text)
         NSLog("\nbubbleItUpViewDidFinishEditingBubble index: %i", index)
         if text.characters.count > 0 {
@@ -59,7 +59,7 @@ class TagsViewController: UIViewController, TFBubbleItUpViewDelegate {
         }
     }
     
-    func bubbleItUpViewDidDeleteBubbles(view: TFBubbleItUpView, text: String, actualIndex: Int, otherIndex: Int) {
+    func bubbleItUpViewDidDeleteBubbles(_ view: TFBubbleItUpView, text: String, actualIndex: Int, otherIndex: Int) {
         if otherIndex == -1 {
             // Only one tag deleted
             NSLog("\nbubbleItUpViewDidDeleteBubbles 1index: %i", actualIndex)

@@ -7,8 +7,9 @@
 //
 
 @import Foundation;
+@import Ably;
+
 @class Account;
-#import <AblyRealtime/AblyRealtime.h>
 
 @protocol ConversationListener <NSObject>
 @required

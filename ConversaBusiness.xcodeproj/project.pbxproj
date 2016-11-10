@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		963B1FD86FACF3CDB9420F6D /* Pods_ConversaBusiness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BDC3807A174ABF70E9B6ED7 /* Pods_ConversaBusiness.framework */; };
+		2A38FC518ACEE46AEAE39000 /* Pods_ConversaManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */; };
 		A52907041D6FE93D0018D74C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907031D6FE93D0018D74C /* main.m */; };
 		A52907071D6FE93D0018D74C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907061D6FE93D0018D74C /* AppDelegate.m */; };
 		A52907101D6FE93D0018D74C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A529070E1D6FE93D0018D74C /* Main.storyboard */; };
@@ -69,13 +69,17 @@
 		A52907BF1D6FEA0C0018D74C /* YapMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907861D6FEA0C0018D74C /* YapMessage.m */; };
 		A52907C01D6FEA0C0018D74C /* YapTag.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907881D6FEA0C0018D74C /* YapTag.m */; };
 		A53962981D70D0E800D557FE /* CustomAblyRealtime.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962971D70D0E800D557FE /* CustomAblyRealtime.m */; };
+		BD4B0C4C3F7315F4CA0FE2C9 /* Pods_ConversaBusiness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7730C5B5D12C6FE017C2ADAC /* Pods_ConversaBusiness.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14C7265B60A805228F91C92C /* Pods-ConversaBusiness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.debug.xcconfig"; sourceTree = "<group>"; };
-		5BDC3807A174ABF70E9B6ED7 /* Pods_ConversaBusiness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConversaBusiness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		730C2D40F3F0D5FEE8A9C0FE /* Pods-ConversaBusiness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.release.xcconfig"; sourceTree = "<group>"; };
-		A52906FF1D6FE93D0018D74C /* ConversaBusiness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConversaBusiness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		076DC5C1FEEECA85A05D7B41 /* Pods-ConversaBusiness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.release.xcconfig"; sourceTree = "<group>"; };
+		67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager.debug.xcconfig"; sourceTree = "<group>"; };
+		6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager.release.xcconfig"; sourceTree = "<group>"; };
+		7730C5B5D12C6FE017C2ADAC /* Pods_ConversaBusiness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConversaBusiness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConversaManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9950EF1EF05AD2B025F75956 /* Pods-ConversaBusiness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.debug.xcconfig"; sourceTree = "<group>"; };
+		A52906FF1D6FE93D0018D74C /* ConversaManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConversaManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A52907031D6FE93D0018D74C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A52907051D6FE93D0018D74C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A52907061D6FE93D0018D74C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -108,7 +112,6 @@
 		A52907331D6FEA0C0018D74C /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A52907341D6FEA0C0018D74C /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A52907351D6FEA0C0018D74C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
-		A52907361D6FEA0C0018D74C /* ConversaBusiness-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaBusiness-Bridging-Header.h"; sourceTree = "<group>"; };
 		A529073B1D6FEA0C0018D74C /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A529073C1D6FEA0C0018D74C /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A529073D1D6FEA0C0018D74C /* CustomBlockCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBlockCell.h; sourceTree = "<group>"; };
@@ -189,6 +192,7 @@
 		A52907881D6FEA0C0018D74C /* YapTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapTag.m; sourceTree = "<group>"; };
 		A53962961D70D0E800D557FE /* CustomAblyRealtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAblyRealtime.h; sourceTree = "<group>"; };
 		A53962971D70D0E800D557FE /* CustomAblyRealtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAblyRealtime.m; sourceTree = "<group>"; };
+		A55A8EB91DCD148600BDD371 /* ConversaBusiness.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConversaBusiness.entitlements; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaBusiness-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaBusiness-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,20 +201,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				963B1FD86FACF3CDB9420F6D /* Pods_ConversaBusiness.framework in Frameworks */,
+				BD4B0C4C3F7315F4CA0FE2C9 /* Pods_ConversaBusiness.framework in Frameworks */,
+				2A38FC518ACEE46AEAE39000 /* Pods_ConversaManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		306D4D6EB90FF4CF94610ED1 /* Pods */ = {
+		1C536EA9DA22CE7AC01A4EC8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				14C7265B60A805228F91C92C /* Pods-ConversaBusiness.debug.xcconfig */,
-				730C2D40F3F0D5FEE8A9C0FE /* Pods-ConversaBusiness.release.xcconfig */,
+				9950EF1EF05AD2B025F75956 /* Pods-ConversaBusiness.debug.xcconfig */,
+				076DC5C1FEEECA85A05D7B41 /* Pods-ConversaBusiness.release.xcconfig */,
+				67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */,
+				6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		7E524557B5AC6044DECDD43F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7730C5B5D12C6FE017C2ADAC /* Pods_ConversaBusiness.framework */,
+				864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A52906F61D6FE93D0018D74C = {
@@ -219,15 +235,15 @@
 				A529071C1D6FEA0C0018D74C /* Classes */,
 				A52907011D6FE93D0018D74C /* ConversaBusiness */,
 				A52907001D6FE93D0018D74C /* Products */,
-				306D4D6EB90FF4CF94610ED1 /* Pods */,
-				B1F49186847E89C58210970B /* Frameworks */,
+				1C536EA9DA22CE7AC01A4EC8 /* Pods */,
+				7E524557B5AC6044DECDD43F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		A52907001D6FE93D0018D74C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A52906FF1D6FE93D0018D74C /* ConversaBusiness.app */,
+				A52906FF1D6FE93D0018D74C /* ConversaManager.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,6 +251,7 @@
 		A52907011D6FE93D0018D74C /* ConversaBusiness */ = {
 			isa = PBXGroup;
 			children = (
+				A55A8EB91DCD148600BDD371 /* ConversaBusiness.entitlements */,
 				A52907051D6FE93D0018D74C /* AppDelegate.h */,
 				A52907061D6FE93D0018D74C /* AppDelegate.m */,
 				A5F78A881D6FF22600A3ADD8 /* ConversaBusiness-Bridging-Header.h */,
@@ -258,102 +275,53 @@
 		A529071C1D6FEA0C0018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A529071D1D6FEA0C0018D74C /* AboutViewController.h */,
-				A529071E1D6FEA0C0018D74C /* AboutViewController.m */,
+				A59AF6FB1DB674C90018BCE7 /* Cells */,
+				A59AF7051DB676930018BCE7 /* Connection */,
+				A59AF7031DB676340018BCE7 /* Custom */,
+				A59AF6FC1DB675070018BCE7 /* Database */,
+				A59AF6FE1DB6759F0018BCE7 /* Media */,
+				A59AF6FD1DB675180018BCE7 /* MediaItems */,
+				A59AF7021DB676090018BCE7 /* Notification */,
+				A59AF6F91DB674890018BCE7 /* Parse */,
+				A59AF7041DB676710018BCE7 /* Utils */,
+				A59AF6F81DB674190018BCE7 /* View Controllers */,
+				A59AF6FF1DB675B70018BCE7 /* Views */,
+				A59AF6FA1DB674AD0018BCE7 /* YapDatabase */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		A59AF6F81DB674190018BCE7 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A59AF7071DB676D60018BCE7 /* Chats */,
+				A59AF7061DB676BB0018BCE7 /* Login */,
+				A59AF7091DB676EE0018BCE7 /* Settings */,
+				A52907351D6FEA0C0018D74C /* ContentViewController.swift */,
+				A52907691D6FEA0C0018D74C /* OptionsViewController.swift */,
+				A52907771D6FEA0C0018D74C /* TutorialViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		A59AF6F91DB674890018BCE7 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
 				A529071F1D6FEA0C0018D74C /* Account.h */,
 				A52907201D6FEA0C0018D74C /* Account.m */,
-				A52907211D6FEA0C0018D74C /* AccountSettingsViewController.h */,
-				A52907221D6FEA0C0018D74C /* AccountSettingsViewController.m */,
-				A52907231D6FEA0C0018D74C /* Audio.h */,
-				A52907241D6FEA0C0018D74C /* Audio.m */,
-				A52907251D6FEA0C0018D74C /* AudioMediaItem.h */,
-				A52907261D6FEA0C0018D74C /* AudioMediaItem.m */,
-				A52907271D6FEA0C0018D74C /* BlockViewController.h */,
-				A52907281D6FEA0C0018D74C /* BlockViewController.m */,
 				A52907291D6FEA0C0018D74C /* Business.h */,
 				A529072A1D6FEA0C0018D74C /* Business.m */,
-				A529072B1D6FEA0C0018D74C /* Camera.h */,
-				A529072C1D6FEA0C0018D74C /* Camera.m */,
-				A529072D1D6FEA0C0018D74C /* ChatSettingsViewController.h */,
-				A529072E1D6FEA0C0018D74C /* ChatSettingsViewController.m */,
-				A529072F1D6FEA0C0018D74C /* ChatsViewController.h */,
-				A52907301D6FEA0C0018D74C /* ChatsViewController.m */,
-				A52907311D6FEA0C0018D74C /* Colors.h */,
-				A52907321D6FEA0C0018D74C /* Colors.m */,
-				A52907331D6FEA0C0018D74C /* Constants.h */,
-				A52907341D6FEA0C0018D74C /* Constants.m */,
-				A52907351D6FEA0C0018D74C /* ContentViewController.swift */,
-				A52907361D6FEA0C0018D74C /* ConversaBusiness-Bridging-Header.h */,
-				A529073B1D6FEA0C0018D74C /* ConversationViewController.h */,
-				A529073C1D6FEA0C0018D74C /* ConversationViewController.m */,
-				A529073D1D6FEA0C0018D74C /* CustomBlockCell.h */,
-				A529073E1D6FEA0C0018D74C /* CustomBlockCell.m */,
-				A529073F1D6FEA0C0018D74C /* CustomChatCell.h */,
-				A52907401D6FEA0C0018D74C /* CustomChatCell.m */,
 				A52907411D6FEA0C0018D74C /* Customer.h */,
 				A52907421D6FEA0C0018D74C /* Customer.m */,
-				A52907431D6FEA0C0018D74C /* CustomSettingCell.h */,
-				A52907441D6FEA0C0018D74C /* CustomSettingCell.m */,
-				A52907451D6FEA0C0018D74C /* DatabaseManager.h */,
-				A52907461D6FEA0C0018D74C /* DatabaseManager.m */,
-				A52907471D6FEA0C0018D74C /* DatabaseView.h */,
-				A52907481D6FEA0C0018D74C /* DatabaseView.m */,
-				A52907491D6FEA0C0018D74C /* DetailAccountViewController.h */,
-				A529074A1D6FEA0C0018D74C /* DetailAccountViewController.m */,
-				A529074B1D6FEA0C0018D74C /* DOFavoriteButton.swift */,
-				A529074C1D6FEA0C0018D74C /* Image.h */,
-				A529074D1D6FEA0C0018D74C /* Image.m */,
-				A529074E1D6FEA0C0018D74C /* Incoming.h */,
-				A529074F1D6FEA0C0018D74C /* Incoming.m */,
-				A52907501D6FEA0C0018D74C /* Log.h */,
-				A52907511D6FEA0C0018D74C /* LoginHandler.h */,
-				A52907521D6FEA0C0018D74C /* LoginHandler.m */,
-				A52907531D6FEA0C0018D74C /* LoginViewController.h */,
-				A52907541D6FEA0C0018D74C /* LoginViewController.m */,
-				A52907551D6FEA0C0018D74C /* Main.storyboard */,
-				A52907561D6FEA0C0018D74C /* MapView.h */,
-				A52907571D6FEA0C0018D74C /* MapView.m */,
-				A52907581D6FEA0C0018D74C /* MapView.xib */,
 				A52907591D6FEA0C0018D74C /* Message.h */,
 				A529075A1D6FEA0C0018D74C /* Message.m */,
-				A529075B1D6FEA0C0018D74C /* NetworkUtilities.h */,
-				A529075C1D6FEA0C0018D74C /* NetworkUtilities.m */,
-				A529075D1D6FEA0C0018D74C /* NotificationPermissions.h */,
-				A529075E1D6FEA0C0018D74C /* NotificationPermissions.m */,
-				A529075F1D6FEA0C0018D74C /* NotificationsViewController.h */,
-				A52907601D6FEA0C0018D74C /* NotificationsViewController.m */,
-				A52907611D6FEA0C0018D74C /* NSFileManager+Conversa.h */,
-				A52907621D6FEA0C0018D74C /* NSFileManager+Conversa.m */,
-				A52907631D6FEA0C0018D74C /* NSNumber+Conversa.h */,
-				A52907641D6FEA0C0018D74C /* NSNumber+Conversa.m */,
-				A52907651D6FEA0C0018D74C /* OneSignalController.h */,
-				A53962961D70D0E800D557FE /* CustomAblyRealtime.h */,
-				A53962971D70D0E800D557FE /* CustomAblyRealtime.m */,
-				A52907661D6FEA0C0018D74C /* OneSignalController.m */,
-				A52907671D6FEA0C0018D74C /* OneSignalService.h */,
-				A52907681D6FEA0C0018D74C /* OneSignalService.m */,
-				A52907691D6FEA0C0018D74C /* OptionsViewController.swift */,
-				A529076A1D6FEA0C0018D74C /* PhotoMediaItem.h */,
-				A529076B1D6FEA0C0018D74C /* PhotoMediaItem.m */,
-				A529076C1D6FEA0C0018D74C /* QRCodeViewController.h */,
-				A529076D1D6FEA0C0018D74C /* QRCodeViewController.m */,
-				A529076E1D6FEA0C0018D74C /* RecoverViewController.h */,
-				A529076F1D6FEA0C0018D74C /* RecoverViewController.m */,
-				A52907701D6FEA0C0018D74C /* RegisterViewController.h */,
-				A52907711D6FEA0C0018D74C /* RegisterViewController.m */,
-				A52907721D6FEA0C0018D74C /* SettingsKeys.h */,
-				A52907731D6FEA0C0018D74C /* SettingsKeys.m */,
-				A52907741D6FEA0C0018D74C /* SettingsViewController.h */,
-				A52907751D6FEA0C0018D74C /* SettingsViewController.m */,
-				A52907761D6FEA0C0018D74C /* TagsViewController.swift */,
-				A52907771D6FEA0C0018D74C /* TutorialViewController.swift */,
-				A52907781D6FEA0C0018D74C /* Utilities.h */,
-				A52907791D6FEA0C0018D74C /* Utilities.m */,
-				A529077A1D6FEA0C0018D74C /* Video.h */,
-				A529077B1D6FEA0C0018D74C /* Video.m */,
-				A529077C1D6FEA0C0018D74C /* VideoMediaItem.h */,
-				A529077D1D6FEA0C0018D74C /* VideoMediaItem.m */,
-				A529077E1D6FEA0C0018D74C /* WhisperBridge.swift */,
+			);
+			name = Parse;
+			sourceTree = "<group>";
+		};
+		A59AF6FA1DB674AD0018BCE7 /* YapDatabase */ = {
+			isa = PBXGroup;
+			children = (
 				A529077F1D6FEA0C0018D74C /* YapAccount.h */,
 				A52907801D6FEA0C0018D74C /* YapAccount.m */,
 				A52907811D6FEA0C0018D74C /* YapContact.h */,
@@ -365,38 +333,199 @@
 				A52907871D6FEA0C0018D74C /* YapTag.h */,
 				A52907881D6FEA0C0018D74C /* YapTag.m */,
 			);
-			path = Classes;
+			name = YapDatabase;
 			sourceTree = "<group>";
 		};
-		B1F49186847E89C58210970B /* Frameworks */ = {
+		A59AF6FB1DB674C90018BCE7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				5BDC3807A174ABF70E9B6ED7 /* Pods_ConversaBusiness.framework */,
+				A529073D1D6FEA0C0018D74C /* CustomBlockCell.h */,
+				A529073E1D6FEA0C0018D74C /* CustomBlockCell.m */,
+				A529073F1D6FEA0C0018D74C /* CustomChatCell.h */,
+				A52907401D6FEA0C0018D74C /* CustomChatCell.m */,
+				A52907431D6FEA0C0018D74C /* CustomSettingCell.h */,
+				A52907441D6FEA0C0018D74C /* CustomSettingCell.m */,
 			);
-			name = Frameworks;
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		A59AF6FC1DB675070018BCE7 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A52907451D6FEA0C0018D74C /* DatabaseManager.h */,
+				A52907461D6FEA0C0018D74C /* DatabaseManager.m */,
+				A52907471D6FEA0C0018D74C /* DatabaseView.h */,
+				A52907481D6FEA0C0018D74C /* DatabaseView.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		A59AF6FD1DB675180018BCE7 /* MediaItems */ = {
+			isa = PBXGroup;
+			children = (
+				A52907251D6FEA0C0018D74C /* AudioMediaItem.h */,
+				A52907261D6FEA0C0018D74C /* AudioMediaItem.m */,
+				A529074E1D6FEA0C0018D74C /* Incoming.h */,
+				A529074F1D6FEA0C0018D74C /* Incoming.m */,
+				A529076A1D6FEA0C0018D74C /* PhotoMediaItem.h */,
+				A529076B1D6FEA0C0018D74C /* PhotoMediaItem.m */,
+				A529077C1D6FEA0C0018D74C /* VideoMediaItem.h */,
+				A529077D1D6FEA0C0018D74C /* VideoMediaItem.m */,
+			);
+			name = MediaItems;
+			sourceTree = "<group>";
+		};
+		A59AF6FE1DB6759F0018BCE7 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				A52907231D6FEA0C0018D74C /* Audio.h */,
+				A52907241D6FEA0C0018D74C /* Audio.m */,
+				A529072B1D6FEA0C0018D74C /* Camera.h */,
+				A529072C1D6FEA0C0018D74C /* Camera.m */,
+				A529074C1D6FEA0C0018D74C /* Image.h */,
+				A529074D1D6FEA0C0018D74C /* Image.m */,
+				A529077A1D6FEA0C0018D74C /* Video.h */,
+				A529077B1D6FEA0C0018D74C /* Video.m */,
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
+		A59AF6FF1DB675B70018BCE7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A529074B1D6FEA0C0018D74C /* DOFavoriteButton.swift */,
+				A52907551D6FEA0C0018D74C /* Main.storyboard */,
+				A52907561D6FEA0C0018D74C /* MapView.h */,
+				A52907571D6FEA0C0018D74C /* MapView.m */,
+				A52907581D6FEA0C0018D74C /* MapView.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		A59AF7021DB676090018BCE7 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				A529075D1D6FEA0C0018D74C /* NotificationPermissions.h */,
+				A529075E1D6FEA0C0018D74C /* NotificationPermissions.m */,
+				A52907651D6FEA0C0018D74C /* OneSignalController.h */,
+				A52907661D6FEA0C0018D74C /* OneSignalController.m */,
+				A52907671D6FEA0C0018D74C /* OneSignalService.h */,
+				A52907681D6FEA0C0018D74C /* OneSignalService.m */,
+				A529077E1D6FEA0C0018D74C /* WhisperBridge.swift */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
+		A59AF7031DB676340018BCE7 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				A52907611D6FEA0C0018D74C /* NSFileManager+Conversa.h */,
+				A52907621D6FEA0C0018D74C /* NSFileManager+Conversa.m */,
+				A52907631D6FEA0C0018D74C /* NSNumber+Conversa.h */,
+				A52907641D6FEA0C0018D74C /* NSNumber+Conversa.m */,
+			);
+			name = Custom;
+			sourceTree = "<group>";
+		};
+		A59AF7041DB676710018BCE7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A52907311D6FEA0C0018D74C /* Colors.h */,
+				A52907321D6FEA0C0018D74C /* Colors.m */,
+				A52907331D6FEA0C0018D74C /* Constants.h */,
+				A52907341D6FEA0C0018D74C /* Constants.m */,
+				A52907501D6FEA0C0018D74C /* Log.h */,
+				A529075B1D6FEA0C0018D74C /* NetworkUtilities.h */,
+				A529075C1D6FEA0C0018D74C /* NetworkUtilities.m */,
+				A52907721D6FEA0C0018D74C /* SettingsKeys.h */,
+				A52907731D6FEA0C0018D74C /* SettingsKeys.m */,
+				A52907781D6FEA0C0018D74C /* Utilities.h */,
+				A52907791D6FEA0C0018D74C /* Utilities.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		A59AF7051DB676930018BCE7 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				A53962961D70D0E800D557FE /* CustomAblyRealtime.h */,
+				A53962971D70D0E800D557FE /* CustomAblyRealtime.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
+		A59AF7061DB676BB0018BCE7 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				A52907511D6FEA0C0018D74C /* LoginHandler.h */,
+				A52907521D6FEA0C0018D74C /* LoginHandler.m */,
+				A52907531D6FEA0C0018D74C /* LoginViewController.h */,
+				A52907541D6FEA0C0018D74C /* LoginViewController.m */,
+				A529076E1D6FEA0C0018D74C /* RecoverViewController.h */,
+				A529076F1D6FEA0C0018D74C /* RecoverViewController.m */,
+				A52907701D6FEA0C0018D74C /* RegisterViewController.h */,
+				A52907711D6FEA0C0018D74C /* RegisterViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		A59AF7071DB676D60018BCE7 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				A529072F1D6FEA0C0018D74C /* ChatsViewController.h */,
+				A52907301D6FEA0C0018D74C /* ChatsViewController.m */,
+				A529073B1D6FEA0C0018D74C /* ConversationViewController.h */,
+				A529073C1D6FEA0C0018D74C /* ConversationViewController.m */,
+			);
+			name = Chats;
+			sourceTree = "<group>";
+		};
+		A59AF7091DB676EE0018BCE7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A529071D1D6FEA0C0018D74C /* AboutViewController.h */,
+				A529071E1D6FEA0C0018D74C /* AboutViewController.m */,
+				A52907211D6FEA0C0018D74C /* AccountSettingsViewController.h */,
+				A52907221D6FEA0C0018D74C /* AccountSettingsViewController.m */,
+				A52907271D6FEA0C0018D74C /* BlockViewController.h */,
+				A52907281D6FEA0C0018D74C /* BlockViewController.m */,
+				A529072D1D6FEA0C0018D74C /* ChatSettingsViewController.h */,
+				A529072E1D6FEA0C0018D74C /* ChatSettingsViewController.m */,
+				A52907491D6FEA0C0018D74C /* DetailAccountViewController.h */,
+				A529074A1D6FEA0C0018D74C /* DetailAccountViewController.m */,
+				A529075F1D6FEA0C0018D74C /* NotificationsViewController.h */,
+				A52907601D6FEA0C0018D74C /* NotificationsViewController.m */,
+				A529076C1D6FEA0C0018D74C /* QRCodeViewController.h */,
+				A529076D1D6FEA0C0018D74C /* QRCodeViewController.m */,
+				A52907741D6FEA0C0018D74C /* SettingsViewController.h */,
+				A52907751D6FEA0C0018D74C /* SettingsViewController.m */,
+				A52907761D6FEA0C0018D74C /* TagsViewController.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A52906FE1D6FE93D0018D74C /* ConversaBusiness */ = {
+		A52906FE1D6FE93D0018D74C /* ConversaManager */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A52907191D6FE93D0018D74C /* Build configuration list for PBXNativeTarget "ConversaBusiness" */;
+			buildConfigurationList = A52907191D6FE93D0018D74C /* Build configuration list for PBXNativeTarget "ConversaManager" */;
 			buildPhases = (
-				6460A74A010A7E7D5A1FA05B /* Check Pods Manifest.lock */,
+				9F0030E617C47B0E52197D03 /* [CP] Check Pods Manifest.lock */,
 				A52906FB1D6FE93D0018D74C /* Sources */,
 				A52906FC1D6FE93D0018D74C /* Frameworks */,
 				A52906FD1D6FE93D0018D74C /* Resources */,
-				A1D4F3A6D1CF10C2D0084DEA /* Embed Pods Frameworks */,
-				89A73B3E2160B628F5197106 /* Copy Pods Resources */,
+				1177EF8729F714EC467D7F78 /* [CP] Embed Pods Frameworks */,
+				09CF7EB1E499A97004A1A596 /* [CP] Copy Pods Resources */,
+				A5F1C02B1DA9C9E900E366AF /* Fabric */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ConversaBusiness;
+			name = ConversaManager;
 			productName = ConversaBusiness;
-			productReference = A52906FF1D6FE93D0018D74C /* ConversaBusiness.app */;
+			productReference = A52906FF1D6FE93D0018D74C /* ConversaManager.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -410,8 +539,13 @@
 				TargetAttributes = {
 					A52906FE1D6FE93D0018D74C = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = K5WP7YH5E4;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
@@ -431,7 +565,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A52906FE1D6FE93D0018D74C /* ConversaBusiness */,
+				A52906FE1D6FE93D0018D74C /* ConversaManager */,
 			);
 		};
 /* End PBXProject section */
@@ -452,50 +586,64 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6460A74A010A7E7D5A1FA05B /* Check Pods Manifest.lock */ = {
+		09CF7EB1E499A97004A1A596 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		89A73B3E2160B628F5197106 /* Copy Pods Resources */ = {
+		1177EF8729F714EC467D7F78 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A1D4F3A6D1CF10C2D0084DEA /* Embed Pods Frameworks */ = {
+		9F0030E617C47B0E52197D03 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		A5F1C02B1DA9C9E900E366AF /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/Fabric/run 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -669,27 +817,35 @@
 		};
 		A529071A1D6FE93D0018D74C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14C7265B60A805228F91C92C /* Pods-ConversaBusiness.debug.xcconfig */;
+			baseConfigurationReference = 67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
+				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ee.app.ConversaBusiness;
+				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversamanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaBusiness-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		A529071B1D6FE93D0018D74C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 730C2D40F3F0D5FEE8A9C0FE /* Pods-ConversaBusiness.release.xcconfig */;
+			baseConfigurationReference = 6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
+				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ee.app.ConversaBusiness;
+				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversamanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaBusiness-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -705,7 +861,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A52907191D6FE93D0018D74C /* Build configuration list for PBXNativeTarget "ConversaBusiness" */ = {
+		A52907191D6FE93D0018D74C /* Build configuration list for PBXNativeTarget "ConversaManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A529071A1D6FE93D0018D74C /* Debug */,

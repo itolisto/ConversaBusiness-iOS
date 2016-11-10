@@ -40,8 +40,8 @@
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
     
     // Set Fabric
-    [Fabric with:@[[Crashlytics class]]];
-    
+    [Fabric with:@[[Answers class], [Crashlytics class]]];
+
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
     
@@ -84,7 +84,7 @@
         [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
         
         if (error) {
-            DDLogError(@"Password Error: %@",error);
+            //DDLogError(@"Password Error: %@",error);
         }
         
         // Default settings

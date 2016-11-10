@@ -1146,7 +1146,7 @@
          {
              if(error) {
                  // Couldn't send message
-                 DDLogError(@"Message sent error: %@", error.localizedDescription);
+                 //DDLogError(@"Message sent error: %@", error.localizedDescription);
                  message.delivered = statusParseError;
                  message.error = error.localizedDescription;
              } else {
@@ -1181,46 +1181,46 @@
     [self processImage:picture];
 }
 
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    // Set visible so YapNotification don't skip UI updates
-    self.visible = true;
-    
-    if ([items count]) {
-        PHImageManager *manager = [PHImageManager defaultManager];
-        [self recursiveImageProcessing:[items copy] position:0 manager:manager];
-    }
-}
-
-- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)recursiveImageProcessing:(NSArray *)items position:(int)position manager:(PHImageManager *)manager {
-    if (position < [items count]) {
-        PHAsset *asset = (PHAsset *)[items objectAtIndex:position];
-        
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-        options.synchronous = NO;
-        options.networkAccessAllowed = NO;
-        options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-            NSLog(@"%f", progress); //follow progress + update progress bar
-        };
-        
-        [manager requestImageDataForAsset:asset
-                                  options:options
-                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
-         {
-             if (imageData) {
-                 [self processImage:compressImage([UIImage imageWithData:imageData], NO)];
-                 //                 [self recursiveImageProcessing:items position:(position + 1) manager:manager];
-             }
-         }];
-    }
-}
+//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
+//{
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//    
+//    // Set visible so YapNotification don't skip UI updates
+//    self.visible = true;
+//    
+//    if ([items count]) {
+//        PHImageManager *manager = [PHImageManager defaultManager];
+//        [self recursiveImageProcessing:[items copy] position:0 manager:manager];
+//    }
+//}
+//
+//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//}
+//
+//- (void)recursiveImageProcessing:(NSArray *)items position:(int)position manager:(PHImageManager *)manager {
+//    if (position < [items count]) {
+//        PHAsset *asset = (PHAsset *)[items objectAtIndex:position];
+//        
+//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+//        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+//        options.synchronous = NO;
+//        options.networkAccessAllowed = NO;
+//        options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+//            NSLog(@"%f", progress); //follow progress + update progress bar
+//        };
+//        
+//        [manager requestImageDataForAsset:asset
+//                                  options:options
+//                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+//         {
+//             if (imageData) {
+//                 [self processImage:compressImage([UIImage imageWithData:imageData], NO)];
+//                 //                 [self recursiveImageProcessing:items position:(position + 1) manager:manager];
+//             }
+//         }];
+//    }
+//}
 
 - (void)processImage:(UIImage *)picture {
     NSString *imageName = GetImageName();

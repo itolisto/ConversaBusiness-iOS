@@ -1,16 +1,16 @@
-platform :ios, '8.4'
+platform :ios, '9.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Used when using Objective C libraries in a Swift project
 use_frameworks!
 # ignore all warnings from all pods
-# inhibit_all_warnings!
+inhibit_all_warnings!
 
-target 'ConversaBusiness' do
+target 'ConversaManager' do
     # Ably Realtime Client Library
-    pod 'AblyRealtime'
+    pod 'Ably'
     # Elegant iOS form builder in Swift 2
-    pod 'Eureka', '~> 1.5'
+    pod 'Eureka', '~> 2.0.0-beta.1'
     # Custom view for writing tags, contacts and etc.
     pod 'TFBubbleItUp', :git => 'https://github.com/itolisto/TFBubbleItUp.git'
     # SaaS
@@ -39,7 +39,7 @@ target 'ConversaBusiness' do
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
-    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'MBProgressHUD', '~> 1.0.0'
     # For app reviews
     pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more

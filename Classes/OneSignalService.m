@@ -78,7 +78,7 @@
 - (void)registerForPushNotifications
 {
     if (self.registerCalled) {
-        DDLogWarn(@"Method registerForPushNotifications can only be called once");
+        //DDLogWarn(@"Method registerForPushNotifications can only be called once");
         return;
     }
 

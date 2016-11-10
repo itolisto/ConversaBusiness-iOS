@@ -77,6 +77,6 @@ NSString *const kNSDictionaryChangeValue    = @"hasChangeValue";
 NSString *const kSettingKeyLanguage         = @"userSelectedSetting";
 NSString *const kAppVersionKey              = @"kAppVersionKey";
 NSString *const kYapDatabaseServiceName     = @"ee.app.Conversa";
-NSString *const kYapDatabaseName            = @"ConversaYap.sqlite";
+NSString *const kYapDatabaseName            = @"ConversaManagerYap.sqlite";
 NSString *const kYapDatabasePassphraseAccountName = @"YapDatabasePassphraseAccountName";
 NSString *const kMuteUserNotificationName   = @"kMuteUserNotificationName";

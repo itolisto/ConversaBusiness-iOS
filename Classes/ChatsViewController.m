@@ -126,7 +126,7 @@
                                                object:nil];
     
     // Register for push notifications and send tags
-    [[CustomAblyRealtime sharedInstance] initAbly];
+    //[[CustomAblyRealtime sharedInstance] initAbly];
     [[OneSignalService sharedInstance] registerForPushNotifications];
     [[OneSignalService sharedInstance] startTags];
     
