@@ -8,9 +8,11 @@
 
 #import "RecoverViewController.h"
 
-#import "MBProgressHUD.h"
 #import "Utilities.h"
+#import "Constants.h"
+#import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
+
 #import <Parse/Parse.h>
 
 @interface RecoverViewController ()
@@ -24,16 +26,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.emailTextField.placeholder = NSLocalizedString(@"email", nil);
-    [self.sendPasswordButton setTitle:NSLocalizedString(@"send_password_button", nil) forState:UIControlStateNormal];
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
+
+    // Add circular borders
+    [[self.sendPasswordButton layer] setCornerRadius:borderCornerRadius];
 }
 
-- (void)dismissKeyboard {
+- (void) dismissKeyboard {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
 }

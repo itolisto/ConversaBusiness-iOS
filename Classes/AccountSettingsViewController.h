@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface AccountSettingsViewController : UITableViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
+@interface AccountSettingsViewController : UITableViewController
 
 @end

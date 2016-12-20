@@ -12,17 +12,22 @@
 #import "Branch.h"
 #import "Account.h"
 #import "Message.h"
+#import "AppJobs.h"
 #import "Customer.h"
 #import "Business.h"
 #import "Constants.h"
 #import "Appirater.h"
 #import "YapContact.h"
+#import "YapMessage.h"
 #import "SettingsKeys.h"
+#import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "OneSignalService.h"
+#import "CustomAblyRealtime.h"
+#import "NSFileManager+Conversa.h"
+#import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import Fabric;
-@import ParseUI;
 @import Buglife;
 @import GoogleMaps;
 @import Crashlytics;
@@ -55,7 +60,6 @@
     [Message registerSubclass];
     [Business registerSubclass];
     [Customer registerSubclass];
-    [PFImageView class];
     
     // [Optional] Power your app with Local Datastore. For more info, go to
     // https://parse.com/docs/ios/guide#local-datastore
@@ -84,7 +88,7 @@
         [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
         
         if (error) {
-            //DDLogError(@"Password Error: %@",error);
+            DDLogError(@"Password Error: %@",error);
         }
         
         // Default settings
@@ -123,9 +127,6 @@
     
     [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
     
-    [self processLocalNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]
-                       application:application];
-    
     return YES;
 }
 
@@ -159,54 +160,12 @@
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    //UIApplicationState state = [application applicationState];
-    //if(state == UIApplicationStateActive) {
-    //
-    //}
-    
-    // Set icon badge number to zero
-    // application.applicationIconBadgeNumer = 0;
-    
-    [self processLocalNotification:notification
-                       application:application];
-}
-
-- (void)processLocalNotification:(UILocalNotification *)notification application:(UIApplication *)application
-{
-    if(notification) {
-        NSString *contact = [notification.userInfo objectForKey:kMuteUserNotificationName];
-        
-        if(contact) {
-            __block YapContact *business = nil;
-            
-            [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                business = [transaction objectForKey:contact inCollection:[YapContact collection]];
-            } completionBlock:^{
-                if(business) {
-                    if(business.mute == YES) {
-                        business.mute = NO;
-                        
-                        [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                         {
-                             [business saveWithTransaction:transaction];
-                         }];
-                    }
-                }
-                
-                // Cancel so it won´t repeat
-                [[UIApplication sharedApplication] cancelLocalNotification:notification];
-                // Update badge
-                application.applicationIconBadgeNumber = [[[UIApplication sharedApplication] scheduledLocalNotifications] count];
-            }];
-        }
-    }
-}
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{ }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[EDQueue sharedInstance] stop];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -220,6 +179,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[EDQueue sharedInstance] setDelegate:self];
+    [[EDQueue sharedInstance] start];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -227,16 +188,18 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
+
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
+
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
 }
+
+#pragma mark - Branch methods -
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     // pass the url to the handle deep link call
@@ -248,6 +211,245 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
     return handledByBranch;
+}
+
+#pragma mark - EDQueueDelegate method -
+
+- (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
+}
+
+- (void)queue:(EDQueue *)queue processJob:(NSDictionary *)job completion:(void (^)(EDQueueResult))block
+{
+    @try {
+        if ([[job objectForKey:@"task"] isEqualToString:@"businessDataJob"]) {
+            NSError *error;
+            NSString *jsonData = [PFCloud callFunction:@"getBusinessId" withParameters:@{} error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
+            } else {
+                id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
+                                                            options:0
+                                                              error:&error];
+                if (error) {
+                    block(EDQueueResultCritical);
+                } else {
+                    if ([object isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *results = object;
+
+                        if ([results objectForKey:@"ob"] && [results objectForKey:@"ob"] != [NSNull null]) {
+                            [SettingsKeys setBusinessId:[results objectForKey:@"ob"]];
+                        }
+
+                        if ([results objectForKey:@"dn"] && [results objectForKey:@"dn"] != [NSNull null]) {
+                            [SettingsKeys setDisplayName:[results objectForKey:@"dn"]];
+                        }
+
+                        if ([results objectForKey:@"pp"] && [results objectForKey:@"pp"] != [NSNull null]) {
+                            [SettingsKeys setPaidPlan:[results objectForKey:@"pp"]];
+                        }
+
+                        if ([results objectForKey:@"ct"] && [results objectForKey:@"ct"] != [NSNull null]) {
+                            [SettingsKeys setCountry:[results objectForKey:@"ct"]];
+                        }
+
+                        if ([results objectForKey:@"id"] && [results objectForKey:@"id"] != [NSNull null]) {
+                            [SettingsKeys setConversaId:[results objectForKey:@"id"]];
+                        }
+
+                        if ([results objectForKey:@"ab"] && [results objectForKey:@"ab"] != [NSNull null]) {
+                            [SettingsKeys setAbout:[results objectForKey:@"ab"]];
+                        }
+
+                        if ([results objectForKey:@"vd"] && [results objectForKey:@"vd"] != [NSNull null]) {
+                            [SettingsKeys setVerified:[[results objectForKey:@"vd"] boolValue]];
+                        }
+
+                        if ([results objectForKey:@"rc"] && [results objectForKey:@"rc"] != [NSNull null]) {
+                            [SettingsKeys setRedirect:[[results objectForKey:@"rc"] boolValue]];
+                        }
+
+                        if ([results objectForKey:@"av"] && [results objectForKey:@"av"] != [NSNull null]) {
+                            [SettingsKeys setAvatarUrl:[results objectForKey:@"av"]];
+                        }
+
+                        block(EDQueueResultSuccess);
+                    } else {
+                        block(EDQueueResultCritical);
+                    }
+                }
+            }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadFileJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            NSString *messageId = [data objectForKey:@"messageId"];
+            NSString *url = [data objectForKey:@"url"];
+            NSInteger messageType = [[data objectForKey:@"type"] integerValue];
+
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+            NSURL *URL = [NSURL URLWithString:url];
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+            NSURLSessionDownloadTask *downloadTask =
+            [manager downloadTaskWithRequest:request
+                                    progress:nil
+                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+             {
+                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+
+                 switch (messageType) {
+                     case kMessageTypeImage: {
+                         [savePath appendString:kMessageMediaImageLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".jpg"];
+                         break;
+                     }
+                     case kMessageTypeAudio: {
+                         [savePath appendString:kMessageMediaAudioLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".mp3"];
+                         break;
+                     }
+                     default: {
+                         [savePath appendString:kMessageMediaVideoLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".mp4"];
+                         break;
+                     }
+                 }
+
+                 return [[NSURL alloc] initFileURLWithPath:savePath];
+             }
+                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+             {
+                 DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
+                 if (error) {
+                     DDLogError(@"downloadFileJob error: %@", error);
+                     block(EDQueueResultCritical);
+                 } else {
+                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+                     __block YapMessage *message = nil;
+
+                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                         message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
+                     }];
+
+                     if (message == nil) {
+                         // Delete file if message not exists
+                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                         error:nil];
+                     } else {
+                         switch (messageType) {
+                             case kMessageTypeImage: {
+                                 message.filename = [messageId stringByAppendingString:@".jpg"];
+                                 break;
+                             }
+                             case kMessageTypeAudio: {
+                                 message.filename = [messageId stringByAppendingString:@".mp3"];
+                                 break;
+                             }
+                             default: {
+                                 message.filename = [messageId stringByAppendingString:@".mp4"];
+                                 break;
+                             }
+                         }
+
+                         [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                          {
+                              [message saveWithTransaction:transaction];
+                              // Make a YapDatabaseModifiedNotification to update
+                              NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
+                              transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
+                          }];
+                     }
+
+                     block(EDQueueResultSuccess);
+                 }
+             }];
+
+            [downloadTask resume];
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadAvatarJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+            NSString *url = [data objectForKey:@"url"];
+
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+            NSURL *URL = [NSURL URLWithString:url];
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+            NSURLSessionDownloadTask *downloadTask =
+            [manager downloadTaskWithRequest:request
+                                    progress:nil
+                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+             {
+                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+                 [savePath appendString:kMessageMediaAvatarLocation];
+                 // Create if not already created
+                 [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                 // Continue with filename
+                 [savePath appendString:@"/"];
+                 // Add requested save path
+                 [savePath appendString:[Account currentUser].objectId];
+                 [savePath appendString:@"_avatar.jpg"];
+
+                 return [[NSURL alloc] initFileURLWithPath:savePath];
+             }
+                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+             {
+                 DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
+                 if (error) {
+                     DDLogError(@"downloadAvatarJob error: %@", error);
+                     block(EDQueueResultCritical);
+                 } else {
+                     block(EDQueueResultSuccess);
+                 }
+             }];
+
+            [downloadTask resume];
+        } else {
+            block(EDQueueResultCritical);
+        }
+    } @catch (NSException *exception) {
+        block(EDQueueResultCritical);
+    } @catch (id exception) {
+        block(EDQueueResultCritical);
+    }
 }
 
 @end

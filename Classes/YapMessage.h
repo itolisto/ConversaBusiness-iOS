@@ -38,7 +38,7 @@ extern const struct YapMessageEdges {
 @property (nonatomic, getter = isRead) BOOL read;
 @property (nonatomic, getter = isView) BOOL view;
 @property (nonatomic, getter = isIncoming) BOOL incoming;
-
+@property (nonatomic, strong) NSString   *remoteUrl;     // For audio, video & image
 @property (nonatomic, strong) NSString   *filename;     // For audio, video & image
 @property (nonatomic, strong) CLLocation *location;     // For location
 @property (nonatomic, assign) NSInteger messageType;
@@ -51,6 +51,7 @@ extern const struct YapMessageEdges {
 
 @property (nonatomic, strong) NSString *buddyUniqueId;
 
+- (instancetype)initWithId:(NSString*)uniqueId;
 - (YapContact *)buddyWithTransaction:(YapDatabaseReadTransaction *)readTransaction;
 
 + (void)deleteAllMessagesWithTransaction:(YapDatabaseReadWriteTransaction*)transaction;

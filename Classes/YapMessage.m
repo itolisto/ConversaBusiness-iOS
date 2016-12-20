@@ -11,11 +11,11 @@
 #import "Constants.h"
 #import "YapAccount.h"
 #import "YapContact.h"
-#import "YapDatabase.h"
 #import "DatabaseView.h"
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
-#import "YapDatabaseSecondaryIndex.h"
+#import <YapDatabase/YapDatabaseSecondaryIndex.h>
+@import YapDatabase;
 
 const struct YapMessageAttributes YapMessageAttributes = {
     .text = @"text"
@@ -38,6 +38,26 @@ const struct YapMessageEdges YapMessageEdges = {
         self.height = 0;
         self.duration = [NSNumber numberWithInt:0];
         self.filename = @"";
+        self.remoteUrl = @"";
+        self.delivered = statusUploading;
+        self.messageType = kMessageTypeText;
+        self.transferProgress = 0;
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString*)uniqueId {
+    if (self = [super initWithUniqueId:uniqueId]) {
+        self.date = [NSDate date];
+        self.text = @"";
+        self.read = NO;
+        self.view = NO;
+        self.incoming = NO;
+        self.width = 0;
+        self.height = 0;
+        self.duration = [NSNumber numberWithInt:0];
+        self.filename = @"";
+        self.remoteUrl = @"";
         self.delivered = statusUploading;
         self.messageType = kMessageTypeText;
         self.transferProgress = 0;
@@ -58,7 +78,7 @@ const struct YapMessageEdges YapMessageEdges = {
 
 - (NSArray *)yapDatabaseRelationshipEdges {
     NSArray *edges = nil;
-    
+
     if (self.buddyUniqueId) {
         YapDatabaseRelationshipEdge *buddyEdge = [YapDatabaseRelationshipEdge edgeWithName:YapMessageEdges.buddy
                                                                             destinationKey:self.buddyUniqueId
@@ -68,7 +88,7 @@ const struct YapMessageEdges YapMessageEdges = {
                                                   |YDB_DeleteSourceIfDestinationDeleted];
         edges = @[buddyEdge];
     }
-    
+
     return edges;
 }
 
@@ -82,7 +102,7 @@ const struct YapMessageEdges YapMessageEdges = {
         // Archivo asociado en cache
         NSError *error = nil;
         NSString *subdirectory = @"";
-        
+
         switch (self.messageType) {
             case kMessageTypeAudio:{
                 subdirectory = kMessageMediaAudioLocation;
@@ -99,25 +119,12 @@ const struct YapMessageEdges YapMessageEdges = {
             default:
                 break;
         }
-        
-        switch (self.messageType) {
-            case kMessageTypeVideo: {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[NSFileManager defaultManager] deleteDataInCachesDirectory:[self.filename stringByAppendingString:@".mp4"] inSubDirectory:subdirectory error:error];
-                });
-                
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[NSFileManager defaultManager] deleteDataInCachesDirectory:[self.filename stringByAppendingString:@".jpg"] inSubDirectory:kMessageMediaThumbLocation error:error];
-                });
-                break;
-            }
-            default: {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[NSFileManager defaultManager] deleteDataInCachesDirectory:self.filename inSubDirectory:subdirectory error:error];
-                });
-                break;
-            }
-        }
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[NSFileManager defaultManager] deleteDataInLibraryDirectory:self.filename
+                                                          inSubDirectory:subdirectory
+                                                                   error:error];
+        });
     }
 }
 
@@ -130,11 +137,11 @@ const struct YapMessageEdges YapMessageEdges = {
 + (void)deleteAllMessagesForBuddyId:(NSString *)uniqueBuddyId transaction:(YapDatabaseReadWriteTransaction*)transaction {
     YapContact *buddy = [YapContact fetchObjectWithUniqueID:uniqueBuddyId transaction:transaction];
     NSDate *temp      = buddy.lastMessageDate;
-    
+
     [[transaction ext:YapDatabaseRelationshipName] enumerateEdgesWithName:YapMessageEdges.buddy destinationKey:uniqueBuddyId collection:[YapContact collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop) {
         [transaction removeObjectForKey:edge.sourceKey inCollection:edge.sourceCollection];
     }];
-    
+
     // Update Last message date for sorting and grouping
     buddy.lastMessageDate = temp;
     [buddy saveWithTransaction:transaction];
@@ -148,7 +155,7 @@ const struct YapMessageEdges YapMessageEdges = {
             *stop = YES;
         }
     }];
-    
+
     if (deliveredMessage) {
         deliveredMessage.delivered = YES;
         [deliveredMessage saveWithTransaction:transaction];
@@ -187,7 +194,8 @@ const struct YapMessageEdges YapMessageEdges = {
     }
 }
 
-+ (void)enumerateMessagesWithMessageId:(NSString *)messageId transaction:(YapDatabaseReadTransaction *)transaction usingBlock:(void (^)(YapMessage *message,BOOL *stop))block; {
++ (void)enumerateMessagesWithMessageId:(NSString *)messageId transaction:(YapDatabaseReadTransaction *)transaction usingBlock:(void (^)(YapMessage *message,BOOL *stop))block;
+{
     if ([messageId length] && block) {
         NSString *queryString = [NSString stringWithFormat:@"Where %@ = ?", YapDatabaseMessageIdSecondaryIndex];
         YapDatabaseQuery *query = [YapDatabaseQuery queryWithFormat:queryString, messageId];

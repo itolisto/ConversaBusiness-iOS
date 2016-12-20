@@ -9,6 +9,8 @@
 @import UIKit;
 @import MessageUI;
 
-@interface SettingsViewController : UITableViewController <MFMailComposeViewControllerDelegate>
+#import "BaseTableViewController.h"
+
+@interface SettingsViewController : BaseTableViewController <MFMailComposeViewControllerDelegate>
 
 @end

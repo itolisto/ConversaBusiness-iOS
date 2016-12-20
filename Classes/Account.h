@@ -13,8 +13,6 @@
 @interface Account : PFUser
 
 + (NSString *)parseClassName;
-- (NSString *)getPrivateChannel;
-- (NSString *)getPublicChannel;
 
 @property (nonatomic, strong) NSString *email;
 

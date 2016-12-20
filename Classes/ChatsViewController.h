@@ -7,8 +7,12 @@
 //
 
 @import UIKit;
-#import "CustomAblyRealtime.h"
 
-@interface ChatsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConversationListener>
+#import "BaseViewController.h"
+
+@interface ChatsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UISearchController *searchController;
 
 @end

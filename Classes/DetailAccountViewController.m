@@ -14,10 +14,7 @@
 #import "Account.h"
 #import "Business.h"
 #import "Constants.h"
-#import "YapTag.h"
 #import "NSFileManager+Conversa.h"
-
-#import "YapTag.h"
 
 @interface DetailAccountViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *displayNameTextField;
@@ -47,8 +44,6 @@
     } else {
         self.avatarImageView.image = [UIImage imageNamed:@"person"];
     }
-    
-    [YapTag deleteAllTags];
 }
 
 #pragma mark - UITextFieldDelegate Methotd -

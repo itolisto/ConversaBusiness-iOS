@@ -15,8 +15,17 @@ NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
 NSString *notificationsCheck   = @"notificationsCheck";
 
 // Account settings
-NSString *sendToConversaSwitch = @"sendToConversaSwitch";
-NSString *sendReadSwitch       = @"sendReadSwitch";
+NSString *customerObjectId  = @"customerObjectId";
+NSString *customerDisplayName  = @"customerDisplayName";
+NSString *customerPaidPlan  = @"customerPaidPlan";
+NSString *customerCountry  = @"customerCountry";
+NSString *customerConversaId  = @"customerConversaId";
+NSString *customerAbout  = @"customerAbout";
+NSString *customerVerified  = @"customerVerified";
+NSString *customerRedirect  = @"customerRedirect";
+NSString *customerAvatarUrl  = @"customerAvatarUrl";
+
+NSString *readReceiptsSwitch  = @"readReceiptsSwitch";
 
 // Notifications settings
 NSString *inAppSoundSwitch    = @"inAppSoundSwitch";
@@ -60,95 +69,159 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 }
 
 #pragma mark - Account settings -
-+ (void)setSendToConversaSetting:(BOOL)state {
++ (void)setBusinessId:(NSString*)objectId {
     NSUserDefaults *defaults = [self getDefaults];
-    [defaults setBool:state forKey:sendToConversaSwitch];
+    [defaults setObject:objectId forKey:customerObjectId];
     [defaults synchronize];
 }
 
-+ (BOOL)getSendToConversaSetting {
++ (NSString*)getBusinessId {
     NSUserDefaults *defaults = [self getDefaults];
-    if([defaults boolForKey:sendToConversaSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+    return [defaults stringForKey:customerObjectId];
 }
 
-+ (void)setSendReadSetting:(BOOL)state {
++ (void)setDisplayName:(NSString*)displayName {
     NSUserDefaults *defaults = [self getDefaults];
-    [defaults setBool:state forKey:sendReadSwitch];
+    [defaults setObject:displayName forKey:customerDisplayName];
     [defaults synchronize];
 }
 
-+ (BOOL)getSendReadSetting {
++ (NSString*)getDisplayName {
     NSUserDefaults *defaults = [self getDefaults];
-    if([defaults boolForKey:sendReadSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+    return [defaults stringForKey:customerDisplayName];
+}
+
++ (void)setPaidPlan:(NSString*)paidplan {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:paidplan forKey:customerPaidPlan];
+    [defaults synchronize];
+}
+
++ (NSString*)getPaidPlan {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerPaidPlan];
+}
+
++ (void)setCountry:(NSString*)country {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:country forKey:customerCountry];
+    [defaults synchronize];
+}
+
++ (NSString*)getCountry {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerCountry];
+}
+
++ (void)setConversaId:(NSString*)conversaid {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:conversaid forKey:customerConversaId];
+    [defaults synchronize];
+}
+
++ (NSString*)getConversaId {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerConversaId];
+}
+
++ (void)setAbout:(NSString*)about {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:about forKey:customerAbout];
+    [defaults synchronize];
+}
+
++ (NSString*)getAbout {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerAbout];
+}
+
++ (void)setVerified:(BOOL)verifed {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setBool:verifed forKey:customerVerified];
+    [defaults synchronize];
+}
+
++ (BOOL)getVerified {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults boolForKey:customerVerified];
+}
+
++ (void)setRedirect:(BOOL)redirect {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setBool:redirect forKey:customerRedirect];
+    [defaults synchronize];
+}
+
++ (BOOL)getRedirect {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults boolForKey:customerRedirect];
+}
+
++ (void)setAvatarUrl:(NSString*)url {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:url forKey:customerAvatarUrl];
+    [defaults synchronize];
+}
+
++ (NSString*)getAvatarUrl {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerAvatarUrl];
+}
+
++ (void)setAccountReadSetting:(BOOL) state {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setBool:state forKey:readReceiptsSwitch];
+    [defaults synchronize];
+}
+
++ (BOOL)getAccountReadSetting {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults boolForKey:readReceiptsSwitch];
 }
 
 #pragma mark - Notifications settings -
 + (void)setNotificationSound:(BOOL) state inApp:(BOOL) inApp {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(inApp) {
         [defaults setBool:state forKey:inAppSoundSwitch];
     } else {
         [defaults setBool:state forKey:soundSwitch];
     }
-    
+
     [defaults synchronize];
 }
 
 + (void)setNotificationPreview:(BOOL) state inApp:(BOOL)inApp {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(inApp) {
         [defaults setBool:state forKey:inAppPreviewSwitch];
     } else {
         [defaults setBool:state forKey:previewSwitch];
     }
-    
+
     [defaults synchronize];
 }
 
 + (BOOL)getNotificationSoundInApp:(BOOL)inApp {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(inApp) {
-        if([defaults boolForKey:inAppSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:inAppSoundSwitch];
     }
-    
-    if([defaults boolForKey:soundSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+
+    return [defaults boolForKey:soundSwitch];
 }
 
 + (BOOL)getNotificationPreviewInApp:(BOOL)inApp {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(inApp) {
-        if([defaults boolForKey:inAppPreviewSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:inAppPreviewSwitch];
     }
-    
-    if([defaults boolForKey:previewSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+
+    return [defaults boolForKey:previewSwitch];
 }
 
 
@@ -166,31 +239,23 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 
 + (void)setMessageSoundIncoming:(BOOL)incoming value:(BOOL)state {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(incoming) {
         [defaults setBool:state forKey:receiveSoundSwitch];
     } else {
         [defaults setBool:state forKey:sendSoundSwitch];
     }
-    
+
     [defaults synchronize];
 }
 
 + (BOOL)getMessageSoundIncoming:(BOOL)incoming {
     NSUserDefaults *defaults = [self getDefaults];
-    
+
     if(incoming) {
-        if([defaults boolForKey:receiveSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:receiveSoundSwitch];
     } else {
-        if([defaults boolForKey:sendSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:sendSoundSwitch];
     }
 }
 

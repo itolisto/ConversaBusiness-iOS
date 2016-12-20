@@ -8,9 +8,13 @@
 
 #import "Constants.h"
 
+// General constants
+CGFloat const borderCornerRadius = 20.0f;
+
 // Customer class
 NSString *const kClassCustomer       = @"Customer";
-NSString *const kCustomerUserInfoKey = @"userInfo";
+NSString *const kCustomerDisplayNameKey = @"displayName";
+NSString *const kCustomerActiveKey = @"active";
 
 // Business class
 NSString *const kClassBusiness                = @"Business";
@@ -53,6 +57,7 @@ NSString *const kPubNubMessageSelfKey = @"kPubNubMessageSelfKey";
 NSString *const kPubNubMessageTypeKey = @"type";
 
 // Messages media location
+NSString *const kMessageMediaAvatarLocation = @"/avatar";
 NSString *const kMessageMediaImageLocation = @"/image";
 NSString *const kMessageMediaVideoLocation = @"/video";
 NSString *const kMessageMediaAudioLocation = @"/audio";

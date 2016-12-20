@@ -1,0 +1,111 @@
+/* 
+  Localizable.strings
+  ConversaManager
+
+  Created by Edgar Gomez on 12/15/16.
+  Copyright © 2016 Conversa. All rights reserved.
+*/
+"recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
+"recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
+"signup_birhtday_toolbar_done" = "Listo";
+"signup_password_length_error" = "Contraseña es requerida";
+"signup_failed_message" = "Lo sentimos, por favor intenta registrarte de nuevo";
+"sign_email_not_valid_error" = "Correo electrónico es inválido";
+"sign_failed_message" = "Correo electrónico y contraseña no encuentran una cuenta. Por favor verifica los datos";
+
+"token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
+"no_internet_connection_message" = "Sin conexión a internet";
+
+"chats_cell_action_title" = "Más";
+"chats_cell_action_delete" = "Eliminar";
+"chats_alert_action_unmute" = "No silenciar";
+"chats_alert_action_mute" = "Silenciar";
+"chats_alert_action_unblock" = "Desbloquear";
+"chats_alert_action_block" = "Bloquear";
+"chats_alert_action_clear_conversation" = "Limpiar conversación";
+"chats_alert_action_cancel" = "Cancelar";
+"chats_alert_action_twelve_hours" = "12 horas";
+"chats_alert_action_one_day" = "1 día";
+"chats_alert_action_three_day" = "3 días";
+
+"conversation_menu_item_copy" = "Copiar";
+"conversation_menu_item_delete" = "Eliminar";
+"conversation_navigation_title" = "Atrás";
+"conversation_more_alert_action_library" = "Librería";
+"conversation_more_alert_action_camara" = "Cámara";
+"conversation_more_alert_action_location" = "Enviar ubicación";
+"conversation_more_alert_action_cancel" = "Cancelar";
+"conversation_message_info_received" = "Recibido";
+"conversation_message_info_waiting" = "Esperando";
+"conversation_message_info_sent" = "Enviado";
+"conversation_message_info_failed" = "Fallido";
+"conversation_subtitle_writing" = "escribiendo...";
+"conversation_alert_action_unblock_title" = "Desbloquea este contacto para enviar mensajes";
+"conversation_alert_action_unblock" = "Desbloquear";
+"conversation_alert_action_unblock_cancel" = "Cancelar";
+"conversation_alert_action_location_title" = "No pudimos encontrar tu ubicación";
+"conversation_alert_action_camara_title" = "La imagen no pudo ser guardada";
+
+"conversation_unsent_alert_action_view" = "Ver imagen";
+"conversation_unsent_alert_action_map" = "Ver mapa";
+"conversation_unsent_alert_action_play" = "Reproducir";
+"conversation_unsent_alert_action_resend" = "Reenviar";
+"conversation_unsent_alert_action_delete" = "Eliminar";
+"conversation_unsent_alert_action_cancel" = "Cancelar";
+
+"categories_searchbar_placeholder" = "Busca por negocios, tiendas, etc";
+"category" = "Categoría";
+"c0i96zRLFyw" = "Libros";
+"c1zZcJ8an9Z" = "Servicios";
+"c3b8NykTdo3" = "Juguetes";
+"c462mKRISE7" = "Electrónicos";
+"c4EsFpxgOu6" = "Servicio a domicilio";
+"c90Y0ajWUAG" = "Mascotas";
+"cDqCLGage9M" = "Belleza";
+"cFBv7AV5OGU" = "Videojuegos";
+"cJi1FwE21F8" = "Suplementos para fiesta";
+"cMHbjypaY4R" = "Ropa de hombre";
+"cQNFkAelMAd" = "Hogar y Jardín";
+"cR7LZJ3Lbj8" = "Regalos";
+"cRWcS1d4bqt" = "Bebés";
+"cSYHk42aEOz" = "Carros";
+"cTFau41aZ8E" = "Instrumentos musicales";
+"cVZg31Kxzew" = "Viajes";
+"cW0lNHTPV3v" = "Deportes y Fitness";
+"caDuBd0GuuH" = "Restaurantes";
+"caWthcdxIAJ" = "Zapatos para hombre";
+"cay9ADQjpRT" = "Muebles";
+"ccCZl1h0sXf" = "Suplementos de oficina";
+"ccGWcPxDcB7" = "Comida";
+"ccQy8YtN7j4" = "Entretenimiento";
+"cgBcgtlLRVw" = "Joyería";
+"cr4ZYMKINHp" = "Ropa de mujer";
+"cuRzYgo8krw" = "Zapatos para mujer";
+"cydPTRrUJye" = "Salud";
+"cDvl63HGh9j" = "Retailers";
+"cprn5lWuEDc" = "Online \u0026 Internet";
+
+"category_results_error" = "Uphs, por favor intenta de nuevo";
+"category_results_empty" = "No se encontraron resultados";
+
+"mapview_controller_title" = "Mapa";
+
+"settings_home_profile_hi" = "Hola";
+"settings_home_share_text" = "Descarga esta aplicación para hablar con casi cualquier negocio";
+
+"settings_account_blocked_loading" = "Cargando";
+"settings_account_alert_change_empty_title" = "Campo no puede estar vacío";
+"settings_account_alert_password_title" = "¿Estás segura que quieres cambiar tu contraseña?";
+"settings_account_alert_password_action_change" = "Cambiar";
+"settings_account_alert_password_changed" = "Contraseña cambiada";
+"settings_account_alert_password_not_changed" = "Contraseña no cambiada";
+"settings_account_alert_cancel" = "Cancelar";
+"settings_account_alert_displayname_changed" = "Nombre cambiado";
+"settings_account_alert_displayname_not_changed" = "Nombre no cambiado";
+"settings_account_logout_alert_action_logout" = "Cerrar sesión";
+"settings_account_logout_alert_action_cancel" = "Cancelar";
+
+"settings_chat_quality_alert_action_high" = "Alta";
+"settings_chat_quality_alert_action_medium" = "Media";
+"settings_chat_quality_alert_action_low" = "Baja";
+"settings_chat_quality_alert_action_cancel" = "Cancelar";

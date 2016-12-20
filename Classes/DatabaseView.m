@@ -50,7 +50,7 @@ NSString *const BlockedGroup = @"BlockedGroup";
 {
     YapDatabaseRelationship *databaseRelationship = [[YapDatabaseRelationship alloc] initWithVersionTag:@"1"
                                                                                                 options:nil];
-    
+
     [[DatabaseManager sharedInstance].database registerExtension:databaseRelationship
                                                         withName:YapDatabaseRelationshipName];
 }
@@ -65,10 +65,10 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                          return ConversationGroup;
                                                      }
                                                  }
-                                                 
+
                                                  return nil; // Exclude from view
                                              }];
-    
+
     // After the view invokes the grouping block to determine what group a
     // database row belongs to (if any), the view then needs to determine
     // what index within that group the row should be.
@@ -80,23 +80,23 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                if ([object1 isKindOfClass:[YapContact class]] && [object2 isKindOfClass:[YapContact class]]) {
                                                    __weak YapContact *buddy1 = (YapContact *)object1;
                                                    __weak YapContact *buddy2 = (YapContact *)object2;
-                                                   
+
                                                    return [buddy2.lastMessageDate compare:buddy1.lastMessageDate];
                                                }
-                                               
+
                                                return NSOrderedSame;
                                            }];
-    
+
     YapDatabaseViewOptions *options = [[YapDatabaseViewOptions alloc] init];
     options.isPersistent = YES;
     // Primary motivation for this is to reduce the overhead when first populating the view
     options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithWhitelist:[NSSet setWithObject:[YapContact collection]]];
-    
+
     YapDatabaseView *databaseView = [[YapDatabaseView alloc] initWithGrouping:viewGrouping
                                                                       sorting:viewSorting
                                                                    versionTag:@"1"
                                                                       options:options];
-    
+
     [[DatabaseManager sharedInstance].database asyncRegisterExtension:databaseView
                                                              withName:ConversaDatabaseViewExtensionName
                                                       completionBlock:^(BOOL ready)
@@ -114,10 +114,10 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                  if ([object isKindOfClass:[YapMessage class]]) {
                                                      return ((YapMessage *)object).buddyUniqueId;
                                                  }
-                                                 
+
                                                  return nil;
                                              }];
-    
+
     YapDatabaseViewSorting *viewSorting = [YapDatabaseViewSorting withObjectBlock:^NSComparisonResult(YapDatabaseReadTransaction * _Nonnull transaction, NSString * _Nonnull group,
                                                                                                       NSString * _Nonnull collection1, NSString * _Nonnull key1, id  _Nonnull object1,
                                                                                                       NSString * _Nonnull collection2, NSString * _Nonnull key2, id  _Nonnull object2)
@@ -127,19 +127,19 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                    __weak YapMessage *message2 = (YapMessage *)object2;
                                                    return [message1.date compare:message2.date];
                                                }
-                                               
+
                                                return NSOrderedSame;
                                            }];
-    
+
     YapDatabaseViewOptions *options = [[YapDatabaseViewOptions alloc] init];
     options.isPersistent = YES;
     options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithWhitelist:[NSSet setWithObject:[YapMessage collection]]];
-    
+
     YapDatabaseView *view = [[YapDatabaseView alloc] initWithGrouping:viewGrouping
                                                               sorting:viewSorting
                                                            versionTag:@"1"
                                                               options:options];
-    
+
     [[DatabaseManager sharedInstance].database asyncRegisterExtension:view
                                                              withName:ChatDatabaseViewExtensionName
                                                       completionBlock:nil];
@@ -148,20 +148,21 @@ NSString *const BlockedGroup = @"BlockedGroup";
 + (void)registerUnreadConversationsView
 {
     YapDatabaseViewFiltering *viewFiltering = [YapDatabaseViewFiltering withObjectBlock:^BOOL(YapDatabaseReadTransaction * _Nonnull transaction, NSString * _Nonnull group, NSString * _Nonnull collection, NSString * _Nonnull key, id  _Nonnull object)
-                                               {
-                                                   NSInteger numberOfUnreadMessages = [((YapContact*)object) numberOfUnreadMessagesWithTransaction:transaction];
-                                                   return (numberOfUnreadMessages > 0);
-                                               }];
-    
+
+    {
+        NSInteger numberOfUnreadMessages = [((YapContact*)object) numberOfUnreadMessagesWithTransaction:transaction];
+        return (numberOfUnreadMessages > 0);
+    }];
+
     YapDatabaseViewOptions *options = [[YapDatabaseViewOptions alloc] init];
     options.isPersistent = NO;
     options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithWhitelist:[NSSet setWithObject:[YapContact collection]]];
-    
+
     YapDatabaseFilteredView *filteredView = [[YapDatabaseFilteredView alloc] initWithParentViewName:ConversaDatabaseViewExtensionName
                                                                                           filtering:viewFiltering
                                                                                          versionTag:@"1"
                                                                                             options:options];
-    
+
     // Before you can register the FilteredView, you must first register its parent view
     [[DatabaseManager sharedInstance].database asyncRegisterExtension:filteredView
                                                              withName:UnreadConversationsViewExtensionName
@@ -174,16 +175,16 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                {
                                                    return ((YapContact*)object).blocked;
                                                }];
-    
+
     YapDatabaseViewOptions *options = [[YapDatabaseViewOptions alloc] init];
     options.isPersistent = NO;
     options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithWhitelist:[NSSet setWithObject:[YapContact collection]]];
-    
+
     YapDatabaseFilteredView *filteredView = [[YapDatabaseFilteredView alloc] initWithParentViewName:ConversaDatabaseViewExtensionName
                                                                                           filtering:viewFiltering
                                                                                          versionTag:@"1"
                                                                                             options:options];
-    
+
     [[DatabaseManager sharedInstance].database asyncRegisterExtension:filteredView
                                                              withName:BlockedDatabaseViewExtensionName
                                                       completionBlock:nil];
@@ -191,7 +192,7 @@ NSString *const BlockedGroup = @"BlockedGroup";
 
 + (void)registerChatSearchingDatabaseView {
     NSArray *propertiesToIndexForMySearch = @[YapContactAttributes.displayName];
-    
+
     YapDatabaseFullTextSearchHandler *handler = [YapDatabaseFullTextSearchHandler withObjectBlock:^(NSMutableDictionary *dict, NSString *collection, NSString *key, id object)
                                                  {
                                                      if ([object isKindOfClass:[YapContact class]]) {
@@ -199,11 +200,11 @@ NSString *const BlockedGroup = @"BlockedGroup";
                                                          dict[YapContactAttributes.displayName] = person.displayName;
                                                      }
                                                  }];
-    
+
     YapDatabaseFullTextSearch *fts = [[YapDatabaseFullTextSearch alloc] initWithColumnNames:propertiesToIndexForMySearch
                                                                                     handler:handler
                                                                                  versionTag:@"1"];
-    
+
     [[DatabaseManager sharedInstance].database asyncRegisterExtension:fts
                                                              withName:ChatSearchDatabaseViewExtensionName
                                                       completionBlock:^(BOOL ready)

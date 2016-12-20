@@ -14,6 +14,7 @@
 #import "Business.h"
 #import "YapContact.h"
 #import "YapMessage.h"
+#import "SettingsKeys.h"
 #import "DatabaseManager.h"
 #import <Parse/Parse.h>
 
@@ -53,7 +54,6 @@
          // Function to be called when a notification is received.
          OSNotificationPayload* payload = notification.payload;
 
-
          NSString* messageTitle = @"OneSignal Example";
          NSString* fullMessage = [payload.body copy];
 
@@ -88,8 +88,8 @@
 
 - (void)startTags {
     [OneSignal sendTags:@{@"UserType" : @(2),
-                          @"bpbc" : [[Account currentUser] objectId],
-                          @"bpvt" : [[Account currentUser] objectId]}
+                          @"bpbc" : [SettingsKeys getBusinessId],
+                          @"bpvt" : [SettingsKeys getBusinessId]}
               onSuccess:^(NSDictionary *result)
      {
          NSLog(@"ONE SIGNAL SUCCESS: %@", result);

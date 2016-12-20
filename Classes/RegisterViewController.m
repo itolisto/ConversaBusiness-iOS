@@ -21,9 +21,11 @@
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UILabel *termsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *termsBottomLabel;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
+@property (weak, nonatomic) IBOutlet UIButton *signupButton;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -33,13 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.emailTextField.placeholder = NSLocalizedString(@"email", nil);
-    self.passwordTextField.placeholder = NSLocalizedString(@"password", nil);
-    [self.signUpButton setTitle:NSLocalizedString(@"send_password_button", nil) forState:UIControlStateNormal];
-    self.termsLabel.text = NSLocalizedString(@"signup_terms1_notification", nil);
-    self.termsBottomLabel.text = NSLocalizedString(@"signup_terms2_notification", nil);
-    
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
@@ -47,20 +42,74 @@
     // Add delegates
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker setMaximumDate:[NSDate date]];
+    [datePicker addTarget:self action:@selector(updateTextField:)
+         forControlEvents:UIControlEventValueChanged];
+
+    [self.birthdayText setInputView:datePicker];
+
+    [[self.signupButton layer] setCornerRadius:borderCornerRadius];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dismissKeyboard {
-    // Causes the view (or one of its embedded text fields) to resign the first responder status.
+- (void) dismissKeyboard {
+    //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
+}
+
+-(void)resignKeyboard {
+    [self.birthdayText resignFirstResponder];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary *info = aNotification.userInfo;
+
+    CGRect rawFrame = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 140.0, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    if ([self.birthdayText isFirstResponder]) {
+        if ([self.birthdayText inputAccessoryView] == nil) {
+            UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, keyboardFrame.size.height, self.view.frame.size.width, 44)] ;
+            [keyboardToolbar setBarStyle:UIBarStyleBlack];
+            [keyboardToolbar setTranslucent:YES];
+            [keyboardToolbar sizeToFit];
+            UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                        target:self
+                                                                                        action:nil];
+            UIBarButtonItem *doneButton1 =[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signup_birhtday_toolbar_done", nil)
+                                                                           style:UIBarButtonItemStyleDone
+                                                                          target:self
+                                                                          action:@selector(resignKeyboard)];
+
+            NSArray *itemsArray = [NSArray arrayWithObjects:flexButton,doneButton1, nil];
+            [keyboardToolbar setItems:itemsArray];
+            [self.birthdayText setInputAccessoryView:keyboardToolbar];
+            [self.birthdayText reloadInputViews];
+        }
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - IBAction Methods -
@@ -75,7 +124,7 @@
 
 #pragma mark - UITextFieldDelegate Method -
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
     if (textField == self.emailTextField) {
@@ -89,7 +138,14 @@
 
 #pragma mark - Register Methods -
 
-- (BOOL)validForm {
+-(void)updateTextField:(UIDatePicker *)sender
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    self.birthdayText.text = [dateFormatter stringFromDate:sender.date];
+}
+
+- (BOOL) validForm {
     MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
     hudError.mode = MBProgressHUDModeText;
     [self.view addSubview:hudError];
@@ -99,22 +155,22 @@
             [hudError removeFromSuperview];
             return YES;
         } else {
-            hudError.labelText = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError show:YES];
-            [hudError hide:YES afterDelay:1.7];
+            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
             [self.passwordTextField becomeFirstResponder];
         }
     } else {
-        hudError.labelText = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError show:YES];
-        [hudError hide:YES afterDelay:1.7];
+        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
         [self.emailTextField becomeFirstResponder];
     }
     
     return NO;
 }
 
-- (void)doRegister {
+- (void) doRegister {
     if([self validForm]) {
         Account *user = [Account object];
         NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
@@ -122,12 +178,12 @@
         user.email = self.emailTextField.text;
         user.password = self.passwordTextField.text;
         // Extra fields
-        user[kUserTypeKey] = @(2);
+        user[kUserTypeKey] = @(1);
         
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!error) {
                 // Register successful
                 [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
@@ -139,7 +195,7 @@
     }
 }
 
-- (void)showErrorMessage {
+- (void) showErrorMessage {
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:nil
                                  message:NSLocalizedString(@"signup_failed_message", nil)

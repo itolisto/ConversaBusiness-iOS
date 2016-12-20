@@ -11,8 +11,9 @@
 @import SAMKeychain;
 #import "Log.h"
 #import "Constants.h"
-#import "DatabaseView.h"
 #import "YapMessage.h"
+#import "DatabaseView.h"
+
 #import <YapDatabase/YapDatabaseRelationship.h>
 
 @interface DatabaseManager ()
@@ -43,7 +44,7 @@
 {
     if ([self setupYapDatabaseWithName:databaseName] )
         return YES;
-    
+
     return NO;
 }
 
@@ -55,45 +56,56 @@
     options.cipherKeyBlock = ^{
         NSString *passphrase = [self databasePassphrase];
         NSData *keyData = [passphrase dataUsingEncoding:NSUTF8StringEncoding];
-        
+
         if (!keyData.length) {
             [NSException raise:@"Must have passphrase of length > 0" format:@"password length is %d.", (int)keyData.length];
         }
-        
+
         return keyData;
     };
-    
+
     // Check if database directory isn't created, if is not, create otherwise do nothing
     NSString *databaseDirectory = [[self class] yapDatabaseDirectory];
-    
+
     if (![[NSFileManager defaultManager] fileExistsAtPath:databaseDirectory]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:databaseDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
+
     // Init database instance
     NSString *databasePath = [[self class] yapDatabasePathWithName:name];
     self.database = [[YapDatabase alloc] initWithPath:databasePath
                                            serializer:nil
                                          deserializer:nil
                                               options:options];
-    
+
     self.database.defaultObjectPolicy = YapDatabasePolicyShare;
     self.database.defaultObjectCacheLimit = 900;
-    
+
     self.updateDatabaseConnection = [self.database newConnection];
     self.updateDatabaseConnection.name = @"updateDatabaseConnection";
-    
+
     // After initialize database, register standard views, it's almost impossible to get an error here
     [DatabaseView registerRelationshipDatabase];
     [DatabaseView registerConversationDatabaseView];
     [DatabaseView registerChatDatabaseView];
     [DatabaseView registerSecondaryIndexes];
-    
+
     if (self.database) {
         return YES;
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Yapdatabase" message:@"No se ha podido desencriptar la base de datos. Si la aplicación no funciona correctamente, puede que sea necesario reinstalarla" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
+        //        UIAlertController * view =  [UIAlertController
+        //                                     alertControllerWithTitle:nil
+        //                                     message:@"No se ha podido desencriptar la base de datos. Si la aplicación no funciona correctamente, puede que sea necesario reinstalarla"
+        //                                     preferredStyle:UIAlertControllerStyleActionSheet];
+        //        UIAlertAction* ok = [UIAlertAction
+        //                                 actionWithTitle:@"Cancelar"
+        //                                 style:UIAlertActionStyleCancel
+        //                                 handler:^(UIAlertAction * action) {
+        //                                     [view dismissViewControllerAnimated:YES completion:nil];
+        //                                 }];
+        //
+        //        [view addAction:ok];
+        //        [self presentViewController:view animated:YES completion:nil];
         return NO;
     }
 }

@@ -9,6 +9,7 @@
 #import "YapContact.h"
 
 @import YapDatabase;
+#import "Log.h"
 #import "Account.h"
 #import "Constants.h"
 #import "YapMessage.h"
@@ -26,12 +27,6 @@ const struct YapContactEdges YapContactEdges = {
 };
 
 @implementation YapContact
-
-- (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction {
-    // Remove avatar
-    [[NSFileManager defaultManager] deleteDataInCachesDirectory:[self.uniqueId stringByAppendingString:@"_avatar.jpg"] inSubDirectory:kMessageMediaImageLocation error:nil];
-    [super removeWithTransaction:transaction];
-}
 
 - (void)programActionInHours:(NSInteger)hours
                     isMuting:(BOOL)isMuting
@@ -88,6 +83,7 @@ const struct YapContactEdges YapContactEdges = {
          YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
          // Count only incoming messages
          if (message.isIncoming && !message.isView) {
+             DDLogError(@"numberOfUnreadMessagesWithTransaction: %@", message);
              count += 1;
              *stop = YES;
          }
@@ -122,10 +118,10 @@ const struct YapContactEdges YapContactEdges = {
      {
          YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
          
-         if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
+//         if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
              finalMessage = message;
-             *stop = YES;
-         }
+//             *stop = YES;
+//         }
      }];
     return [finalMessage copy];
 }
@@ -189,7 +185,6 @@ const struct YapContactEdges YapContactEdges = {
     if (newBuddy) {
         // Update info. Maybe local data is out-of-date
         newBuddy.displayName = business.displayName;
-        newBuddy.statusMessage = business.status;
         [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [newBuddy saveWithTransaction:transaction];
         }];
@@ -198,7 +193,6 @@ const struct YapContactEdges YapContactEdges = {
         newBuddy = [[YapContact alloc] initWithUniqueId:business.objectId];
         newBuddy.accountUniqueId = [Account currentUser].objectId;
         newBuddy.displayName = business.displayName;
-        newBuddy.statusMessage = business.status;
         newBuddy.composingMessageString = @"";
         newBuddy.blocked = NO;
         newBuddy.mute = NO;

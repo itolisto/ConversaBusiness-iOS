@@ -19,12 +19,11 @@
 
 @interface LoginViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleUpLabel;
-@property (weak, nonatomic) IBOutlet UILabel *titleBottomLabel;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -46,16 +45,9 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Add circular borders
+    [[self.signinButton layer] setCornerRadius:borderCornerRadius];
 }
 
 - (void)dismissKeyboard {
@@ -68,15 +60,11 @@
     [self doLogin];
 }
 
+- (IBAction)backBarButtonPressed:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UITextFieldDelegate Methods -
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -101,15 +89,15 @@
             [hudError removeFromSuperview];
             return YES;
         } else {
-            hudError.labelText = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError show:YES];
-            [hudError hide:YES afterDelay:1.7];
+            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
             [self.passwordTextField becomeFirstResponder];
         }
     } else {
-        hudError.labelText = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError show:YES];
-        [hudError hide:YES afterDelay:1.7];
+        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
         [self.usernameTextField becomeFirstResponder];
     }
     
@@ -127,23 +115,23 @@
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
             if (error) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self showErrorMessage];
-            } else {
+            } else {                
                 [Account logInWithUsernameInBackground:((Account *)object).username
                                               password:self.passwordTextField.text
                                                  block:^(PFUser * _Nullable user, NSError * _Nullable error)
-                 {
-                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                     
-                     if(user) {
-                         // Successful login
-                         [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-                     } else {
-                         // The login failed. Check error to see why
-                         [self showErrorMessage];
-                     }
-                 }];
+                {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    
+                    if(user) {
+                        // Successful login
+                        [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+                    } else {
+                        // The login failed. Check error to see why
+                        [self showErrorMessage];
+                    }
+                }];
             }
         }];
     }

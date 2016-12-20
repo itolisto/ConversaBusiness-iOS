@@ -9,15 +9,17 @@
 #import "CustomAblyRealtime.h"
 
 #import "Log.h"
-#import "Account.h"
+#import "AppJobs.h"
 #import "Message.h"
 #import "Business.h"
 #import "YapContact.h"
 #import "YapMessage.h"
+#import "SettingsKeys.h"
 #import "DatabaseManager.h"
-//#import <Parse/Parse.h>
+#import "ParseValidation.h"
+#import <Parse/Parse.h>
 
-@interface CustomAblyRealtime () //<SINServiceDelegate>
+@interface CustomAblyRealtime ()
 
 @property(nonatomic, assign)BOOL firstLoad;
 
@@ -41,33 +43,34 @@
     if (self = [super init]) {
         self.firstLoad = NO;
     }
-    
+
     return self;
 }
 
-- (void)initAbly:(NSDictionary *)launchOptions {
-    ARTClientOptions *options = [[ARTClientOptions alloc] initWithKey:@"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_"];
-    options.logLevel = ARTLogLevelError;
-    options.clientId = [[NSUUID UUID] UUIDString];
-    options.autoConnect = YES;
-    self.ably = [[ARTRealtime alloc] initWithOptions:options];
+- (void)initAbly {
+    ARTClientOptions *artoptions = [[ARTClientOptions alloc] init];
+    artoptions.key = @"zmxQkA.HfI9Xg:0UC2UioXcnDarSak";
+    artoptions.logLevel = ARTLogLevelError;
+    artoptions.echoMessages = NO;
+    //artoptions = [[NSUUID UUID] UUIDString];
+    self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
 }
 
 - (void)subscribeToChannels {
-    NSString * channelname = [[Account currentUser] objectId];
+    NSString * channelname = [SettingsKeys getBusinessId];
     if ([channelname length] > 0) {
         for (int i = 0; i < 2; i++) {
             ARTRealtimeChannel * channel;
             NSString * channelname;
 
             if (i == 0) {
-                channelname = [@"upbc:" stringByAppendingString:[[Account currentUser] objectId]];
+                channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
                 channel = [[self.ably channels] get:channelname];
             } else {
-                channelname = [@"upvt:" stringByAppendingString:[[Account currentUser] objectId]];
+                channelname = [@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]];
                 channel = [[self.ably channels] get:channelname];
             }
 
@@ -76,7 +79,12 @@
     }
 }
 
-- (void)reattach:(ARTRealtimeChannel *) channel {
+- (void)reattach:(ARTRealtimeChannel *)channel {
+    if (channel == nil) {
+        DDLogError(@"reattach ARTRealtimeChannel channel nil");
+        return;
+    }
+
     [channel subscribe:^(ARTMessage * _Nonnull message) {
         [self onMessage:message];
     }];
@@ -98,7 +106,8 @@
     if (self.ably == nil) {
         return;
     }
-    
+
+    [self.ably close];
 }
 
 - (void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
@@ -108,20 +117,20 @@
 
     switch (status.current) {
         case ARTRealtimeInitialized:
-            //DDLogError(@"onConnectionStateChgd: Initialized");
+            DDLogError(@"onConnectionStateChgd: Initialized");
             break;
         case ARTRealtimeConnecting:
-            //DDLogError(@"onConnectionStateChgd: Connecting");
+            DDLogError(@"onConnectionStateChgd: Connecting");
             break;
         case ARTRealtimeConnected:
-            //DDLogError(@"onConnectionStateChgd: Connected");
+            DDLogError(@"onConnectionStateChgd: Connected");
             if (self.firstLoad) {
                 // Subscribe to all Channels
                 [self subscribeToChannels];
                 // Change first load
                 self.firstLoad = NO;
             } else {
-                NSString * channelname = [@"upbc:" stringByAppendingString:[[Account currentUser] objectId]];
+                NSString * channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
                 if (![self.ably.channels exists:channelname]) {
                     [self subscribeToChannels];
                 } else {
@@ -132,67 +141,130 @@
             }
             break;
         case ARTRealtimeDisconnected:
-            //DDLogError(@"onConnectionStateChgd: Disconnected");
+            DDLogError(@"onConnectionStateChgd: Disconnected");
             break;
         case ARTRealtimeSuspended:
-            //DDLogError(@"onConnectionStateChgd: Suspended");
+            DDLogError(@"onConnectionStateChgd: Suspended");
             break;
         case ARTRealtimeClosing:
-            //DDLogError(@"onConnectionStateChgd: Closing");
+            DDLogError(@"onConnectionStateChgd: Closing");
             for (ARTRealtimeChannel * channel in self.ably.channels) {
                 [channel unsubscribe];
                 [[channel getPresence] unsubscribe];
             }
             break;
         case ARTRealtimeClosed:
-            //DDLogError(@"onConnectionStateChgd: Closed");
+            DDLogError(@"onConnectionStateChgd: Closed");
             break;
         case ARTRealtimeFailed:
-            //DDLogError(@"onConnectionStateChgd: Failed");
+            DDLogError(@"onConnectionStateChgd: Failed --> %@", status.reason);
             break;
     }
 }
 
 - (void)onMessage:(ARTMessage *) messages {
-    //DDLogError(@"onMessage: message received --> %@", messages.description);
+    NSError *error;
+    id object = [NSJSONSerialization JSONObjectWithData:[messages.data dataUsingEncoding:NSUTF8StringEncoding]
+                                                options:0
+                                                  error:&error];
+    if (error) {
+        DDLogError(@"onMessage ARTMessage error: %@", error);
+    } else {
+        if ([object isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *results = object;
 
+            DDLogError(@"onMessage: message received --> %@", [results allKeys]);
+            if ([results valueForKey:@"appAction"]) {
+                int action = [[results valueForKey:@"appAction"] intValue];
+                switch (action) {
+                    case 1: {
+                        NSString *messageId = [results valueForKey:@"messageId"];
+                        NSString *contactId = [results valueForKey:@"contactId"];
+                        NSInteger messageType = [[results valueForKey:@"messageType"] integerValue];
 
-//    try {
-//        additionalData = new JSONObject(messages.data.toString());
-//    } catch (JSONException e) {
-//        Logger.error(TAG, "onMessageReceived additionalData fail to parse-> " + e.getMessage());
-//        return;
-//    }
-//
-//    Log.e("NotifOpenedHandler", "Full additionalData:\n" + additionalData.toString());
-//
-//    switch (additionalData.optInt("appAction", 0)) {
-//        case 1:
-//            Intent msgIntent = new Intent(context, CustomMessageService.class);
-//            msgIntent.putExtra("data", additionalData.toString());
-//            context.startService(msgIntent);
-//            break;
-//    }
+                        if (messageId == nil || contactId == nil) {
+                            return;
+                        }
+
+                        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+                        __block YapContact *buddy = nil;
+
+                        [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                            buddy = [YapContact fetchObjectWithUniqueID:contactId transaction:transaction];
+                        }];
+
+                        if (buddy == nil) {
+                            PFQuery *query = [Customer query];
+                            [query whereKey:kCustomerActiveKey equalTo:@(YES)];
+                            [query selectKeys:@[kCustomerDisplayNameKey]];
+
+                            [query getObjectInBackgroundWithId:contactId block:^(PFObject * _Nullable object, NSError * _Nullable error)
+                             {
+                                 if (error) {
+                                     [ParseValidation validateError:error controller:nil];
+                                 } else {
+                                     Customer *business = (Customer*)object;
+
+                                     YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:contactId];
+                                     newBuddy.accountUniqueId = [Account currentUser].objectId;
+                                     newBuddy.displayName = business.displayName;
+                                     newBuddy.composingMessageString = @"";
+                                     newBuddy.blocked = NO;
+                                     newBuddy.mute = NO;
+                                     newBuddy.lastMessageDate = [NSDate date];
+
+                                     [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+                                         [newBuddy saveWithTransaction:transaction];
+                                     } completionBlock:^{
+                                         [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
+                                     }];
+                                 }
+                             }];
+                        } else {
+                            [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:buddy];
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void)onPresenceMessage:(ARTPresenceMessage *)messages {
-    //DDLogError(@"onPresenceMessage: message received --> %@", messages.clientId);
+    if (messages == nil) {
+        DDLogError(@"onPresenceMessage messages nil");
+        return;
+    }
 
     switch (messages.action) {
         case ARTPresenceEnter:
             break;
         case ARTPresenceLeave:
             break;
-        case ARTPresenceUpdate:
+        case ARTPresenceUpdate: {
+            if (messages.data) {
+                NSDictionary *data = (NSDictionary*)messages.data;
+                NSString *from = [data valueForKey:@"from"];
+                bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
+
+                if (self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)])
+                {
+                    [self.delegate fromUser:from userIsTyping:isTyping];
+                } else {
+                    DDLogError(@"ConversationListener protocol isn't set to receive typing event");
+                }
+            }
             break;
+        }
         default:
             break;
     }
 }
 
-- (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *) reason {
+- (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *)reason {
     if (reason != nil) {
-        //DDLogError(@"fasdf --> %@", reason.message);
+        DDLogError(@"onChannelStateChanged --> %@", reason.message);
         return;
     }
 
@@ -212,10 +284,6 @@
     }
 }
 
-//public PresenceMessage[] getPresentUsers(String channel) {
-//    return ablyRealtime.channels.get(channel).presence.get();
-//}
-
 - (ARTRealtimeConnectionState)ablyConnectionStatus {
     if (self.ably == nil) {
         return ARTRealtimeDisconnected;
@@ -232,81 +300,91 @@
     return nil;
 }
 
-#pragma mark - SINServiceDelegate
-
-//- (void)service:(id<SINService>)service didFailWithError:(NSError *)error {
-//    NSLog(@"%@", [error localizedDescription]);
-//}
-//
-//- (void)service:(id<SINService>)service
-//     logMessage:(NSString *)message
-//           area:(NSString *)area
-//       severity:(SINLogSeverity)severity
-//      timestamp:(NSDate *)timestamp {
-//    if (severity == SINLogSeverityCritical) {
-//        NSLog(@"%@", message);
-//    }
-//}
-
 #pragma mark - Process message Method -
 
-- (void)processMessage:(NSDictionary *)additionalData {
-    NSString* customKey = additionalData[@"customKey"];
-    if (customKey)
-        NSLog(@"customKey: %@", customKey);
-    
-    if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:)]) {
-        [self.delegate messageReceived:additionalData];
+- (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact {
+    // 2. Save to Local Database
+    YapMessage *message = [[YapMessage alloc] initWithId:messageId];
+    message.buddyUniqueId = contactId;
+    message.messageType = messageType;
+    message.view = NO;
+
+    if ([[SettingsKeys getBusinessId] isEqualToString:contactId]) {
+        message.incoming = NO;
     } else {
-        //DDLogInfo(@"ConversationListener protocol isn't set to receive message");
-        // Process message here
+        message.incoming = YES;
     }
+
+    NSString *messageText = nil;
+
+    switch (messageType) {
+        case kMessageTypeText: {
+            message.text = [results objectForKey:@"message"];
+            messageText = message.text;
+            break;
+        }
+        case kMessageTypeLocation: {
+            CLLocation *location = [[CLLocation alloc]
+                                    initWithLatitude:[[results objectForKey:@"latitude"] doubleValue]
+                                    longitude:[[results objectForKey:@"longitude"] doubleValue]];
+            message.location = location;
+            messageText = @"Location";
+            break;
+        }
+        case kMessageTypeVideo: {
+            messageText = @"Video";
+        }
+        case kMessageTypeAudio: {
+            message.bytes = [[results objectForKey:@"size"] floatValue];
+            message.duration = [NSNumber numberWithInteger:[[results objectForKey:@"duration"] integerValue]];
+            message.remoteUrl = [results objectForKey:@"file"];
+            if (messageText == nil) {
+                messageText = @"Audio";
+            }
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            break;
+        }
+        case kMessageTypeImage: {
+            message.bytes = [[results objectForKey:@"size"] floatValue];
+            message.width = [[results objectForKey:@"width"] floatValue];
+            message.height = [[results objectForKey:@"height"] floatValue];
+            message.remoteUrl = [results objectForKey:@"file"];
+            messageText = @"Image";
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            break;
+        }
+    }
+
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+     {
+         [message saveWithTransaction:transaction];
+         contact.lastMessageDate = message.date;
+         [contact saveWithTransaction:transaction];
+     } completionBlock:^{
+         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:from:text:)]) {
+             [self.delegate messageReceived:message from:contact text:messageText];
+         } else {
+             DDLogInfo(@"ConversationListener protocol isn't set to receive message");
+         }
+     }];
 }
-
-#pragma mark - ConversationListener Methods -
-
-//        if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(fromUser:didGoOnline:)]) {
-//            NSString *from = event.data.presence.uuid;
-//            [self.delegate fromUser:from didGoOnline:YES];
-//        } else {
-//            DDLogInfo(@"ConversationListener protocol isn't set to receive join event");
-//            // Process message here
-//        }
-
-
-//        if (self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
-//            switch (value.integerValue) {
-//                case 0: {
-//                    [self.delegate fromUser:from userIsTyping:NO];
-//                    break;
-//                }
-//                case 1: {
-//                    [self.delegate fromUser:from userIsTyping:YES];
-//                    break;
-//                }
-//                default:
-//                    break;
-//            }
-//        } else {
-//            DDLogError(@"ConversationListener protocol isn't set to receive typing event");
-//        }
 
 #pragma mark - Class Methods -
 
 - (void)sendTypingStateOnChannel:(NSString*)channel isTyping:(BOOL)value {
-//    [self.pubnub setState: @{@"eventType": [NSNumber numberWithBool:value]} forUUID:self.pubnub.uuid onChannel:channel withCompletion:nil];
+    //    [self.pubnub setState: @{@"eventType": [NSNumber numberWithBool:value]} forUUID:self.pubnub.uuid onChannel:channel withCompletion:nil];
 }
 
 - (void) unsubscribeToChannels: (NSArray*)channels {
-//    [self.pubnub unsubscribeFromChannels:channels withPresence:NO];
+    //    [self.pubnub unsubscribeFromChannels:channels withPresence:NO];
 }
 
 - (void) unsubscribeFromAllChannels {
-//    [self.pubnub unsubscribeFromAll];
+    //    [self.pubnub unsubscribeFromAll];
 }
 
 - (void) subscribeToChannels: (NSArray*)channels {
-//    [self.pubnub subscribeToChannels:channels withPresence:YES];
+    //    [self.pubnub subscribeToChannels:channels withPresence:YES];
 }
 
 @end

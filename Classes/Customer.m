@@ -13,10 +13,7 @@
 
 @implementation Customer
 
-@dynamic customerInfo;
 @dynamic displayName;
-@dynamic avatar;
-@dynamic status;
 
 + (void)load {
     [self registerSubclass];

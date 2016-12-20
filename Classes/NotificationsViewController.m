@@ -18,19 +18,23 @@
 @property (weak, nonatomic) IBOutlet UISwitch *inAppSoundSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *previewMessageSwitch;
 
-
-
 @end
 
 @implementation NotificationsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     self.backgroundSoundSwitch.on = [SettingsKeys getNotificationSoundInApp:NO];
     self.backgroundPreviewMessageSwitch.on = [SettingsKeys getNotificationPreviewInApp:NO];
     self.inAppSoundSwitch.on = [SettingsKeys getNotificationSoundInApp:YES];
     self.previewMessageSwitch.on = [SettingsKeys getNotificationPreviewInApp:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

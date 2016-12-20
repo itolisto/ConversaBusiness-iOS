@@ -14,9 +14,6 @@
 
 + (NSString *)parseClassName;
 
-@property (nonatomic, strong) Account *customerInfo;
 @property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) PFFile   *avatar;
-@property (nonatomic, strong) NSString *status;
 
 @end

@@ -6,26 +6,42 @@
 //  Copyright © 2016 Conversa. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Whisper
 
 @objc open class WhisperBridge: NSObject {
-    
-    static open func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval) {
-//        let message = Message(title: text, textColor: backgroundColor, backgroundColor: backgroundColor, images: nil)
-//        Whisper(message, to: toNavigationController)
-//        
-//        if silenceAfter > 0.1 {
-//            Silent(toNavigationController, after: silenceAfter)
-//        }
+
+    static open func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval)
+    {
+        let message = Message(title: text, textColor: UIColor.white, backgroundColor: backgroundColor, images: nil)
+        show(whisper: message, to: toNavigationController)
+
+        if silenceAfter > 0.1 {
+            hide(whisperFrom: toNavigationController, after: silenceAfter)
+        }
+    }
+
+    static open func shout(_ text: String, subtitle: String, backgroundColor: UIColor, toNavigationController: UINavigationController, image: UIImage? = nil, silenceAfter: TimeInterval, action: (() -> Void)? = nil)
+    {
+        let announcement = Announcement(title: text, subtitle: subtitle, image: image)
+        show(shout: announcement, to: toNavigationController, completion: action)
+
+        if silenceAfter > 0.1 {
+            hide(whisperFrom: toNavigationController, after: silenceAfter)
+        }
+    }
+
+    static open func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
+    {
+        let message = Message(title: title, textColor: titleColor, backgroundColor: backgroundColor, images: nil)
+        // Present a permanent message
+        show(whisper: message, to: toNavigationController, action: .present)
+    }
+
+    static open func hidePermanentShout(_ toNavigationController: UINavigationController)
+    {
+        // Hide a permanent message
+        hide(whisperFrom: toNavigationController)
     }
     
-    static open func shout(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval) {
-//        let announcement = Announcement(title: "Your title", subtitle: "Your subtitle", image: UIImage(named: "avatar"))
-//        Shout(announcement, to: toNavigationController)
-//        
-//        if silenceAfter > 0.1 {
-//            Silent(toNavigationController, after: silenceAfter)
-//        }
-    }
 }

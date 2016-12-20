@@ -11,6 +11,7 @@
 @interface YapAccount : YapDatabaseObject
 
 @property (nonatomic, strong) NSString *uniqueDeviceId;
+
 + (void)deleteAccountWithTransaction:(YapDatabaseReadWriteTransaction*)transaction;
 + (NSString *)getUniqueDeviceId;
 

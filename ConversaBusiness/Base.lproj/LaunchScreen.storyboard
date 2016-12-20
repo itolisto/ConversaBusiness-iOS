@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,22 +18,22 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleAspectFit" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Conversa_launch" translatesAutoresizingMaskIntoConstraints="NO" id="gSB-v0-xgv">
-                                <rect key="frame" x="0.0" y="210.5" width="600" height="180"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="im_logo_text" translatesAutoresizingMaskIntoConstraints="NO" id="gSB-v0-xgv">
+                                <rect key="frame" x="14" y="224" width="292" height="120"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="wI4-7A-xNW"/>
+                                    <constraint firstAttribute="height" constant="120" id="wI4-7A-xNW"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="gSB-v0-xgv" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Dw4-ga-GfY"/>
-                            <constraint firstAttribute="trailing" secondItem="gSB-v0-xgv" secondAttribute="trailing" id="QeY-jZ-LCU"/>
+                            <constraint firstItem="gSB-v0-xgv" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="14" id="Dw4-ga-GfY"/>
+                            <constraint firstAttribute="trailing" secondItem="gSB-v0-xgv" secondAttribute="trailing" constant="14" id="QeY-jZ-LCU"/>
                             <constraint firstItem="gSB-v0-xgv" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="evr-cH-nsX"/>
                             <constraint firstItem="gSB-v0-xgv" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vaS-st-c7Q"/>
                         </constraints>
@@ -41,6 +45,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Conversa_launch" width="1500" height="500"/>
+        <image name="im_logo_text" width="500" height="166"/>
     </resources>
 </document>

@@ -10,7 +10,7 @@
 
 @interface NSNumber (Conversa)
 
-+ (NSNumber*)numberWithCGFloat: (CGFloat)value;
++ (NSNumber*)numberWithCGFloat:(CGFloat)value;
 - (CGFloat)CGFloatValue;
 
 @end

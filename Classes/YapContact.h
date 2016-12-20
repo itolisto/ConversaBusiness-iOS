@@ -10,7 +10,7 @@
 @class YapMessage, YapAccount;
 #import "Customer.h"
 #import "YapDatabaseObject.h"
-#import "YapDatabaseRelationship.h"
+#import <YapDatabase/YapDatabaseRelationshipNode.h>
 
 extern const struct YapContactAttributes {
     __unsafe_unretained NSString *displayName;
@@ -24,7 +24,6 @@ extern const struct YapContactEdges {
 
 @property (nonatomic, strong) NSString *accountUniqueId; // Used to point to this account
 @property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) NSString *statusMessage;
 @property (nonatomic, strong) NSString *composingMessageString;
 @property (nonatomic, strong) NSDate *lastMessageDate;
 @property (nonatomic, assign) BOOL blocked;

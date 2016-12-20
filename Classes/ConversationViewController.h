@@ -7,21 +7,20 @@
 //
 
 @import UIKit;
-@class Customer, YapContact, YapMessage;
+@class Business, YapContact, YapMessage;
 #import "CustomAblyRealtime.h"
 #import <Parse/Parse.h>
-//#import <OHQBImagePicker/QBImagePicker.h>
+#import <OHQBImagePicker/QBImagePicker.h>
 #import <JSQMessagesViewController/JSQMessages.h>
 
 @interface ConversationViewController : JSQMessagesViewController
-<JSQMessagesComposerTextViewPasteDelegate, UIImagePickerControllerDelegate, ConversationListener>
-//QBImagePickerControllerDelegate
+<JSQMessagesComposerTextViewPasteDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate, ConversationListener>
 
 @property(nonatomic, assign) BOOL checkIfAlreadyAdded;
 @property(nonatomic, strong) YapContact *buddy;
 
 - (void)initWithBuddy:(YapContact *)buddy;
-- (void)initWithBusiness:(Customer *)business;
+- (void)initWithBusiness:(Business *)business withAvatarUrl:(NSString*)url;
 - (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)value withPFFile:(PFFile *)file;
 
 @end

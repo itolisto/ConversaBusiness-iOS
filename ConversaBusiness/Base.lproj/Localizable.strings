@@ -1,0 +1,112 @@
+/* 
+  Localizable.strings
+  ConversaManager
+
+  Created by Edgar Gomez on 12/15/16.
+  Copyright © 2016 Conversa. All rights reserved.
+*/
+
+"recover_password_failed_message" = "Couldn't find any email assocciated with this account";
+"recover_password_sent_message" = "Password recovery link sent";
+"signup_birhtday_toolbar_done" = "Done";
+"signup_password_length_error" = "Password is required";
+"signup_failed_message" = "Ohps, sorry, please try register again later";
+"sign_email_not_valid_error" = "Email is invalid";
+"sign_failed_message" = "Email and password didn't match any account";
+
+"token_session_error" = "Another device has started session, this device will log out";
+"no_internet_connection_message" = "No internet connection";
+
+"chats_cell_action_title" = "More";
+"chats_cell_action_delete" = "Delete";
+"chats_alert_action_unmute" = "Unmute";
+"chats_alert_action_mute" = "Mute";
+"chats_alert_action_unblock" = "Unblock";
+"chats_alert_action_block" = "Block";
+"chats_alert_action_clear_conversation" = "Clear conversation";
+"chats_alert_action_cancel" = "Cancel";
+"chats_alert_action_twelve_hours" = "12 hours";
+"chats_alert_action_one_day" = "1 day";
+"chats_alert_action_three_day" = "3 days";
+
+"conversation_menu_item_copy" = "Copy";
+"conversation_menu_item_delete" = "Delete";
+"conversation_navigation_title" = "Back";
+"conversation_more_alert_action_library" = "Library";
+"conversation_more_alert_action_camara" = "Camara";
+"conversation_more_alert_action_location" = "Send location";
+"conversation_more_alert_action_cancel" = "Cancel";
+"conversation_message_info_received" = "Received";
+"conversation_message_info_waiting" = "Waiting";
+"conversation_message_info_sent" = "Sent";
+"conversation_message_info_failed" = "Failed";
+"conversation_subtitle_writing" = "writing...";
+"conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
+"conversation_alert_action_unblock" = "Unblock";
+"conversation_alert_action_unblock_cancel" = "Cancel";
+"conversation_alert_action_location_title" = "We couldn't find your location";
+"conversation_alert_action_camara_title" = "Image couldn't be saved";
+
+"conversation_unsent_alert_action_view" = "View image";
+"conversation_unsent_alert_action_map" = "Show map";
+"conversation_unsent_alert_action_play" = "Play";
+"conversation_unsent_alert_action_resend" = "Resend";
+"conversation_unsent_alert_action_delete" = "Delete";
+"conversation_unsent_alert_action_cancel" = "Cancel";
+
+"categories_searchbar_placeholder" = "Search for business, stores, etc";
+"category" = "Category";
+"c0i96zRLFyw" = "Books";
+"c1zZcJ8an9Z" = "Services";
+"c3b8NykTdo3" = "Toys";
+"c462mKRISE7" = "Electronics";
+"c4EsFpxgOu6" = "Delivery";
+"c90Y0ajWUAG" = "Pets";
+"cDqCLGage9M" = "Beauty";
+"cFBv7AV5OGU" = "Videogames";
+"cJi1FwE21F8" = "Party Supplies";
+"cMHbjypaY4R" = "Men\'s Clothing";
+"cQNFkAelMAd" = "Home & Garden";
+"cR7LZJ3Lbj8" = "Gifts";
+"cRWcS1d4bqt" = "Baby";
+"cSYHk42aEOz" = "Cars";
+"cTFau41aZ8E" = "Musical Instruments";
+"cVZg31Kxzew" = "Travel";
+"cW0lNHTPV3v" = "Sports & Fitness";
+"caDuBd0GuuH" = "Restaurants";
+"caWthcdxIAJ" = "Men Shoes";
+"cay9ADQjpRT" = "Furniture";
+"ccCZl1h0sXf" = "Office Supplies";
+"ccGWcPxDcB7" = "Food";
+"ccQy8YtN7j4" = "Entertainment";
+"cgBcgtlLRVw" = "Jewelry";
+"cr4ZYMKINHp" = "Women\'s Clothing";
+"cuRzYgo8krw" = "Women Shoes";
+"cydPTRrUJye" = "Health";
+"cDvl63HGh9j" = "Retailers";
+"cprn5lWuEDc" = "Online & Internet";
+
+"category_results_error" = "Uphs, please try again";
+"category_results_empty" = "No results found";
+
+"mapview_controller_title" = "Map";
+
+"settings_home_profile_hi" = "Hi";
+"settings_home_share_text" = "Download this app to talk to almost any business";
+
+"settings_account_blocked_loading" = "Loading";
+"settings_account_alert_change_empty_title" = "Field can't be empty";
+"settings_account_alert_password_title" = "Are you sure you want to change your password?";
+"settings_account_alert_password_action_change" = "Change";
+"settings_account_alert_password_changed" = "Password changed";
+"settings_account_alert_password_not_changed" = "Password not changed";
+"settings_account_alert_cancel" = "Cancel";
+"settings_account_alert_displayname_changed" = "Name changed";
+"settings_account_alert_displayname_not_changed" = "Name not changed";
+"settings_account_logout_alert_action_logout" = "Log Out";
+"settings_account_logout_alert_action_cancel" = "Cancel";
+
+"settings_chat_quality_alert_action_high" = "High";
+"settings_chat_quality_alert_action_medium" = "Medium";
+"settings_chat_quality_alert_action_low" = "Low";
+"settings_chat_quality_alert_action_cancel" = "Cancel";

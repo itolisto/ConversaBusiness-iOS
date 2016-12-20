@@ -12,8 +12,6 @@
 @interface DatabaseManager : NSObject
 
 @property (nonatomic, readonly) YapDatabase *database;
-//@property (nonatomic, readonly) YapDatabaseConnection *readOnlyDatabaseConnection;
-//@property (nonatomic, readonly) YapDatabaseConnection *readWriteDatabaseConnection;
 @property (nonatomic, readonly) YapDatabaseConnection *updateDatabaseConnection;
 
 /**

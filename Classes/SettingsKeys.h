@@ -11,9 +11,19 @@
 
 // General
 extern NSString *tutorialAlreadyShown;
+extern NSString *firstCategoriesLoad;
 extern NSString *notificationsCheck;
 // Account settings
-extern NSString *sendToConversaSwitch;
+extern NSString *readReceiptsSwitch;
+extern NSString *customerObjectId;
+extern NSString *customerDisplayName;
+extern NSString *customerPaidPlan;
+extern NSString *customerCountry;
+extern NSString *customerConversaId;
+extern NSString *customerAbout;
+extern NSString *customerVerified;
+extern NSString *customerRedirect;
+extern NSString *customerAvatarUrl;
 // Notifications settings
 extern NSString *inAppSoundSwitch;
 extern NSString *inAppPreviewSwitch;
@@ -24,15 +34,32 @@ extern NSString *previewSwitch;
 
 // General
 + (void)setTutorialShownSetting:(BOOL)state;
-+ (BOOL)getTutorialShownSetting;
 + (void)setNotificationsCheck:(BOOL)state;
++ (BOOL)getTutorialShownSetting;
 + (BOOL)getNotificationsCheck;
 
 // Account settings
-+ (void)setSendToConversaSetting:(BOOL)state;
-+ (BOOL)getSendToConversaSetting;
-+ (void)setSendReadSetting:(BOOL)state;
-+ (BOOL)getSendReadSetting;
++ (void)setBusinessId:(NSString*)objectId;
++ (NSString*)getBusinessId;
++ (void)setDisplayName:(NSString*)displayName;
++ (NSString*)getDisplayName;
++ (void)setPaidPlan:(NSString*)paidplan;
++ (NSString*)getPaidPlan;
++ (void)setCountry:(NSString*)country;
++ (NSString*)getCountry;
++ (void)setConversaId:(NSString*)conversaid;
++ (NSString*)getConversaId;
++ (void)setAbout:(NSString*)about;
++ (NSString*)getAbout;
++ (void)setVerified:(BOOL)verifed;
++ (BOOL)getVerified;
++ (void)setRedirect:(BOOL)redirect;
++ (BOOL)getRedirect;
++ (void)setAvatarUrl:(NSString*)url;
++ (NSString*)getAvatarUrl;
+
++ (void)setAccountReadSetting:(BOOL)state;
++ (BOOL)getAccountReadSetting;
 
 // Notifications settings
 + (void)setNotificationSound:(BOOL)state inApp:(BOOL)inApp;
@@ -48,3 +75,9 @@ extern NSString *previewSwitch;
 + (BOOL)getMessageSoundIncoming:(BOOL)incoming;
 
 @end
+
+// General
+//+ (void)setTutorialShownSetting:(BOOL)state;
+//+ (BOOL)getTutorialShownSetting;
+//+ (void)setNotificationsCheck:(BOOL)state;
+//+ (BOOL)getNotificationsCheck;

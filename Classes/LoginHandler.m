@@ -20,13 +20,11 @@
     // Save as YapAccount
     YapAccount *newAccount = [[YapAccount alloc]initWithUniqueId:account.objectId];
     [[DatabaseManager sharedInstance].newConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-     {
-         [newAccount saveWithTransaction:transaction];
-     }];
-    // Connect to PubNub Service with Parse User
-    
+    {
+        [newAccount saveWithTransaction:transaction];
+    }];
     // Default settings
-    //[SettingsKeys setAccountReadSetting:NO];
+    [SettingsKeys setAccountReadSetting:NO];
     [SettingsKeys setNotificationSound:YES inApp:YES];
     [SettingsKeys setNotificationPreview:YES inApp:YES];
     [SettingsKeys setNotificationSound:YES inApp:NO];
@@ -35,6 +33,7 @@
     [SettingsKeys setMessageSoundIncoming:YES value:YES];
     [SettingsKeys setMessageSoundIncoming:NO value:YES];
     [SettingsKeys setTutorialShownSetting:YES];
+    //[SettingsKeys setCategoriesLoad:NO];
     // Go to
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];

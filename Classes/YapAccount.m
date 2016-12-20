@@ -9,11 +9,17 @@
 #import "YapAccount.h"
 
 #import "Account.h"
+#import "Constants.h"
 #import "DatabaseManager.h"
+#import "NSFileManager+Conversa.h"
 
 @implementation YapAccount
 
 + (void)deleteAccountWithTransaction:(YapDatabaseReadWriteTransaction*)transaction {
+    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[[Account currentUser].objectId
+                                                                  stringByAppendingString:@"_avatar.jpg"]
+                                                  inSubDirectory:kMessageMediaAvatarLocation
+                                                           error:nil];
     // Automatically deletes all data in Database. This is done by taking
     // advantage from Relationships
     [transaction removeAllObjectsInCollection:[YapAccount collection]];

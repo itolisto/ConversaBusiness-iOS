@@ -9,7 +9,7 @@
 #import "Camera.h"
 
 #import "Constants.h"
-//#import <OHQBImagePicker/QBImagePicker.h>
+#import <OHQBImagePicker/QBImagePicker.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -17,33 +17,33 @@
 void PresentPhotoCamera(id target, BOOL canEdit) {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == AVAuthorizationStatusAuthorized || status == AVAuthorizationStatusNotDetermined) {
-        
+
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
             return;
-        
-//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-//        NSString *type = (NSString *)kUTTypeImage;
-//        
-//        if ([[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera] containsObject:type])
-//        {
-//            imagePicker.mediaTypes = @[type];
-//            imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//            
-//            if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
-//            {
-//                imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-//            }
-//            else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
-//            {
-//                imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-//            }
-//        }
-//        else return;
-//        
-//        imagePicker.allowsEditing = canEdit;
-//        imagePicker.showsCameraControls = YES;
-//        imagePicker.delegate = target;
-//        [target presentViewController:imagePicker animated:YES completion:nil];
+
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        NSString *type = (NSString *)kUTTypeImage;
+
+        if ([[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera] containsObject:type])
+        {
+            imagePicker.mediaTypes = @[type];
+            imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+
+            if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear])
+            {
+                imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+            }
+            else if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
+            {
+                imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+            }
+        }
+        else return;
+
+        imagePicker.allowsEditing = canEdit;
+        imagePicker.showsCameraControls = YES;
+        imagePicker.delegate = target;
+        [target presentViewController:imagePicker animated:YES completion:nil];
     } else {
         UIAlertController * alert =  [UIAlertController
                                       alertControllerWithTitle:nil
@@ -55,7 +55,7 @@ void PresentPhotoCamera(id target, BOOL canEdit) {
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
                              }];
-        
+
         [alert addAction:ok];
         [target presentViewController:alert animated:YES completion:nil];
     }
@@ -64,20 +64,19 @@ void PresentPhotoCamera(id target, BOOL canEdit) {
 void PresentPhotoLibrary(id target, BOOL canEdit, int max) {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
     if (status == ALAuthorizationStatusAuthorized || status == ALAuthorizationStatusNotDetermined) {
-//        QBImagePickerController *imagePickerController = [QBImagePickerController new];
-//        imagePickerController.delegate = target;
-//        imagePickerController.allowsMultipleSelection = YES;
-//        imagePickerController.maximumNumberOfSelection = max;
-//        imagePickerController.showsNumberOfSelectedItems = YES;
-//        imagePickerController.assetCollectionSubtypes = @[
-//                                                          @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
-//                                                          @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
-//                                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
-//                                                          @(PHAssetCollectionSubtypeSmartAlbumVideos), // Videos
-//                                                          @(PHAssetCollectionSubtypeSmartAlbumBursts) // Bursts
-//                                                          ];
-//        
-//        [target presentViewController:imagePickerController animated:YES completion:NULL];
+        QBImagePickerController *imagePickerController = [QBImagePickerController new];
+        imagePickerController.delegate = target;
+        imagePickerController.allowsMultipleSelection = YES;
+        imagePickerController.maximumNumberOfSelection = max;
+        imagePickerController.showsNumberOfSelectedItems = YES;
+        imagePickerController.mediaType = QBImagePickerMediaTypeImage;
+        imagePickerController.assetCollectionSubtypes = @[
+                                                          @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
+                                                          @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
+                                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
+                                                          ];
+
+        [target presentViewController:imagePickerController animated:YES completion:NULL];
     } else {
         UIAlertController * alert =  [UIAlertController
                                       alertControllerWithTitle:nil
@@ -89,7 +88,7 @@ void PresentPhotoLibrary(id target, BOOL canEdit, int max) {
                              {
                                  [alert dismissViewControllerAnimated:YES completion:nil];
                              }];
-        
+
         [alert addAction:ok];
         [target presentViewController:alert animated:YES completion:nil];
     }

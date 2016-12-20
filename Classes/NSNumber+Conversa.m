@@ -10,7 +10,7 @@
 
 @implementation NSNumber (Conversa)
 
-+ (NSNumber*)numberWithCGFloat: (CGFloat)value
++ (NSNumber*)numberWithCGFloat:(CGFloat)value
 {
 #if CGFLOAT_IS_DOUBLE
     return [NSNumber numberWithDouble: (double)value];

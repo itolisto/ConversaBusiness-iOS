@@ -6,11 +6,15 @@
 //  Copyright © 2015 Conversa. All rights reserved.
 //
 
-@import Foundation;
+@import UIKit;
+
+// General constants
+extern CGFloat const borderCornerRadius;
 
 // Customer class
 extern NSString *const kClassCustomer;
-extern NSString *const kCustomerUserInfoKey;
+extern NSString *const kCustomerDisplayNameKey;
+extern NSString *const kCustomerActiveKey;
 
 // Business class
 extern NSString *const kClassBusiness;
@@ -67,6 +71,7 @@ extern NSString *const kPubNubMessageSelfKey;
 extern NSString *const kPubNubMessageTypeKey;
 
 // Messages media location
+extern NSString *const kMessageMediaAvatarLocation;
 extern NSString *const kMessageMediaImageLocation;
 extern NSString *const kMessageMediaVideoLocation;
 extern NSString *const kMessageMediaAudioLocation;
@@ -102,8 +107,6 @@ extern NSString *const kMuteUserNotificationName;
 #define		STATUS_LOADING						1
 #define		STATUS_FAILED						2
 #define		STATUS_SUCCEED						3
-#define     MESSAGE_FROM_SENDERID               [Account currentUser].objectId
-#define     MESSAGE_FROM_SENDERDISPLAYNAME      [Account currentUser].username
 
 // Messages dictionary keys
 #define     MESSAGE_TEXT_KEY      @"text"
@@ -112,7 +115,6 @@ extern NSString *const kMuteUserNotificationName;
 #define     MESSAGE_FILENAME_KEY  @"filename"
 #define     MESSAGE_SIZE_KEY      @"size"
 
-#define     BLOCK_NOTIFICATION_NAME             @"BlockNotificationName"
 #define     SEARCH_NOTIFICATION_NAME            @"SearchNotificationName"
 #define     SEARCH_NOTIFICATION_DIC_KEY         @"SearchBarText"
 #define     UPDATE_CELL_NOTIFICATION_NAME       @"UpdateCellNotificationName"

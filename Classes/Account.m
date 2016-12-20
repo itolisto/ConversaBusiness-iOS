@@ -10,6 +10,7 @@
 
 #import "YapAccount.h"
 #import "DatabaseManager.h"
+#import "CustomAblyRealtime.h"
 #import <Parse/PFObject+Subclass.h>
 
 @implementation Account
@@ -25,19 +26,14 @@
 }
 
 + (void)logOut {
+    [[CustomAblyRealtime sharedInstance] logout];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[DatabaseManager sharedInstance].newConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-    {
-        [YapAccount deleteAccountWithTransaction:transaction];
-    }];
+     {
+         [YapAccount deleteAccountWithTransaction:transaction];
+     }];
     [super logOut];
-}
-
-- (NSString *)getPrivateChannel {
-    return [NSString stringWithFormat:@"%@_pvt", [self objectId]];
-}
-
-- (NSString *)getPublicChannel {
-    return [NSString stringWithFormat:@"%@_pbc", [self objectId]];
 }
 
 @end

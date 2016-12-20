@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  ConversaManager
+
+  Created by Edgar Gomez on 12/15/16.
+  Copyright © 2016 Conversa. All rights reserved.
+*/
+"NSCameraUsageDescription" = "Capture images";
+"NSLocationWhenInUseUsageDescription" = "We want to send your location to NSA, no, just kidding";
+"NSPhotoLibraryUsageDescription" = "Send images";

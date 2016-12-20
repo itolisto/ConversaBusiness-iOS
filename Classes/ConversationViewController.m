@@ -30,11 +30,11 @@
 #import "Image.h"
 #import "Camera.h"
 #import "Colors.h"
+#import "AppJobs.h"
 #import "MapView.h"
-#import "Account.h"
 #import "Message.h"
 #import "Incoming.h"
-#import "Customer.h"
+#import "Business.h"
 #import "Constants.h"
 #import "Utilities.h"
 #import "YapContact.h"
@@ -46,16 +46,20 @@
 #import "ChatsViewController.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+
 #import <MapKit/MapKit.h>
-#import <PureLayout/PureLayout.h>
 #import <CoreLocation/CoreLocation.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+
+#import "ConversaManager-Swift.h"
 
 #define kYapDatabaseRangeLength    25
 #define kYapDatabaseRangeMaxLength 300
 #define kYapDatabaseRangeMinLength 20
 #define kInputToolbarMaximumHeight 150
+#define kWaitingTimeInSeconds 3
 
 @interface ConversationViewController ()
 
@@ -81,8 +85,6 @@
 
 @end
 
-#define kWaitingTimeInSeconds 3
-
 @implementation ConversationViewController
 
 #pragma mark - Lifecycle Methods -
@@ -96,9 +98,12 @@
     self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
     
     // JSQMessagesController variables setup
-    self.senderId = MESSAGE_FROM_SENDERID;
-    self.senderDisplayName = MESSAGE_FROM_SENDERDISPLAYNAME;
-    
+    self.senderId = ([[SettingsKeys getBusinessId] length] == 0) ? @"" : [SettingsKeys getBusinessId];
+    self.senderDisplayName = @"user";
+
+    /**
+     *  Set up message accessory button delegate and configuration
+     */
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     self.automaticallyScrollsToMostRecentMessage = YES;
     
@@ -111,7 +116,7 @@
     self.databaseConnection = [[DatabaseManager sharedInstance] newConnection];
     self.editingDatabaseConnection = [[DatabaseManager sharedInstance] newConnection];
     self.messageDatabaseConnection = [[DatabaseManager sharedInstance] newConnection];
-    
+
     self.databaseConnection.name = NSStringFromClass([self class]);
     self.editingDatabaseConnection.name = [NSStringFromClass([self class]) stringByAppendingString:@"_edit"];
     self.messageDatabaseConnection.name = [NSStringFromClass([self class]) stringByAppendingString:@"_msg"];
@@ -125,8 +130,8 @@
     
     // Set visible for UI changes
     self.visible = true;
-    
-    // Add observers
+
+    // Register notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(yapDatabaseModified:)
                                                  name:YapDatabaseModifiedNotification
@@ -135,6 +140,7 @@
                                              selector:@selector(receivedTextViewChangedNotification:)
                                                  name:UITextViewTextDidChangeNotification
                                                object:self.inputToolbar.contentView.textView];
+
     // Load
     [self loadNavigationBarInformation];
 }
@@ -146,13 +152,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor blueColor];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.visible = true;
+    [CustomAblyRealtime sharedInstance].delegate = self;
     
     if (self.buddy) {
         if ([self.buddy.composingMessageString length] > 0) {
@@ -170,7 +177,9 @@
         result = [self.buddy setAllMessagesView:transaction];
     } completionBlock:^{
         [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-            [self.buddy saveWithTransaction:transaction];
+            if (self.checkIfAlreadyAdded) {
+                [self.buddy saveWithTransaction:transaction];
+            }
         } completionBlock:^{
             if (result) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
@@ -194,35 +203,54 @@
     self.visible = false;
 }
 
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    [super willMoveToParentViewController:parent];
+    if (parent == nil) {
+        UIViewController *last = [self.navigationController.viewControllers firstObject];
+        if (last) {
+            if ([last isKindOfClass:[ChatsViewController class]]) {
+                self.navigationController.navigationBar.barTintColor = [Colors purpleNavbarColor];
+                self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+            }
+        }
+    }
+}
+
 #pragma mark - Setup Methods -
 
 - (void)loadNavigationBarInformation {
-    __weak typeof(self) wSelf = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        UIImage *image = [[NSFileManager defaultManager] loadImageFromCache:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]];
-        
-        if (!image) {
-            image = [UIImage imageNamed:@"business_default_light"];
-        }
-        
-        // When finished call back on the main thread:
-        dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(self)sSelf = wSelf;
-            if (sSelf) {
-                UIImageView *logo = [[UIImageView alloc] initWithImage:image];
-                logo.frame = CGRectMake(0,0,38,38);
-                logo.layer.cornerRadius = logo.frame.size.width / 2;
-                
-                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:sSelf action:@selector(logoTapped:)];
-                singleTap.numberOfTapsRequired = 1;
-                [logo setUserInteractionEnabled:YES];
-                [logo addGestureRecognizer:singleTap];
-                
-                sSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:logo];
-            }
-        });
-    });
-    
+//    __weak typeof(self) wSelf = self;
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//        UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]];
+//        
+//        // When finished call back on the main thread:
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            typeof(self)sSelf = wSelf;
+//            if (sSelf) {
+//                UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,38,38)];
+//
+//                if (image) {
+//                    logo.image = image;
+//                } else {
+//                    [logo sd_setImageWithURL:[NSURL URLWithString:self.buddy.avatarThumbFileId]
+//                            placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
+//                }
+//
+//                logo.layer.cornerRadius = 19;
+//                logo.layer.masksToBounds = YES;
+//                
+//                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:sSelf action:@selector(logoTapped:)];
+//                singleTap.numberOfTapsRequired = 1;
+//                [logo setUserInteractionEnabled:YES];
+//                [logo addGestureRecognizer:singleTap];
+//                
+//                sSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:logo];
+//            }
+//        });
+//    });
+
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"conversation_navigation_title", nil);
+
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 175, 20)];
     title.textAlignment = NSTextAlignmentCenter;
     [title setText:self.buddy.displayName];
@@ -272,10 +300,10 @@
     }];
     
     if (set) {
-        [self loadData];
-        [self initializeCollectionViewLayout];
         self.page = 0;
         [self updateRangeOptionsForPage:self.page];
+        [self loadData];
+        [self initializeCollectionViewLayout];
     }
 }
 
@@ -311,19 +339,23 @@
     [self initWithText:buddy];
 }
 
-- (void)initWithBusiness:(Customer *)business {
+- (void)initWithBusiness:(Customer *)business withAvatarUrl:(NSString*)url {
     NSDictionary *values = [YapContact saveContactWithParseBusiness:business
                                                       andConnection:[DatabaseManager sharedInstance].newConnection
                                                             andSave:NO];
     YapContact *newBuddy = (YapContact*)[values valueForKey:kNSDictionaryCustomer];
+
     self.checkIfAlreadyAdded = [[values valueForKey:kNSDictionaryChangeValue] boolValue];
     [self initWithText:newBuddy];
 }
 
 - (void)initializeBubbles {
     JSQMessagesBubbleImageFactory *bubbleImageFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
-    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors greenColor]];
+    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoingColor]];
+    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incomingColor]];
+    // No avatars
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
 }
 
 - (void)initializeInputToolbar {
@@ -335,21 +367,27 @@
     UIButton *customLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     customLeftButton.frame = CGRectMake(0, 0, 30, 30);
-    UIImage * buttonImage = [UIImage imageNamed:@"circle-plus-large"];
-    [customLeftButton setContentMode:UIViewContentModeScaleToFill];
+    UIImage * buttonImage = [UIImage imageNamed:@"ic_attachment"];
+    [customLeftButton setContentMode:UIViewContentModeScaleAspectFit];
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
-    // No avatars
-    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+
+    UIButton *customRightButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    customRightButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    customRightButton.backgroundColor = [UIColor clearColor];
+    customRightButton.frame = CGRectMake(0, 0, 32, 32);
+    customRightButton.layer.cornerRadius = customRightButton.frame.size.width / 2;
+    UIImage * sendImage = [UIImage imageNamed:@"ic_send"];
+    [customRightButton setContentMode:UIViewContentModeScaleAspectFit];
+    [customRightButton setBackgroundImage:sendImage forState:UIControlStateNormal];
+    self.inputToolbar.contentView.rightBarButtonItem = customRightButton;
 }
 
 - (void)initializeCellMenus {
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionDelete:)];
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionCopy:)];
-    
-    UIMenuItem *menuItemCopy   = [[UIMenuItem alloc] initWithTitle:@"Copiar"   action:@selector(actionCopy:)];
-    UIMenuItem *menuItemDelete = [[UIMenuItem alloc] initWithTitle:@"Eliminar" action:@selector(actionDelete:)];
+    UIMenuItem *menuItemCopy = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"conversation_menu_item_copy", nil) action:@selector(actionCopy:)];
+    UIMenuItem *menuItemDelete = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"conversation_menu_item_delete", nil) action:@selector(actionDelete:)];
     [UIMenuController sharedMenuController].menuItems = @[menuItemCopy, menuItemDelete];
 }
 
@@ -361,14 +399,13 @@
     }
 }
 
-
 - (YapMessage*)newYapMessageType:(NSInteger)type values:(NSDictionary*)values incoming:(BOOL)isIncoming {
     YapMessage *message = [[YapMessage alloc] init];
     message.view = YES;
     message.buddyUniqueId = self.buddy.uniqueId;
     message.incoming = isIncoming;
     message.messageType = type;
-    
+
     switch (type) {
         case kMessageTypeText: {
             message.text = values[MESSAGE_TEXT_KEY];
@@ -377,7 +414,7 @@
         case kMessageTypeLocation: {
             CLLocation *location = [[CLLocation alloc]
                                     initWithLatitude:[values[MESSAGE_LATI_KEY] doubleValue]
-                                    longitude:[values[MESSAGE_LONG_KEY] doubleValue]];
+                                           longitude:[values[MESSAGE_LONG_KEY] doubleValue]];
             message.location = location;
             break;
         }
@@ -389,7 +426,7 @@
             break;
         }
     }
-    
+
     return message;
 }
 
@@ -408,6 +445,10 @@
      */
     if(![self.buddy.composingMessageString isEqualToString:self.inputToolbar.contentView.textView.text])
     {
+        if (!self.checkIfAlreadyAdded) {
+            return;
+        }
+
         self.buddy.composingMessageString = [self.inputToolbar.contentView.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
             [self.buddy saveWithTransaction:transaction];
@@ -467,18 +508,18 @@
 
 - (YapMessage *)messageAtIndexPath:(NSIndexPath *)indexPath {
     __block YapMessage *message = nil;
-    
+
     [self.messageDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         YapDatabaseViewTransaction *viewTransaction = [transaction ext:ChatDatabaseViewExtensionName];
         NSUInteger row = indexPath.row;
         NSUInteger section = indexPath.section;
-        
+
         NSAssert(row < [self.messageMappings numberOfItemsInSection:section], @"Cannot fetch message because row %d is >= numberOfItemsInSection %d", (int)row, (int)[self.messageMappings numberOfItemsInSection:section]);
-        
+
         message = [viewTransaction objectAtRow:row inSection:section withMappings:self.messageMappings];
         NSParameterAssert(message != nil);
     }];
-    
+
     return message;
 }
 
@@ -486,15 +527,6 @@
 
 - (BOOL)canSendMessage {
     return (self.buddy.blocked) ? NO : YES;
-}
-
-- (BOOL)checkIfIsContact {
-    if (!self.checkIfAlreadyAdded) {
-        self.checkIfAlreadyAdded = YES;
-        return NO;
-    }
-    
-    return YES;
 }
 
 #pragma mark - JSQMessagesViewController Methods -
@@ -518,38 +550,38 @@
         UIAlertController* view = [UIAlertController alertControllerWithTitle:nil
                                                                       message:nil
                                                                preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:@"Librería"
+
+        UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_library", nil)
                                                                style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
-                                       {
-                                           PresentPhotoLibrary(self, YES, IMAGE_LIMIT);
-                                           [view dismissViewControllerAnimated:YES completion:nil];
-                                       }];
+        {
+            PresentPhotoLibrary(self, YES, IMAGE_LIMIT);
+            [view dismissViewControllerAnimated:YES completion:nil];
+        }];
         
-        UIAlertAction* camera = [UIAlertAction actionWithTitle:@"Cámara"
+        UIAlertAction* camera = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_camara", nil)
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
-                                 {
-                                     PresentPhotoCamera(self, YES);
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
+        {
+            PresentPhotoCamera(self, YES);
+            [view dismissViewControllerAnimated:YES completion:nil];
+        }];
         
-        UIAlertAction* location = [UIAlertAction actionWithTitle:@"Enviar ubicación"
+        UIAlertAction* location = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_location", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action)
-                                   {
-                                       [self sendLocation];
-                                       [view dismissViewControllerAnimated:YES completion:nil];
-                                   }];
+        {
+            [self sendLocation];
+            [view dismissViewControllerAnimated:YES completion:nil];
+        }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
-                                 {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-        
+        {
+            [view dismissViewControllerAnimated:YES completion:nil];
+        }];
+
         [view addAction:photoLibrary];
         [view addAction:camera];
         [view addAction:location];
@@ -570,14 +602,14 @@
 {
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
+
     if (!message.isMediaMessage) {
         cell.textView.textColor = [Colors blackColor];
         cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [Colors blackColor],
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
-    
+
     return cell;
 }
 
@@ -648,7 +680,7 @@
         return [[JSQMessagesTimestampFormatter sharedFormatter]
                 attributedTimestampForDate:[self messageAtIndexPath:indexPath].date];
     }
-    
+
     return nil;
 }
 
@@ -660,45 +692,49 @@
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     YapMessage *msg = [self messageAtIndexPath:indexPath];
-    
+
     if(msg.messageType != kMessageTypeText) {
-        
+
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];;
         NSString *progressString = nil;
-        
+
         if (msg.isIncoming) {
             if (msg.transferProgress == 100) {
                 return [self checkDelivered:indexPath andMessage:msg];
             } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", @"Recibido", msg.transferProgress];
+                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_received", nil), msg.transferProgress];
             } else {
-                progressString = [NSString stringWithFormat:@"%@", @"Esperando"];
+                progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
             }
         } else {
             if (msg.transferProgress == 100) {
                 return [self checkDelivered:indexPath andMessage:msg];
             } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", @"Enviado", msg.transferProgress];
+                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_sent", nil), msg.transferProgress];
             } else {
                 if (msg.delivered == statusParseError) {
-                    progressString = [NSString stringWithFormat:@"%@", @"Fallido"];
+                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_failed", nil)];
                 } else {
-                    progressString = [NSString stringWithFormat:@"%@", @"Esperando"];
+                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
                 }
             }
         }
-        
+
         if ([progressString length]) {
             if (msg.delivered == statusParseError) {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}] atIndex:0];
+                [attributedString insertAttributedString:[[NSAttributedString alloc]
+                                                          initWithString:progressString
+                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}]
+                                                 atIndex:0];
             } else {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString] atIndex:0];
+                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString]
+                                                 atIndex:0];
             }
         }
-        
+
         return attributedString;
     }
-    
+
     return [self checkDelivered:indexPath andMessage:msg];
 }
 
@@ -709,12 +745,13 @@
         textAttachment.bounds = CGRectMake(0, 0, 11.0f, 10.0f);
         
         if (msg.getStatus == statusParseError) {
-            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:@"Fallido" attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
+            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_failed", nil)
+                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
             [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
             return attrStr;
         }
         
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:@"Enviado"];
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_sent", nil)];
         [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
         
         return attrStr;
@@ -726,10 +763,10 @@
 - (BOOL)shouldShowMessageStatusAtIndexPath:(NSIndexPath*)indexPath
 {
     YapMessage *currentMessage = [self messageAtIndexPath:indexPath];
-    
+
     if ( currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading ||
-        currentMessage.delivered == statusParseError
-        ) {
+         currentMessage.delivered == statusParseError
+       ) {
         return YES;
     } else if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
         return NO;
@@ -764,20 +801,20 @@
     } else {
         YapMessage *currentMessage = [self messageAtIndexPath:indexPath];
         YapMessage *previousMessage = [self messageAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row - 1 inSection:indexPath.section]];
-        
+
         NSCalendar *cal = [NSCalendar currentCalendar];
         NSDate *startOfToday, *startOfOtherDay;
         [cal rangeOfUnit:NSCalendarUnitDay startDate:&startOfToday interval:NULL forDate:previousMessage.date];
         [cal rangeOfUnit:NSCalendarUnitDay startDate:&startOfOtherDay interval:NULL forDate:currentMessage.date];
         NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:startOfOtherDay toDate:startOfToday options:0];
         NSInteger days = [components day];
-        
+
         NSTimeInterval distanceBetweenDates = [currentMessage.date timeIntervalSinceDate:previousMessage.date];
         NSInteger minutesBetweenDates = distanceBetweenDates / 900; // Seconds past in 15 minutes
         
         return ((days == -1) || (minutesBetweenDates >= 1)) ? YES : NO;
     }
-    
+
     return NO;
 }
 
@@ -797,35 +834,35 @@
     if ([self shouldShowLoadEarlierMessages]) {
         self.page++;
     }
-    
+
     NSInteger item = (NSInteger)[self scrollToItem];
-    
+
     [self updateRangeOptionsForPage:self.page];
-    
+
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         [self.messageMappings updateWithTransaction:transaction];
     }];
-    
+
     [self updateLayoutForEarlierMessagesWithOffset:item];
 }
 
 -(NSUInteger)scrollToItem
 {
     __block NSUInteger item = kYapDatabaseRangeLength*(self.page+1) - [self.messageMappings numberOfItemsInGroup:self.buddy.uniqueId];
-    
+
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        
+
         NSUInteger numberOfVisibleMessages = [self.messageMappings numberOfItemsInGroup:self.buddy.uniqueId] ;
         NSUInteger numberOfTotalMessages = [[transaction ext:ChatDatabaseViewExtensionName] numberOfItemsInGroup:self.buddy.uniqueId] ;
         NSUInteger numberOfMessagesToLoad =  numberOfTotalMessages - numberOfVisibleMessages ;
-        
+
         BOOL canLoadFullRange = numberOfMessagesToLoad >= kYapDatabaseRangeLength;
-        
+
         if (!canLoadFullRange) {
             item = numberOfMessagesToLoad;
         }
     }];
-    
+
     return item == 0 ? item : item - 1;
 }
 
@@ -866,7 +903,7 @@
             } else if ([message.media isKindOfClass:[VideoMediaItem class]]) {
                 VideoMediaItem *mediaItem = (VideoMediaItem *)message.media;
                 if (mediaItem.status == STATUS_FAILED) {
-                    
+                
                 } else if (mediaItem.status == STATUS_SUCCEED) {
                     MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
                     [self presentMoviePlayerViewControllerAnimated:moviePlayer];
@@ -880,7 +917,7 @@
             } else if([message.media isKindOfClass:[AudioMediaItem class]]) {
                 AudioMediaItem *mediaItem = (AudioMediaItem *)message.media;
                 if (mediaItem.status == STATUS_FAILED) {
-                    
+
                 } else if (mediaItem.status == STATUS_SUCCEED) {
                     MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
                     [self presentMoviePlayerViewControllerAnimated:moviePlayer];
@@ -897,7 +934,6 @@
 - (BOOL)composerTextView:(JSQMessagesComposerTextView *)textView shouldPasteWithSender:(id)sender {
     if ([UIPasteboard generalPasteboard].image) {
         // If there's an image in the pasteboard, show view asking if the user wants to send it
-        
         return NO;
     }
     return YES;
@@ -905,25 +941,46 @@
 
 # pragma mark - ConversationListener Methods
 
-- (void) messageReceived:(NSDictionary *)message {
-    //if ([self.buddy.uniqueId isEqualToString:message.from]) {
-    //[PubNubController processMessage:message userState:self.buddy.blocked setView:YES];
-    //} else {
-    //[PubNubController processMessage:message userState:self.buddy.blocked setView:NO];
-    //}
-}
+- (void)messageReceived:(YapMessage *)message from:(YapContact *)from text:(NSString *)text {
+    if (![self.buddy.uniqueId isEqualToString:from.uniqueId]) {
+        [WhisperBridge shout:from.displayName
+                    subtitle:text
+             backgroundColor:[UIColor clearColor]
+      toNavigationController:self.navigationController
+                       image:nil
+                silenceAfter:1.8
+                      action:nil];
+    } else {
+        message.view = YES;
+        message.read = YES;
 
-- (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
-    if ([self.buddy.uniqueId isEqualToString:objectId]) {
-        self.subTitle.text = (isTyping) ? @"Escribiendo..." : self.buddy.displayName;
+        [self.messageDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+            [message saveWithTransaction:transaction];
+        } completionBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
+                                                                object:nil
+                                                              userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
+        }];
+        self.subTitle.hidden = YES;
     }
 }
 
-- (void) fromUser:(NSString*)objectId didGoOnline:(BOOL)status {
+- (void)fromUser:(NSString*)contactId userIsTyping:(BOOL)isTyping {
+    if ([self.buddy.uniqueId isEqualToString:contactId]) {
+        if (isTyping) {
+            self.subTitle.hidden = NO;
+            self.subTitle.text = NSLocalizedString(@"conversation_subtitle_writing", nil);
+        } else {
+            self.subTitle.hidden = YES;
+        }
+    }
+}
+
+- (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status {
     if ([self.buddy.uniqueId isEqualToString:objectId]) {
         NSString *title = self.subTitle.text;
         
-        if ([title isEqualToString:@"Escribiendo..."]) {
+        if ([title isEqualToString:NSLocalizedString(@"conversation_subtitle_writing", nil)]) {
             title = self.buddy.displayName;
         }
         
@@ -954,45 +1011,49 @@
 //    navigationController1.modalPresentationStyle = UIModalPresentationFormSheet;
 //    navigationController1.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 //    ProfileViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-    // Create object business without reference
-    //Customer *bs = [Customer objectWithoutDataWithObjectId:self.buddy.uniqueId];
-    //    Account *account = [Account objectWithoutDataWithObjectId:self.buddy.uniqueId];
-    //    account.displayName = self.buddy.displayName;
-    //    NSData *data = UIImageJPEGRepresentation([[NSFileManager defaultManager] loadImageFromCache:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]], 1);
-    //    account.avatar   = [PFFile fileWithData:data];
-    //bs.businessInfo = account;
+//    
+//    // Create object business without reference
+//    Business *bs = [Business objectWithoutDataWithObjectId:self.buddy.uniqueId];
+//    NSData *data = UIImageJPEGRepresentation([[NSFileManager defaultManager] loadImageFromLibrary:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]], 1);
+//
+//    if (data) {
+//        bs.avatar = [PFFile fileWithData:data];
+//    }
+//
+//    bs.displayName = self.buddy.displayName;
+//    bs.conversaID = self.buddy.conversaId;
+//    
 //    vc.business = bs;
-//    vc.enable   = NO;
 //    [navigationController1 setViewControllers:@[vc] animated:YES];
 //    [self presentViewController:navigationController1 animated:YES completion:nil];
 }
 
 - (void)showUnblockMessage {
     UIAlertController* view = [UIAlertController
-                               alertControllerWithTitle:nil
-                               message:@"Desbloquea este contacto para enviar mensajes"
-                               preferredStyle:UIAlertControllerStyleActionSheet];
+                                alertControllerWithTitle:nil
+                                message:NSLocalizedString(@"conversation_alert_action_unblock_title", nil)
+                                preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* unblock = [UIAlertAction actionWithTitle:@"Desbloquear"
+    UIAlertAction* unblock = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock", nil)
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * action)
-                              {
-                                  self.buddy.blocked = NO;
-                                  [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                                   {
-                                       [self.buddy saveWithTransaction:transaction];
-                                   }];
-                                  
-                                  [view dismissViewControllerAnimated:YES completion:nil];
-                              }];
+    {
+        self.buddy.blocked = NO;
+        [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+        {
+            [self.buddy saveWithTransaction:transaction];
+        }];
+        
+        [view dismissViewControllerAnimated:YES completion:nil];
+    }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
-                             {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    
+    {
+        [view dismissViewControllerAnimated:YES completion:nil];
+    }];
+        
     [view addAction:unblock];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
@@ -1014,7 +1075,7 @@
                                                           selector:@selector(handleTimer:)
                                                           userInfo:cb
                                                            repeats:NO];
-        
+    
         if ([self.inputToolbar.contentView.textView hasText]) {
             //[[PubNubService sharedInstance] sendTypingStateOnChannel:[self.buddy getPrivateChannel] isTyping:YES];
         } else {
@@ -1070,7 +1131,7 @@
             } else {
                 if (sSelf) {
                     UIAlertController* view = [UIAlertController
-                                               alertControllerWithTitle:@"No se ha podido obtener tu ubicación"
+                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
                                                message:nil
                                                preferredStyle:UIAlertControllerStyleAlert];
                     
@@ -1101,6 +1162,7 @@
             [self.buddy saveWithTransaction:transaction];
         }];
     } else {
+        // Update message date to show as newer message sent
         message.date = [NSDate date];
         [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [message saveWithTransaction:transaction];
@@ -1109,14 +1171,13 @@
         }];
     }
     
-    
     if (message.getStatus == statusUploading || message.getStatus == statusParseError)
     {
         NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
                                            @{
-                                             @"user" : [Account currentUser].objectId,
-                                             @"business" : self.buddy.uniqueId,
-                                             @"messageType" : [NSNumber numberWithInt:yapMessage.messageType]
+                                             @"user" : self.buddy.uniqueId,
+                                             @"business" : [SettingsKeys getBusinessId],
+                                             @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
                                              }];
         
         switch (yapMessage.messageType) {
@@ -1126,8 +1187,8 @@
             }
             case kMessageTypeLocation: {
                 [messageNSD addEntriesFromDictionary:@{
-                                                       @"latitude": [NSNumber numberWithDouble:message.location.coordinate.latitude],
-                                                       @"longitude": [NSNumber numberWithDouble:message.location.coordinate.longitude]}];
+                                                @"latitude": [NSNumber numberWithDouble:message.location.coordinate.latitude],
+                                                @"longitude": [NSNumber numberWithDouble:message.location.coordinate.longitude]}];
                 break;
             }
             case kMessageTypeImage: {
@@ -1143,25 +1204,26 @@
         [PFCloud callFunctionInBackground:@"sendUserMessage"
                            withParameters:messageNSD
                                     block:^(id  _Nullable object, NSError * _Nullable error)
-         {
-             if(error) {
-                 // Couldn't send message
-                 //DDLogError(@"Message sent error: %@", error.localizedDescription);
-                 message.delivered = statusParseError;
-                 message.error = error.localizedDescription;
-             } else {
-                 message.delivered = statusAllDelivered;
-                 message.error = nil;
-             }
-             
-             [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                 [message saveWithTransaction:transaction];
-             }];
-         }];
+        {
+            if(error) {
+                DDLogError(@"Message sent error: %@", error.localizedDescription);
+                message.delivered = statusParseError;
+                message.error = error.localizedDescription;
+            } else {
+                message.delivered = statusAllDelivered;
+                message.error = nil;
+            }
+            
+            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+            {
+                [message saveWithTransaction:transaction];
+            }];
+        }];
     }
     
-    if (![self checkIfIsContact]) {
+    if (!self.checkIfAlreadyAdded) {
         // Notify observers a user was added
+        self.checkIfAlreadyAdded = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CHATS_NOTIFICATION_NAME
                                                             object:nil
                                                           userInfo:nil];
@@ -1174,66 +1236,70 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     UIImage *picture = compressImage(info[UIImagePickerControllerEditedImage], NO);
+        
+    // Set visible so YapNotification don't skip UI updates
+    self.visible = true;
+        
+    [self processImage:picture];
+}
+
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
     
     // Set visible so YapNotification don't skip UI updates
     self.visible = true;
     
-    [self processImage:picture];
+    if ([items count]) {
+        PHImageManager *manager = [PHImageManager defaultManager];
+        [self recursiveImageProcessing:[items copy] position:0 manager:manager];
+    }
 }
 
-//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
-//{
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//    
-//    // Set visible so YapNotification don't skip UI updates
-//    self.visible = true;
-//    
-//    if ([items count]) {
-//        PHImageManager *manager = [PHImageManager defaultManager];
-//        [self recursiveImageProcessing:[items copy] position:0 manager:manager];
-//    }
-//}
-//
-//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//}
-//
-//- (void)recursiveImageProcessing:(NSArray *)items position:(int)position manager:(PHImageManager *)manager {
-//    if (position < [items count]) {
-//        PHAsset *asset = (PHAsset *)[items objectAtIndex:position];
-//        
-//        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-//        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-//        options.synchronous = NO;
-//        options.networkAccessAllowed = NO;
-//        options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-//            NSLog(@"%f", progress); //follow progress + update progress bar
-//        };
-//        
-//        [manager requestImageDataForAsset:asset
-//                                  options:options
-//                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
-//         {
-//             if (imageData) {
-//                 [self processImage:compressImage([UIImage imageWithData:imageData], NO)];
-//                 //                 [self recursiveImageProcessing:items position:(position + 1) manager:manager];
-//             }
-//         }];
-//    }
-//}
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)recursiveImageProcessing:(NSArray *)items position:(int)position manager:(PHImageManager *)manager {
+    if (position < [items count]) {        
+        PHAsset *asset = (PHAsset *)[items objectAtIndex:position];
+        
+        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+        options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+        options.synchronous = NO;
+        options.networkAccessAllowed = NO;
+        options.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+            NSLog(@"%f", progress); //follow progress + update progress bar
+        };
+        
+        [manager requestImageDataForAsset:asset
+                                  options:options
+                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+         {
+             if (imageData) {
+                 [self processImage:compressImage([UIImage imageWithData:imageData], NO)];
+//                 [self recursiveImageProcessing:items position:(position + 1) manager:manager];
+             }
+         }];
+    }
+}
 
 - (void)processImage:(UIImage *)picture {
     NSString *imageName = GetImageName();
     NSData *imageData = UIImageJPEGRepresentation(picture, 0.4);
     // Save to Cache Directory
-    [[NSFileManager defaultManager] saveDataToCachesDirectory:imageData withName:imageName andDirectory:kMessageMediaImageLocation];
+    [[NSFileManager defaultManager] saveDataToLibraryDirectory:imageData
+                                                      withName:imageName
+                                                  andDirectory:kMessageMediaImageLocation];
     // Create message
     __block YapMessage *message = [self newYapMessageType:kMessageTypeImage
                                                    values:@{MESSAGE_FILENAME_KEY: imageName,
                                                             MESSAGE_SIZE_KEY: [NSNumber numberWithUnsignedInteger:imageData.length]}
                                                  incoming:NO];
+
     message.width = picture.size.width;
     message.height = picture.size.height;
+    message.filename = imageName;
     
     // Save so message can be inserted in collectionView
     [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
@@ -1279,16 +1345,16 @@
     self.visible = true;
     if (error) {
         UIAlertController* view = [UIAlertController
-                                   alertControllerWithTitle:@"No se pudo guardar la imagen"
+                                   alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_camara_title", nil)
                                    message:nil
                                    preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"Ok"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
+                                 actionWithTitle:@"Ok"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                 }];
         
         [view addAction:ok];
         [self presentViewController:view animated:YES completion:nil];
@@ -1299,11 +1365,11 @@
 
 -(BOOL)shouldShowLoadEarlierMessages {
     __block BOOL show = YES;
-    
+
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction){
         show = [self.messageMappings numberOfItemsInGroup:self.buddy.uniqueId] < [[transaction ext:ChatDatabaseViewExtensionName] numberOfItemsInGroup:self.buddy.uniqueId];
     }];
-    
+
     return show;
 }
 
@@ -1347,14 +1413,14 @@
         }];
         return;
     }
-    
+
     NSArray *messageRowChanges = nil;
-    
+
     [[self.databaseConnection ext:ChatDatabaseViewExtensionName] getSectionChanges:nil
                                                                         rowChanges:&messageRowChanges
                                                                   forNotifications:notifications
                                                                       withMappings:self.messageMappings];
-    
+
     if([messageRowChanges count] == 0) {
         return;
     }
@@ -1372,7 +1438,7 @@
             }
         }
     }
-    
+
     [self.collectionView performBatchUpdates:^{
         for (YapDatabaseViewRowChange *rowChange in messageRowChanges)
         {
@@ -1392,7 +1458,7 @@
                     YapMessage *message = [self messageAtIndexPath:rowChange.newIndexPath];
                     
                     if (message) {
-                        Incoming *incoming     = [[Incoming alloc] init];
+                        Incoming *incoming = [[Incoming alloc] init];
                         JSQMessage *newMessage = [incoming create:message];
                         [self.messages addObject:newMessage];
                         
@@ -1402,19 +1468,20 @@
                         isInserting = YES;
                     }
                     
-                    [self.collectionView insertItemsAtIndexPaths:@[rowChange.newIndexPath ]];
+                    [self.collectionView insertItemsAtIndexPaths:@[rowChange.newIndexPath]];
                     break;
                 }
                 case YapDatabaseViewChangeMove :
                 {
+                    [self.collectionView moveItemAtIndexPath:rowChange.indexPath toIndexPath:rowChange.newIndexPath];
                     break;
                 }
                 case YapDatabaseViewChangeUpdate :
-                {
+                {                    
                     if (shouldReloadMedia) {
                         YapMessage *message = [self messageAtIndexPath:rowChange.indexPath];
-                        Incoming *incoming  = [[Incoming alloc] init];
-                        JSQMessage *msg     = [incoming create:message];
+                        Incoming *incoming = [[Incoming alloc] init];
+                        JSQMessage *msg = [incoming create:message];
                         [self.messages replaceObjectAtIndex:rowChange.indexPath.item withObject:msg];
                     }
                     
@@ -1424,20 +1491,20 @@
             }
         }
     } completion:^(BOOL success) {
-        if (isInserting) {
-            if (isIncoming) {
-                [self finishReceivingMessage];
-                self.subTitle.text = @"";
-                if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                    [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
-                }
-            } else {
-                [self finishSendingMessage];
-                if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+            if (isInserting) {
+                if (isIncoming) {
+                    [self finishReceivingMessage];
+                    self.subTitle.text = @"";
+                    if ([SettingsKeys getMessageSoundIncoming:YES]) {
+                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                    }
+                } else {
+                    [self finishSendingMessage];
+                    if ([SettingsKeys getMessageSoundIncoming:NO]) {
+                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                    }
                 }
             }
-        }
     }];
 }
 
@@ -1452,57 +1519,56 @@
     
     if (jsqMessage.isMediaMessage) {
         if ([jsqMessage.media isKindOfClass:[PhotoMediaItem class]]) {
-            
             UIAlertAction* photo = [UIAlertAction
-                                    actionWithTitle:@"Ver imagen"
-                                    style:UIAlertActionStyleDefault
-                                    handler:^(UIAlertAction * action) {
-                                        PhotoMediaItem *mediaItem = (PhotoMediaItem *)jsqMessage.media;
-                                        NSArray *photos = [IDMPhoto photosWithImages:@[mediaItem.image]];
-                                        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:photos];
-                                        [view dismissViewControllerAnimated:YES completion:nil];
-                                        [self presentViewController:browser animated:YES completion:nil];
-                                    }];
+                                     actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_view", nil)
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action) {
+                                         PhotoMediaItem *mediaItem = (PhotoMediaItem *)jsqMessage.media;
+                                         NSArray *photos = [IDMPhoto photosWithImages:@[mediaItem.image]];
+                                         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:photos];
+                                         [view dismissViewControllerAnimated:YES completion:nil];
+                                         [self presentViewController:browser animated:YES completion:nil];
+                                     }];
             [view addAction:photo];
         } else if ([jsqMessage.media isKindOfClass:[JSQLocationMediaItem class]]) {
             UIAlertAction* location = [UIAlertAction
-                                       actionWithTitle:@"Mostrar en mapa"
-                                       style:UIAlertActionStyleDefault
-                                       handler:^(UIAlertAction * action) {
-                                           JSQLocationMediaItem *mediaItem = (JSQLocationMediaItem *)jsqMessage.media;
-                                           MapView *mapView = [[MapView alloc] initWith:mediaItem.location];
-                                           mapView.title = @"Mapa";
-                                           UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mapView];
-                                           [view dismissViewControllerAnimated:YES completion:nil];
-                                           [self presentViewController:navController animated:YES completion:nil];
-                                       }];
+                                    actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_map", nil)
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction * action) {
+                                        JSQLocationMediaItem *mediaItem = (JSQLocationMediaItem *)jsqMessage.media;
+                                        MapView *mapView = [[MapView alloc] initWith:mediaItem.location];
+                                        mapView.title = NSLocalizedString(@"mapview_controller_title", nil);
+                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mapView];
+                                        [view dismissViewControllerAnimated:YES completion:nil];
+                                        [self presentViewController:navController animated:YES completion:nil];
+                                    }];
             [view addAction:location];
         } else if([jsqMessage.media isKindOfClass:[AudioMediaItem class]]) {
             UIAlertAction* audio = [UIAlertAction
-                                    actionWithTitle:@"Reproducir audio"
-                                    style:UIAlertActionStyleDefault
-                                    handler:^(UIAlertAction * action) {
-                                        AudioMediaItem *mediaItem = (AudioMediaItem *)jsqMessage.media;
-                                        MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                                        [view dismissViewControllerAnimated:YES completion:nil];
-                                        [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                                        [moviePlayer.moviePlayer play];
-                                    }];
+                                       actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_play", nil)
+                                       style:UIAlertActionStyleDefault
+                                       handler:^(UIAlertAction * action) {
+                                           AudioMediaItem *mediaItem = (AudioMediaItem *)jsqMessage.media;
+                                           MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
+                                           [view dismissViewControllerAnimated:YES completion:nil];
+                                           [self presentMoviePlayerViewControllerAnimated:moviePlayer];
+                                           [moviePlayer.moviePlayer play];
+                                       }];
             [view addAction:audio];
             
         }
     }
     
     UIAlertAction* resend = [UIAlertAction
-                             actionWithTitle:@"Reenviar"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 // Retry
-                                 [self sendWithYapMessage:msg isLastMessage:NO withPFFile:nil];
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
+                                   actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_resend", nil)
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       // Retry
+                                       [self sendWithYapMessage:msg isLastMessage:NO withPFFile:nil];
+                                       [view dismissViewControllerAnimated:YES completion:nil];
+                                   }];
     UIAlertAction* delete = [UIAlertAction
-                             actionWithTitle:@"Eliminar"
+                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_delete", nil)
                              style:UIAlertActionStyleDestructive
                              handler:^(UIAlertAction * action) {
                                  [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
@@ -1511,7 +1577,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

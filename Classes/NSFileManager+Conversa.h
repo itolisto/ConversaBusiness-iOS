@@ -16,16 +16,21 @@
 
 #pragma mark - Load Image/Video/Audio Methods -
 
-- (UIImage*)loadImageFromCache:(NSString*)filename;
-- (NSString*)loadVideoFromCache:(NSString*)filename;
-- (NSString*)loadAudioFromCache:(NSString*)filename;
+- (UIImage*)loadAvatarFromLibrary:(NSString*)filename;
+- (UIImage*)loadImageFromLibrary:(NSString*)filename;
+- (NSString*)loadVideoFromLibrary:(NSString*)filename;
+- (NSString*)loadAudioFromLibrary:(NSString*)filename;
 
 #pragma mark - Save/Delete Data Methods -
 
 - (BOOL)saveDataToDocumentsDirectory:(NSData *)fileData withName:(NSString *)path andDirectory:(NSString *)directory;
 - (BOOL)saveDataToLibraryDirectory:(NSData *)fileData withName:(NSString *)path andDirectory:(NSString *)directory;
 - (BOOL)saveDataToCachesDirectory:(NSData *)fileData withName:(NSString *)path andDirectory:(NSString *)directory;
+
+- (BOOL)deleteDataInDocumentsDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
+- (BOOL)deleteDataInLibraryDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
 - (BOOL)deleteDataInCachesDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
+- (BOOL)deleteDataInDirectory:(NSString*)filename error:(NSError*)error;
 
 #pragma mark - Directories Methods -
 

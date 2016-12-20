@@ -23,10 +23,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     [self updateLabelWithQuality:[SettingsKeys getMessageImageQuality]];
     self.sendSoundSwitch.on = [SettingsKeys getMessageSoundIncoming:NO];
     self.receiveSoundSwitch.on = [SettingsKeys getMessageSoundIncoming:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -45,21 +51,21 @@
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* High = [UIAlertAction
-                                   actionWithTitle:@"Alta"
+                                   actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_high", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction * action) {
                                        [self updateLabelWithQuality:ConversaImageQualityHigh];
                                        [view dismissViewControllerAnimated:YES completion:nil];
                                    }];
     UIAlertAction* Medium = [UIAlertAction
-                             actionWithTitle:@"Media"
+                             actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_medium", nil)
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  [self updateLabelWithQuality:ConversaImageQualityMedium];
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* Low = [UIAlertAction
-                             actionWithTitle:@"Baja"
+                             actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_low", nil)
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  [self updateLabelWithQuality:ConversaImageQualityLow];
@@ -67,7 +73,7 @@
                              }];
     
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -84,17 +90,17 @@
     switch (quality) {
         case ConversaImageQualityHigh: {
             [SettingsKeys setMessageImageQuality:ConversaImageQualityHigh];
-            self.qualityImageLabel.text = @"Alta";
+            self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_high", nil);
             break;
         }
         case ConversaImageQualityMedium: {
             [SettingsKeys setMessageImageQuality:ConversaImageQualityMedium];
-            self.qualityImageLabel.text = @"Media";
+            self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_medium", nil);
             break;
         }
         case ConversaImageQualityLow: {
             [SettingsKeys setMessageImageQuality:ConversaImageQualityLow];
-            self.qualityImageLabel.text = @"Baja";
+            self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_low", nil);
             break;
         }
         default: {
