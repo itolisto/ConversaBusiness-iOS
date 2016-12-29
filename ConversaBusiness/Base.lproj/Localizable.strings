@@ -6,6 +6,10 @@
   Copyright © 2016 Conversa. All rights reserved.
 */
 
+"signup_check_empty_search" = "Can't search for empty field";
+"signup_contact_success" = "We'll be in contact with you ASAP";
+"signup_contact_error" = "Oops, the reclaim couldn't be filed, please try again later";
+
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
 "recover_password_sent_message" = "Password recovery link sent";
 "signup_birhtday_toolbar_done" = "Done";
@@ -24,7 +28,6 @@
 "chats_alert_action_unblock" = "Unblock";
 "chats_alert_action_block" = "Block";
 "chats_alert_action_clear_conversation" = "Clear conversation";
-"chats_alert_action_cancel" = "Cancel";
 "chats_alert_action_twelve_hours" = "12 hours";
 "chats_alert_action_one_day" = "1 day";
 "chats_alert_action_three_day" = "3 days";
@@ -35,7 +38,6 @@
 "conversation_more_alert_action_library" = "Library";
 "conversation_more_alert_action_camara" = "Camara";
 "conversation_more_alert_action_location" = "Send location";
-"conversation_more_alert_action_cancel" = "Cancel";
 "conversation_message_info_received" = "Received";
 "conversation_message_info_waiting" = "Waiting";
 "conversation_message_info_sent" = "Sent";
@@ -43,7 +45,6 @@
 "conversation_subtitle_writing" = "writing...";
 "conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
 "conversation_alert_action_unblock" = "Unblock";
-"conversation_alert_action_unblock_cancel" = "Cancel";
 "conversation_alert_action_location_title" = "We couldn't find your location";
 "conversation_alert_action_camara_title" = "Image couldn't be saved";
 
@@ -52,7 +53,6 @@
 "conversation_unsent_alert_action_play" = "Play";
 "conversation_unsent_alert_action_resend" = "Resend";
 "conversation_unsent_alert_action_delete" = "Delete";
-"conversation_unsent_alert_action_cancel" = "Cancel";
 
 "categories_searchbar_placeholder" = "Search for business, stores, etc";
 "category" = "Category";
@@ -86,8 +86,9 @@
 "cDvl63HGh9j" = "Retailers";
 "cprn5lWuEDc" = "Online & Internet";
 
-"category_results_error" = "Uphs, please try again";
-"category_results_empty" = "No results found";
+"stats_pie_chart_sent_label" = "Sent";
+"stats_pie_chart_received_label" = "Received";
+"stats_pie_chart_title_label" = "Messages";
 
 "mapview_controller_title" = "Map";
 
@@ -100,13 +101,35 @@
 "settings_account_alert_password_action_change" = "Change";
 "settings_account_alert_password_changed" = "Password changed";
 "settings_account_alert_password_not_changed" = "Password not changed";
-"settings_account_alert_cancel" = "Cancel";
 "settings_account_alert_displayname_changed" = "Name changed";
 "settings_account_alert_displayname_not_changed" = "Name not changed";
 "settings_account_logout_alert_action_logout" = "Log Out";
-"settings_account_logout_alert_action_cancel" = "Cancel";
+
+"settings_account_avatar" = "Avatar changed";
+"settings_account_avatar_error_link" = "Avatar not changed";
+"settings_account_avatar_error" = "An error ocurred while saving the avatar";
+
+"settings_account_status_online" = "Online";
+"settings_account_status_offline" = "Offline";
+"settings_account_status_away" = "Away";
+"settings_account_status_conversa" = "Defined by Conversa";
+
+"settings_account_category_limit" = "Limit: %li";
+
+"settings_account_status_message_fail" = "Status couldn't be changed. Please try again later or contact Conversa Support for more information";
+
+"settings_account_redirect_message_enable_fail" = "We couldn't enable redirection. Please try again later or contact Conversa Support for more information";
+"settings_account_redirect_message_disable_fail" = "We couldn't disable redirection. Please try again later or contact Conversa Support for more information";
+"settings_account_redirect_message" = "All your incoming messages will be redirect to Conversa to handle your communication. Are you sure you want to enable this feature?";
+
+"settings_account_profile_category_selected" = "Selected";
+"settings_account_profile_category_category" = "Categories";
 
 "settings_chat_quality_alert_action_high" = "High";
 "settings_chat_quality_alert_action_medium" = "Medium";
 "settings_chat_quality_alert_action_low" = "Low";
-"settings_chat_quality_alert_action_cancel" = "Cancel";
+
+/*
+ * Common strings
+ */
+"common_action_cancel" = "Cancelar";

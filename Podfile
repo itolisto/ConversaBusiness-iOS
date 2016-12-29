@@ -27,10 +27,6 @@ target 'ConversaManager' do
     pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
     pod 'Branch'
-    # PureLayout extends UIView/NSView, NSArray, and NSLayoutConstraint with a comprehensive Auto Layout API
-    pod 'PureLayout'
-    # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
-    pod 'TTTAttributedLabel'
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels

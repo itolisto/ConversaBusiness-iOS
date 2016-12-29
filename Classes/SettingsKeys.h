@@ -15,20 +15,29 @@ extern NSString *firstCategoriesLoad;
 extern NSString *notificationsCheck;
 // Account settings
 extern NSString *readReceiptsSwitch;
-extern NSString *customerObjectId;
-extern NSString *customerDisplayName;
-extern NSString *customerPaidPlan;
-extern NSString *customerCountry;
-extern NSString *customerConversaId;
-extern NSString *customerAbout;
-extern NSString *customerVerified;
-extern NSString *customerRedirect;
-extern NSString *customerAvatarUrl;
+extern NSString *businessObjectId;
+extern NSString *businessDisplayName;
+extern NSString *businessPaidPlan;
+extern NSString *businessCountry;
+extern NSString *businessConversaId;
+extern NSString *businessAbout;
+extern NSString *businessVerified;
+extern NSString *businessRedirect;
+extern NSString *businessAvatarUrl;
+extern NSString *businessStatus;
+extern NSString *businessCategories;
 // Notifications settings
 extern NSString *inAppSoundSwitch;
 extern NSString *inAppPreviewSwitch;
 extern NSString *soundSwitch;
 extern NSString *previewSwitch;
+
+typedef NS_ENUM(NSUInteger, BusinessStatus) {
+    Online = 0,
+    Away = 1,
+    Offline = 2,
+    Conversa = -1
+};
 
 @interface SettingsKeys : NSObject
 
@@ -57,6 +66,8 @@ extern NSString *previewSwitch;
 + (BOOL)getRedirect;
 + (void)setAvatarUrl:(NSString*)url;
 + (NSString*)getAvatarUrl;
++ (void)setStatus:(NSInteger)status;
++ (BusinessStatus)getStatus;
 
 + (void)setAccountReadSetting:(BOOL)state;
 + (BOOL)getAccountReadSetting;

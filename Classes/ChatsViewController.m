@@ -17,10 +17,11 @@
 #import "AppDelegate.h"
 #import "DatabaseView.h"
 #import "SettingsKeys.h"
-#import "Reachability.h"
+#import "UIStateButton.h"
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
 #import "OneSignalService.h"
+#import "SettingsViewController.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
@@ -33,7 +34,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UILabel *noMessagesLine1;
-@property (weak, nonatomic) IBOutlet UIButton *startBrowsingButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *startBrowsingButton;
 @property (strong, nonatomic) NSMutableArray *filteredCategories;
 @property (nonatomic, strong) NSTimer *cellUpdateTimer;
 @property (nonatomic, assign) CGPoint lastTableViewPosition;
@@ -68,9 +69,10 @@
     self.navigationItem.titleView = view;
 
     // Add border to Button
-    [[self.startBrowsingButton layer] setBorderWidth:1.0f];
-    [[self.startBrowsingButton layer] setBorderColor:[UIColor greenColor].CGColor];
-    [[self.startBrowsingButton layer] setCornerRadius:15.0f];
+    [self.startBrowsingButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [self.startBrowsingButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.startBrowsingButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
+    [self.startBrowsingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
@@ -153,8 +155,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors purpleNavbarColor];
-    [CustomAblyRealtime sharedInstance].delegate = self;
+    self.navigationController.navigationBar.barTintColor = [Colors purpleNavbar];
     [self updateBadge];
 
     if (self.reloadData) {
@@ -168,24 +169,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [CustomAblyRealtime sharedInstance].delegate = self;
-    
     self.cellUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
                                                             target:self
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
-
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable) {
-        [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                               titleColor:[UIColor whiteColor]
-                          backgroundColor:[UIColor redColor]
-                   toNavigationController:self.navigationController];
-    } else {
-        [WhisperBridge hidePermanentShout:self.navigationController];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -465,8 +453,14 @@
 
 #pragma mark - Navigation Method -
 
-- (IBAction)startBrowsingPressed:(UIButton *)sender {
-    [self.tabBarController setSelectedIndex:1];
+- (IBAction)startBrowsingPressed:(UIStateButton *)sender {
+    UIViewController *view = ((UINavigationController*)[self.tabBarController.viewControllers objectAtIndex:2]).visibleViewController;
+    
+    if ([view isKindOfClass:[SettingsViewController class]]) {
+        [view performSegueWithIdentifier:@"conversaLinkSegue" sender:nil];
+    }
+
+    [self.tabBarController setSelectedIndex:2];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -601,7 +595,7 @@
                                     [view dismissViewControllerAnimated:YES completion:nil];
                                 }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
                                  {
@@ -672,7 +666,7 @@
                                 [view dismissViewControllerAnimated:YES completion:nil];
                             }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
                              {

@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "Utilities.h"
 #import "LoginHandler.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 
@@ -21,9 +22,9 @@
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
-@property (weak, nonatomic) IBOutlet UIButton *signinButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *signinButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) UITextField *activeTextField;
 
 @end
 
@@ -40,39 +41,89 @@
     // Add delegates
     self.usernameTextField.delegate = self;
     self.passwordTextField.delegate = self;
-    // Transparent NavigationBar
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    // Add login button properties
+    [self.signinButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.signinButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.signinButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.signinButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
+    // Init scroll state
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
 
-    // Add circular borders
-    [[self.signinButton layer] setCornerRadius:borderCornerRadius];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Observer Methods -
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    if (self.activeTextField) {
+        // If active text field is hidden by keyboard, scroll it so it's visible
+        // Your app might not need or want this behavior.
+        CGRect aRect = self.view.frame;
+        aRect.size.height -= kbSize.height;
+
+        if (!CGRectContainsPoint(aRect, self.activeTextField.frame.origin) ) {
+            [self.scrollView scrollRectToVisible:self.activeTextField.frame animated:YES];
+        }
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
 
-#pragma mark - IBAction Method -
+#pragma mark - Action Methods -
 
 - (IBAction)loginButtonPressed:(UIButton *)sender {
     [self doLogin];
 }
 
-- (IBAction)backBarButtonPressed:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark - UITextFieldDelegate Methods -
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.activeTextField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.activeTextField = nil;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    
-    if (textField == self.usernameTextField)
+    if (textField == self.usernameTextField) {
         [self.passwordTextField becomeFirstResponder];
-    else
-        [self doLogin];
+    } else {
+        [textField resignFirstResponder];
+    }
     
     return YES;
 }
@@ -151,6 +202,12 @@
                          }];
     [view addAction:ok];
     [self presentViewController:view animated:YES completion:nil];
+}
+
+#pragma mark - Navigation Method -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -12,13 +12,15 @@
 #import "Account.h"
 #import "Utilities.h"
 #import "SettingsKeys.h"
+#import "UIStateButton.h"
 #import "NSFileManager+Conversa.h"
+#import "ProfileDialogViewController.h"
 
 @interface SettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *helloLabel;
-@property (weak, nonatomic) IBOutlet UIButton *viewButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *viewButton;
 
 @end
 
@@ -32,20 +34,21 @@
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 
     // Add border to Button
-    [[self.viewButton layer] setBorderWidth:1.0f];
-    [[self.viewButton layer] setBorderColor:[UIColor whiteColor].CGColor];
-    [[self.viewButton layer] setCornerRadius:15.0f];
+    [self.viewButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.viewButton setTitleColor:[Colors white] forState:UIControlStateNormal];
+    [self.viewButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.viewButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
 
     // Imagen redonda
     self.avatarImage.layer.cornerRadius = self.avatarImage.frame.size.width / 2;
     self.avatarImage.clipsToBounds = YES;
 
-    UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[[Account currentUser].objectId stringByAppendingString:@"_avatar.jpg"]];
+    UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:kAccountAvatarName];
 
     if (image) {
         self.avatarImage.image = image;
     } else {
-        self.avatarImage.image = [UIImage imageNamed:@"ic_person_female"];
+        self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
     }
 
     // Welcome
@@ -55,11 +58,25 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"EDQueueJobDidSucceed"
                                                object:nil];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:businessDisplayName
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:businessAvatarUrl
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)dealloc {
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:businessAvatarUrl];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:businessDisplayName];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)receivedNotification:(NSNotification *)notification
@@ -81,39 +98,42 @@
     }
 }
 
-- (IBAction)viewButtonPressed:(UIButton *)sender {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    //NSLog(@"KVO: %@ changed property %@ to value %@", object, keyPath, change);
+    if (keyPath == nil || change == nil || [keyPath length] == 0 || [change count] == 0) {
+        return;
+    }
 
+    if ([change valueForKey:NSKeyValueChangeNewKey] == nil) {
+        return;
+    }
+
+    if ([keyPath isEqualToString:businessDisplayName]) {
+        self.helloLabel.text = [NSString stringWithFormat:@"%@, %@", NSLocalizedString(@"settings_home_profile_hi", nil), [change valueForKey:NSKeyValueChangeNewKey]];
+    } else if ([keyPath isEqualToString:businessAvatarUrl]) {
+        UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:kAccountAvatarName];
+        if (image) {
+            self.avatarImage.image = image;
+        } else {
+            self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
+        }
+    }
 }
 
 #pragma mark - UITableViewDelegate Methods -
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([indexPath section] == 3) {
-        [self didSelectShareSetting:indexPath];
-    }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)didSelectShareSetting:(NSIndexPath*)indexPath {
-    NSString *textToShare = NSLocalizedString(@"settings_home_share_text", nil);
-    NSURL *myWebsite = [NSURL URLWithString:@"http://www.conversachat.com/"];
-    
-    NSArray *objectsToShare = @[textToShare, myWebsite];
-    
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-    
-    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
-                                   UIActivityTypePrint,
-                                   UIActivityTypeAssignToContact,
-                                   UIActivityTypeSaveToCameraRoll,
-                                   UIActivityTypeAddToReadingList,
-                                   UIActivityTypePostToFlickr,
-                                   UIActivityTypePostToVimeo];
-    
-    activityVC.excludedActivityTypes = excludeActivities;
-    
-    [self presentViewController:activityVC animated:YES completion:nil];
+#pragma mark - Navigation Method -
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"ProfileFromSettings"]) {
+        return ([SettingsKeys getBusinessId] == nil || [SettingsKeys getBusinessId].length == 0) ? NO : YES;
+    } else {
+        return YES;
+    }
 }
 
 @end

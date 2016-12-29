@@ -95,7 +95,7 @@
     self.messages = [[NSMutableArray alloc] init];
     
     // Bar tint
-    self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     
     // JSQMessagesController variables setup
     self.senderId = ([[SettingsKeys getBusinessId] length] == 0) ? @"" : [SettingsKeys getBusinessId];
@@ -152,7 +152,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
 
@@ -209,8 +209,8 @@
         UIViewController *last = [self.navigationController.viewControllers firstObject];
         if (last) {
             if ([last isKindOfClass:[ChatsViewController class]]) {
-                self.navigationController.navigationBar.barTintColor = [Colors purpleNavbarColor];
-                self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+                self.navigationController.navigationBar.barTintColor = [Colors purpleNavbar];
+                self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
             }
         }
     }
@@ -219,36 +219,6 @@
 #pragma mark - Setup Methods -
 
 - (void)loadNavigationBarInformation {
-//    __weak typeof(self) wSelf = self;
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-//        UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]];
-//        
-//        // When finished call back on the main thread:
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            typeof(self)sSelf = wSelf;
-//            if (sSelf) {
-//                UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,38,38)];
-//
-//                if (image) {
-//                    logo.image = image;
-//                } else {
-//                    [logo sd_setImageWithURL:[NSURL URLWithString:self.buddy.avatarThumbFileId]
-//                            placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
-//                }
-//
-//                logo.layer.cornerRadius = 19;
-//                logo.layer.masksToBounds = YES;
-//                
-//                UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:sSelf action:@selector(logoTapped:)];
-//                singleTap.numberOfTapsRequired = 1;
-//                [logo setUserInteractionEnabled:YES];
-//                [logo addGestureRecognizer:singleTap];
-//                
-//                sSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:logo];
-//            }
-//        });
-//    });
-
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"conversation_navigation_title", nil);
 
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 175, 20)];
@@ -351,8 +321,8 @@
 
 - (void)initializeBubbles {
     JSQMessagesBubbleImageFactory *bubbleImageFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoingColor]];
-    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incomingColor]];
+    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoing]];
+    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incoming]];
     // No avatars
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
@@ -575,7 +545,7 @@
             [view dismissViewControllerAnimated:YES completion:nil];
         }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_cancel", nil)
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
         {
@@ -604,9 +574,9 @@
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
 
     if (!message.isMediaMessage) {
-        cell.textView.textColor = [Colors blackColor];
+        cell.textView.textColor = [Colors black];
         cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
-        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [Colors blackColor],
+        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [Colors black],
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
 
@@ -764,12 +734,11 @@
 {
     YapMessage *currentMessage = [self messageAtIndexPath:indexPath];
 
-    if ( currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading ||
-         currentMessage.delivered == statusParseError
-       ) {
-        return YES;
-    } else if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
+    if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
         return NO;
+    } else if (currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading
+               || currentMessage.delivered == statusParseError) {
+        return YES;
     } else if (indexPath.item == [self.collectionView numberOfItemsInSection:indexPath.section] - 1) {
         // If is the last message and is outgoing, show message status
         return (currentMessage.isIncoming == NO);
@@ -1047,7 +1016,7 @@
         [view dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock_cancel", nil)
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
     {
@@ -1337,7 +1306,7 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     // Set visible so YapNotification don't skip UI updates
     self.visible = true;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)image:(UIImage *)image finishedSavingWithError:(NSError *) error contextInfo:(void *)contextInfo {
@@ -1577,7 +1546,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_cancel", nil)
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

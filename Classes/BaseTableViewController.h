@@ -16,4 +16,6 @@
 
 @interface BaseTableViewController : UITableViewController <ConversationListener>
 
+- (UIViewController *)topViewController;
+
 @end

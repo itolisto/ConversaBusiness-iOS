@@ -8,8 +8,10 @@
 
 #import "RecoverViewController.h"
 
+#import "Colors.h"
 #import "Utilities.h"
 #import "Constants.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 
@@ -18,27 +20,43 @@
 @interface RecoverViewController ()
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UIButton *sendPasswordButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *sendPasswordButton;
 
 @end
 
 @implementation RecoverViewController
 
+#pragma mark - Lifecycle Methods -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.emailTextField.delegate = self;
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
-
-    // Add circular borders
-    [[self.sendPasswordButton layer] setCornerRadius:borderCornerRadius];
+    // Add login button properties
+    [self.sendPasswordButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.sendPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.sendPasswordButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.sendPasswordButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
 }
+
+#pragma mark - UITextFieldDelegate Method -
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - Observer Method -
 
 - (void) dismissKeyboard {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
 }
+
+#pragma mark - Action Method -
 
 - (IBAction)recoverButtonPressed:(UIButton *)sender {
     if (isEmailValid(self.emailTextField.text)) {
@@ -93,8 +111,10 @@
     }
 }
 
-- (IBAction)backBarButtonPressed:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - Navigation Method -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

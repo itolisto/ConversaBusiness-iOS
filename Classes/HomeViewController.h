@@ -6,7 +6,7 @@
 //  Copyright © 2016 Conversa. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @interface HomeViewController : UIViewController
 

@@ -8,9 +8,6 @@
 
 #import "Constants.h"
 
-// General constants
-CGFloat const borderCornerRadius = 20.0f;
-
 // Customer class
 NSString *const kClassCustomer       = @"Customer";
 NSString *const kCustomerDisplayNameKey = @"displayName";

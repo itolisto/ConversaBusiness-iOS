@@ -8,6 +8,8 @@
 
 #import "BaseTableViewController.h"
 
+#import "Reachability.h"
+
 @interface BaseTableViewController ()
 
 @end
@@ -20,6 +22,19 @@
 {
     [super viewDidAppear:animated];
     [CustomAblyRealtime sharedInstance].delegate = self;
+
+    if (self.navigationController != nil) {
+        Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+        NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+        if (networkStatus == NotReachable) {
+            [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
+                                   titleColor:[UIColor whiteColor]
+                              backgroundColor:[UIColor redColor]
+                       toNavigationController:self.navigationController];
+        } else {
+            [WhisperBridge hidePermanentShout:self.navigationController];
+        }
+    }
 }
 
 - (void)dealloc
@@ -37,6 +52,12 @@
                    image:nil
             silenceAfter:1.8
                   action:nil];
+}
+
+#pragma mark - Controller Methods -
+
+- (UIViewController *)topViewController {
+    return [UIApplication sharedApplication].keyWindow.rootViewController;
 }
 
 @end

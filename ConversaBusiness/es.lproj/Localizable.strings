@@ -5,6 +5,10 @@
   Created by Edgar Gomez on 12/15/16.
   Copyright © 2016 Conversa. All rights reserved.
 */
+"signup_check_empty_search" = "No se puede realizar búsqueda con campo vacío";
+"signup_contact_success" = "Estaremos en contacto contigo lo más pronto posible";
+"signup_contact_error" = "Oops, el reclamo no se puedo realizar, por favor intenta más tarde";
+
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
 "signup_birhtday_toolbar_done" = "Listo";
@@ -23,7 +27,6 @@
 "chats_alert_action_unblock" = "Desbloquear";
 "chats_alert_action_block" = "Bloquear";
 "chats_alert_action_clear_conversation" = "Limpiar conversación";
-"chats_alert_action_cancel" = "Cancelar";
 "chats_alert_action_twelve_hours" = "12 horas";
 "chats_alert_action_one_day" = "1 día";
 "chats_alert_action_three_day" = "3 días";
@@ -34,7 +37,6 @@
 "conversation_more_alert_action_library" = "Librería";
 "conversation_more_alert_action_camara" = "Cámara";
 "conversation_more_alert_action_location" = "Enviar ubicación";
-"conversation_more_alert_action_cancel" = "Cancelar";
 "conversation_message_info_received" = "Recibido";
 "conversation_message_info_waiting" = "Esperando";
 "conversation_message_info_sent" = "Enviado";
@@ -42,7 +44,6 @@
 "conversation_subtitle_writing" = "escribiendo...";
 "conversation_alert_action_unblock_title" = "Desbloquea este contacto para enviar mensajes";
 "conversation_alert_action_unblock" = "Desbloquear";
-"conversation_alert_action_unblock_cancel" = "Cancelar";
 "conversation_alert_action_location_title" = "No pudimos encontrar tu ubicación";
 "conversation_alert_action_camara_title" = "La imagen no pudo ser guardada";
 
@@ -51,7 +52,6 @@
 "conversation_unsent_alert_action_play" = "Reproducir";
 "conversation_unsent_alert_action_resend" = "Reenviar";
 "conversation_unsent_alert_action_delete" = "Eliminar";
-"conversation_unsent_alert_action_cancel" = "Cancelar";
 
 "categories_searchbar_placeholder" = "Busca por negocios, tiendas, etc";
 "category" = "Categoría";
@@ -85,8 +85,9 @@
 "cDvl63HGh9j" = "Retailers";
 "cprn5lWuEDc" = "Online \u0026 Internet";
 
-"category_results_error" = "Uphs, por favor intenta de nuevo";
-"category_results_empty" = "No se encontraron resultados";
+"stats_pie_chart_sent_label" = "Enviados";
+"stats_pie_chart_received_label" = "Recibidos";
+"stats_pie_chart_title_label" = "Mensajes";
 
 "mapview_controller_title" = "Mapa";
 
@@ -99,13 +100,35 @@
 "settings_account_alert_password_action_change" = "Cambiar";
 "settings_account_alert_password_changed" = "Contraseña cambiada";
 "settings_account_alert_password_not_changed" = "Contraseña no cambiada";
-"settings_account_alert_cancel" = "Cancelar";
 "settings_account_alert_displayname_changed" = "Nombre cambiado";
 "settings_account_alert_displayname_not_changed" = "Nombre no cambiado";
 "settings_account_logout_alert_action_logout" = "Cerrar sesión";
-"settings_account_logout_alert_action_cancel" = "Cancelar";
+
+"settings_account_avatar" = "Avatar cambiado";
+"settings_account_avatar_error_link" = "Avatar no cambiado";
+"settings_account_avatar_error" = "Ocurrió un error al guardar la imagen";
+
+"settings_account_status_online" = "Conectado";
+"settings_account_status_offline" = "Desconectado";
+"settings_account_status_away" = "Fuera";
+"settings_account_status_conversa" = "Definido por Conversa";
+
+"settings_account_category_limit" = "Límite: %li";
+
+"settings_account_status_message_fail" = "Estado no se ha cambiado. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
+
+"settings_account_redirect_message_enable_fail" = "No pudimos habilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
+"settings_account_redirect_message_disable_fail" = "No pudimos deshabilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
+"settings_account_redirect_message" = "Todos tus mensajes entrantes serán dirigidos a Conversa para que maneje tu comunicación ¿Deseas activar esta característica?";
+
+"settings_account_profile_category_selected" = "Seleccionadas";
+"settings_account_profile_category_category" = "Categorias";
 
 "settings_chat_quality_alert_action_high" = "Alta";
 "settings_chat_quality_alert_action_medium" = "Media";
 "settings_chat_quality_alert_action_low" = "Baja";
-"settings_chat_quality_alert_action_cancel" = "Cancelar";
+
+/*
+ * Common strings
+ */
+"common_action_cancel" = "Cancelar";

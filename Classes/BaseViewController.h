@@ -16,4 +16,6 @@
 
 @interface BaseViewController : UIViewController <ConversationListener>
 
+- (UIViewController *)topViewController;
+
 @end

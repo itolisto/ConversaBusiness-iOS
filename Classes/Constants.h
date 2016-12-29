@@ -8,9 +8,6 @@
 
 @import UIKit;
 
-// General constants
-extern CGFloat const borderCornerRadius;
-
 // Customer class
 extern NSString *const kClassCustomer;
 extern NSString *const kCustomerDisplayNameKey;

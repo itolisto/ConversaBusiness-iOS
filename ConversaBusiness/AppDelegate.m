@@ -293,6 +293,14 @@
                             [SettingsKeys setAvatarUrl:[results objectForKey:@"av"]];
                         }
 
+                        if ([results objectForKey:@"st"] && [results objectForKey:@"st"] != [NSNull null]) {
+                            NSInteger status = [[results objectForKey:@"st"] integerValue];
+                            if (status == -1) {
+                                [SettingsKeys setRedirect:YES];
+                            }
+                            [SettingsKeys setStatus:status];
+                        }
+
                         block(EDQueueResultSuccess);
                     } else {
                         block(EDQueueResultCritical);
@@ -361,6 +369,8 @@
                  DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
                  if (error) {
                      DDLogError(@"downloadFileJob error: %@", error);
+                     [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                     error:nil];
                      block(EDQueueResultCritical);
                  } else {
                      YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
@@ -425,8 +435,7 @@
                  // Continue with filename
                  [savePath appendString:@"/"];
                  // Add requested save path
-                 [savePath appendString:[Account currentUser].objectId];
-                 [savePath appendString:@"_avatar.jpg"];
+                 [savePath appendString:kAccountAvatarName];
 
                  return [[NSURL alloc] initFileURLWithPath:savePath];
              }
@@ -435,6 +444,8 @@
                  DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
                  if (error) {
                      DDLogError(@"downloadAvatarJob error: %@", error);
+                     [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                     error:nil];
                      block(EDQueueResultCritical);
                  } else {
                      block(EDQueueResultSuccess);
@@ -442,6 +453,47 @@
              }];
 
             [downloadTask resume];
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"statusChangeJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+            NSInteger status = [[data objectForKey:@"status"] integerValue];
+
+            NSError *error;
+            [PFCloud callFunction:@"updateBusinessStatus"
+                   withParameters:@{@"status": @(status), @"objectId": [SettingsKeys getBusinessId]}
+                            error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
+            } else {
+                [SettingsKeys setStatus:status];
+                block(EDQueueResultSuccess);
+            }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"redirectToConversaJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+            BOOL redirect = [[data objectForKey:@"redirect"] boolValue];
+
+            NSError *error;
+            [PFCloud callFunction:@"updateBusinessRedirect"
+                   withParameters:@{@"redirect": @(redirect), @"objectId": [SettingsKeys getBusinessId]}
+                            error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
+            } else {
+                [SettingsKeys setRedirect:redirect];
+                if (redirect) {
+                    [SettingsKeys setStatus:Conversa];
+                } else {
+                    [SettingsKeys setStatus:Online];
+                }
+                block(EDQueueResultSuccess);
+            }
         } else {
             block(EDQueueResultCritical);
         }

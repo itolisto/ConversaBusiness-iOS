@@ -8,6 +8,8 @@
 
 @import UIKit;
 
-@interface NotificationsViewController : UITableViewController
+#import "BaseTableViewController.h"
+
+@interface NotificationsViewController : BaseTableViewController
 
 @end

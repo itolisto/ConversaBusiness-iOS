@@ -8,6 +8,8 @@
 
 @import UIKit;
 
-@interface AboutViewController : UITableViewController
+#import "BaseTableViewController.h"
+
+@interface AboutViewController : BaseTableViewController
 
 @end

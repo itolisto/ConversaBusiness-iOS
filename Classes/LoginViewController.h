@@ -7,10 +7,7 @@
 //
 
 @import UIKit;
-@class Account;
 
 @interface LoginViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
-
-@property (nonatomic, strong) Account *account;
 
 @end

@@ -64,7 +64,7 @@
         if (!lastMessage.isView) {
             //self.nameLabel.textColor = [UIColor blackColor];
             if (lastMessage.isIncoming) {
-                self.unreadMessage.backgroundColor = [Colors blueColor];
+                self.unreadMessage.backgroundColor = [Colors blue];
             }
         }
     } else {

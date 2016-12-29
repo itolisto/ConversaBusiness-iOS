@@ -9,22 +9,26 @@
 #import "RegisterViewController.h"
 
 #import "Log.h"
+#import "Image.h"
+#import "Colors.h"
+#import "Camera.h"
 #import "Account.h"
 #import "Customer.h"
 #import "Constants.h"
 #import "Utilities.h"
 #import "LoginHandler.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
+#import "RegisterCompleteViewController.h"
 
 @interface RegisterViewController ()
 
-@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
-@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
-@property (weak, nonatomic) IBOutlet UIButton *signupButton;
-
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *nameTextField;//Busines name
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *idTextField;//Conversa Id
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *categoryTextField;
+@property (weak, nonatomic) IBOutlet UIStateButton *continueButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
@@ -40,36 +44,33 @@
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
     // Add delegates
-    self.emailTextField.delegate = self;
-    self.passwordTextField.delegate = self;
+    self.nameTextField.delegate = self;
+    self.idTextField.delegate = self;
+    // Add button properties
+    [self.continueButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.continueButton setTitleColor:[Colors white] forState:UIControlStateNormal];
+    [self.continueButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.continueButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
+    // Rounded view
+    self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.width / 2;
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
-
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker setMaximumDate:[NSDate date]];
-    [datePicker addTarget:self action:@selector(updateTextField:)
-         forControlEvents:UIControlEventValueChanged];
-
-    [self.birthdayText setInputView:datePicker];
-
-    [[self.signupButton layer] setCornerRadius:borderCornerRadius];
 }
 
-- (void) dismissKeyboard {
-    //Causes the view (or one of its embedded text fields) to resign the first responder status.
-    [self.view endEditing:YES];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)resignKeyboard {
-    [self.birthdayText resignFirstResponder];
-}
+#pragma mark - Observer Methods -
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
@@ -81,27 +82,6 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 140.0, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
-
-    if ([self.birthdayText isFirstResponder]) {
-        if ([self.birthdayText inputAccessoryView] == nil) {
-            UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, keyboardFrame.size.height, self.view.frame.size.width, 44)] ;
-            [keyboardToolbar setBarStyle:UIBarStyleBlack];
-            [keyboardToolbar setTranslucent:YES];
-            [keyboardToolbar sizeToFit];
-            UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                                        target:self
-                                                                                        action:nil];
-            UIBarButtonItem *doneButton1 =[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signup_birhtday_toolbar_done", nil)
-                                                                           style:UIBarButtonItemStyleDone
-                                                                          target:self
-                                                                          action:@selector(resignKeyboard)];
-
-            NSArray *itemsArray = [NSArray arrayWithObjects:flexButton,doneButton1, nil];
-            [keyboardToolbar setItems:itemsArray];
-            [self.birthdayText setInputAccessoryView:keyboardToolbar];
-            [self.birthdayText reloadInputViews];
-        }
-    }
 }
 
 // Called when the UIKeyboardWillHideNotification is sent
@@ -112,14 +92,52 @@
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
-#pragma mark - IBAction Methods -
-
-- (IBAction)registerButtonPressed:(UIButton *)sender {
-    [self doRegister];
+- (void) dismissKeyboard {
+    //Causes the view (or one of its embedded text fields) to resign the first responder status.
+    [self.view endEditing:YES];
 }
 
-- (IBAction)backBarButtonPressed:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+-(void)resignKeyboard {
+    [self.categoryTextField resignFirstResponder];
+}
+
+#pragma mark - Action Methods -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)imageButtonPressed:(UIButton *)sender {
+    UIAlertController * view=   [UIAlertController
+                                 alertControllerWithTitle:nil
+                                 message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* photoLibrary = [UIAlertAction
+                                   actionWithTitle:@"Librería"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction * action) {
+                                       //Do some thing here
+                                       PresentPhotoLibrary(self, YES, 1);
+                                       [view dismissViewControllerAnimated:YES completion:nil];
+                                   }];
+    UIAlertAction* camera = [UIAlertAction
+                             actionWithTitle:@"Cámara"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action) {
+                                 //Do some thing here
+                                 PresentPhotoCamera(self, YES);
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:@"Cancelar"
+                             style:UIAlertActionStyleCancel
+                             handler:^(UIAlertAction * action) {
+                                 [view dismissViewControllerAnimated:YES completion:nil];
+                             }];
+    [view addAction:photoLibrary];
+    [view addAction:camera];
+    [view addAction:cancel];
+    [self presentViewController:view animated:YES completion:nil];
 }
 
 #pragma mark - UITextFieldDelegate Method -
@@ -127,88 +145,73 @@
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
-    if (textField == self.emailTextField) {
-        [self.passwordTextField becomeFirstResponder];
+    if (textField == self.nameTextField) {
+        [self.idTextField becomeFirstResponder];
+    } else if (textField == self.idTextField) {
+         [self.categoryTextField becomeFirstResponder];
     } else {
-        [self doRegister];
+        [self performSegueWithIdentifier:@"continueSignupSegue"
+                                  sender:textField];
     }
     
     return YES;
 }
 
-#pragma mark - Register Methods -
+#pragma mark - QBImagePickerControllerDelegate Methods -
 
--(void)updateTextField:(UIDatePicker *)sender
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    self.birthdayText.text = [dateFormatter stringFromDate:sender.date];
-}
-
-- (BOOL) validForm {
-    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-    hudError.mode = MBProgressHUDModeText;
-    [self.view addSubview:hudError];
-    
-    if(isEmailValid([self.emailTextField text])) {
-        if([self.passwordTextField hasText]) {
-            [hudError removeFromSuperview];
-            return YES;
-        } else {
-            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError showAnimated:YES];
-            [hudError hideAnimated:YES afterDelay:1.7];
-            [self.passwordTextField becomeFirstResponder];
-        }
-    } else {
-        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError showAnimated:YES];
-        [hudError hideAnimated:YES afterDelay:1.7];
-        [self.emailTextField becomeFirstResponder];
+    for (PHAsset *asset in items) {
+        PHImageManager *manager = [PHImageManager defaultManager];
+        [manager requestImageDataForAsset:asset
+                                  options:nil
+                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+         {
+             if (imageData) {
+                 self.avatarImageView.image = compressImage([UIImage imageWithData:imageData], NO);
+             }
+         }];
     }
-    
-    return NO;
+
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void) doRegister {
-    if([self validForm]) {
-        Account *user = [Account object];
-        NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
-        user.username = [emailPieces objectAtIndex: 0];
-        user.email = self.emailTextField.text;
-        user.password = self.passwordTextField.text;
-        // Extra fields
-        user[kUserTypeKey] = @(1);
-        
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (!error) {
-                // Register successful
-                [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-            } else {
-                // Show the errorString somewhere and let the user try again.
-                [self showErrorMessage];
-            }
-        }];
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - UIImagePickerControllerDelegate Methods -
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    self.avatarImageView.image = compressImage(info[UIImagePickerControllerEditedImage], NO);
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Navigation Methods -
+
+- (BOOL)validateFields {
+    return YES;
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"continueSignupSegue"]) {
+        // Validate fields
+        return [self validateFields];
     }
+
+    return YES;
 }
 
-- (void) showErrorMessage {
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:NSLocalizedString(@"signup_failed_message", nil)
-                                 preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"Ok"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action) {
-                             [view dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    [view addAction:ok];
-    [self presentViewController:view animated:YES completion:nil];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"continueSignupSegue"]) {
+        RegisterCompleteViewController *destination = [segue destinationViewController];
+        destination.avatar = self.avatarImageView.image;
+    }
 }
 
 @end

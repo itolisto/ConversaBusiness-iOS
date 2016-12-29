@@ -17,6 +17,20 @@
 @implementation OneSignalController
 
 + (void)processMessage:(NSDictionary *)pnMessage userState:(BOOL)state setView:(BOOL)view {
+    /*
+     * Process:
+     *
+     * 1. Incoming message
+     * 2. Account name changed [ok]
+     * 3. Account conversa id changed [ok]
+     * 4. Account status changed [ok]
+     * 5. Account redirect changed [ok]
+     * 6. Account categories changed [ok]
+     * 7. Account verified changed [ok]
+     * 8. Account plan changed [ok]
+     *
+     */
+
 //    if (state) {
 //        // NO DESCARGAR MENSAJE
 //    } else {

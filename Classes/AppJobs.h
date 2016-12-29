@@ -15,5 +15,7 @@
 + (void)addBusinessDataJob;
 + (void)addDownloadFileJob:(NSString*)messageId url:(NSString*)url messageType:(NSInteger)messageType;
 + (void)addDownloadAvatarJob:(NSString*)url;
++ (void)addStatusChangeJob:(NSInteger)status oldStatus:(NSInteger)old;
++ (void)addRedirectToConversaJob:(BOOL)redirect;
 
 @end

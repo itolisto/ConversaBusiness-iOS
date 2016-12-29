@@ -1,90 +1,82 @@
 
-/* Class = "UILabel"; text = "Sonido"; ObjectID = "1By-Hl-Jyn"; */
-"1By-Hl-Jyn.text" = "Sonido";
+/* Class = "UILabel"; text = "0"; ObjectID = "1Yt-bu-kNK"; */
+"1Yt-bu-kNK.text" = "0";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "1ZH-NC-7k0"; */
-"1ZH-NC-7k0.text" = "Label";
+/* Class = "UITextField"; placeholder = "BUSINESS NAME"; ObjectID = "2We-VX-9lS"; */
+"2We-VX-9lS.placeholder" = "BUSINESS NAME";
 
-/* Class = "UINavigationItem"; title = "Ajustes"; ObjectID = "1qh-Sw-EP5"; */
-"1qh-Sw-EP5.title" = "Ajustes";
+/* Class = "UILabel"; text = "Email"; ObjectID = "3Zw-Au-hRf"; */
+"3Zw-Au-hRf.text" = "Email";
 
-/* Class = "UILabel"; text = "Conversa ID"; ObjectID = "2Lt-su-wEy"; */
-"2Lt-su-wEy.text" = "Conversa ID";
-
-/* Class = "UILabel"; text = "Email"; ObjectID = "3Zi-ag-N5n"; */
-"3Zi-ag-N5n.text" = "Email";
-
-/* Class = "UILabel"; text = "conversaId"; ObjectID = "3hK-YI-Mj8"; */
-"3hK-YI-Mj8.text" = "conversaId";
-
-/* Class = "UILabel"; text = "Recuerda aprovecharlos."; ObjectID = "3mv-C1-mD2"; */
-"3mv-C1-mD2.text" = "Recuerda aprovecharlos.";
+/* Class = "UILabel"; text = "BY SIGNING UP YOU ARE ACCEPTING OUR
+TERMS AND PRIVACY POLICIES"; ObjectID = "3dB-Gy-B7T"; */
+"3dB-Gy-B7T.text" = "BY SIGNING UP YOU ARE ACCEPTING OUR
+TERMS AND PRIVACY POLICIES";
 
 /* Class = "UITabBarItem"; title = "Chats"; ObjectID = "3p4-4v-vme"; */
 "3p4-4v-vme.title" = "Chats";
 
-/* Class = "UILabel"; text = "Support"; ObjectID = "4Cg-eG-d5C"; */
-"4Cg-eG-d5C.text" = "Support";
+/* Class = "UILabel"; text = "Help & Support"; ObjectID = "4Cg-eG-d5C"; */
+"4Cg-eG-d5C.text" = "Help & Support";
 
-/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe un mensaje"; ObjectID = "4zQ-jb-iz6"; */
-"4zQ-jb-iz6.footerTitle" = "Sonido cuando se recibe un mensaje";
+/* Class = "UIButton"; normalTitle = "Retry"; ObjectID = "4fO-Ff-hZg"; */
+"4fO-Ff-hZg.normalTitle" = "Retry";
 
-/* Class = "UITableViewSection"; headerTitle = "Notificaciones In-App"; ObjectID = "4zQ-jb-iz6"; */
-"4zQ-jb-iz6.headerTitle" = "Notificaciones In-App";
+/* Class = "UIButton"; normalTitle = "CONTINUE"; ObjectID = "51d-LF-e24"; */
+"51d-LF-e24.normalTitle" = "CONTINUE";
 
-/* Class = "UILabel"; text = "Chat"; ObjectID = "59K-7n-tdC"; */
-"59K-7n-tdC.text" = "Chat";
+/* Class = "UITableViewController"; title = "Status"; ObjectID = "5fT-YR-Fke"; */
+"5fT-YR-Fke.title" = "Status";
 
-/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "5BS-7R-Jp8"; */
-"5BS-7R-Jp8.text" = "Mostrar vista previa";
+/* Class = "UITableViewSection"; footerTitle = "Enable if you want Conversa to receive all the messages directed to your account"; ObjectID = "5fr-ry-LKw"; */
+"5fr-ry-LKw.footerTitle" = "Enable if you want Conversa to receive all the messages directed to your account";
 
-/* Class = "UILabel"; text = "Nombre"; ObjectID = "5aa-jD-Ulo"; */
-"5aa-jD-Ulo.text" = "Nombre";
+/* Class = "UITableViewSection"; headerTitle = "Assistance"; ObjectID = "5fr-ry-LKw"; */
+"5fr-ry-LKw.headerTitle" = "Assistance";
 
-/* Class = "UITableViewController"; title = "Ajustes"; ObjectID = "62K-a3-NU0"; */
-"62K-a3-NU0.title" = "Ajustes";
+/* Class = "UILabel"; text = "Oops"; ObjectID = "67F-WW-DwR"; */
+"67F-WW-DwR.text" = "Oops";
 
 /* Class = "UINavigationItem"; title = "Chats"; ObjectID = "6PW-zo-r0X"; */
 "6PW-zo-r0X.title" = "Chats";
 
-/* Class = "UILabel"; text = "Name"; ObjectID = "6pR-z2-ImA"; */
-"6pR-z2-ImA.text" = "Name";
+/* Class = "UITextField"; placeholder = "BUSINESS NAME"; ObjectID = "6bE-Ek-bNU"; */
+"6bE-Ek-bNU.placeholder" = "BUSINESS NAME";
 
-/* Class = "UILabel"; text = "conversaId"; ObjectID = "84f-Im-F4m"; */
-"84f-Im-F4m.text" = "conversaId";
+/* Class = "UITableViewSection"; headerTitle = "Edit profile"; ObjectID = "6lr-aZ-kwb"; */
+"6lr-aZ-kwb.headerTitle" = "Edit profile";
 
-/* Class = "UILabel"; text = "CHAT WITH ANY BUSINESS SIMPLE. FAST. EFFECTIVE."; ObjectID = "863-Pl-aUl"; */
-"863-Pl-aUl.text" = "CHAT WITH ANY BUSINESS SIMPLE. FAST. EFFECTIVE.";
+/* Class = "UILabel"; text = "LET YOUR CUSTOMERS TALK
+TO YOU IN A SIMPLER WAY"; ObjectID = "863-Pl-aUl"; */
+"863-Pl-aUl.text" = "LET YOUR CUSTOMERS TALK
+TO YOU IN A SIMPLER WAY";
 
-/* Class = "UITextField"; placeholder = "Nombre para mostrar"; ObjectID = "9ur-p1-iMb"; */
-"9ur-p1-iMb.placeholder" = "Nombre para mostrar";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "9w6-OQ-MeR"; */
-"9w6-OQ-MeR.text" = "Label";
+/* Class = "UILabel"; text = "My Name"; ObjectID = "8U9-Qg-xV5"; */
+"8U9-Qg-xV5.text" = "My Name";
 
 /* Class = "UILabel"; text = "FORGOT PASSWORD"; ObjectID = "Amz-1D-cFB"; */
 "Amz-1D-cFB.text" = "FORGOT PASSWORD";
 
+/* Class = "UILabel"; text = "Away"; ObjectID = "B98-Cx-ynG"; */
+"B98-Cx-ynG.text" = "Away";
+
+/* Class = "UIButton"; normalTitle = "REGISTER NOW"; ObjectID = "BWS-JQ-zZn"; */
+"BWS-JQ-zZn.normalTitle" = "REGISTER NOW";
+
 /* Class = "UISearchBar"; placeholder = "Search in your chats"; ObjectID = "Bd3-bU-iPS"; */
 "Bd3-bU-iPS.placeholder" = "Search in your chats";
 
-/* Class = "UITextField"; placeholder = "Nombre de usuario"; ObjectID = "Bsm-B1-lhg"; */
-"Bsm-B1-lhg.placeholder" = "Nombre de usuario";
+/* Class = "UITableViewSection"; footerTitle = "Conversa status ocurres when you enable \"Redirect to Conversa\". To be able to change your status disable redirection."; ObjectID = "CRb-fH-ifj"; */
+"CRb-fH-ifj.footerTitle" = "Conversa status ocurres when you enable \"Redirect to Conversa\". To be able to change your status disable redirection.";
 
-/* Class = "UILabel"; text = "Cerrar sesión"; ObjectID = "C10-rU-2iX"; */
-"C10-rU-2iX.text" = "Cerrar sesión";
+/* Class = "UITableViewSection"; headerTitle = "Select your status"; ObjectID = "CRb-fH-ifj"; */
+"CRb-fH-ifj.headerTitle" = "Select your status";
 
-/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "C41-Fy-83f"; */
-"C41-Fy-83f.text" = "Mostrar vista previa";
-
-/* Class = "UILabel"; text = "LOGIN"; ObjectID = "CEG-rk-0N8"; */
-"CEG-rk-0N8.text" = "LOGIN";
+/* Class = "UILabel"; text = "Display name"; ObjectID = "CW6-2n-YmO"; */
+"CW6-2n-YmO.text" = "Display name";
 
 /* Class = "UITableViewController"; title = "My Account"; ObjectID = "DEV-eP-hZe"; */
 "DEV-eP-hZe.title" = "My Account";
-
-/* Class = "UITextField"; placeholder = "PASSWORD"; ObjectID = "DT1-xB-KJ6"; */
-"DT1-xB-KJ6.placeholder" = "PASSWORD";
 
 /* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "EE9-3h-K2J"; */
 "EE9-3h-K2J.placeholder" = "EMAIL";
@@ -92,8 +84,11 @@
 /* Class = "UILabel"; text = "Sending a message"; ObjectID = "Eaz-u0-vtu"; */
 "Eaz-u0-vtu.text" = "Sending a message";
 
-/* Class = "UITableViewSection"; headerTitle = "Information"; ObjectID = "FJV-lH-tuc"; */
-"FJV-lH-tuc.headerTitle" = "Information";
+/* Class = "UILabel"; text = "Messages Sent"; ObjectID = "EbU-A3-q0y"; */
+"EbU-A3-q0y.text" = "Messages Sent";
+
+/* Class = "UITableViewSection"; headerTitle = "Private Information"; ObjectID = "FJV-lH-tuc"; */
+"FJV-lH-tuc.headerTitle" = "Private Information";
 
 /* Class = "UILabel"; text = "Sound"; ObjectID = "Ffi-mj-PoF"; */
 "Ffi-mj-PoF.text" = "Sound";
@@ -101,95 +96,66 @@
 /* Class = "UILabel"; text = "Show preview"; ObjectID = "Fg1-1V-fvA"; */
 "Fg1-1V-fvA.text" = "Show preview";
 
-/* Class = "UILabel"; text = "Notificaciones"; ObjectID = "Fj7-fC-UDO"; */
-"Fj7-fC-UDO.text" = "Notificaciones";
+/* Class = "UITableViewController"; title = "Notifications & Sounds"; ObjectID = "GYO-Cp-JUi"; */
+"GYO-Cp-JUi.title" = "Notifications & Sounds";
 
-/* Class = "UISearchBar"; placeholder = "Search"; ObjectID = "G4i-oV-6qv"; */
-"G4i-oV-6qv.placeholder" = "Search";
+/* Class = "UILabel"; text = "Categories"; ObjectID = "H4x-CD-iVN"; */
+"H4x-CD-iVN.text" = "Categories";
 
-/* Class = "UILabel"; text = "Business name"; ObjectID = "GE9-MA-gZr"; */
-"GE9-MA-gZr.text" = "Business name";
-
-/* Class = "UITableViewController"; title = "Notifications"; ObjectID = "GYO-Cp-JUi"; */
-"GYO-Cp-JUi.title" = "Notifications";
-
-/* Class = "UILabel"; text = "tus clientes te encontrarán."; ObjectID = "HGI-Vb-O0M"; */
-"HGI-Vb-O0M.text" = "tus clientes te encontrarán.";
-
-/* Class = "UITableViewSection"; headerTitle = "Información básica"; ObjectID = "HXw-AP-orc"; */
-"HXw-AP-orc.headerTitle" = "Información básica";
-
-/* Class = "UITextField"; placeholder = "PASSWORD"; ObjectID = "Hw7-YE-rHu"; */
-"Hw7-YE-rHu.placeholder" = "PASSWORD";
-
-/* Class = "UILabel"; text = "Favorite"; ObjectID = "HxL-rP-vNE"; */
-"HxL-rP-vNE.text" = "Favorite";
+/* Class = "UITableViewSection"; headerTitle = "BASIC INFORMATION"; ObjectID = "HXw-AP-orc"; */
+"HXw-AP-orc.headerTitle" = "BASIC INFORMATION";
 
 /* Class = "UILabel"; text = "Sound"; ObjectID = "IQ1-X2-WVl"; */
 "IQ1-X2-WVl.text" = "Sound";
 
-/* Class = "UITextField"; placeholder = "Cambiar contraseña"; ObjectID = "IeJ-aN-q92"; */
-"IeJ-aN-q92.placeholder" = "Cambiar contraseña";
+/* Class = "UITextField"; placeholder = "CONTACT NUMBER"; ObjectID = "J6Q-3q-c9b"; */
+"J6Q-3q-c9b.placeholder" = "CONTACT NUMBER";
+
+/* Class = "UIButton"; normalTitle = "SIGN UP"; ObjectID = "Jdv-yh-J9h"; */
+"Jdv-yh-J9h.normalTitle" = "SIGN UP";
 
 /* Class = "UITableViewSection"; footerTitle = "Text preview when receiving a push notification"; ObjectID = "Jpw-G9-KhF"; */
 "Jpw-G9-KhF.footerTitle" = "Text preview when receiving a push notification";
 
-/* Class = "UILabel"; text = "Calidad de imagen"; ObjectID = "JwT-VO-smm"; */
-"JwT-VO-smm.text" = "Calidad de imagen";
+/* Class = "UIButton"; normalTitle = "LOGIN"; ObjectID = "K9C-2L-oDd"; */
+"K9C-2L-oDd.normalTitle" = "LOGIN";
 
-/* Class = "UILabel"; text = "Blocked"; ObjectID = "L9l-jB-Hd0"; */
-"L9l-jB-Hd0.text" = "Blocked";
+/* Class = "UIButton"; normalTitle = "Share my ConversaLink"; ObjectID = "KNw-aV-SAe"; */
+"KNw-aV-SAe.normalTitle" = "Share my ConversaLink";
 
-/* Class = "UIButton"; normalTitle = "Contáctanos"; ObjectID = "LCj-VV-If6"; */
-"LCj-VV-If6.normalTitle" = "Contáctanos";
+/* Class = "UIButton"; normalTitle = "View my profile"; ObjectID = "KiC-al-rz3"; */
+"KiC-al-rz3.normalTitle" = "View my profile";
 
-/* Class = "UILabel"; text = "Cuenta"; ObjectID = "LTC-GT-kSW"; */
-"LTC-GT-kSW.text" = "Cuenta";
+/* Class = "UIButton"; selectedTitle = "View"; ObjectID = "KiC-al-rz3"; */
+"KiC-al-rz3.selectedTitle" = "View";
 
-/* Class = "UITextField"; placeholder = "Email"; ObjectID = "MWN-gx-gCV"; */
-"MWN-gx-gCV.placeholder" = "Email";
+/* Class = "UILabel"; text = "What is it?"; ObjectID = "L9j-nW-XuY"; */
+"L9j-nW-XuY.text" = "What is it?";
 
-/* Class = "UILabel"; text = "Display name/Username"; ObjectID = "Mg0-A3-ff6"; */
-"Mg0-A3-ff6.text" = "Display name/Username";
+/* Class = "UITextField"; placeholder = "PASSWORD"; ObjectID = "MKO-55-CNj"; */
+"MKO-55-CNj.placeholder" = "PASSWORD";
 
-/* Class = "UILabel"; text = "Quality"; ObjectID = "Mx3-UE-CN3"; */
-"Mx3-UE-CN3.text" = "Quality";
+/* Class = "UILabel"; text = "Favorite"; ObjectID = "MMl-dW-1m3"; */
+"MMl-dW-1m3.text" = "Favorite";
 
-/* Class = "UILabel"; text = "Bloquear"; ObjectID = "NKY-57-vxs"; */
-"NKY-57-vxs.text" = "Bloquear";
+/* Class = "UILabel"; text = "0"; ObjectID = "MRU-rV-frB"; */
+"MRU-rV-frB.text" = "0";
 
-/* Class = "UILabel"; text = "conversaID"; ObjectID = "NVv-Uk-83T"; */
-"NVv-Uk-83T.text" = "conversaID";
+/* Class = "UIButton"; normalTitle = "Skip"; ObjectID = "MTP-gB-Kd2"; */
+"MTP-gB-Kd2.normalTitle" = "Skip";
 
-/* Class = "UITableViewSection"; footerTitle = "Enviar imágenes con mejor calidad consume más datos"; ObjectID = "NYK-2n-be4"; */
-"NYK-2n-be4.footerTitle" = "Enviar imágenes con mejor calidad consume más datos";
+/* Class = "UILabel"; text = "Offline"; ObjectID = "Pz8-MJ-z6V"; */
+"Pz8-MJ-z6V.text" = "Offline";
 
-/* Class = "UITableViewSection"; headerTitle = "Mensajes"; ObjectID = "NYK-2n-be4"; */
-"NYK-2n-be4.headerTitle" = "Mensajes";
+/* Class = "UITextField"; placeholder = "MY NAME"; ObjectID = "QQ6-Tz-Sq6"; */
+"QQ6-Tz-Sq6.placeholder" = "MY NAME";
 
-/* Class = "UILabel"; text = "SIGN UP"; ObjectID = "Nwv-cq-7Ao"; */
-"Nwv-cq-7Ao.text" = "SIGN UP";
-
-/* Class = "UILabel"; text = "12/12/2015"; ObjectID = "ONd-WX-P48"; */
-"ONd-WX-P48.text" = "12/12/2015";
-
-/* Class = "UILabel"; text = "Password"; ObjectID = "OSn-Dg-yUW"; */
-"OSn-Dg-yUW.text" = "Password";
-
-/* Class = "UITextField"; placeholder = "Cambiar contraseña"; ObjectID = "PFn-Qx-dlW"; */
-"PFn-Qx-dlW.placeholder" = "Cambiar contraseña";
-
-/* Class = "UILabel"; text = "Category name"; ObjectID = "QTF-CF-YAH"; */
-"QTF-CF-YAH.text" = "Category name";
-
-/* Class = "UILabel"; text = "Contraseña"; ObjectID = "QXI-uB-gVu"; */
-"QXI-uB-gVu.text" = "Contraseña";
-
-/* Class = "UILabel"; text = "Soporte técnico"; ObjectID = "QeF-d5-XoG"; */
-"QeF-d5-XoG.text" = "Soporte técnico";
-
-/* Class = "UILabel"; text = "Opciones"; ObjectID = "QhN-eU-n8z"; */
-"QhN-eU-n8z.text" = "Opciones";
+/* Class = "UILabel"; text = "It seems this business is\nnot registered yet but
+don't worry you can register
+it now"; ObjectID = "QXY-Eb-J3u"; */
+"QXY-Eb-J3u.text" = "It seems this business is\nnot registered yet but
+don't worry you can register
+it now";
 
 /* Class = "UITableViewSection"; footerTitle = "Sending images with higher quality uses more data"; ObjectID = "QnM-u4-o0n"; */
 "QnM-u4-o0n.footerTitle" = "Sending images with higher quality uses more data";
@@ -200,17 +166,37 @@
 /* Class = "UILabel"; text = "Title"; ObjectID = "REF-1z-mAp"; */
 "REF-1z-mAp.text" = "Title";
 
-/* Class = "UILabel"; text = "When you have messages you'll see them here"; ObjectID = "Sb9-Ly-eQ6"; */
-"Sb9-Ly-eQ6.text" = "When you have messages you'll see them here";
+/* Class = "UILabel"; text = "Conversa"; ObjectID = "RSE-0C-R62"; */
+"RSE-0C-R62.text" = "Conversa";
+
+/* Class = "UILabel"; text = "RESULTS"; ObjectID = "Ro7-sO-yWw"; */
+"Ro7-sO-yWw.text" = "RESULTS";
+
+/* Class = "UINavigationItem"; title = "Stats"; ObjectID = "Ry0-Bi-wZV"; */
+"Ry0-Bi-wZV.title" = "Stats";
+
+/* Class = "UILabel"; text = "View & Share my ConversaLink"; ObjectID = "S7P-tL-c6b"; */
+"S7P-tL-c6b.text" = "View & Share my ConversaLink";
+
+/* Class = "UILabel"; text = "When you have messages
+you'll see them here"; ObjectID = "Sb9-Ly-eQ6"; */
+"Sb9-Ly-eQ6.text" = "When you have messages
+you'll see them here";
+
+/* Class = "UILabel"; text = "Favs"; ObjectID = "T5C-4b-YS3"; */
+"T5C-4b-YS3.text" = "Favs";
 
 /* Class = "UILabel"; text = "Privacy Policies"; ObjectID = "T74-hx-Xk4"; */
 "T74-hx-Xk4.text" = "Privacy Policies";
 
-/* Class = "UIButton"; normalTitle = "Start browsing"; ObjectID = "T8W-bg-pEm"; */
-"T8W-bg-pEm.normalTitle" = "Start browsing";
+/* Class = "UIButton"; normalTitle = "Share my ConversaLink"; ObjectID = "T8W-bg-pEm"; */
+"T8W-bg-pEm.normalTitle" = "Share my ConversaLink";
 
-/* Class = "UIButton"; normalTitle = "Editar"; ObjectID = "TB7-Ep-ba6"; */
-"TB7-Ep-ba6.normalTitle" = "Editar";
+/* Class = "UILabel"; text = "conversaID"; ObjectID = "T9M-7I-4K7"; */
+"T9M-7I-4K7.text" = "conversaID";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "TB7-Ep-ba6"; */
+"TB7-Ep-ba6.normalTitle" = "Edit";
 
 /* Class = "UITableViewSection"; footerTitle = "When receiving a message"; ObjectID = "TIO-Fs-dDp"; */
 "TIO-Fs-dDp.footerTitle" = "When receiving a message";
@@ -218,20 +204,26 @@
 /* Class = "UITableViewSection"; headerTitle = "In-App Notifications"; ObjectID = "TIO-Fs-dDp"; */
 "TIO-Fs-dDp.headerTitle" = "In-App Notifications";
 
-/* Class = "UILabel"; text = "username"; ObjectID = "TYr-T5-4PM"; */
-"TYr-T5-4PM.text" = "username";
-
-/* Class = "UINavigationItem"; title = "Explore"; ObjectID = "TkM-iK-HD4"; */
-"TkM-iK-HD4.title" = "Explore";
+/* Class = "UILabel"; text = "Followers"; ObjectID = "TjR-lD-1fw"; */
+"TjR-lD-1fw.text" = "Followers";
 
 /* Class = "UILabel"; text = "No Messages"; ObjectID = "Tnr-hr-iI6"; */
 "Tnr-hr-iI6.text" = "No Messages";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "UW5-od-3TC"; */
-"UW5-od-3TC.text" = "Label";
+/* Class = "UILabel"; text = "Type your business name
+below to check if it is already
+registered in Conversa otherwise
+you can proceed to register it"; ObjectID = "Ugv-2b-tOG"; */
+"Ugv-2b-tOG.text" = "Type your business name
+below to check if it is already
+registered in Conversa otherwise
+you can proceed to register it";
 
-/* Class = "UIButton"; normalTitle = "forgot password?"; ObjectID = "V4x-FB-FDR"; */
-"V4x-FB-FDR.normalTitle" = "forgot password?";
+/* Class = "UIButton"; normalTitle = "forgot password?"; ObjectID = "UxG-wK-WID"; */
+"UxG-wK-WID.normalTitle" = "forgot password?";
+
+/* Class = "UITextField"; placeholder = "PICK YOUR CONVERSA ID"; ObjectID = "VK0-sh-ovg"; */
+"VK0-sh-ovg.placeholder" = "PICK YOUR CONVERSA ID";
 
 /* Class = "UILabel"; text = "Log Out"; ObjectID = "VPq-Vp-kni"; */
 "VPq-Vp-kni.text" = "Log Out";
@@ -239,122 +231,129 @@
 /* Class = "UIButton"; normalTitle = "SIGN UP"; ObjectID = "VUH-TY-EVb"; */
 "VUH-TY-EVb.normalTitle" = "SIGN UP";
 
-/* Class = "UITextField"; placeholder = "your birthday?"; ObjectID = "VbA-en-NkL"; */
-"VbA-en-NkL.placeholder" = "your birthday?";
+/* Class = "UIButton"; normalTitle = "RECLAIM"; ObjectID = "WMv-EL-k66"; */
+"WMv-EL-k66.normalTitle" = "RECLAIM";
+
+/* Class = "UITableViewSection"; footerTitle = "This are the categories your business will be related to"; ObjectID = "X1F-CH-hTa"; */
+"X1F-CH-hTa.footerTitle" = "This are the categories your business will be related to";
+
+/* Class = "UITableViewSection"; headerTitle = "GENERAL INFORMATION"; ObjectID = "X1F-CH-hTa"; */
+"X1F-CH-hTa.headerTitle" = "GENERAL INFORMATION";
+
+/* Class = "UILabel"; text = "edit"; ObjectID = "XQe-Id-CKH"; */
+"XQe-Id-CKH.text" = "edit";
 
 /* Class = "UITableViewSection"; footerTitle = "Text preview when receiving a message"; ObjectID = "XWR-1t-yiQ"; */
 "XWR-1t-yiQ.footerTitle" = "Text preview when receiving a message";
 
-/* Class = "UILabel"; text = "Agrega los hashtags con los cuales"; ObjectID = "Xyq-N2-1JS"; */
-"Xyq-N2-1JS.text" = "Agrega los hashtags con los cuales";
+/* Class = "UILabel"; text = "Online"; ObjectID = "XmK-6j-vco"; */
+"XmK-6j-vco.text" = "Online";
 
-/* Class = "UITableViewSection"; footerTitle = "Enviar notificación de mensaje leído"; ObjectID = "ZCE-pN-bZw"; */
-"ZCE-pN-bZw.footerTitle" = "Enviar notificación de mensaje leído";
-
-/* Class = "UITableViewSection"; headerTitle = "Privacidad"; ObjectID = "ZCE-pN-bZw"; */
-"ZCE-pN-bZw.headerTitle" = "Privacidad";
+/* Class = "UITextField"; placeholder = "COUNTRY"; ObjectID = "YSv-DL-in4"; */
+"YSv-DL-in4.placeholder" = "COUNTRY";
 
 /* Class = "UILabel"; text = "Chats"; ObjectID = "ZRq-EV-zJi"; */
 "ZRq-EV-zJi.text" = "Chats";
 
-/* Class = "UILabel"; text = "editar"; ObjectID = "ZkT-CL-RiP"; */
-"ZkT-CL-RiP.text" = "editar";
+/* Class = "UILabel"; text = "Redirect to Conversa"; ObjectID = "Zxg-NL-JOY"; */
+"Zxg-NL-JOY.text" = "Redirect to Conversa";
 
-/* Class = "UILabel"; text = "Chats"; ObjectID = "ZrQ-61-AMb"; */
-"ZrQ-61-AMb.text" = "Chats";
+/* Class = "UILabel"; text = "Profile Views"; ObjectID = "Zzb-ol-jCD"; */
+"Zzb-ol-jCD.text" = "Profile Views";
 
-/* Class = "UILabel"; text = "LOOKING TO SIGN UP YOUR BUSINESS? CLICK HERE"; ObjectID = "ZwY-Ej-CNl"; */
-"ZwY-Ej-CNl.text" = "LOOKING TO SIGN UP YOUR BUSINESS? CLICK HERE";
+/* Class = "UIViewController"; title = "Help & Support"; ObjectID = "aPc-ff-FZW"; */
+"aPc-ff-FZW.title" = "Help & Support";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "aIK-LC-dsm"; */
-"aIK-LC-dsm.text" = "Label";
+/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "asJ-wl-OWe"; */
+"asJ-wl-OWe.placeholder" = "EMAIL";
 
-/* Class = "UILabel"; text = "Email"; ObjectID = "aL6-VE-VYJ"; */
-"aL6-VE-VYJ.text" = "Email";
+/* Class = "UITextField"; placeholder = "PASSWORD"; ObjectID = "bSv-ZV-kmW"; */
+"bSv-ZV-kmW.placeholder" = "PASSWORD";
 
-/* Class = "UIViewController"; title = "Support"; ObjectID = "aPc-ff-FZW"; */
-"aPc-ff-FZW.title" = "Support";
+/* Class = "UILabel"; text = "Share"; ObjectID = "bb6-PJ-y4a"; */
+"bb6-PJ-y4a.text" = "Share";
 
-/* Class = "UILabel"; text = "No puedo responder ahora"; ObjectID = "aUO-W1-zce"; */
-"aUO-W1-zce.text" = "No puedo responder ahora";
-
-/* Class = "UILabel"; text = "Usuario"; ObjectID = "agm-7s-hFd"; */
-"agm-7s-hFd.text" = "Usuario";
-
-/* Class = "UILabel"; text = "Followers"; ObjectID = "aov-Oy-kb4"; */
-"aov-Oy-kb4.text" = "Followers";
+/* Class = "UILabel"; text = "0"; ObjectID = "bc3-nj-GgC"; */
+"bc3-nj-GgC.text" = "0";
 
 /* Class = "UIButton"; normalTitle = "SEND"; ObjectID = "c92-NY-MZ0"; */
 "c92-NY-MZ0.normalTitle" = "SEND";
 
-/* Class = "UITextField"; placeholder = "Nombre de negocio"; ObjectID = "cLT-xo-ZB1"; */
-"cLT-xo-ZB1.placeholder" = "Nombre de negocio";
-
-/* Class = "UILabel"; text = "No results found"; ObjectID = "ccK-3a-Rhp"; */
-"ccK-3a-Rhp.text" = "No results found";
-
 /* Class = "UIButton"; normalTitle = "LOGIN"; ObjectID = "crA-n2-Ui5"; */
 "crA-n2-Ui5.normalTitle" = "LOGIN";
 
-/* Class = "UILabel"; text = "Acerca de y Soporte"; ObjectID = "dEi-Tx-SQ4"; */
-"dEi-Tx-SQ4.text" = "Acerca de y Soporte";
-
-/* Class = "UILabel"; text = "No results found"; ObjectID = "dfu-kb-y7W"; */
-"dfu-kb-y7W.text" = "No results found";
+/* Class = "UITextField"; placeholder = "JOB TITLE"; ObjectID = "dEi-eb-C4K"; */
+"dEi-eb-C4K.placeholder" = "JOB TITLE";
 
 /* Class = "UILabel"; text = "ALREADY HAVE AN ACCOUNT?"; ObjectID = "dnS-h8-x9z"; */
 "dnS-h8-x9z.text" = "ALREADY HAVE AN ACCOUNT?";
 
-/* Class = "UILabel"; text = "Last message"; ObjectID = "drl-Nr-oa0"; */
-"drl-Nr-oa0.text" = "Last message";
+/* Class = "UILabel"; text = "Your ConversaLink is a special
+link with which anyone can
+start a chat with you when
+they click on it.
 
-/* Class = "UITableViewController"; title = "Chat"; ObjectID = "ehD-eL-LUx"; */
-"ehD-eL-LUx.title" = "Chat";
+Share it anywhere!"; ObjectID = "e1O-NE-SJI"; */
+"e1O-NE-SJI.text" = "Your ConversaLink is a special
+link with which anyone can
+start a chat with you when
+they click on it.
 
-/* Class = "UITableViewSection"; headerTitle = "Cuenta"; ObjectID = "ej5-gS-tux"; */
-"ej5-gS-tux.headerTitle" = "Cuenta";
+Share it anywhere!";
+
+/* Class = "UILabel"; text = "SIGN UP"; ObjectID = "eQo-KM-pQF"; */
+"eQo-KM-pQF.text" = "SIGN UP";
+
+/* Class = "UILabel"; text = "profile"; ObjectID = "ecQ-1U-Teo"; */
+"ecQ-1U-Teo.text" = "profile";
+
+/* Class = "UITableViewController"; title = "Chats"; ObjectID = "ehD-eL-LUx"; */
+"ehD-eL-LUx.title" = "Chats";
 
 /* Class = "UIButton"; normalTitle = "Iniciar"; ObjectID = "fCY-VX-Yay"; */
 "fCY-VX-Yay.normalTitle" = "Iniciar";
 
-/* Class = "UILabel"; text = "Notifications"; ObjectID = "fET-6t-KuR"; */
-"fET-6t-KuR.text" = "Notifications";
+/* Class = "UILabel"; text = "Notifications & Sounds"; ObjectID = "fET-6t-KuR"; */
+"fET-6t-KuR.text" = "Notifications & Sounds";
 
-/* Class = "UILabel"; text = "Tags"; ObjectID = "fSj-G0-ORX"; */
-"fSj-G0-ORX.text" = "Tags";
+/* Class = "UILabel"; text = "Total Messages"; ObjectID = "fKl-Wy-Jy1"; */
+"fKl-Wy-Jy1.text" = "Total Messages";
 
-/* Class = "UITableViewSection"; headerTitle = "Privacy"; ObjectID = "g3X-qX-5cc"; */
-"g3X-qX-5cc.headerTitle" = "Privacy";
-
-/* Class = "UIButton"; normalTitle = "Sign up"; ObjectID = "g4N-Nr-HNH"; */
-"g4N-Nr-HNH.normalTitle" = "Sign up";
+/* Class = "UIButton"; normalTitle = "SEARCH"; ObjectID = "fXd-NA-zqb"; */
+"fXd-NA-zqb.normalTitle" = "SEARCH";
 
 /* Class = "UILabel"; text = "Image quality"; ObjectID = "gYJ-8r-cqc"; */
 "gYJ-8r-cqc.text" = "Image quality";
 
-/* Class = "UILabel"; text = "Sonido al enviar"; ObjectID = "hVi-fz-KVj"; */
-"hVi-fz-KVj.text" = "Sonido al enviar";
+/* Class = "UILabel"; text = "0"; ObjectID = "guU-SJ-aSm"; */
+"guU-SJ-aSm.text" = "0";
+
+/* Class = "UITextField"; placeholder = "CATEGORIES"; ObjectID = "hTo-CZ-d71"; */
+"hTo-CZ-d71.placeholder" = "CATEGORIES";
 
 /* Class = "UILabel"; text = "Use Terms"; ObjectID = "hYP-e9-F4W"; */
 "hYP-e9-F4W.text" = "Use Terms";
 
-/* Class = "UIButton"; normalTitle = "Log in"; ObjectID = "hbP-GS-sVT"; */
-"hbP-GS-sVT.normalTitle" = "Log in";
+/* Class = "UITabBarItem"; title = "Stats"; ObjectID = "hcs-Dq-e2P"; */
+"hcs-Dq-e2P.title" = "Stats";
 
-/* Class = "UITabBarItem"; title = "Explore"; ObjectID = "hcs-Dq-e2P"; */
-"hcs-Dq-e2P.title" = "Explore";
+/* Class = "UILabel"; text = "Chat"; ObjectID = "jIy-gu-wRx"; */
+"jIy-gu-wRx.text" = "Chat";
 
-/* Class = "UILabel"; text = "Clear recent searches"; ObjectID = "huG-z4-OOb"; */
-"huG-z4-OOb.text" = "Clear recent searches";
+/* Class = "UILabel"; text = "Password"; ObjectID = "jM2-va-thJ"; */
+"jM2-va-thJ.text" = "Password";
 
-/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "iVz-oZ-Q6j"; */
-"iVz-oZ-Q6j.placeholder" = "EMAIL";
+/* Class = "UITableViewSection"; footerTitle = "Select if you are available to communicate with your clients"; ObjectID = "k9c-rt-oIP"; */
+"k9c-rt-oIP.footerTitle" = "Select if you are available to communicate with your clients";
 
-/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de notificación push"; ObjectID = "iWa-Vg-Atn"; */
-"iWa-Vg-Atn.footerTitle" = "Vista previa de texto dentro de notificación push";
+/* Class = "UITableViewSection"; headerTitle = "Status"; ObjectID = "k9c-rt-oIP"; */
+"k9c-rt-oIP.headerTitle" = "Status";
 
-/* Class = "UILabel"; text = "Share"; ObjectID = "kHe-yQ-uNE"; */
-"kHe-yQ-uNE.text" = "Share";
+/* Class = "UILabel"; text = "LOGIN"; ObjectID = "kG4-mo-fEa"; */
+"kG4-mo-fEa.text" = "LOGIN";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "kOc-f8-kf5"; */
+"kOc-f8-kf5.text" = "Title";
 
 /* Class = "UILabel"; text = "My Account"; ObjectID = "kWK-tt-6T3"; */
 "kWK-tt-6T3.text" = "My Account";
@@ -362,59 +361,45 @@
 /* Class = "UILabel"; text = "ARE YOU NEW HERE?"; ObjectID = "kh9-tD-7Dc"; */
 "kh9-tD-7Dc.text" = "ARE YOU NEW HERE?";
 
-/* Class = "UITextField"; placeholder = "ID personalizado"; ObjectID = "lUF-07-Jnq"; */
-"lUF-07-Jnq.placeholder" = "ID personalizado";
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "mBY-gf-GI5"; */
+"mBY-gf-GI5.normalTitle" = "Edit";
 
 /* Class = "UITableViewSection"; footerTitle = "Play sound inside chat"; ObjectID = "mwU-4q-ySM"; */
 "mwU-4q-ySM.footerTitle" = "Play sound inside chat";
 
-/* Class = "UITableViewSection"; headerTitle = "Información general"; ObjectID = "nQW-sR-Yeg"; */
-"nQW-sR-Yeg.headerTitle" = "Información general";
-
 /* Class = "UILabel"; text = "Receiving a message"; ObjectID = "ngt-vT-AeQ"; */
 "ngt-vT-AeQ.text" = "Receiving a message";
 
-/* Class = "UILabel"; text = "Conversa Id"; ObjectID = "oxW-eu-bPN"; */
-"oxW-eu-bPN.text" = "Conversa Id";
+/* Class = "UIViewController"; title = "ConversaLink"; ObjectID = "nhL-ig-whV"; */
+"nhL-ig-whV.title" = "ConversaLink";
+
+/* Class = "UILabel"; text = "This business is registered
+procced to reclaim it filling
+the information requested"; ObjectID = "oda-lt-vQd"; */
+"oda-lt-vQd.text" = "This business is registered
+procced to reclaim it filling
+the information requested";
+
+/* Class = "UILabel"; text = "SIGN UP"; ObjectID = "pGK-Nv-ejb"; */
+"pGK-Nv-ejb.text" = "SIGN UP";
 
 /* Class = "UITableViewSection"; headerTitle = "Sound"; ObjectID = "pM7-az-aje"; */
 "pM7-az-aje.headerTitle" = "Sound";
 
-/* Class = "UILabel"; text = "Display name"; ObjectID = "pau-WS-s2s"; */
-"pau-WS-s2s.text" = "Display name";
-
-/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "pdA-PE-GLW"; */
-"pdA-PE-GLW.placeholder" = "EMAIL";
-
 /* Class = "UILabel"; text = "Show preview"; ObjectID = "qVh-Iz-99C"; */
 "qVh-Iz-99C.text" = "Show preview";
-
-/* Class = "UILabel"; text = "Do you like Conversa? Share :)"; ObjectID = "r8f-GH-inT"; */
-"r8f-GH-inT.text" = "Do you like Conversa? Share :)";
-
-/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "rHk-p5-1TY"; */
-"rHk-p5-1TY.footerTitle" = "Vista previa de texto dentro de mensaje";
-
-/* Class = "UILabel"; text = "2 contacts"; ObjectID = "sJr-P4-G2Y"; */
-"sJr-P4-G2Y.text" = "2 contacts";
 
 /* Class = "UILabel"; text = "Support/Help"; ObjectID = "sXe-ar-gtk"; */
 "sXe-ar-gtk.text" = "Support/Help";
 
-/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe una notificación push"; ObjectID = "slQ-OV-B6n"; */
-"slQ-OV-B6n.footerTitle" = "Sonido cuando se recibe una notificación push";
+/* Class = "UILabel"; text = "Messages Received"; ObjectID = "tdZ-hO-tyc"; */
+"tdZ-hO-tyc.text" = "Messages Received";
 
-/* Class = "UITableViewSection"; headerTitle = "Notificaciones en segundo plano"; ObjectID = "slQ-OV-B6n"; */
-"slQ-OV-B6n.headerTitle" = "Notificaciones en segundo plano";
+/* Class = "UILabel"; text = "0"; ObjectID = "uBV-aS-Xgt"; */
+"uBV-aS-Xgt.text" = "0";
 
-/* Class = "UILabel"; text = "perfil"; ObjectID = "t7p-2c-Jya"; */
-"t7p-2c-Jya.text" = "perfil";
-
-/* Class = "UILabel"; text = "Leído"; ObjectID = "ttc-qa-oNv"; */
-"ttc-qa-oNv.text" = "Leído";
-
-/* Class = "UILabel"; text = "Conversa Id"; ObjectID = "uyv-Tg-eMA"; */
-"uyv-Tg-eMA.text" = "Conversa Id";
+/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "uCB-8c-biY"; */
+"uCB-8c-biY.placeholder" = "EMAIL";
 
 /* Class = "UITableViewSection"; footerTitle = "When receiving a push notification"; ObjectID = "vDS-gI-Qqd"; */
 "vDS-gI-Qqd.footerTitle" = "When receiving a push notification";
@@ -422,44 +407,20 @@
 /* Class = "UITableViewSection"; headerTitle = "BACKGROUND NOTIFICATIONS"; ObjectID = "vDS-gI-Qqd"; */
 "vDS-gI-Qqd.headerTitle" = "BACKGROUND NOTIFICATIONS";
 
-/* Class = "UILabel"; text = "Display name/Username"; ObjectID = "vHg-g5-jMB"; */
-"vHg-g5-jMB.text" = "Display name/Username";
-
-/* Class = "UITextField"; placeholder = "Email"; ObjectID = "w7x-9k-UaH"; */
-"w7x-9k-UaH.placeholder" = "Email";
+/* Class = "UITableViewController"; title = "Profile"; ObjectID = "vj2-jM-X8u"; */
+"vj2-jM-X8u.title" = "Profile";
 
 /* Class = "UITabBarItem"; title = "Account"; ObjectID = "wKg-Ff-zyz"; */
 "wKg-Ff-zyz.title" = "Account";
 
-/* Class = "UILabel"; text = "2 contacts"; ObjectID = "wrS-2I-iLd"; */
-"wrS-2I-iLd.text" = "2 contacts";
+/* Class = "UILabel"; text = "My Conversa Id"; ObjectID = "wng-ho-CqU"; */
+"wng-ho-CqU.text" = "My Conversa Id";
 
-/* Class = "UISegmentedControl"; xC3-ep-xIe.segmentTitles[0] = "Female"; ObjectID = "xC3-ep-xIe"; */
-"xC3-ep-xIe.segmentTitles[0]" = "Female";
-
-/* Class = "UISegmentedControl"; xC3-ep-xIe.segmentTitles[1] = "Male"; ObjectID = "xC3-ep-xIe"; */
-"xC3-ep-xIe.segmentTitles[1]" = "Male";
+/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "xQD-yk-FKz"; */
+"xQD-yk-FKz.placeholder" = "EMAIL";
 
 /* Class = "UILabel"; text = "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc."; ObjectID = "xjt-tk-AOl"; */
 "xjt-tk-AOl.text" = "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc.";
 
-/* Class = "UILabel"; text = "Calidad"; ObjectID = "y4v-LS-Df1"; */
-"y4v-LS-Df1.text" = "Calidad";
-
-/* Class = "UILabel"; text = "0"; ObjectID = "yL8-Nk-HB3"; */
-"yL8-Nk-HB3.text" = "0";
-
-/* Class = "UILabel"; text = "username"; ObjectID = "yYx-tt-hRg"; */
-"yYx-tt-hRg.text" = "username";
-
-/* Class = "UILabel"; text = "BY SIGNING UP YOU ARE ACCEPTING OUR TERMS AND PRIVACY POLICIES"; ObjectID = "ycc-Y9-Iyf"; */
-"ycc-Y9-Iyf.text" = "BY SIGNING UP YOU ARE ACCEPTING OUR TERMS AND PRIVACY POLICIES";
-
-/* Class = "UIButton"; normalTitle = "Ayuda / FAQ"; ObjectID = "ytm-KB-2ro"; */
-"ytm-KB-2ro.normalTitle" = "Ayuda / FAQ";
-
-/* Class = "UILabel"; text = "Sonido al recibir"; ObjectID = "zRx-j5-k1b"; */
-"zRx-j5-k1b.text" = "Sonido al recibir";
-
-/* Class = "UILabel"; text = "Sonido"; ObjectID = "zaq-f5-1nj"; */
-"zaq-f5-1nj.text" = "Sonido";
+/* Class = "UIButton"; normalTitle = "Update status"; ObjectID = "yJE-5t-FTm"; */
+"yJE-5t-FTm.normalTitle" = "Update status";

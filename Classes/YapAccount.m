@@ -16,8 +16,7 @@
 @implementation YapAccount
 
 + (void)deleteAccountWithTransaction:(YapDatabaseReadWriteTransaction*)transaction {
-    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[[Account currentUser].objectId
-                                                                  stringByAppendingString:@"_avatar.jpg"]
+    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:kAccountAvatarName
                                                   inSubDirectory:kMessageMediaAvatarLocation
                                                            error:nil];
     // Automatically deletes all data in Database. This is done by taking

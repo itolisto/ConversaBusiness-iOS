@@ -40,5 +40,14 @@
                                       forTask:@"downloadAvatarJob"];
 }
 
++ (void)addStatusChangeJob:(NSInteger)status oldStatus:(NSInteger)old {
+    [[EDQueue sharedInstance] enqueueWithData:@{@"status" : @(status), @"old": @(old)}
+                                      forTask:@"statusChangeJob"];
+}
+
++ (void)addRedirectToConversaJob:(BOOL)redirect {
+    [[EDQueue sharedInstance] enqueueWithData:@{@"redirect" : @(redirect)}
+                                      forTask:@"redirectToConversaJob"];
+}
 
 @end
