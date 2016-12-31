@@ -182,25 +182,62 @@
                      } else {
                          NSDictionary *results = object;
 
-                         double sent = 0, received = 0;
+                         int sent = 0, received = 0, favs = 0, views = 0;
 
                          if ([results objectForKey:@"ms"] && [results objectForKey:@"ms"] != [NSNull null]) {
-                             self.sentLabel.text = [NSString stringWithFormat:@"%ld", [[results objectForKey:@"ms"] integerValue]];
                              sent = [[results objectForKey:@"ms"] doubleValue];
                          }
 
                          if ([results objectForKey:@"mr"] && [results objectForKey:@"mr"] != [NSNull null]) {
-                             self.receivedLabel.text = [NSString stringWithFormat:@"%ld", [[results objectForKey:@"mr"] integerValue]];
                              received = [[results objectForKey:@"mr"] doubleValue];
                          }
 
-                         if ([results objectForKey:@"np"] && [results objectForKey:@"np"] != [NSNull null]) {
-                             self.viewsLabel.text = [NSString stringWithFormat:@"%ld", [[results objectForKey:@"np"] integerValue]];
+                         if ([results objectForKey:@"nf"] && [results objectForKey:@"nf"] != [NSNull null]) {
+                             favs = [[results objectForKey:@"nf"] doubleValue];
                          }
 
-                         if ([results objectForKey:@"nf"] && [results objectForKey:@"nf"] != [NSNull null]) {
-                             self.favsLabel.text = [NSString stringWithFormat:@"%ld", [[results objectForKey:@"nf"] integerValue]];
+                         if ([results objectForKey:@"np"] && [results objectForKey:@"np"] != [NSNull null]) {
+                             views = [[results objectForKey:@"np"] doubleValue];
                          }
+
+                         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+
+                         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                         [formatter setMaximumFractionDigits:1];
+                         [formatter setMinimumFractionDigits:1];
+                         [formatter setRoundingMode:NSNumberFormatterRoundDown];
+
+                         NSString *sentString, *receivedString, *favsString, *viewsString;
+
+                         if (sent > 999) {
+                             sentString = [[formatter stringFromNumber:[NSNumber numberWithDouble:sent/1000.0]] stringByAppendingString:@"K"];
+                         } else {
+                             sentString = [NSString stringWithFormat:@"%d", sent];
+                         }
+
+                         if (received > 999) {
+                             receivedString = [[formatter stringFromNumber:[NSNumber numberWithDouble:received/1000.0]] stringByAppendingString:@"K"];
+                         } else {
+                             receivedString = [NSString stringWithFormat:@"%d", received];
+                         }
+
+                         if (favs > 999) {
+                             favsString = [[formatter stringFromNumber:[NSNumber numberWithDouble:favs/1000.0]] stringByAppendingString:@"K"];
+                         } else {
+                             favsString = [NSString stringWithFormat:@"%d", favs];
+                         }
+
+                         if (views > 999) {
+                             viewsString = [[formatter stringFromNumber:[NSNumber numberWithDouble:views/1000.0]] stringByAppendingString:@"K"];
+                         } else {
+                             viewsString = [NSString stringWithFormat:@"%d", views];
+                         }
+
+
+                         self.sentLabel.text = sentString;
+                         self.receivedLabel.text = receivedString;
+                         self.favsLabel.text = favsString;
+                         self.viewsLabel.text = viewsString;
 
                          [self updateChartData:sent received:received];
                      }
@@ -217,7 +254,6 @@
     chartView.holeRadiusPercent = 0.58;
     chartView.transparentCircleRadiusPercent = 0.61;
     chartView.chartDescription.enabled = NO;
-    //[chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
 
     chartView.drawHoleEnabled = NO;
     chartView.rotationAngle = 0.0;

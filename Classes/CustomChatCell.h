@@ -15,6 +15,5 @@
 
 - (void)configureCellWith:(YapContact *)buddy;
 - (void)updateLastMessage:(BOOL)skipConversationText;
-- (void)setIsTypingText:(BOOL)value;
 
 @end

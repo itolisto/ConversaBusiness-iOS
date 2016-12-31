@@ -10,6 +10,9 @@
 
 @interface RegisterCompleteViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
 
-@property(strong, nonnull, nonatomic) UIImage *avatar;
+@property(strong, nullable, nonatomic) UIImage *avatar;
+@property(strong, nonnull, nonatomic) NSString *businessName;
+@property(strong, nonnull, nonatomic) NSString *conversaId;
+@property(strong, nonnull, nonatomic) NSString *categoryId;
 
 @end

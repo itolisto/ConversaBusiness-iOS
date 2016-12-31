@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *conversationLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *unreadMessage;
+@property (assign, nonatomic) BOOL image;
 
 @end
 
@@ -34,11 +35,37 @@
     [super awakeFromNib];
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.width / 2;
     self.unreadMessage.layer.cornerRadius   = self.unreadMessage.frame.size.width / 2;
+    self.image = NO;
 }
 
 - (void)configureCellWith:(YapContact *)business {
     self.business = business;
-    self.avatarImageView.image = [UIImage imageNamed:@"ic_business_default"];
+
+    //NSLog(self.image ? @"YES YES YES" : @"NO NO NO");
+
+    if (!self.image) {
+        int max = 7, min = 1;
+        int random = min + arc4random_uniform((uint32_t)(max - min + 1));
+
+        if (random % 7 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_seven"];
+        } else if (random % 6 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_six"];
+        } else if (random % 5 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_five"];
+        } else if (random % 4 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_four"];
+        } else if (random % 3 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_three"];
+        } else if (random % 2 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_two"];
+        } else {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_one"];
+        }
+
+        self.image = YES;
+    }
+
     self.nameLabel.text = business.displayName;
     [self updateLastMessage:NO];
 }
@@ -68,22 +95,11 @@
             }
         }
     } else {
-        UIFont *currentFont = self.conversationLabel.font;
-        CGFloat fontSize = currentFont.pointSize;
-        self.nameLabel.font = [UIFont systemFontOfSize:fontSize];
         self.nameLabel.textColor = [UIColor blackColor];
         self.dateLabel.text = @"";
 
-        self.conversationLabel.text = @"¡Comienza a chatear con este negocio!";
+        self.conversationLabel.text = NSLocalizedString(@"chats_cell_conversation_empty", nil);
         self.unreadMessage.backgroundColor = [UIColor clearColor];
-    }
-}
-
-- (void)setIsTypingText:(BOOL)value {
-    if (value) {
-        self.conversationLabel.text = @"escribiendo...";
-    } else {
-        [self updateLastMessage:NO];
     }
 }
 
@@ -103,9 +119,9 @@
     NSInteger days = [components day];
     
     if (days == 1) {
-        dateString = @"Ayer";
+        dateString = NSLocalizedString(@"chats_cell_date_yesterday", nil);
     } else if (timeInterval < 60){
-        dateString = @"Ahora";
+        dateString = NSLocalizedString(@"chats_cell_date_now", nil);
     } else if (timeInterval < 60*60) {
         int minsInt = timeInterval/60;
         NSString * minString = @"mins";
@@ -146,20 +162,20 @@
             return message.text;
         }
         case kMessageTypeLocation: {
-            return @"Ubicación";
+            return NSLocalizedString(@"chats_cell_conversation_location", nil);
         }
         case kMessageTypeImage: {
-            return @"Imagen";
+            return NSLocalizedString(@"chats_cell_conversation_image", nil);
         }
         case kMessageTypeVideo: {
-            return @"Video";
+            return NSLocalizedString(@"chats_cell_conversation_video", nil);
         }
         case kMessageTypeAudio: {
-            return @"Grabación";
+            return NSLocalizedString(@"chats_cell_conversation_audio", nil);
         }
     }
 
-    return @"Mensaje";
+    return NSLocalizedString(@"chats_cell_conversation_message", nil);
 }
 
 @end

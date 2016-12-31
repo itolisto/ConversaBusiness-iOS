@@ -83,7 +83,6 @@ const struct YapContactEdges YapContactEdges = {
          YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
          // Count only incoming messages
          if (message.isIncoming && !message.isView) {
-             DDLogError(@"numberOfUnreadMessagesWithTransaction: %@", message);
              count += 1;
              *stop = YES;
          }

@@ -131,7 +131,7 @@
             case 1:
                 self.status = Away;
                 break;
-            case 2:
+            default:
                 self.status = Offline;
                 break;
         }
@@ -173,13 +173,8 @@
                     cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 }
                 break;
-            case 2:
-                if (self.status == Offline) {
-                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-                }
-                break;
             default:
-                if (self.status == Conversa || [SettingsKeys getRedirect]) {
+                if (self.status == Offline) {
                     cell.accessoryType = UITableViewCellAccessoryCheckmark;
                 }
                 break;

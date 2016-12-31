@@ -11,6 +11,7 @@
 #import "Colors.h"
 #import "nBusiness.h"
 #import "UIStateButton.h"
+#import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 #import "BusinessListViewController.h"
 #import <Parse/Parse.h>
@@ -19,7 +20,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIView *nameView;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIStateButton *checkButton;
 
@@ -46,9 +46,6 @@
     [self.checkButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
     // Init array
     self.businessList = [NSMutableArray new];
-    // Change view size
-    //CGRect newFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    //self.containerView.frame = newFrame;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -105,24 +102,12 @@
 #pragma mark - Action Method -
 
 - (IBAction)checkButtonPressed:(UIStateButton *)sender {
-    [self performSearch];
+    if ([self validateTextField:self.nameTextField text:self.nameTextField.text select:YES]) {
+        [self performSearch];
+    }
 }
 
 - (void)performSearch {
-    if ([self.nameTextField.text isEqualToString:@""]) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                message:NSLocalizedString(@"signup_check_empty_search", nil)
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok"
-                                                     style:UIAlertActionStyleDefault
-                                                   handler:^(UIAlertAction * _Nonnull action) {
-                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                   }];
-        [alert addAction:ok];
-        [self presentViewController:alert animated:YES completion:nil];
-        return;
-    }
-
     [PFCloud callFunctionInBackground:@"businessClaimSearch"
                        withParameters:@{@"search": self.nameTextField.text}
                                 block:^(NSString*  _Nullable json, NSError * _Nullable error)
@@ -164,6 +149,27 @@
 }
 
 #pragma mark - UITextFieldDelegate Methods -
+
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if ([text isEqualToString:@""]) {
+        MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+        hudError.mode = MBProgressHUDModeText;
+        [self.view addSubview:hudError];
+        hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
+
+        if (select) {
+            if (![textField isFirstResponder]) {
+                [textField becomeFirstResponder];
+            }
+        }
+
+        return NO;
+    } else {
+        return YES;
+    }
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];

@@ -7,15 +7,15 @@
 */
 
 "signup_check_empty_search" = "Can't search for empty field";
-"signup_contact_success" = "We'll be in contact with you ASAP";
+"signup_contact_success" = "Great! We'll be in contact\nwith you as soon as possible";
 "signup_contact_error" = "Oops, the reclaim couldn't be filed, please try again later";
+"signup_conversaid_error" = "This Conversa ID is\nalready taken";
+"signup_email_error" = "This email is\nalready taken";
+"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
 
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
 "recover_password_sent_message" = "Password recovery link sent";
 "signup_birhtday_toolbar_done" = "Done";
-"signup_password_length_error" = "Password is required";
-"signup_failed_message" = "Ohps, sorry, please try register again later";
-"sign_email_not_valid_error" = "Email is invalid";
 "sign_failed_message" = "Email and password didn't match any account";
 
 "token_session_error" = "Another device has started session, this device will log out";
@@ -32,6 +32,16 @@
 "chats_alert_action_one_day" = "1 day";
 "chats_alert_action_three_day" = "3 days";
 
+"chats_cell_conversation_location" = "Location";
+"chats_cell_conversation_image" = "Image";
+"chats_cell_conversation_video" = "Video";
+"chats_cell_conversation_audio" = "Audio";
+"chats_cell_conversation_message" = "Message";
+"chats_cell_conversation_empty" = "Start chatting";
+"chats_cell_date_now" = "Now";
+"chats_cell_date_yesterday" = "Yesterday";
+
+"conversation_inputtoolbar_placeholder" = "Write a message";
 "conversation_menu_item_copy" = "Copy";
 "conversation_menu_item_delete" = "Delete";
 "conversation_navigation_title" = "Back";
@@ -59,7 +69,7 @@
 "c0i96zRLFyw" = "Books";
 "c1zZcJ8an9Z" = "Services";
 "c3b8NykTdo3" = "Toys";
-"c462mKRISE7" = "Electronics";
+"c462mKRISE7" = "Electronics & Tech";
 "c4EsFpxgOu6" = "Delivery";
 "c90Y0ajWUAG" = "Pets";
 "cDqCLGage9M" = "Beauty";
@@ -79,12 +89,15 @@
 "ccCZl1h0sXf" = "Office Supplies";
 "ccGWcPxDcB7" = "Food";
 "ccQy8YtN7j4" = "Entertainment";
-"cgBcgtlLRVw" = "Jewelry";
+"cgBcgtlLRVw" = "Jewelry & Accessories";
 "cr4ZYMKINHp" = "Women\'s Clothing";
 "cuRzYgo8krw" = "Women Shoes";
 "cydPTRrUJye" = "Health";
 "cDvl63HGh9j" = "Retailers";
 "cprn5lWuEDc" = "Online & Internet";
+"c63MVeTZE3q" = "Kid's Clothing";
+"cztraRwNrdX" = "Education";
+"c0GCyIw3HBP" = "Bakery & Treats";
 
 "stats_pie_chart_sent_label" = "Sent";
 "stats_pie_chart_received_label" = "Received";
@@ -112,7 +125,7 @@
 "settings_account_status_online" = "Online";
 "settings_account_status_offline" = "Offline";
 "settings_account_status_away" = "Away";
-"settings_account_status_conversa" = "Defined by Conversa";
+"settings_account_status_conversa" = "Messages redirect to Conversa";
 
 "settings_account_category_limit" = "Limit: %li";
 
@@ -132,4 +145,7 @@
 /*
  * Common strings
  */
+"common_action_done" = "Done";
 "common_action_cancel" = "Cancelar";
+"common_field_required" = "Required field";
+"common_field_invalid" = "Invalid field";

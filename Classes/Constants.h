@@ -75,11 +75,15 @@ extern NSString *const kMessageMediaAudioLocation;
 extern NSString *const kMessageMediaThumbLocation;
 
 // User class
-extern NSString *const kUserAvatarKey;
 extern NSString *const kUserUsernameKey;
 extern NSString *const kUserEmailKey;
 extern NSString *const kUserPasswordKey;
 extern NSString *const kUserTypeKey;
+extern NSString *const kUserTypeBusinessAvatar;
+extern NSString *const kUserTypeBusinessName;
+extern NSString *const kUserTypeBusinessConversaId;
+extern NSString *const kUserTypeBusinessCategory;
+extern NSString *const kUserTypeBusinessCountry;
 
 // General
 extern NSString *const kObjectRowObjectIdKey;

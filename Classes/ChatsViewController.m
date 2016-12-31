@@ -316,19 +316,6 @@
     [searchBar setShowsCancelButton:NO animated:YES];
 }
 
-#pragma mark - ConversationListener Methods -
-
-- (void)fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
-    NSArray * indexPathsArray = [self.tableView indexPathsForVisibleRows];
-    for(NSIndexPath *indexPath in indexPathsArray) {
-        CustomChatCell * cell = (CustomChatCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.business.uniqueId isEqualToString:objectId]) {
-            [cell setIsTypingText:isTyping];
-            break;
-        }
-    }
-}
-
 #pragma mark - YapDatabase Methods -
 
 - (void)yapDatabaseModified:(NSNotification *)notification
@@ -404,7 +391,8 @@
                     break;
                 }
                 case YapDatabaseViewChangeUpdate : {
-                    [self.tableView reloadRowsAtIndexPaths:@[rowChange.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    //[self.tableView reloadRowsAtIndexPaths:@[rowChange.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [((CustomChatCell*)[self.tableView cellForRowAtIndexPath:rowChange.indexPath]) updateLastMessage:NO];
                     break;
                 }
             }
@@ -481,8 +469,6 @@
     }
     
     NSUInteger numberUnreadConversations = [self.unreadConversationsMappings numberOfItemsInAllGroups];
-
-    DDLogError(@"updateBadge: %lu", (unsigned long)numberUnreadConversations);
     
     if (numberUnreadConversations > 99) {
         [[self navigationController] tabBarItem].badgeValue = @"99+";
@@ -516,9 +502,7 @@
     
     for(NSIndexPath *indexPath in indexPathsArray) {
         UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell isKindOfClass:[CustomChatCell class]]) {
-            [(CustomChatCell *)cell updateLastMessage:YES];
-        }
+        [(CustomChatCell *)cell updateLastMessage:YES];
     }
 }
 

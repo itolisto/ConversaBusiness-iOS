@@ -8,13 +8,13 @@
 "signup_check_empty_search" = "No se puede realizar búsqueda con campo vacío";
 "signup_contact_success" = "Estaremos en contacto contigo lo más pronto posible";
 "signup_contact_error" = "Oops, el reclamo no se puedo realizar, por favor intenta más tarde";
+"signup_conversaid_error" = "Este Conversa ID ya\nestá ocupado";
+"signup_email_error" = "Este correo electrónico\nya está ocupado";
+"signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
 
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
 "signup_birhtday_toolbar_done" = "Listo";
-"signup_password_length_error" = "Contraseña es requerida";
-"signup_failed_message" = "Lo sentimos, por favor intenta registrarte de nuevo";
-"sign_email_not_valid_error" = "Correo electrónico es inválido";
 "sign_failed_message" = "Correo electrónico y contraseña no encuentran una cuenta. Por favor verifica los datos";
 
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
@@ -31,6 +31,16 @@
 "chats_alert_action_one_day" = "1 día";
 "chats_alert_action_three_day" = "3 días";
 
+"chats_cell_conversation_location" = "Ubicación";
+"chats_cell_conversation_image" = "Imagen";
+"chats_cell_conversation_video" = "Video";
+"chats_cell_conversation_audio" = "Audio";
+"chats_cell_conversation_message" = "Mensaje";
+"chats_cell_conversation_empty" = "Empieza a chatear";
+"chats_cell_date_now" = "Ahora";
+"chats_cell_date_yesterday" = "Ayer";
+
+"conversation_inputtoolbar_placeholder" = "Escribe un mensaje";
 "conversation_menu_item_copy" = "Copiar";
 "conversation_menu_item_delete" = "Eliminar";
 "conversation_navigation_title" = "Atrás";
@@ -84,6 +94,9 @@
 "cydPTRrUJye" = "Salud";
 "cDvl63HGh9j" = "Retailers";
 "cprn5lWuEDc" = "Online \u0026 Internet";
+"c63MVeTZE3q" = "Ropa de niño";
+"cztraRwNrdX" = "Educación";
+"c0GCyIw3HBP" = "Postres y Dulces";
 
 "stats_pie_chart_sent_label" = "Enviados";
 "stats_pie_chart_received_label" = "Recibidos";
@@ -111,7 +124,7 @@
 "settings_account_status_online" = "Conectado";
 "settings_account_status_offline" = "Desconectado";
 "settings_account_status_away" = "Fuera";
-"settings_account_status_conversa" = "Definido por Conversa";
+"settings_account_status_conversa" = "Mensajes redirigidos a Conversa";
 
 "settings_account_category_limit" = "Límite: %li";
 
@@ -131,4 +144,7 @@
 /*
  * Common strings
  */
+"common_action_done" = "Listo";
 "common_action_cancel" = "Cancelar";
+"common_field_required" = "Campo requerido";
+"common_field_invalid" = "Campo inválido";

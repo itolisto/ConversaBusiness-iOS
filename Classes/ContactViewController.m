@@ -11,6 +11,7 @@
 #import "Colors.h"
 #import "Utilities.h"
 #import "UIStateButton.h"
+#import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 #import <Parse/Parse.h>
 
@@ -99,28 +100,12 @@
 
 #pragma mark - Action Method -
 
-- (BOOL)validInformation {
-    if ([self.nameTextField.text length] == 0) {
-        [self.nameTextField becomeFirstResponder];
-        return NO;
-    }
-    if (!isEmailValid([self.emailTextField text])) {
-        [self.emailTextField becomeFirstResponder];
-        return NO;
-    }
-    if ([self.businessTextField.text length] == 0) {
-        [self.businessTextField becomeFirstResponder];
-        return NO;
-    }
-    if ([self.contactTextField.text length] == 0) {
-        [self.contactTextField becomeFirstResponder];
-        return NO;
-    }
-    return YES;
-}
-
 - (IBAction)contactButtonPressed:(UIStateButton *)sender {
-    if ([self validInformation]) {
+    if ([self validateTextField:self.nameTextField text:self.nameTextField.text select:YES] &&
+        [self validateTextField:self.emailTextField text:self.emailTextField.text select:YES] &&
+        [self validateTextField:self.businessTextField text:self.businessTextField.text select:YES] &&
+        [self validateTextField:self.contactTextField text:self.contactTextField.text select:YES] )
+    {
         [PFCloud callFunctionInBackground:@"businessClaimRequest"
                            withParameters:@{@"objectId":self.objectId,
                                             @"name":self.nameTextField.text,
@@ -130,7 +115,7 @@
                                     block:^(id  _Nullable object, NSError * _Nullable error)
          {
              NSString* message;
-             
+
              if (error) {
                  message = NSLocalizedString(@"signup_contact_error", nil);
              } else {
@@ -154,7 +139,55 @@
     }
 }
 
-#pragma mark - UITextFieldDelegate Method -
+#pragma mark - UITextFieldDelegate Methods -
+
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if (textField == self.emailTextField) {
+        if (isEmailValid([self.emailTextField text])) {
+            return YES;
+        } else {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+
+            if ([text isEqualToString:@""]) {
+                hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            } else {
+                hudError.label.text = NSLocalizedString(@"common_field_invalid", nil);
+            }
+
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        }
+    } else {
+        if ([text isEqualToString:@""]) {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+            hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;

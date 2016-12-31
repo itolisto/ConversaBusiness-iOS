@@ -75,6 +75,12 @@
         return NSLocalizedString(@"cuRzYgo8krw", nil);
     } else if ([@"ydPTRrUJye" isEqualToString:objectId]) {
         return NSLocalizedString(@"cydPTRrUJye", nil);
+    } else if ([@"63MVeTZE3q" isEqualToString:objectId]) {
+        return NSLocalizedString(@"c63MVeTZE3q", nil);
+    } else if ([@"ztraRwNrdX" isEqualToString:objectId]) {
+        return NSLocalizedString(@"cztraRwNrdX", nil);
+    } else if ([@"0GCyIw3HBP" isEqualToString:objectId]) {
+        return NSLocalizedString(@"c0GCyIw3HBP", nil);
     } else {
         return NSLocalizedString(@"category", nil);
     }

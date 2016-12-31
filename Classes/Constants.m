@@ -61,11 +61,16 @@ NSString *const kMessageMediaAudioLocation = @"/audio";
 NSString *const kMessageMediaThumbLocation = @"/thumb";
 
 // User class
-NSString *const kUserAvatarKey   = @"avatar";
 NSString *const kUserUsernameKey = @"username";
 NSString *const kUserEmailKey    = @"email";
 NSString *const kUserPasswordKey = @"password";
 NSString *const kUserTypeKey     = @"userType";
+
+NSString *const kUserTypeBusinessAvatar     = @"avatar";
+NSString *const kUserTypeBusinessName     = @"name";
+NSString *const kUserTypeBusinessConversaId     = @"conversa";
+NSString *const kUserTypeBusinessCategory     = @"category";
+NSString *const kUserTypeBusinessCountry     = @"country";
 
 // General
 NSString *const kObjectRowObjectIdKey  = @"objectId";

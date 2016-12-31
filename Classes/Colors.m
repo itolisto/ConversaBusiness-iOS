@@ -72,7 +72,7 @@
 
 + (UIColor*)profileAway {
     // orange: #FFB300
-    return [UIColor colorWithRed:255.0f/255.0f green:210.0f/255.0f blue:140.0f/255.0f alpha:1.0];
+    return [UIColor colorWithRed:255.0f/255.0f green:179.0f/255.0f blue:0.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)pieChartReceived {

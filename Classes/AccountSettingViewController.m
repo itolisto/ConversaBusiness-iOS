@@ -157,7 +157,10 @@
             self.avatarImageView.image = [UIImage imageNamed:@"ic_business_default"];
         }
     } else if ([keyPath isEqualToString:businessConversaId]) {
-        self.conversaIdLabel.text = [@"@" stringByAppendingString:[SettingsKeys getConversaId]];
+        NSString *conversaid = [SettingsKeys getConversaId];
+        if (conversaid) {
+            self.conversaIdLabel.text = [@"@" stringByAppendingString:conversaid];
+        }
     } else if ([keyPath isEqualToString:businessDisplayName]) {
         self.displayNameLabel.text = [SettingsKeys getDisplayName];
     }

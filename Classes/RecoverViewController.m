@@ -13,9 +13,8 @@
 #import "Constants.h"
 #import "UIStateButton.h"
 #import "MBProgressHUD.h"
-#import "JVFloatLabeledTextField.h"
-
 #import <Parse/Parse.h>
+#import "JVFloatLabeledTextField.h"
 
 @interface RecoverViewController ()
 
@@ -42,7 +41,34 @@
     [self.sendPasswordButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
 }
 
-#pragma mark - UITextFieldDelegate Method -
+#pragma mark - UITextFieldDelegate Methods -
+
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if (isEmailValid(text)) {
+        return YES;
+    } else {
+        MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+        hudError.mode = MBProgressHUDModeText;
+        [self.view addSubview:hudError];
+
+        if ([text isEqualToString:@""]) {
+            hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+        } else {
+            hudError.label.text = NSLocalizedString(@"common_field_invalid", nil);
+        }
+
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
+
+        if (select) {
+            if (![textField isFirstResponder]) {
+                [textField becomeFirstResponder];
+            }
+        }
+
+        return NO;
+    }
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -59,56 +85,45 @@
 #pragma mark - Action Method -
 
 - (IBAction)recoverButtonPressed:(UIButton *)sender {
-    if (isEmailValid(self.emailTextField.text)) {
-        [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
-            if (error) {
-                UIAlertController* view = [UIAlertController
-                                           alertControllerWithTitle:nil
-                                           message:NSLocalizedString(@"recover_password_failed_message", nil)
-                                           preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"Ok"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action) {
-                                         [view dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                
-                [view addAction:ok];
-                [self presentViewController:view animated:YES completion:nil];
-            } else {
-                UIAlertController* view = [UIAlertController
-                                           alertControllerWithTitle:nil
-                                           message:NSLocalizedString(@"recover_password_sent_message", nil)
-                                           preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"Ok"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action) {
-                                         [view dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                
-                [view addAction:ok];
-                [self presentViewController:view animated:YES completion:nil];
-            }
-        }];
-    } else {
-        UIAlertController* view = [UIAlertController
-                                   alertControllerWithTitle:nil
-                                   message:NSLocalizedString(@"sign_email_not_valid_error", nil)
-                                   preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"Ok"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-        
-        [view addAction:ok];
-        [self presentViewController:view animated:YES completion:nil];
+    if ([self validateTextField:(JVFloatLabeledTextField*)self.emailTextField text:self.emailTextField.text select:YES]) {
+        [self recoverPassword];
     }
+}
+
+- (void)recoverPassword {
+    [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            UIAlertController* view = [UIAlertController
+                                       alertControllerWithTitle:nil
+                                       message:NSLocalizedString(@"recover_password_failed_message", nil)
+                                       preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"Ok"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+
+            [view addAction:ok];
+            [self presentViewController:view animated:YES completion:nil];
+        } else {
+            UIAlertController* view = [UIAlertController
+                                       alertControllerWithTitle:nil
+                                       message:NSLocalizedString(@"recover_password_sent_message", nil)
+                                       preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"Ok"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+
+            [view addAction:ok];
+            [self presentViewController:view animated:YES completion:nil];
+        }
+    }];
 }
 
 #pragma mark - Navigation Method -

@@ -69,13 +69,8 @@
     [Parse setApplicationId:@"39H1RFC1jalMV3cv8pmDGPRh93Bga1mB4dyxbLwl"
                   clientKey:@"YC3vORNGt6I4f8yEsO6TyGF97XbmitofOrrS5PCC"];
     
-    // Initialize Reachability
-    // Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
-    // Start Monitoring
-    // [reachability startNotifier];
-    
 #if TARGET_IPHONE_SIMULATOR
-    NSLog(@"Home directory: %@",NSHomeDirectory());
+    //NSLog(@"Home directory: %@",NSHomeDirectory());
 #endif
     
     if (![DatabaseManager existsYapDatabase]) {

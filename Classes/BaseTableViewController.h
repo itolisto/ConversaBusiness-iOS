@@ -10,6 +10,7 @@
 
 #import "YapMessage.h"
 #import "YapContact.h"
+#import "SettingsKeys.h"
 #import "CustomAblyRealtime.h"
 
 #import "ConversaManager-Swift.h"

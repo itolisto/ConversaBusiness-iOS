@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 
 #import "Reachability.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface BaseViewController ()
 
@@ -43,6 +44,19 @@
 #pragma mark - ConversationListener Methods -
 
 - (void)messageReceived:(YapMessage *)message from:(YapContact *)from text:(NSString *)text {
+    if (![SettingsKeys getNotificationPreviewInApp:YES]) {
+        text = nil;
+    }
+
+    if ([SettingsKeys getNotificationSoundInApp:YES]) {
+        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+        CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+        SystemSoundID soundID;
+        AudioServicesCreateSystemSoundID(cfString, &soundID);
+        AudioServicesPlaySystemSound (soundID);
+        CFRelease(cfString);
+    }
+
     [WhisperBridge shout:from.displayName
                 subtitle:text
          backgroundColor:[UIColor clearColor]

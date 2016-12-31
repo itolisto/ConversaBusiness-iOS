@@ -20,7 +20,7 @@
 
 + (void)addDownloadFileJob:(NSString*)messageId url:(NSString*)url messageType:(NSInteger)messageType
 {
-    if ([url length] == 0) {
+    if (url == nil || [url length] == 0) {
         return;
     }
 
@@ -32,7 +32,7 @@
 
 + (void)addDownloadAvatarJob:(NSString*)url
 {
-    if ([url length] == 0) {
+    if (url == nil || [url length] == 0) {
         return;
     }
 

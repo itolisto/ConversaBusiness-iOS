@@ -74,6 +74,7 @@
 		A547C86D1E106E6500ECC891 /* CheckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86C1E106E6500ECC891 /* CheckViewController.m */; };
 		A56192391E08775100D2AAFB /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56192381E08775100D2AAFB /* BaseViewController.m */; };
 		A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A561923E1E08886000D2AAFB /* BaseTableViewController.m */; };
+		A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */ = {isa = PBXBuildFile; fileRef = A56BAD3A1E16E2E400BF428B /* nCountry.m */; };
 		A56EB3501E0A50DA00532231 /* CustomCategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB34F1E0A50DA00532231 /* CustomCategoryCell.m */; };
 		A56EB3531E0A523900532231 /* CategorySettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB3521E0A523900532231 /* CategorySettingViewController.m */; };
 		A56EB3571E0A5E2100532231 /* nCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB3561E0A5E2100532231 /* nCategory.m */; };
@@ -86,6 +87,7 @@
 		A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD68B1E12F9F100060E73 /* CustomBusinessCell.m */; };
 		A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */; };
 		A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */; };
+		A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -222,6 +224,8 @@
 		A56192381E08775100D2AAFB /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		A561923D1E08886000D2AAFB /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
 		A561923E1E08886000D2AAFB /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		A56BAD391E16E2E400BF428B /* nCountry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nCountry.h; sourceTree = "<group>"; };
+		A56BAD3A1E16E2E400BF428B /* nCountry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nCountry.m; sourceTree = "<group>"; };
 		A56EB34E1E0A50DA00532231 /* CustomCategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCategoryCell.h; sourceTree = "<group>"; };
 		A56EB34F1E0A50DA00532231 /* CustomCategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCategoryCell.m; sourceTree = "<group>"; };
 		A56EB3511E0A523900532231 /* CategorySettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySettingViewController.h; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 		A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		A5C70CA21E0DAEB800F8D0D4 /* ProfileDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDialogViewController.h; sourceTree = "<group>"; };
 		A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
+		A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification_manager.mp3; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -331,6 +336,7 @@
 				A52907131D6FE93D0018D74C /* LaunchScreen.storyboard */,
 				A52907111D6FE93D0018D74C /* Assets.xcassets */,
 				A52907161D6FE93D0018D74C /* Info.plist */,
+				A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */,
 				A52907021D6FE93D0018D74C /* Supporting Files */,
 				A5160BB81E03491900E001E7 /* Strings */,
 			);
@@ -370,10 +376,10 @@
 		A56192361E08773400D2AAFB /* Extendables */ = {
 			isa = PBXGroup;
 			children = (
-				A56192371E08775100D2AAFB /* BaseViewController.h */,
-				A56192381E08775100D2AAFB /* BaseViewController.m */,
 				A561923D1E08886000D2AAFB /* BaseTableViewController.h */,
 				A561923E1E08886000D2AAFB /* BaseTableViewController.m */,
+				A56192371E08775100D2AAFB /* BaseViewController.h */,
+				A56192381E08775100D2AAFB /* BaseViewController.m */,
 			);
 			name = Extendables;
 			sourceTree = "<group>";
@@ -385,6 +391,8 @@
 				A56EB3561E0A5E2100532231 /* nCategory.m */,
 				A5AAD6871E12F68900060E73 /* nBusiness.h */,
 				A5AAD6881E12F68900060E73 /* nBusiness.m */,
+				A56BAD391E16E2E400BF428B /* nCountry.h */,
+				A56BAD3A1E16E2E400BF428B /* nCountry.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -713,6 +721,7 @@
 				A5160BBB1E03495C00E001E7 /* InfoPlist.strings in Resources */,
 				A52907151D6FE93D0018D74C /* LaunchScreen.storyboard in Resources */,
 				A52907A61D6FEA0C0018D74C /* MapView.xib in Resources */,
+				A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */,
 				A52907121D6FE93D0018D74C /* Assets.xcassets in Resources */,
 				A5160B731E03327500E001E7 /* Main.storyboard in Resources */,
 			);
@@ -850,6 +859,7 @@
 				A52907B01D6FEA0C0018D74C /* PhotoMediaItem.m in Sources */,
 				A56EB3571E0A5E2100532231 /* nCategory.m in Sources */,
 				A52907B91D6FEA0C0018D74C /* Video.m in Sources */,
+				A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */,
 				A5713BDE1E0B0E8B00FACCD4 /* StatusSettingViewController.m in Sources */,
 				A52907991D6FEA0C0018D74C /* CustomChatCell.m in Sources */,
 				A52907041D6FE93D0018D74C /* main.m in Sources */,
