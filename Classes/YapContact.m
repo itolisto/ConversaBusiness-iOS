@@ -126,11 +126,11 @@ const struct YapContactEdges YapContactEdges = {
 }
 
 - (NSString *)getPublicChannel {
-    return [self.uniqueId stringByAppendingString:@"-pbc"];
+    return [@"upbc:" stringByAppendingString:self.uniqueId];
 }
 
 - (NSString *)getPrivateChannel {
-    return [self.uniqueId stringByAppendingString:@"-pvt"];
+    return [@"upvt:" stringByAppendingString:self.uniqueId];
 }
 
 #pragma mark - YapDatabaseRelationshipNode

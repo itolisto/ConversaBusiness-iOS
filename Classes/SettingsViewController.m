@@ -104,7 +104,7 @@
         return;
     }
 
-    if ([change valueForKey:NSKeyValueChangeNewKey] == nil) {
+    if ([change valueForKey:NSKeyValueChangeNewKey] == nil || [change valueForKey:NSKeyValueChangeNewKey] == [NSNull null]) {
         return;
     }
 

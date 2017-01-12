@@ -60,11 +60,13 @@
     }
 
     [PFCloud callFunctionInBackground:@"getBusinessCategories"
-                       withParameters:@{@"objectId": [SettingsKeys getBusinessId]}
+                       withParameters:@{@"objectId": [SettingsKeys getBusinessId], @"language": language}
                                 block:^(NSString*  _Nullable json, NSError * _Nullable error)
     {
         if (error) {
-            [ParseValidation validateError:error controller:self];
+            if ([ParseValidation validateError:error]) {
+                [ParseValidation _handleInvalidSessionTokenError:self];
+            }
         } else {
             id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
                                                         options:0
@@ -79,7 +81,7 @@
                 NSMutableArray *selectedIds = [NSMutableArray arrayWithCapacity:3];
 
                 if ([results objectForKey:@"ids"] && [results objectForKey:@"ids"] != [NSNull null]) {
-                    unsortedIds = [NSArray arrayWithArray:[results objectForKey:@"ids"]];
+                    unsortedIds = [results objectForKey:@"ids"];
                 }
 
                 if ([results objectForKey:@"select"] && [results objectForKey:@"select"] != [NSNull null]) {
@@ -92,15 +94,16 @@
 
                 self.infoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"settings_account_category_limit", nil), self.limit];
 
-                [unsortedIds enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [unsortedIds enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     nCategory *category = [[nCategory alloc] init];
-                    category.objectId = obj;
+                    category.objectId = [obj objectForKey:@"id"];
+                    category.name = [obj objectForKey:@"na"];
                     [unsortedCategory addObject:category];
                 }];
 
                 NSArray *sortedArray = [unsortedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                    NSString *first = [(nCategory*)obj1 getCategoryName];
-                    NSString *second = [(nCategory*)obj2 getCategoryName];
+                    NSString *first = [(nCategory*)obj1 getName];
+                    NSString *second = [(nCategory*)obj2 getName];
                     return [first compare:second];
                 }];
 
@@ -134,8 +137,8 @@
                 }
 
                 NSArray *sortedSelectedArray = [unsortedSelectedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                    NSString *first = [(nCategory*)obj1 getCategoryName];
-                    NSString *second = [(nCategory*)obj2 getCategoryName];
+                    NSString *first = [(nCategory*)obj1 getName];
+                    NSString *second = [(nCategory*)obj2 getName];
                     return [first compare:second];
                 }];
 
@@ -210,8 +213,8 @@
             [self.categories removeObjectAtIndex:[indexPath row]];
 
             NSArray *sortedSelectedArray = [self.selectedCategories sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                NSString *first = [(nCategory*)obj1 getCategoryName];
-                NSString *second = [(nCategory*)obj2 getCategoryName];
+                NSString *first = [(nCategory*)obj1 getName];
+                NSString *second = [(nCategory*)obj2 getName];
                 return [first compare:second];
             }];
 
@@ -233,8 +236,8 @@
         [self.selectedCategories removeObjectAtIndex:[indexPath row]];
 
         NSArray *sortedSelectedArray = [self.categories sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            NSString *first = [(nCategory*)obj1 getCategoryName];
-            NSString *second = [(nCategory*)obj2 getCategoryName];
+            NSString *first = [(nCategory*)obj1 getName];
+            NSString *second = [(nCategory*)obj2 getName];
             return [first compare:second];
         }];
 
@@ -307,7 +310,9 @@
                 [[self.view viewWithTag:5971] removeFromSuperview];
             }
 
-            [ParseValidation validateError:error controller:self];
+            if ([ParseValidation validateError:error]) {
+                [ParseValidation _handleInvalidSessionTokenError:self];
+            }
         } else {
 
             if (self.isViewLoaded && self.view.window) {

@@ -32,7 +32,10 @@
     [super viewDidLoad];
 
     self.displayNameLabel.text = [SettingsKeys getDisplayName];
-    self.conversaIdLabel.text = [@"@" stringByAppendingString:[SettingsKeys getConversaId]];
+    NSString *conversa = [SettingsKeys getConversaId];
+    if (conversa) {
+        self.conversaIdLabel.text = [@"@" stringByAppendingString:conversa];
+    }
     [self.conversaSwitch setOn:[SettingsKeys getRedirect] animated:YES];
 
     self.statusLabel.text = [self getStatusText:[SettingsKeys getStatus]];
@@ -138,7 +141,7 @@
         return;
     }
 
-    if ([change valueForKey:NSKeyValueChangeNewKey] == nil) {
+    if ([change valueForKey:NSKeyValueChangeNewKey] == nil || [change valueForKey:NSKeyValueChangeNewKey] == [NSNull null]) {
         return;
     }
 

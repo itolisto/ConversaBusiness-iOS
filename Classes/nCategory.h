@@ -10,9 +10,7 @@
 
 @interface nCategory : NSObject
 
-@property (strong, nonatomic) NSString *objectId;
-
-- (NSString *)getObjectId;
-- (NSString *)getCategoryName;
+@property (strong, nonatomic, getter=getObjectId) NSString *objectId;
+@property (strong, nonatomic, getter=getName) NSString *name;
 
 @end

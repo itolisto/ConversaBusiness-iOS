@@ -6,7 +6,7 @@
   Copyright © 2016 Conversa. All rights reserved.
 */
 "signup_check_empty_search" = "No se puede realizar búsqueda con campo vacío";
-"signup_contact_success" = "Estaremos en contacto contigo lo más pronto posible";
+"signup_contact_success" = "¡Genial! Estaremos en contacto contigo lo más pronto posible";
 "signup_contact_error" = "Oops, el reclamo no se puedo realizar, por favor intenta más tarde";
 "signup_conversaid_error" = "Este Conversa ID ya\nestá ocupado";
 "signup_email_error" = "Este correo electrónico\nya está ocupado";
@@ -43,12 +43,12 @@
 "conversation_inputtoolbar_placeholder" = "Escribe un mensaje";
 "conversation_menu_item_copy" = "Copiar";
 "conversation_menu_item_delete" = "Eliminar";
-"conversation_navigation_title" = "Atrás";
 "conversation_more_alert_action_library" = "Librería";
 "conversation_more_alert_action_camara" = "Cámara";
 "conversation_more_alert_action_location" = "Enviar ubicación";
-"conversation_message_info_received" = "Recibido";
-"conversation_message_info_waiting" = "Esperando";
+"conversation_message_info_sending" = "Enviando";
+"conversation_message_info_uploading" = "Subiendo";
+"conversation_message_info_downloading" = "Descargando";
 "conversation_message_info_sent" = "Enviado";
 "conversation_message_info_failed" = "Fallido";
 "conversation_subtitle_writing" = "escribiendo...";
@@ -126,7 +126,7 @@
 "settings_account_status_away" = "Fuera";
 "settings_account_status_conversa" = "Mensajes redirigidos a Conversa";
 
-"settings_account_category_limit" = "Límite: %li";
+"settings_account_category_limit" = "Puedes escoger hasta %li categorías";
 
 "settings_account_status_message_fail" = "Estado no se ha cambiado. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
 
@@ -134,8 +134,8 @@
 "settings_account_redirect_message_disable_fail" = "No pudimos deshabilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
 "settings_account_redirect_message" = "Todos tus mensajes entrantes serán dirigidos a Conversa para que maneje tu comunicación ¿Deseas activar esta característica?";
 
-"settings_account_profile_category_selected" = "Seleccionadas";
-"settings_account_profile_category_category" = "Categorias";
+"settings_account_profile_category_selected" = "Mis Categorías";
+"settings_account_profile_category_category" = "Categorías";
 
 "settings_chat_quality_alert_action_high" = "Alta";
 "settings_chat_quality_alert_action_medium" = "Media";

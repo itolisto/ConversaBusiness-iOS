@@ -10,6 +10,6 @@
 
 #import <OHQBImagePicker/QBImagePicker.h>
 
-@interface RegisterViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate, QBImagePickerControllerDelegate, UIImagePickerControllerDelegate>
+@interface RegisterViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate, QBImagePickerControllerDelegate>
 
 @end

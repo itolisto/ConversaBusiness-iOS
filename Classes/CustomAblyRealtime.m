@@ -10,7 +10,6 @@
 
 #import "Log.h"
 #import "AppJobs.h"
-#import "Message.h"
 #import "Business.h"
 #import "YapContact.h"
 #import "YapMessage.h"
@@ -18,6 +17,7 @@
 #import "DatabaseManager.h"
 #import "ParseValidation.h"
 #import <Parse/Parse.h>
+#import <CommonCrypto/CommonDigest.h>
 
 @interface CustomAblyRealtime ()
 
@@ -36,12 +36,30 @@
     return sharedInstance;
 }
 
+// http://stackoverflow.com/a/23608321/5349296
+- (NSString*)sha1:(NSString *)input
+{
+    const char *s=[input cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *keyData=[NSData dataWithBytes:s length:strlen(s)];
+
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH]={0};
+    CC_SHA1(keyData.bytes, (CC_LONG)keyData.length, digest);
+    NSData *out = [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
+    NSString *hash = [out description];
+    hash = [hash stringByReplacingOccurrencesOfString:@" " withString:@""];
+    hash = [hash stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    hash = [hash stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    hash = [hash stringByReplacingOccurrencesOfString:@">" withString:@""];
+    return hash;
+}
+
 #pragma mark - Connection Methods -
 
 - (instancetype)init
 {
     if (self = [super init]) {
         self.firstLoad = NO;
+        self.clientId = [self sha1:[[NSUUID UUID] UUIDString]];
     }
 
     return self;
@@ -52,7 +70,8 @@
     artoptions.key = @"zmxQkA.HfI9Xg:0UC2UioXcnDarSak";
     artoptions.logLevel = ARTLogLevelError;
     artoptions.echoMessages = NO;
-    //artoptions = [[NSUUID UUID] UUIDString];
+//    artoptions.clientId = self.clientId;
+//    artoptions.defaultTokenParams.capability = @"{\"bpbc:*\":[\"presence\",\"subscribe\"],\"bpvt:*\":[\"presence\",\"subscribe\"],\"upbc:*\":[\"presence\",\"subscribe\"]}";
     self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
@@ -86,15 +105,21 @@
     }
 
     [channel subscribe:^(ARTMessage * _Nonnull message) {
-        [self onMessage:message];
+        NSError *error;
+        id object = [NSJSONSerialization JSONObjectWithData:[message.data dataUsingEncoding:NSUTF8StringEncoding]
+                                                    options:0
+                                                      error:&error];
+        if (error) {
+            DDLogError(@"onMessage ARTMessage error: %@", error);
+        } else {
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                [self onMessage:object];
+            }
+        }
     }];
 
     [[channel getPresence] subscribe:^(ARTPresenceMessage * _Nonnull message) {
         [self onPresenceMessage:message];
-    }];
-
-    [[channel getPresence] enter:@"" callback:^(ARTErrorInfo * _Nullable error) {
-
     }];
 
     [channel on:^(ARTErrorInfo * _Nullable error) {
@@ -157,74 +182,65 @@
             DDLogError(@"onConnectionStateChgd: Closed");
             break;
         case ARTRealtimeFailed:
-            DDLogError(@"onConnectionStateChgd: Failed --> %@", status.reason);
+            DDLogError(@"onConnectionStateChgd: Failed --> %@", status);
             break;
     }
 }
 
-- (void)onMessage:(ARTMessage *) messages {
-    NSError *error;
-    id object = [NSJSONSerialization JSONObjectWithData:[messages.data dataUsingEncoding:NSUTF8StringEncoding]
-                                                options:0
-                                                  error:&error];
-    if (error) {
-        DDLogError(@"onMessage ARTMessage error: %@", error);
-    } else {
-        if ([object isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *results = object;
-            //DDLogError(@"onMessage: message received --> %@", [results allKeys]);
-            if ([results valueForKey:@"appAction"]) {
-                int action = [[results valueForKey:@"appAction"] intValue];
-                switch (action) {
-                    case 1: {
-                        NSString *messageId = [results valueForKey:@"messageId"];
-                        NSString *contactId = [results valueForKey:@"contactId"];
-                        NSInteger messageType = [[results valueForKey:@"messageType"] integerValue];
+- (void)onMessage:(NSDictionary *)results {
+    //DDLogError(@"onMessage: message received --> %@", [results allKeys]);
+    if ([results valueForKey:@"appAction"]) {
+        int action = [[results valueForKey:@"appAction"] intValue];
+        switch (action) {
+            case 1: {
+                NSString *messageId = [results valueForKey:@"messageId"];
+                NSString *contactId = [results valueForKey:@"contactId"];
+                NSInteger messageType = [[results valueForKey:@"messageType"] integerValue];
 
-                        if (messageId == nil || contactId == nil) {
-                            return;
-                        }
-
-                        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
-                        __block YapContact *buddy = nil;
-
-                        [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                            buddy = [YapContact fetchObjectWithUniqueID:contactId transaction:transaction];
-                        }];
-
-                        if (buddy == nil) {
-                            PFQuery *query = [Customer query];
-                            [query whereKey:kCustomerActiveKey equalTo:@(YES)];
-                            [query selectKeys:@[kCustomerDisplayNameKey]];
-
-                            [query getObjectInBackgroundWithId:contactId block:^(PFObject * _Nullable object, NSError * _Nullable error)
-                             {
-                                 if (error) {
-                                     [ParseValidation validateError:error controller:nil];
-                                 } else {
-                                     Customer *business = (Customer*)object;
-
-                                     YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:contactId];
-                                     newBuddy.accountUniqueId = [Account currentUser].objectId;
-                                     newBuddy.displayName = business.displayName;
-                                     newBuddy.composingMessageString = @"";
-                                     newBuddy.blocked = NO;
-                                     newBuddy.mute = NO;
-                                     newBuddy.lastMessageDate = [NSDate date];
-
-                                     [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                                         [newBuddy saveWithTransaction:transaction];
-                                     } completionBlock:^{
-                                         [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
-                                     }];
-                                 }
-                             }];
-                        } else {
-                            [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:buddy];
-                        }
-                        break;
-                    }
+                if (messageId == nil || contactId == nil) {
+                    return;
                 }
+
+                YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+                __block YapContact *buddy = nil;
+
+                [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                    buddy = [YapContact fetchObjectWithUniqueID:contactId transaction:transaction];
+                }];
+
+                if (buddy == nil) {
+                    PFQuery *query = [Customer query];
+                    [query whereKey:kCustomerActiveKey equalTo:@(YES)];
+                    [query selectKeys:@[kCustomerDisplayNameKey]];
+
+                    [query getObjectInBackgroundWithId:contactId block:^(PFObject * _Nullable object, NSError * _Nullable error)
+                     {
+                         if (error) {
+                             if ([ParseValidation validateError:error]) {
+                                 [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                             }
+                         } else {
+                             Customer *business = (Customer*)object;
+
+                             YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:contactId];
+                             newBuddy.accountUniqueId = [Account currentUser].objectId;
+                             newBuddy.displayName = business.displayName;
+                             newBuddy.composingMessageString = @"";
+                             newBuddy.blocked = NO;
+                             newBuddy.mute = NO;
+                             newBuddy.lastMessageDate = [NSDate date];
+
+                             [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+                                 [newBuddy saveWithTransaction:transaction];
+                             } completionBlock:^{
+                                 [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
+                             }];
+                         }
+                     }];
+                } else {
+                    [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:buddy];
+                }
+                break;
             }
         }
     }
@@ -243,15 +259,11 @@
             break;
         case ARTPresenceUpdate: {
             if (messages.data) {
-                NSDictionary *data = (NSDictionary*)messages.data;
-                NSString *from = [data valueForKey:@"from"];
-                bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
-
-                if (self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)])
-                {
+                if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
+                    NSDictionary *data = (NSDictionary*)messages.data;
+                    NSString *from = [data valueForKey:@"from"];
+                    bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
                     [self.delegate fromUser:from userIsTyping:isTyping];
-                } else {
-                    DDLogError(@"ConversationListener protocol isn't set to receive typing event");
                 }
             }
             break;
@@ -304,9 +316,9 @@
 - (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact {
     // 2. Save to Local Database
     YapMessage *message = [[YapMessage alloc] initWithId:messageId];
+    message.delivered = statusReceived;
     message.buddyUniqueId = contactId;
     message.messageType = messageType;
-    message.view = NO;
 
     if ([[SettingsKeys getBusinessId] isEqualToString:contactId]) {
         message.incoming = NO;
@@ -314,12 +326,9 @@
         message.incoming = YES;
     }
 
-    NSString *messageText = nil;
-
     switch (messageType) {
         case kMessageTypeText: {
             message.text = [results objectForKey:@"message"];
-            messageText = message.text;
             break;
         }
         case kMessageTypeLocation: {
@@ -327,63 +336,78 @@
                                     initWithLatitude:[[results objectForKey:@"latitude"] doubleValue]
                                     longitude:[[results objectForKey:@"longitude"] doubleValue]];
             message.location = location;
-            messageText = @"Location";
             break;
         }
-        case kMessageTypeVideo: {
-            messageText = @"Video";
-        }
+        case kMessageTypeVideo:
         case kMessageTypeAudio: {
+            message.delivered = statusDownloading;
             message.bytes = [[results objectForKey:@"size"] floatValue];
             message.duration = [NSNumber numberWithInteger:[[results objectForKey:@"duration"] integerValue]];
             message.remoteUrl = [results objectForKey:@"file"];
-            if (messageText == nil) {
-                messageText = @"Audio";
-            }
             [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
             break;
         }
         case kMessageTypeImage: {
+            message.delivered = statusDownloading;
             message.bytes = [[results objectForKey:@"size"] floatValue];
             message.width = [[results objectForKey:@"width"] floatValue];
             message.height = [[results objectForKey:@"height"] floatValue];
             message.remoteUrl = [results objectForKey:@"file"];
-            messageText = @"Image";
             [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
             break;
         }
     }
 
-    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-     {
-         [message saveWithTransaction:transaction];
-         contact.lastMessageDate = message.date;
-         [contact saveWithTransaction:transaction];
-     } completionBlock:^{
-         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:from:text:)]) {
-             [self.delegate messageReceived:message from:contact text:messageText];
-         } else {
-             DDLogInfo(@"ConversationListener protocol isn't set to receive message");
-         }
-     }];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+        [self.delegate messageReceived:message from:contact];
+    } else {
+        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+         {
+             [message saveWithTransaction:transaction];
+             contact.lastMessageDate = message.date;
+             [contact saveWithTransaction:transaction];
+         }];
+    }
 }
 
 #pragma mark - Class Methods -
 
-- (void)sendTypingStateOnChannel:(NSString*)channel isTyping:(BOOL)value {
-    //    [self.pubnub setState: @{@"eventType": [NSNumber numberWithBool:value]} forUUID:self.pubnub.uuid onChannel:channel withCompletion:nil];
+- (void)sendTypingStateOnChannel:(NSString*)channelName isTyping:(BOOL)value {
+    ARTRealtimeChannel *channel = [self.ably.channels get:channelName];
+    if (channel) {
+        [channel.presence updateClient:self.clientId
+                                  data:@{@"isTyping": @(value), @"from": [SettingsKeys getBusinessId]}
+                              callback:^(ARTErrorInfo * _Nullable error)
+        {
+            if (error) {
+                DDLogError(@"Error sending typing state: %@", error);
+            } else {
+                DDLogError(@"typing success \n success \n success");
+            }
+         }];
+    }
 }
 
-- (void) unsubscribeToChannels: (NSArray*)channels {
-    //    [self.pubnub unsubscribeFromChannels:channels withPresence:NO];
+#pragma mark - Help Methods -
+
+- (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
 }
 
-- (void) unsubscribeFromAllChannels {
-    //    [self.pubnub unsubscribeFromAll];
-}
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
 
-- (void) subscribeToChannels: (NSArray*)channels {
-    //    [self.pubnub subscribeToChannels:channels withPresence:YES];
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
 }
 
 @end

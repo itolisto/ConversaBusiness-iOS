@@ -11,16 +11,13 @@
 
 @implementation ParseValidation
 
-+ (void)validateError:(NSError *)error controller:(UIViewController *)fromController {
-    if (![error.domain isEqualToString:PFParseErrorDomain]) {
-        return;
-    }
-
++ (BOOL)validateError:(NSError *)error {
     switch (error.code) {
         case kPFErrorInvalidSessionToken: {
-            [self _handleInvalidSessionTokenError:fromController];
-            break;
+            return YES;
         }
+        default:
+            return NO;
     }
 }
 

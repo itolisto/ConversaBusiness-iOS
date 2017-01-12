@@ -10,6 +10,7 @@
 
 @interface ParseValidation : NSObject
 
-+ (void)validateError:(NSError *)error controller:(UIViewController *)fromController;
++ (BOOL)validateError:(NSError *)error;
++ (void)_handleInvalidSessionTokenError:(UIViewController *)fromController;
 
 @end

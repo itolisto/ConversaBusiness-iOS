@@ -44,15 +44,15 @@
 "conversation_inputtoolbar_placeholder" = "Write a message";
 "conversation_menu_item_copy" = "Copy";
 "conversation_menu_item_delete" = "Delete";
-"conversation_navigation_title" = "Back";
 "conversation_more_alert_action_library" = "Library";
 "conversation_more_alert_action_camara" = "Camara";
 "conversation_more_alert_action_location" = "Send location";
-"conversation_message_info_received" = "Received";
-"conversation_message_info_waiting" = "Waiting";
+"conversation_message_info_sending" = "Sending";
+"conversation_message_info_uploading" = "Uploading";
+"conversation_message_info_downloading" = "Downloading";
 "conversation_message_info_sent" = "Sent";
 "conversation_message_info_failed" = "Failed";
-"conversation_subtitle_writing" = "writing...";
+"conversation_subtitle_writing" = "typing...";
 "conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
 "conversation_alert_action_unblock" = "Unblock";
 "conversation_alert_action_location_title" = "We couldn't find your location";
@@ -127,7 +127,7 @@
 "settings_account_status_away" = "Away";
 "settings_account_status_conversa" = "Messages redirect to Conversa";
 
-"settings_account_category_limit" = "Limit: %li";
+"settings_account_category_limit" = "You can select up to %li categories";
 
 "settings_account_status_message_fail" = "Status couldn't be changed. Please try again later or contact Conversa Support for more information";
 
@@ -135,7 +135,7 @@
 "settings_account_redirect_message_disable_fail" = "We couldn't disable redirection. Please try again later or contact Conversa Support for more information";
 "settings_account_redirect_message" = "All your incoming messages will be redirect to Conversa to handle your communication. Are you sure you want to enable this feature?";
 
-"settings_account_profile_category_selected" = "Selected";
+"settings_account_profile_category_selected" = "My Categories";
 "settings_account_profile_category_category" = "Categories";
 
 "settings_chat_quality_alert_action_high" = "High";

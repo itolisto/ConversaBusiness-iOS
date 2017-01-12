@@ -43,27 +43,62 @@
 
 #pragma mark - ConversationListener Methods -
 
-- (void)messageReceived:(YapMessage *)message from:(YapContact *)from text:(NSString *)text {
-    if (![SettingsKeys getNotificationPreviewInApp:YES]) {
-        text = nil;
-    }
+- (void)messageReceived:(YapMessage *)message from:(YapContact *)from {
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+     {
+         [message saveWithTransaction:transaction];
+         from.lastMessageDate = message.date;
+         [from saveWithTransaction:transaction];
+     } completionBlock:^{
+         if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+             NSString *text = nil;
 
-    if ([SettingsKeys getNotificationSoundInApp:YES]) {
-        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
-        CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
-        SystemSoundID soundID;
-        AudioServicesCreateSystemSoundID(cfString, &soundID);
-        AudioServicesPlaySystemSound (soundID);
-        CFRelease(cfString);
-    }
+             switch (message.messageType) {
+                 case kMessageTypeText: {
+                     text = message.text;
+                     break;
+                 }
+                 case kMessageTypeLocation: {
+                     text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+                     break;
+                 }
+                 case kMessageTypeVideo: {
+                     text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+                     break;
+                 }
+                 case kMessageTypeAudio: {
+                     text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+                     break;
+                 }
+                 case kMessageTypeImage: {
+                     text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+                     break;
+                 }
+                 default: {
+                     text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+                     break;
+                 }
+             }
 
-    [WhisperBridge shout:from.displayName
-                subtitle:text
-         backgroundColor:[UIColor clearColor]
-  toNavigationController:self.navigationController
-                   image:nil
-            silenceAfter:1.8
-                  action:nil];
+             if ([SettingsKeys getNotificationSoundInApp:YES]) {
+                 NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+                 CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+                 SystemSoundID soundID;
+                 AudioServicesCreateSystemSoundID(cfString, &soundID);
+                 AudioServicesPlaySystemSound (soundID);
+                 CFRelease(cfString);
+             }
+
+             [WhisperBridge shout:from.displayName
+                         subtitle:text
+                  backgroundColor:[UIColor clearColor]
+           toNavigationController:self.navigationController
+                            image:nil
+                     silenceAfter:1.8
+                           action:nil];
+         }
+     }];
 }
 
 #pragma mark - Controller Methods -

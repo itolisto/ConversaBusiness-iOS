@@ -11,6 +11,7 @@
 #import "YapMessage.h"
 #import "YapContact.h"
 #import "SettingsKeys.h"
+#import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 
 #import "ConversaManager-Swift.h"

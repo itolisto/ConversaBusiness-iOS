@@ -73,35 +73,51 @@
     self.categoryPickerView.showsSelectionIndicator = YES;
     self.categoryTextField.inputView = self.categoryPickerView;
 
+    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+
+    if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
+        language = @"en"; // Set to default language
+    }
+
     [PFCloud callFunctionInBackground:@"getCategories"
-                       withParameters:@{}
+                       withParameters:@{@"language":language, @"no": @(0)}
                                 block:^(NSString * _Nullable json, NSError * _Nullable error)
     {
         if (self.isViewLoaded && self.view.window) {
             if (error) {
-
+                // None
             } else {
-                NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"{}\"\\"];
-                NSArray *array = [[[json componentsSeparatedByCharactersInSet:characterSet]
-                                   componentsJoinedByString:@""]
-                                  componentsSeparatedByString:@","];
+                id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                                                            options:0
+                                                              error:&error];
+                if (error) {
+                    // None
+                } else {
+                    NSDictionary *results = object;
 
-                __block NSMutableArray *unsorted = [NSMutableArray arrayWithCapacity:[array count]];
+                    NSArray *unsortedIds;
+                    __block NSMutableArray *sortedCategory = [NSMutableArray arrayWithCapacity:30];
 
-                [array enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    nCategory *category = [[nCategory alloc] init];
-                    category.objectId = obj;
-                    [unsorted addObject:category];
-                }];
+                    if ([results objectForKey:@"ids"] && [results objectForKey:@"ids"] != [NSNull null]) {
+                        unsortedIds = [results objectForKey:@"ids"];
+                    }
 
-                [unsorted sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                    NSString *first = [(nCategory*)obj1 getCategoryName];
-                    NSString *second = [(nCategory*)obj2 getCategoryName];
-                    return [first compare:second];
-                }];
+                    [unsortedIds enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        nCategory *category = [[nCategory alloc] init];
+                        category.objectId = [obj objectForKey:@"id"];
+                        category.name = [obj objectForKey:@"na"];
+                        [sortedCategory addObject:category];
+                    }];
 
-                [self.categoryData addObjectsFromArray:unsorted];
-                [self.categoryPickerView reloadAllComponents];
+                    [sortedCategory sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                        NSString *first = [(nCategory*)obj1 getName];
+                        NSString *second = [(nCategory*)obj2 getName];
+                        return [first compare:second];
+                    }];
+
+                    [self.categoryData addObjectsFromArray:sortedCategory];
+                    [self.categoryPickerView reloadAllComponents];
+                }
             }
         }
     }];
@@ -190,36 +206,7 @@
 }
 
 - (IBAction)imageButtonPressed:(UIButton *)sender {
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction* photoLibrary = [UIAlertAction
-                                   actionWithTitle:@"Librería"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction * action) {
-                                       //Do some thing here
-                                       PresentPhotoLibrary(self, YES, 1);
-                                       [view dismissViewControllerAnimated:YES completion:nil];
-                                   }];
-    UIAlertAction* camera = [UIAlertAction
-                             actionWithTitle:@"Cámara"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 //Do some thing here
-                                 PresentPhotoCamera(self, YES);
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
-                             style:UIAlertActionStyleCancel
-                             handler:^(UIAlertAction * action) {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    [view addAction:photoLibrary];
-    [view addAction:camera];
-    [view addAction:cancel];
-    [self presentViewController:view animated:YES completion:nil];
+    PresentPhotoLibrary(self, YES, 1);
 }
 
 #pragma mark - UIPickerViewDataSource Methods -
@@ -228,7 +215,6 @@
 {
     return 1;
 }
-
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
@@ -239,12 +225,12 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [[self.categoryData objectAtIndex:row] getCategoryName];
+    return [[self.categoryData objectAtIndex:row] getName];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.categoryPicked = [self.categoryData objectAtIndex:row];
-    self.categoryTextField.text = [self.categoryPicked getCategoryName];
+    self.categoryTextField.text = [self.categoryPicked getName];
 }
 
 #pragma mark - UITextFieldDelegate Methods -
@@ -336,19 +322,6 @@
 
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
     [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
-#pragma mark - UIImagePickerControllerDelegate Methods -
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
-{
-    self.avatarImageView.image = compressImage(info[UIImagePickerControllerEditedImage], NO);
-    self.originalImage = NO;
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Navigation Methods -

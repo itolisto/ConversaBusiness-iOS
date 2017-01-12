@@ -9,14 +9,8 @@
 #import "OneSignalService.h"
 
 #import "Log.h"
-#import "Account.h"
-#import "Message.h"
-#import "Business.h"
-#import "YapContact.h"
-#import "YapMessage.h"
 #import "SettingsKeys.h"
-#import "DatabaseManager.h"
-#import <Parse/Parse.h>
+#import "CustomAblyRealtime.h"
 
 @interface OneSignalService ()
 
@@ -48,29 +42,21 @@
 
 - (void)launchWithOptions:(NSDictionary *)launchOptions {
     [OneSignal initWithLaunchOptions:launchOptions
-                               appId:@"a7c846a3-8f63-4200-8b24-15be48dcd6b2"
+                               appId:@"a652c1d3-e681-4538-9486-7b855d90e6aa"
           handleNotificationReceived:^(OSNotification *notification)
      {
          // Function to be called when a notification is received.
          OSNotificationPayload* payload = notification.payload;
 
-         NSString* messageTitle = @"OneSignal Example";
-         NSString* fullMessage = [payload.body copy];
-
          if (payload.additionalData) {
-
-             if(payload.title)
-                 messageTitle = payload.title;
-
              NSDictionary* additionalData = payload.additionalData;
-
-             if (additionalData[@"actionSelected"])
-                 fullMessage = [fullMessage stringByAppendingString:[NSString stringWithFormat:@"\nPressed ButtonId:%@", additionalData[@"actionSelected"]]];
+             [[CustomAblyRealtime sharedInstance] onMessage:additionalData];
          }
      }
             handleNotificationAction:^(OSNotificationOpenedResult *result)
      {
          // Function to be called when a user reacts to a notification received.
+         DDLogWarn(@"handleNotificationAction (:");
      }
                             settings:@{kOSSettingsKeyInAppAlerts: @NO, kOSSettingsKeyAutoPrompt: @NO}];
 }
@@ -78,7 +64,7 @@
 - (void)registerForPushNotifications
 {
     if (self.registerCalled) {
-        //DDLogWarn(@"Method registerForPushNotifications can only be called once");
+        DDLogWarn(@"Method registerForPushNotifications can only be called once");
         return;
     }
 
@@ -87,7 +73,7 @@
 }
 
 - (void)startTags {
-    [OneSignal sendTags:@{@"UserType" : @(2),
+    [OneSignal sendTags:@{@"usertype" : @(2),
                           @"bpbc" : [SettingsKeys getBusinessId],
                           @"bpvt" : [SettingsKeys getBusinessId]}
               onSuccess:^(NSDictionary *result)
@@ -98,27 +84,7 @@
      }];
 }
 
-#pragma mark - Process message Method -
-
-- (void)processMessage:(NSDictionary *)additionalData {
-    NSString* customKey = additionalData[@"customKey"];
-    if (customKey)
-        NSLog(@"customKey: %@", customKey);
-}
-
 #pragma mark - Class Methods -
-
-- (void)subscribeToAllChannels:(BOOL)presence {
-
-}
-
-- (void)subscribeToChannels:(NSArray*)channels {
-
-}
-
-- (void)unsubscribeToChannels:(NSArray*)channels {
-
-}
 
 - (void)unsubscribeFromAllChannels {
     

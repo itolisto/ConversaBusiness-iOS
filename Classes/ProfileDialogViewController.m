@@ -84,7 +84,9 @@
                                 block:^(NSString * _Nullable result, NSError * _Nullable error)
      {
          if (error) {
-             [ParseValidation validateError:error controller:self];
+             if ([ParseValidation validateError:error]) {
+                 [ParseValidation _handleInvalidSessionTokenError:self];
+             }
          } else {
              id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:0

@@ -189,6 +189,21 @@
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.contactTextField) {
+        // Prevent crashing undo bug – see note below.
+        // Taken from: http://stackoverflow.com/a/1773257/5349296
+        if(range.length + range.location > textField.text.length) {
+            return NO;
+        }
+
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        return newLength <= 8;
+    }
+
+    return YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;
 }

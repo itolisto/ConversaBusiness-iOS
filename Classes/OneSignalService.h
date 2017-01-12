@@ -15,10 +15,6 @@
 - (void)launchWithOptions:(NSDictionary *)launchOptions;
 - (void)registerForPushNotifications;
 - (void)startTags;
-
-- (void)subscribeToAllChannels:(BOOL)presence;
-- (void)subscribeToChannels:(NSArray*)channels;
-- (void)unsubscribeToChannels:(NSArray*)channels;
 - (void)unsubscribeFromAllChannels;
 
 @end

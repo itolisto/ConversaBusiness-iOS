@@ -20,7 +20,7 @@
 
 - (void)configureCellWith:(nCategory*)category {
     self.category = category;
-    self.titleLabel.text = [category getCategoryName];
+    self.titleLabel.text = [category getName];
 }
 
 @end

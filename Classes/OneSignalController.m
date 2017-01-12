@@ -8,7 +8,6 @@
 
 #import "OneSignalController.h"
 
-#import "Message.h"
 #import "YapContact.h"
 #import "YapMessage.h"
 #import "DatabaseManager.h"

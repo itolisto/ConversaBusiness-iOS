@@ -32,7 +32,6 @@
 #import "Colors.h"
 #import "AppJobs.h"
 #import "MapView.h"
-#import "Message.h"
 #import "Incoming.h"
 #import "Business.h"
 #import "Constants.h"
@@ -41,6 +40,7 @@
 #import "YapMessage.h"
 #import "SettingsKeys.h"
 #import "DatabaseView.h"
+#import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "NSNumber+Conversa.h"
 #import "ChatsViewController.h"
@@ -59,7 +59,7 @@
 #define kYapDatabaseRangeMaxLength 300
 #define kYapDatabaseRangeMinLength 20
 #define kInputToolbarMaximumHeight 150
-#define kWaitingTimeInSeconds 3
+#define kWaitingTimeInSeconds 3.5
 
 @interface ConversationViewController ()
 
@@ -80,6 +80,7 @@
 @property (nonatomic) NSUInteger page;
 
 @property(nonatomic) BOOL visible;
+@property(nonatomic) BOOL typingFlag;
 
 @property(nonatomic,weak) NSTimer* timeWaiting;
 
@@ -91,7 +92,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    self.typingFlag = NO;
     self.messages = [[NSMutableArray alloc] init];
     
     // Bar tint
@@ -152,6 +154,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.backItem.title = @"";
+    self.navigationController.navigationBar.topItem.title = @"";
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
@@ -219,35 +223,26 @@
 #pragma mark - Setup Methods -
 
 - (void)loadNavigationBarInformation {
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"conversation_navigation_title", nil);
+    UIView *view = [[NSBundle mainBundle] loadNibNamed:@"ChatNavBarView" owner:self options:nil][0];
+    self.titleView = (UILabel *)[view viewWithTag:120];
+    [self.titleView setText:self.buddy.displayName];
+    self.subTitle = (UILabel *)[view viewWithTag:121];
+    [self.subTitle setText:@""];
+    self.subTitle.hidden = YES;
 
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 175, 20)];
-    title.textAlignment = NSTextAlignmentCenter;
-    [title setText:self.buddy.displayName];
-    [title setNumberOfLines:1];
-    title.lineBreakMode = NSLineBreakByTruncatingTail;
-    [title setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
-    self.titleView = title;
-    
-    UILabel *subTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, 175, 10)];
-    subTitle.textAlignment = NSTextAlignmentCenter;
-    [subTitle setText:@""];
-    [subTitle setNumberOfLines:1];
-    subTitle.lineBreakMode = NSLineBreakByTruncatingTail;
-    [subTitle setFont:[UIFont fontWithName:@"HelveticaNeue" size:12]];
-    [subTitle setTextColor:[UIColor lightGrayColor]];
-    self.subTitle = subTitle;
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 175, 40)];
-    [view addSubview:title];
-    [view addSubview:subTitle];
-    
-    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToProfile:)];
+    UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc]
+                                          initWithTarget:self
+                                          action:@selector(goToProfile:)];
     profileTap.numberOfTapsRequired = 1;
     [view setUserInteractionEnabled:YES];
     [view addGestureRecognizer:profileTap];
-    
+
     self.navigationItem.titleView = view;
+}
+
+- (void)refreshNavigationBarInformation:(YapContact *)buddy {
+    [self.titleView setText:buddy.displayName];
+    self.subTitle.hidden = YES;
 }
 
 - (void)setupMessageMapping {
@@ -296,12 +291,13 @@
                 [self loadData];
             }];
             
-            [self loadNavigationBarInformation];
+            [self refreshNavigationBarInformation:buddy];
         }
     }
     
     // Update reference
     self.buddy = buddy;
+    self.typingFlag = NO;
 }
 
 - (void)initWithBuddy:(YapContact *)buddy {
@@ -664,35 +660,35 @@
 {
     YapMessage *msg = [self messageAtIndexPath:indexPath];
 
-    if(msg.messageType != kMessageTypeText) {
-
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];;
+    if ([self shouldShowMessageStatusAtIndexPath:indexPath message:msg]) {
+        NSMutableAttributedString *attributedString = nil;
         NSString *progressString = nil;
+        BOOL error = NO;
 
-        if (msg.isIncoming) {
-            if (msg.transferProgress == 100) {
-                return [self checkDelivered:indexPath andMessage:msg];
-            } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_received", nil), msg.transferProgress];
+        if (msg.getStatus == statusParseError) {
+            error = YES;
+            progressString = [NSString stringWithFormat:@"%@",
+                              NSLocalizedString(@"conversation_message_info_failed", nil)];
+        } else if (msg.getStatus == statusUploading) {
+            if (msg.messageType == kMessageTypeText || msg.messageType == kMessageTypeLocation) {
+                progressString = [NSString stringWithFormat:@"%@",
+                                  NSLocalizedString(@"conversation_message_info_sending", nil)];
             } else {
-                progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
+                progressString = [NSString stringWithFormat:@"%@",
+                                  NSLocalizedString(@"conversation_message_info_uploading", nil)];
             }
-        } else {
-            if (msg.transferProgress == 100) {
-                return [self checkDelivered:indexPath andMessage:msg];
-            } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_sent", nil), msg.transferProgress];
-            } else {
-                if (msg.delivered == statusParseError) {
-                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_failed", nil)];
-                } else {
-                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
-                }
-            }
+        } else if (msg.getStatus == statusDownloading) {
+            progressString = [NSString stringWithFormat:@"%@",
+                              NSLocalizedString(@"conversation_message_info_downloading", nil)];
+        } else if (!msg.isIncoming) {
+            progressString = [NSString stringWithFormat:@"%@",
+                              NSLocalizedString(@"conversation_message_info_sent", nil)];
         }
 
         if ([progressString length]) {
-            if (msg.delivered == statusParseError) {
+            attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
+
+            if (error) {
                 [attributedString insertAttributedString:[[NSAttributedString alloc]
                                                           initWithString:progressString
                                                           attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}]
@@ -706,54 +702,32 @@
         return attributedString;
     }
 
-    return [self checkDelivered:indexPath andMessage:msg];
-}
-
-- (NSAttributedString*)checkDelivered:(NSIndexPath*)indexPath andMessage:(YapMessage*)msg
-{
-    if ([self shouldShowMessageStatusAtIndexPath:indexPath]) {
-        NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-        textAttachment.bounds = CGRectMake(0, 0, 11.0f, 10.0f);
-        
-        if (msg.getStatus == statusParseError) {
-            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_failed", nil)
-                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
-            [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
-            return attrStr;
-        }
-        
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_sent", nil)];
-        [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
-        
-        return attrStr;
-    }
-    
     return nil;
 }
 
-- (BOOL)shouldShowMessageStatusAtIndexPath:(NSIndexPath*)indexPath
+- (BOOL)shouldShowMessageStatusAtIndexPath:(NSIndexPath*)indexPath message:(YapMessage*)currentMessage
 {
-    YapMessage *currentMessage = [self messageAtIndexPath:indexPath];
+    if (currentMessage == nil) {
+        currentMessage = [self messageAtIndexPath:indexPath];
+    }
 
-    if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
-        return NO;
-    } else if (currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading
+    if (currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading
                || currentMessage.delivered == statusParseError) {
         return YES;
-    } else if (indexPath.item == [self.collectionView numberOfItemsInSection:indexPath.section] - 1) {
-        // If is the last message and is outgoing, show message status
-        return (currentMessage.isIncoming == NO);
+    } else if (currentMessage.isIncoming) {
+        return NO;
+    } else if (indexPath.item + 1 < [self.collectionView numberOfItemsInSection:indexPath.section]) {
+        // At this point, is always sure that there is another message
+        return ([self nextOutgoingMessage:indexPath]) ? NO : YES;
     }
-    
-    // At this point, is always sure that there is another message
-    YapMessage *nextMessage = [self nextOutgoingMessage:indexPath];
-    return (nextMessage) ? NO : YES;
+
+    return YES;
 }
 
--(YapMessage*)nextOutgoingMessage:(NSIndexPath*)indexPath
+-(BOOL)nextOutgoingMessage:(NSIndexPath*)indexPath
 {
     YapMessage * nextMessage = [self messageAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
-    return (nextMessage.isIncoming == NO) ? nextMessage : nil;
+    return (nextMessage.isIncoming == NO) ? YES : NO;
 }
 
 #pragma mark - JSQMessagesCollectionViewDelegateFlowLayout Methods -
@@ -777,12 +751,12 @@
         [cal rangeOfUnit:NSCalendarUnitDay startDate:&startOfToday interval:NULL forDate:previousMessage.date];
         [cal rangeOfUnit:NSCalendarUnitDay startDate:&startOfOtherDay interval:NULL forDate:currentMessage.date];
         NSDateComponents *components = [cal components:NSCalendarUnitDay fromDate:startOfOtherDay toDate:startOfToday options:0];
-        NSInteger days = [components day];
+        NSInteger days = labs([components day]);
 
         NSTimeInterval distanceBetweenDates = [currentMessage.date timeIntervalSinceDate:previousMessage.date];
-        NSInteger minutesBetweenDates = distanceBetweenDates / 900; // Seconds past in 15 minutes
-        
-        return ((days == -1) || (minutesBetweenDates >= 1)) ? YES : NO;
+        double minutesBetweenDates = fabs(distanceBetweenDates / 1200); // Seconds past in 20 minutes
+
+        return ((days >= 1) || (minutesBetweenDates >= 1) || (indexPath.row != 1 && indexPath.row % 20 == 0)) ? YES : NO;
     }
 
     return NO;
@@ -796,7 +770,7 @@
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
                    layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return ([self shouldShowMessageStatusAtIndexPath:indexPath]) ? 16.0f : 0.0f;
+    return ([self shouldShowMessageStatusAtIndexPath:indexPath message:nil]) ? 16.0f : 0.0f;
 }
 
 - (void)collectionView:(JSQMessagesCollectionView *)collectionView header:(JSQMessagesLoadEarlierHeaderView *)headerView didTapLoadEarlierMessagesButton:(UIButton *)sender
@@ -911,16 +885,8 @@
 
 # pragma mark - ConversationListener Methods
 
-- (void)messageReceived:(YapMessage *)message from:(YapContact *)from text:(NSString *)text {
-    if (![self.buddy.uniqueId isEqualToString:from.uniqueId]) {
-        [WhisperBridge shout:from.displayName
-                    subtitle:text
-             backgroundColor:[UIColor clearColor]
-      toNavigationController:self.navigationController
-                       image:nil
-                silenceAfter:1.8
-                      action:nil];
-    } else {
+- (void)messageReceived:(YapMessage *)message from:(YapContact *)from {
+    if ([self.buddy.uniqueId isEqualToString:from.uniqueId]) {
         message.view = YES;
         message.read = YES;
 
@@ -933,41 +899,122 @@
                                                               userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
         }];
         self.subTitle.hidden = YES;
+    } else {
+        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+         {
+             [message saveWithTransaction:transaction];
+             from.lastMessageDate = message.date;
+             [from saveWithTransaction:transaction];
+         } completionBlock:^{
+             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+                 NSString *text = nil;
+
+                 switch (message.messageType) {
+                     case kMessageTypeText: {
+                         text = message.text;
+                         break;
+                     }
+                     case kMessageTypeLocation: {
+                         text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+                         break;
+                     }
+                     case kMessageTypeVideo: {
+                         text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+                         break;
+                     }
+                     case kMessageTypeAudio: {
+                         text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+                         break;
+                     }
+                     case kMessageTypeImage: {
+                         text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+                         break;
+                     }
+                     default: {
+                         text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+                         break;
+                     }
+                 }
+
+                 if ([SettingsKeys getNotificationSoundInApp:YES]) {
+                     NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+                     CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+                     SystemSoundID soundID;
+                     AudioServicesCreateSystemSoundID(cfString, &soundID);
+                     AudioServicesPlaySystemSound (soundID);
+                     CFRelease(cfString);
+                 }
+
+                 [WhisperBridge shout:from.displayName
+                             subtitle:text
+                      backgroundColor:[UIColor clearColor]
+               toNavigationController:self.navigationController
+                                image:nil
+                         silenceAfter:1.8
+                               action:nil];
+             }
+         }];
     }
 }
 
 - (void)fromUser:(NSString*)contactId userIsTyping:(BOOL)isTyping {
     if ([self.buddy.uniqueId isEqualToString:contactId]) {
+        if (self.timeWaiting) {
+            [self.timeWaiting invalidate];
+            self.timeWaiting = nil;
+        }
+
         if (isTyping) {
-            self.subTitle.hidden = NO;
-            self.subTitle.text = NSLocalizedString(@"conversation_subtitle_writing", nil);
+            self.timeWaiting = [NSTimer scheduledTimerWithTimeInterval:6
+                                                                target:self
+                                                              selector:@selector(showIsTyping:)
+                                                              userInfo:@(NO)
+                                                               repeats:NO];
+        }
+
+        [self showIsTyping:isTyping];
+    }
+}
+
+- (void)showIsTyping:(BOOL)show {
+    if (show) {
+        self.subTitle.hidden = NO;
+        self.subTitle.text = NSLocalizedString(@"conversation_subtitle_writing", nil);
+    } else {
+        self.subTitle.hidden = YES;
+    }
+}
+
+- (void)receivedTextViewChangedNotification:(NSNotification *)notification
+{
+    if (!self.buddy.blocked) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
+        if ([self.inputToolbar.contentView.textView hasText]) {
+            if (!self.typingFlag) {
+                NSLog(@"Try to send typing started update");
+                self.typingFlag = YES;
+                [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:[self.buddy getPublicChannel]
+                                                                     isTyping:YES];
+            }
+
+            [self performSelector:@selector(userHasEndedTyping)
+                       withObject:self
+                       afterDelay:kWaitingTimeInSeconds];
         } else {
-            self.subTitle.hidden = YES;
+            [self performSelector:@selector(userHasEndedTyping)
+                       withObject:self
+                       afterDelay:0];
         }
     }
 }
 
-- (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status {
-    if ([self.buddy.uniqueId isEqualToString:objectId]) {
-        NSString *title = self.subTitle.text;
-        
-        if ([title isEqualToString:NSLocalizedString(@"conversation_subtitle_writing", nil)]) {
-            title = self.buddy.displayName;
-        }
-        
-        [NSTimer scheduledTimerWithTimeInterval:kWaitingTimeInSeconds
-                                         target:self
-                                       selector:@selector(updateOnline:)
-                                       userInfo:title
-                                        repeats:NO];
-    }
-}
-
--(void)updateOnline:(NSTimer *)timer {
-    //Update Values in Label here
-    self.subTitle.text = [timer userInfo];
-    [timer invalidate];
-    timer = nil;
+- (void)userHasEndedTyping {
+    NSLog(@"Try to send typing ended update");
+    self.typingFlag = NO;
+    [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:[self.buddy getPublicChannel]
+                                                         isTyping:NO];
 }
 
 #pragma mark - Actions Methods -
@@ -977,26 +1024,7 @@
 }
 
 - (IBAction)goToProfile:(id)sender {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    UINavigationController *navigationController1 = [storyboard instantiateViewControllerWithIdentifier:@"profileNavigationController"];
-//    navigationController1.modalPresentationStyle = UIModalPresentationFormSheet;
-//    navigationController1.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    ProfileViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
-//    
-//    // Create object business without reference
-//    Business *bs = [Business objectWithoutDataWithObjectId:self.buddy.uniqueId];
-//    NSData *data = UIImageJPEGRepresentation([[NSFileManager defaultManager] loadImageFromLibrary:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]], 1);
-//
-//    if (data) {
-//        bs.avatar = [PFFile fileWithData:data];
-//    }
-//
-//    bs.displayName = self.buddy.displayName;
-//    bs.conversaID = self.buddy.conversaId;
-//    
-//    vc.business = bs;
-//    [navigationController1 setViewControllers:@[vc] animated:YES];
-//    [self presentViewController:navigationController1 animated:YES completion:nil];
+    // TODO: Implement action for profile tap
 }
 
 - (void)showUnblockMessage {
@@ -1028,47 +1056,6 @@
     [view addAction:unblock];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
-}
-
-
-- (void)receivedTextViewChangedNotification:(NSNotification *)notification
-{
-    if (!self.buddy.blocked) {
-        // Wait before send another typing state or if the view isn't visible,
-        // we might decide to skip the UI animation stuff.
-        if (self.timeWaiting || !self.visible)
-            return;
-        
-        NSMutableDictionary *cb = [[NSMutableDictionary alloc] init];
-        [cb setObject:[self.inputToolbar.contentView.textView text] forKey:@"text"];
-        self.timeWaiting = [NSTimer scheduledTimerWithTimeInterval:kWaitingTimeInSeconds
-                                                            target:self
-                                                          selector:@selector(handleTimer:)
-                                                          userInfo:cb
-                                                           repeats:NO];
-    
-        if ([self.inputToolbar.contentView.textView hasText]) {
-            //[[PubNubService sharedInstance] sendTypingStateOnChannel:[self.buddy getPrivateChannel] isTyping:YES];
-        } else {
-            [self.timeWaiting invalidate];
-            self.timeWaiting = nil;
-            //[[PubNubService sharedInstance] sendTypingStateOnChannel:[self.buddy getPrivateChannel] isTyping:NO];
-        }
-    }
-}
-
--(void)handleTimer:(NSTimer *)timer
-{
-    //Update Values in Label here
-    NSDictionary *dict = [timer userInfo];
-    BOOL one = [[self.inputToolbar.contentView.textView text] isEqualToString:[dict valueForKey:@"text"]];
-    BOOL two = [self.inputToolbar.contentView.textView hasText];
-    if (one || two) {
-        //[[PubNubService sharedInstance] sendTypingStateOnChannel:[self.buddy getPrivateChannel] isTyping:NO];
-    }
-    
-    [self.timeWaiting invalidate];
-    self.timeWaiting = nil;
 }
 
 - (void)actionCopy:(NSIndexPath *)indexPath {
@@ -1125,80 +1112,80 @@
 {
     YapMessage *message = [yapMessage copy];
     
-    if (isLastMessage) {
-        // Save message to display
-        [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-            [message saveWithTransaction:transaction];
-            self.buddy.lastMessageDate = message.date;
-            [self.buddy saveWithTransaction:transaction];
-        }];
-    } else {
+    if (!isLastMessage) {
         // Update message date to show as newer message sent
         message.date = [NSDate date];
-        [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-            [message saveWithTransaction:transaction];
-            self.buddy.lastMessageDate = message.date;
-            [self.buddy saveWithTransaction:transaction];
-        }];
     }
-    
-    if (message.getStatus == statusUploading || message.getStatus == statusParseError)
-    {
-        NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
-                                           @{
-                                             @"user" : self.buddy.uniqueId,
-                                             @"business" : [SettingsKeys getBusinessId],
-                                             @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
-                                             }];
-        
-        switch (yapMessage.messageType) {
-            case kMessageTypeText: {
-                [messageNSD addEntriesFromDictionary:@{@"text" : message.text}];
-                break;
-            }
-            case kMessageTypeLocation: {
-                [messageNSD addEntriesFromDictionary:@{
-                                                @"latitude": [NSNumber numberWithDouble:message.location.coordinate.latitude],
-                                                @"longitude": [NSNumber numberWithDouble:message.location.coordinate.longitude]}];
-                break;
-            }
-            case kMessageTypeImage: {
-                [messageNSD addEntriesFromDictionary:@{
-                                                       @"size": [NSNumber numberWithCGFloat:message.bytes],
-                                                       @"width" : [NSNumber numberWithCGFloat:message.width],
-                                                       @"height": [NSNumber numberWithCGFloat:message.height],
-                                                       @"file": file}];
-                break;
-            }
-        }
-        
-        [PFCloud callFunctionInBackground:@"sendUserMessage"
-                           withParameters:messageNSD
-                                    block:^(id  _Nullable object, NSError * _Nullable error)
+
+    [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+        [message saveWithTransaction:transaction];
+        self.buddy.lastMessageDate = message.date;
+        [self.buddy saveWithTransaction:transaction];
+    } completionBlock:^{
+        if (message.getStatus == statusUploading || message.getStatus == statusParseError)
         {
-            if(error) {
-                DDLogError(@"Message sent error: %@", error.localizedDescription);
-                message.delivered = statusParseError;
-                message.error = error.localizedDescription;
-            } else {
-                message.delivered = statusAllDelivered;
-                message.error = nil;
+            NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
+                                               @{
+                                                 @"user" : self.buddy.uniqueId,
+                                                 @"business" : [SettingsKeys getBusinessId],
+                                                 @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
+                                                 }];
+
+            switch (yapMessage.messageType) {
+                case kMessageTypeText: {
+                    [messageNSD addEntriesFromDictionary:@{@"text" : message.text}];
+                    break;
+                }
+                case kMessageTypeLocation: {
+                    [messageNSD addEntriesFromDictionary:@{
+                                                           @"latitude": [NSNumber numberWithDouble:message.location.coordinate.latitude],
+                                                           @"longitude": [NSNumber numberWithDouble:message.location.coordinate.longitude]}];
+                    break;
+                }
+                case kMessageTypeImage: {
+                    [messageNSD addEntriesFromDictionary:@{
+                                                           @"size": [NSNumber numberWithCGFloat:message.bytes],
+                                                           @"width" : [NSNumber numberWithCGFloat:message.width],
+                                                           @"height": [NSNumber numberWithCGFloat:message.height],
+                                                           @"file": file}];
+                    break;
+                }
             }
-            
-            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-            {
-                [message saveWithTransaction:transaction];
-            }];
-        }];
-    }
-    
-    if (!self.checkIfAlreadyAdded) {
-        // Notify observers a user was added
-        self.checkIfAlreadyAdded = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CHATS_NOTIFICATION_NAME
-                                                            object:nil
-                                                          userInfo:nil];
-    }
+
+            [PFCloud callFunctionInBackground:@"sendUserMessage"
+                               withParameters:messageNSD
+                                        block:^(id  _Nullable object, NSError * _Nullable error)
+             {
+                 if(error) {
+                     if ([ParseValidation validateError:error]) {
+                         self.visible = NO;
+                         [ParseValidation _handleInvalidSessionTokenError:self];
+                         return;
+                     } else {
+                         DDLogError(@"Message sent error: %@", error.localizedDescription);
+                         message.delivered = statusParseError;
+                         message.error = error.localizedDescription;
+                     }
+                 } else {
+                     message.delivered = statusAllDelivered;
+                     message.error = nil;
+                 }
+
+                 [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                  {
+                      [message saveWithTransaction:transaction];
+                  }];
+             }];
+        }
+
+        if (!self.checkIfAlreadyAdded) {
+            // Notify observers a user was added
+            self.checkIfAlreadyAdded = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CHATS_NOTIFICATION_NAME
+                                                                object:nil
+                                                              userInfo:nil];
+        }
+    }];
 }
 
 #pragma mark - UIImagePickerControllerDelegate Method -
