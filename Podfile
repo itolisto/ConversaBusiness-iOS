@@ -8,7 +8,8 @@ inhibit_all_warnings!
 
 target 'ConversaManager' do
     # SaaS
-    pod 'Parse'
+    #pod 'Parse'
+    pod 'Parse', git: 'https://github.com/ampme/Parse-SDK-iOS-OSX', branch: 'fix-1006'
     # PushNotifications Service
     pod 'OneSignal'
     # Ably Realtime Client Library

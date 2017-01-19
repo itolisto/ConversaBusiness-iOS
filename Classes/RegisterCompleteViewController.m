@@ -67,29 +67,33 @@
      {
          if (self.isViewLoaded && self.view.window) {
              if (error) {
-
+                 [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
              } else {
-                 NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"{}\"\\"];
-                 NSArray *array = [[[json componentsSeparatedByCharactersInSet:characterSet]
-                                    componentsJoinedByString:@""]
-                                   componentsSeparatedByString:@","];
+                 id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                                                             options:0
+                                                               error:&error];
+                 if (error) {
+                     [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
+                 } else {
+                     NSMutableArray *array = object;
+                     __block NSMutableArray *unsorted = [NSMutableArray arrayWithCapacity:[array count]];
 
-                 __block NSMutableArray *unsorted = [NSMutableArray arrayWithCapacity:[array count]];
+                     [array enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                         nCountry *category = [[nCountry alloc] init];
+                         category.objectId = [obj objectForKey:@"id"];
+                         category.name = [obj objectForKey:@"na"];
+                         [unsorted addObject:category];
+                     }];
 
-                 [array enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                     nCountry *category = [[nCountry alloc] init];
-                     category.objectId = obj;
-                     [unsorted addObject:category];
-                 }];
+                     [unsorted sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                         NSString *first = [(nCountry*)obj1 getName];
+                         NSString *second = [(nCountry*)obj2 getName];
+                         return [first compare:second];
+                     }];
 
-                 [unsorted sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                     NSString *first = [(nCountry*)obj1 getName];
-                     NSString *second = [(nCountry*)obj2 getName];
-                     return [first compare:second];
-                 }];
-
-                 [self.countryData addObjectsFromArray:unsorted];
-                 [self.countryPickerView reloadAllComponents];
+                     [self.countryData addObjectsFromArray:unsorted];
+                     [self.countryPickerView reloadAllComponents];
+                 }
              }
          }
      }];
@@ -172,6 +176,15 @@
 }
 
 #pragma mark - Action Methods -
+
+- (void)showErrorMessage:(NSString*)message {
+    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+    hudError.mode = MBProgressHUDModeText;
+    [self.view addSubview:hudError];
+    hudError.label.text = message;
+    [hudError showAnimated:YES];
+    [hudError hideAnimated:YES afterDelay:1.7];
+}
 
 - (IBAction)backButtonPressed:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -358,23 +371,6 @@
             [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
         }
     }];
-}
-
-- (void) showErrorMessage:(NSString*)message {
-
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:message
-                                 preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* ok = [UIAlertAction
-                         actionWithTitle:@"Ok"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action) {
-                             [view dismissViewControllerAnimated:YES completion:nil];
-                         }];
-    [view addAction:ok];
-    [self presentViewController:view animated:YES completion:nil];
 }
 
 @end

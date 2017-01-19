@@ -260,36 +260,23 @@
 
 - (void)changeFavorite:(BOOL)favorite {
     self.select = favorite;
+    CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
+    self.favoriteImageView.transform = expandTransform;
 
     if (favorite) {
-        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
         self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav"];
-        self.favoriteImageView.transform = expandTransform;
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-             usingSpringWithDamping:0.4
-              initialSpringVelocity:0.2
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
-                         } completion:^(BOOL finished) {
-
-                         }];
     } else {
-        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
         self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav_not"];
-        self.favoriteImageView.transform = expandTransform;
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-             usingSpringWithDamping:0.4
-              initialSpringVelocity:0.2
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
-                         } completion:^(BOOL finished) {
-
-                         }];
     }
+
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+         usingSpringWithDamping:0.4
+          initialSpringVelocity:0.2
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.favoriteImageView.transform = CGAffineTransformIdentity;
+                     } completion:nil];
 }
 
 #pragma mark - UIButton Methods -

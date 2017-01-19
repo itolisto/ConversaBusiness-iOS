@@ -13,7 +13,7 @@
 
 @property (strong, nonatomic) YapContact *business;
 
-- (void)configureCellWith:(YapContact *)buddy;
+- (void)configureCellWith:(YapContact *)buddy position:(NSInteger)position;
 - (void)updateLastMessage:(BOOL)skipConversationText;
 
 @end

@@ -256,7 +256,7 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 #pragma mark - Message settings -
 + (void)setMessageImageQuality:(ConversaImageQuality)quality {
     NSUserDefaults *defaults = [self getDefaults];
-    switch ([defaults integerForKey:qualityImageSetting]) {
+    switch (quality) {
         case ConversaImageQualityHigh:
             [defaults setInteger:1 forKey:qualityImageSetting]; break;
         case ConversaImageQualityMedium:

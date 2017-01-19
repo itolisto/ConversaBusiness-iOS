@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIStateButton *checkButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *skipButton;
 
 @property (strong, nonatomic) NSMutableArray<nBusiness *> *businessList;
 
@@ -44,6 +45,11 @@
     [self.checkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.checkButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
     [self.checkButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
+
+    [self.skipButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [self.skipButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.skipButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
+    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     // Init array
     self.businessList = [NSMutableArray new];
 }

@@ -38,29 +38,26 @@
     self.image = NO;
 }
 
-- (void)configureCellWith:(YapContact *)business {
+- (void)configureCellWith:(YapContact *)business position:(NSInteger)position {
     self.business = business;
 
-    //NSLog(self.image ? @"YES YES YES" : @"NO NO NO");
-
     if (!self.image) {
-        int max = 7, min = 1;
-        int random = min + arc4random_uniform((uint32_t)(max - min + 1));
+        position++;
 
-        if (random % 7 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_seven"];
-        } else if (random % 6 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_six"];
-        } else if (random % 5 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_five"];
-        } else if (random % 4 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_four"];
-        } else if (random % 3 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_three"];
-        } else if (random % 2 == 0) {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_two"];
-        } else {
+        if (position % 7 == 0) {
             self.avatarImageView.image = [UIImage imageNamed:@"ic_user_one"];
+        } else if (position % 6 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_two"];
+        } else if (position % 5 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_three"];
+        } else if (position % 4 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_four"];
+        } else if (position % 3 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_five"];
+        } else if (position % 2 == 0) {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_six"];
+        } else {
+            self.avatarImageView.image = [UIImage imageNamed:@"ic_user_seven"];
         }
 
         self.image = YES;

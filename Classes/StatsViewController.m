@@ -12,6 +12,7 @@
 #import "SettingsKeys.h"
 #import "Reachability.h"
 #import "UIStateButton.h"
+#import "ParseValidation.h"
 
 #import <Parse/Parse.h>
 #import <Charts/Charts-Swift.h>
@@ -50,21 +51,6 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(14.0, 0.0, 14.0, 0.0);
 
     [self setupPieChartView:_pieChart];
-    _pieChart.delegate = self;
-
-    ChartLegend *l = _pieChart.legend;
-    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
-    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
-    l.orientation = ChartLegendOrientationVertical;
-    l.drawInside = NO;
-    l.xEntrySpace = 7.0;
-    l.yEntrySpace = 0.0;
-    l.yOffset = 0.0;
-
-    // entry label styling
-    _pieChart.entryLabelColor = UIColor.whiteColor;
-    _pieChart.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
-    [_pieChart animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 
     // Add border to Button
     [self.retryButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
@@ -160,11 +146,15 @@
                  }
 
                  if (error) {
-                     if (self.loadingView.isHidden) {
-                         self.loadingView.hidden = NO;
-                     }
-                     if (self.infoView.isHidden) {
-                         self.infoView.hidden = NO;
+                     if ([ParseValidation validateError:error]) {
+                         [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                     } else {
+                         if (self.loadingView.isHidden) {
+                             self.loadingView.hidden = NO;
+                         }
+                         if (self.infoView.isHidden) {
+                             self.infoView.hidden = NO;
+                         }
                      }
                  } else {
                      self.loadingView.hidden = YES;
@@ -268,6 +258,13 @@
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;
+
+    chartView.delegate = self;
+
+    // entry label styling
+    chartView.entryLabelColor = UIColor.whiteColor;
+    chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
+    [chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)updateChartData:(double)sent received:(double)received
@@ -303,7 +300,7 @@
 
     _pieChart.data = data;
     [_pieChart highlightValues:nil];
-    //[_pieChart setNeedsDisplay];
+    [_pieChart setNeedsDisplay];
 }
 
 @end

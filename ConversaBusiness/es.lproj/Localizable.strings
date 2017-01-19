@@ -8,9 +8,12 @@
 "signup_check_empty_search" = "No se puede realizar búsqueda con campo vacío";
 "signup_contact_success" = "¡Genial! Estaremos en contacto contigo lo más pronto posible";
 "signup_contact_error" = "Oops, el reclamo no se puedo realizar, por favor intenta más tarde";
-"signup_conversaid_error" = "Este Conversa ID ya\nestá ocupado";
+"signup_conversaid_error" = "Este Conversa ID ya\nestá ocupado, prueba\ncon otro";
 "signup_email_error" = "Este correo electrónico\nya está ocupado";
 "signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
+"signup_checking_conversa_id" = "Verificando información...";
+"signup_register_categories_error" = "No se han podido obtener las categorías, ve atrás e intenta de nuevo";
+"signup_register_countries_error" = "No se han podido obtener los países, ve atrás e intenta de nuevo";
 
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
@@ -65,38 +68,6 @@
 
 "categories_searchbar_placeholder" = "Busca por negocios, tiendas, etc";
 "category" = "Categoría";
-"c0i96zRLFyw" = "Libros";
-"c1zZcJ8an9Z" = "Servicios";
-"c3b8NykTdo3" = "Juguetes";
-"c462mKRISE7" = "Electrónicos";
-"c4EsFpxgOu6" = "Servicio a domicilio";
-"c90Y0ajWUAG" = "Mascotas";
-"cDqCLGage9M" = "Belleza";
-"cFBv7AV5OGU" = "Videojuegos";
-"cJi1FwE21F8" = "Suplementos para fiesta";
-"cMHbjypaY4R" = "Ropa de hombre";
-"cQNFkAelMAd" = "Hogar y Jardín";
-"cR7LZJ3Lbj8" = "Regalos";
-"cRWcS1d4bqt" = "Bebés";
-"cSYHk42aEOz" = "Carros";
-"cTFau41aZ8E" = "Instrumentos musicales";
-"cVZg31Kxzew" = "Viajes";
-"cW0lNHTPV3v" = "Deportes y Fitness";
-"caDuBd0GuuH" = "Restaurantes";
-"caWthcdxIAJ" = "Zapatos para hombre";
-"cay9ADQjpRT" = "Muebles";
-"ccCZl1h0sXf" = "Suplementos de oficina";
-"ccGWcPxDcB7" = "Comida";
-"ccQy8YtN7j4" = "Entretenimiento";
-"cgBcgtlLRVw" = "Joyería";
-"cr4ZYMKINHp" = "Ropa de mujer";
-"cuRzYgo8krw" = "Zapatos para mujer";
-"cydPTRrUJye" = "Salud";
-"cDvl63HGh9j" = "Retailers";
-"cprn5lWuEDc" = "Online \u0026 Internet";
-"c63MVeTZE3q" = "Ropa de niño";
-"cztraRwNrdX" = "Educación";
-"c0GCyIw3HBP" = "Postres y Dulces";
 
 "stats_pie_chart_sent_label" = "Enviados";
 "stats_pie_chart_received_label" = "Recibidos";
@@ -112,9 +83,11 @@
 "settings_account_alert_password_title" = "¿Estás segura que quieres cambiar tu contraseña?";
 "settings_account_alert_password_action_change" = "Cambiar";
 "settings_account_alert_password_changed" = "Contraseña cambiada";
-"settings_account_alert_password_not_changed" = "Contraseña no cambiada";
+"settings_account_alert_password_not_changed" = "Lo sentimos, tu contraseña no se cambió. Intenta más tarde.";
 "settings_account_alert_displayname_changed" = "Nombre cambiado";
-"settings_account_alert_displayname_not_changed" = "Nombre no cambiado";
+"settings_account_alert_displayname_not_changed" = "Lo sentimos, tu nombre no fue cambiado. Intenta más tarde.";
+"settings_account_alert_conversa_id_changed" = "Conversa ID cambiado";
+"settings_account_alert_conversa_id_not_changed" = "Lo sentimos, tu Conversa ID no fue cambiado porque ya está ocupado";
 "settings_account_logout_alert_action_logout" = "Cerrar sesión";
 
 "settings_account_avatar" = "Avatar cambiado";
@@ -130,8 +103,8 @@
 
 "settings_account_status_message_fail" = "Estado no se ha cambiado. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
 
-"settings_account_redirect_message_enable_fail" = "No pudimos habilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
-"settings_account_redirect_message_disable_fail" = "No pudimos deshabilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
+"settings_account_redirect_message_enable_fail" = "No pudimos habilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información";
+"settings_account_redirect_message_disable_fail" = "No pudimos deshabilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información";
 "settings_account_redirect_message" = "Todos tus mensajes entrantes serán dirigidos a Conversa para que maneje tu comunicación ¿Deseas activar esta característica?";
 
 "settings_account_profile_category_selected" = "Mis Categorías";

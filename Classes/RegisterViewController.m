@@ -85,13 +85,13 @@
     {
         if (self.isViewLoaded && self.view.window) {
             if (error) {
-                // None
+                [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
             } else {
                 id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
                                                             options:0
                                                               error:&error];
                 if (error) {
-                    // None
+                    [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
                 } else {
                     NSDictionary *results = object;
 
@@ -200,6 +200,15 @@
 }
 
 #pragma mark - Action Methods -
+
+- (void)showErrorMessage:(NSString*)message {
+    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+    hudError.mode = MBProgressHUDModeText;
+    [self.view addSubview:hudError];
+    hudError.label.text = message;
+    [hudError showAnimated:YES];
+    [hudError hideAnimated:YES afterDelay:1.7];
+}
 
 - (IBAction)closeButtonPressed:(UIButton *)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -334,12 +343,18 @@
 
 - (IBAction)continueButtonPressed:(UIButton*)sender {
     if ([self validateFields]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+        hudError.mode = MBProgressHUDModeText;
+        [self.view addSubview:hudError];
+        hudError.label.text = NSLocalizedString(@"signup_checking_conversa_id", nil);
+        [hudError showAnimated:YES];
+
         [PFCloud callFunctionInBackground:@"businessValidateId"
                            withParameters:@{@"conversaID":self.idTextField.text}
                                     block:^(id  _Nullable object, NSError * _Nullable error)
         {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [hudError hideAnimated:YES];
+
             if(error) {
                 MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
                 hudError.mode = MBProgressHUDModeText;

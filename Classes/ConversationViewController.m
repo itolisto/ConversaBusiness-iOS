@@ -154,8 +154,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.backItem.title = @"";
-    self.navigationController.navigationBar.topItem.title = @"";
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }

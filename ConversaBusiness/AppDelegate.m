@@ -444,6 +444,7 @@
                                                                      error:nil];
                      block(EDQueueResultCritical);
                  } else {
+                     [SettingsKeys setAvatarUrl:@""];
                      block(EDQueueResultSuccess);
                  }
              }];

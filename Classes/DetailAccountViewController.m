@@ -15,6 +15,7 @@
 #import "Business.h"
 #import "Constants.h"
 #import "SettingsKeys.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "NSFileManager+Conversa.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIStateButton *changeAvatarButton;
 
 @end
 
@@ -35,6 +37,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // Add sign up button properties
+    [self.changeAvatarButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];
+    [self.changeAvatarButton setTitleColor:[Colors white] forState:UIControlStateNormal];
+    [self.changeAvatarButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.changeAvatarButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
 
     self.displayNameTextField.text = [SettingsKeys getDisplayName];
     self.conversaIdTextField.text = [SettingsKeys getConversaId];
@@ -147,13 +155,13 @@
                      self.conversaIdTextField.text = [SettingsKeys getConversaId];
                      // Show notification
                      image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
+                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_not_changed", nil);
                  } else {
                      // Change displayName
                      [SettingsKeys setConversaId:temp];
                      // Show notification
                      image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
+                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_changed", nil);
                  }
 
                  hud.customView = [[UIImageView alloc] initWithImage:image];
@@ -209,7 +217,7 @@
     return YES;
 }
 
-- (IBAction)avatarButtonPressed:(UIButton *)sender {
+- (IBAction)avatarButtonPressed:(UIStateButton *)sender {
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:nil
                                  message:nil

@@ -9,9 +9,12 @@
 "signup_check_empty_search" = "Can't search for empty field";
 "signup_contact_success" = "Great! We'll be in contact\nwith you as soon as possible";
 "signup_contact_error" = "Oops, the reclaim couldn't be filed, please try again later";
-"signup_conversaid_error" = "This Conversa ID is\nalready taken";
+"signup_conversaid_error" = "Conversa ID is already\ntaken, try with another";
 "signup_email_error" = "This email is\nalready taken";
 "signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
+"signup_checking_conversa_id" = "Verifying information...";
+"signup_register_categories_error" = "Unable to find categories, go back and try again";
+"signup_register_countries_error" = "Unable to find countries, go back and try again";
 
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
 "recover_password_sent_message" = "Password recovery link sent";
@@ -66,38 +69,6 @@
 
 "categories_searchbar_placeholder" = "Search for business, stores, etc";
 "category" = "Category";
-"c0i96zRLFyw" = "Books";
-"c1zZcJ8an9Z" = "Services";
-"c3b8NykTdo3" = "Toys";
-"c462mKRISE7" = "Electronics & Tech";
-"c4EsFpxgOu6" = "Delivery";
-"c90Y0ajWUAG" = "Pets";
-"cDqCLGage9M" = "Beauty";
-"cFBv7AV5OGU" = "Videogames";
-"cJi1FwE21F8" = "Party Supplies";
-"cMHbjypaY4R" = "Men\'s Clothing";
-"cQNFkAelMAd" = "Home & Garden";
-"cR7LZJ3Lbj8" = "Gifts";
-"cRWcS1d4bqt" = "Baby";
-"cSYHk42aEOz" = "Cars";
-"cTFau41aZ8E" = "Musical Instruments";
-"cVZg31Kxzew" = "Travel";
-"cW0lNHTPV3v" = "Sports & Fitness";
-"caDuBd0GuuH" = "Restaurants";
-"caWthcdxIAJ" = "Men Shoes";
-"cay9ADQjpRT" = "Furniture";
-"ccCZl1h0sXf" = "Office Supplies";
-"ccGWcPxDcB7" = "Food";
-"ccQy8YtN7j4" = "Entertainment";
-"cgBcgtlLRVw" = "Jewelry & Accessories";
-"cr4ZYMKINHp" = "Women\'s Clothing";
-"cuRzYgo8krw" = "Women Shoes";
-"cydPTRrUJye" = "Health";
-"cDvl63HGh9j" = "Retailers";
-"cprn5lWuEDc" = "Online & Internet";
-"c63MVeTZE3q" = "Kid's Clothing";
-"cztraRwNrdX" = "Education";
-"c0GCyIw3HBP" = "Bakery & Treats";
 
 "stats_pie_chart_sent_label" = "Sent";
 "stats_pie_chart_received_label" = "Received";
@@ -113,9 +84,11 @@
 "settings_account_alert_password_title" = "Are you sure you want to change your password?";
 "settings_account_alert_password_action_change" = "Change";
 "settings_account_alert_password_changed" = "Password changed";
-"settings_account_alert_password_not_changed" = "Password not changed";
+"settings_account_alert_password_not_changed" = "We're sorry, password couldn't be changed. Please try again later";
 "settings_account_alert_displayname_changed" = "Name changed";
-"settings_account_alert_displayname_not_changed" = "Name not changed";
+"settings_account_alert_displayname_not_changed" = "We're sorry, name couldn't be changed. Please try again later";
+"settings_account_alert_conversa_id_changed" = "Conversa ID changed";
+"settings_account_alert_conversa_id_not_changed" = "We're sorry, Conversa ID couldn't be changed because is already taken";
 "settings_account_logout_alert_action_logout" = "Log Out";
 
 "settings_account_avatar" = "Avatar changed";
