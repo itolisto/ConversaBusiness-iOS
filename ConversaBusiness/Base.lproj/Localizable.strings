@@ -93,7 +93,7 @@
 
 "settings_account_avatar" = "Avatar changed";
 "settings_account_avatar_error_link" = "Avatar not changed";
-"settings_account_avatar_error" = "An error ocurred while saving the avatar";
+"settings_account_avatar_error" = "An error occurred while saving the avatar";
 
 "settings_account_status_online" = "Online";
 "settings_account_status_offline" = "Offline";

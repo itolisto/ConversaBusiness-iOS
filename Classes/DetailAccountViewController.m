@@ -12,7 +12,6 @@
 #import "Camera.h"
 #import "Colors.h"
 #import "Account.h"
-#import "Business.h"
 #import "Constants.h"
 #import "SettingsKeys.h"
 #import "UIStateButton.h"

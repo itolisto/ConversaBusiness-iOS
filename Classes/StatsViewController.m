@@ -255,7 +255,7 @@
     l.verticalAlignment = ChartLegendVerticalAlignmentTop;
     l.orientation = ChartLegendOrientationVertical;
     l.drawInside = NO;
-    l.xEntrySpace = 7.0;
+    l.xEntrySpace = 0.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;
 

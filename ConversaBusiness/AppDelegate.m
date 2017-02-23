@@ -13,7 +13,6 @@
 #import "Account.h"
 #import "AppJobs.h"
 #import "Customer.h"
-#import "Business.h"
 #import "Constants.h"
 #import "Appirater.h"
 #import "YapContact.h"
@@ -56,7 +55,6 @@
     
     // Register subclassing for using as Parse objects
     [Account registerSubclass];
-    [Business registerSubclass];
     [Customer registerSubclass];
     
     // [Optional] Power your app with Local Datastore. For more info, go to
@@ -64,11 +62,17 @@
     [Parse enableLocalDatastore];
     
     // Initialize Parse.
-    [Parse setApplicationId:@"39H1RFC1jalMV3cv8pmDGPRh93Bga1mB4dyxbLwl"
-                  clientKey:@"YC3vORNGt6I4f8yEsO6TyGF97XbmitofOrrS5PCC"];
+    [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        //configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        //configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        //configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+        // To work with localhost
+        configuration.applicationId = @"b15c83";
+        configuration.server = @"http://localhost:1337/parse";
+    }]];
     
 #if TARGET_IPHONE_SIMULATOR
-    //NSLog(@"Home directory: %@",NSHomeDirectory());
+    NSLog(@"Home directory: %@",NSHomeDirectory());
 #endif
     
     if (![DatabaseManager existsYapDatabase]) {

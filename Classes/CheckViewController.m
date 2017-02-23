@@ -48,8 +48,8 @@
 
     [self.skipButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
     [self.skipButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateNormal];
-    [self.skipButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
-    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [self.skipButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.skipButton setTitleColor:[Colors secondaryPurple] forState:UIControlStateHighlighted];
     // Init array
     self.businessList = [NSMutableArray new];
 }

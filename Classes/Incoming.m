@@ -77,11 +77,10 @@
 }
 
 - (void)loadVideoMedia:(YapMessage *)item MediaItem:(VideoMediaItem *)mediaItem {
-    __weak typeof(YapMessage) *wMessage = item;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         // Create strong reference to the weakSelf inside the block so that it´s not released while the block is running
 
-        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromLibrary:wMessage.filename];
+        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromLibrary:item.filename];
 
         UIImage *image = nil;
         if (videoData) {
@@ -90,17 +89,13 @@
 
         // When finished call back on the main thread:
         dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(YapMessage)*wStrongSelf = wMessage;
-
             mediaItem.image   = (image) ? image : [UIImage imageNamed:@"retry_media"];
             mediaItem.fileURL = [NSURL fileURLWithPath:videoData];
             mediaItem.status = STATUS_SUCCEED;
 
-            if (videoData && wStrongSelf) {
+            if (videoData) {
                 [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                    typeof(YapMessage)*sSelf = wMessage;
-                    if (sSelf)
-                        [sSelf touchMessageWithTransaction:transaction];
+                    [item touchMessageWithTransaction:transaction];
                 }];
             }
         });
@@ -129,22 +124,18 @@
 }
 
 - (void)loadPhotoMedia:(YapMessage *)item MediaItem:(PhotoMediaItem *)mediaItem {
-    __weak typeof(YapMessage) *wMessage = item;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 
-        UIImage  *image  = [[NSFileManager defaultManager] loadImageFromLibrary:wMessage.filename];
+        UIImage  *image  = [[NSFileManager defaultManager] loadImageFromLibrary:item.filename];
 
         // When finished call back on the main thread:
         dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(YapMessage)*wStrongSelf = wMessage;
-            if (image && wStrongSelf) {
+            if (image) {
                 mediaItem.image  = image;
                 mediaItem.status = STATUS_SUCCEED;
 
                 [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                    typeof(YapMessage)*sSelf = wMessage;
-                    if (sSelf)
-                        [sSelf touchMessageWithTransaction:transaction];
+                    [item touchMessageWithTransaction:transaction];
                 }];
             }
         });
@@ -171,23 +162,17 @@
 }
 
 - (void)loadAudioMedia:(YapMessage *)item MediaItem:(AudioMediaItem *)mediaItem {
-    __weak typeof(YapMessage) *wMessage = item;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        typeof(YapMessage)*wStrongSelf = wMessage;
-
-        NSString *audioData = [[NSFileManager defaultManager] loadAudioFromLibrary:wStrongSelf.filename];
+        NSString *audioData = [[NSFileManager defaultManager] loadAudioFromLibrary:item.filename];
 
         // When finished call back on the main thread:
         dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(YapMessage)*wStrongSelf = wMessage;
-            if (audioData && wStrongSelf) {
+            if (audioData) {
                 mediaItem.fileURL = [NSURL fileURLWithPath:audioData];
                 mediaItem.status = STATUS_SUCCEED;
 
                 [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                    typeof(YapMessage)*sSelf = wMessage;
-                    if (sSelf)
-                        [sSelf touchMessageWithTransaction:transaction];
+                    [item touchMessageWithTransaction:transaction];
                 }];
             }
         });
@@ -206,14 +191,10 @@
     NSDate   *date   = item.date;
     JSQLocationMediaItem *mediaItem = [[JSQLocationMediaItem alloc] initWithLocation:nil];
     mediaItem.appliesMediaViewMaskAsOutgoing = !item.isIncoming;
-    //__weak typeof(YapMessage) *wMessage = item;
     [mediaItem setLocation:item.location withCompletionHandler:^{
         [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
         {
-            //DDLogError(@"YapMessage: %@", item);
-            //typeof(YapMessage)*sSelf = wMessage;
-            if (item)
-                [item touchMessageWithTransaction:transaction];
+            [item touchMessageWithTransaction:transaction];
         }];
     }];
 

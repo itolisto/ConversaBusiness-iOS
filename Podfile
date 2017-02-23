@@ -7,9 +7,8 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'ConversaManager' do
-    # SaaS
     #pod 'Parse'
-    pod 'Parse', git: 'https://github.com/ampme/Parse-SDK-iOS-OSX', branch: 'fix-1006'
+    pod 'Parse', :git => 'https://github.com/ParsePlatform/Parse-SDK-iOS-OSX.git'
     # PushNotifications Service
     pod 'OneSignal'
     # Ably Realtime Client Library
@@ -18,8 +17,10 @@ target 'ConversaManager' do
     pod 'YapDatabase/SQLCipher'
     # Google Maps for iOS
     pod 'GoogleMaps'
-    # For latest release in cocoapods
-    pod 'JSQMessagesViewController'
+    # Latest on develop
+    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'develop'
+    # A fancy Obj-C wrapper for Cocoa System Sound Services
+    pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
@@ -34,7 +35,7 @@ target 'ConversaManager' do
     pod 'MBProgressHUD', '~> 1.0.0'
     # For app reviews
     pod 'Appirater'
-    # ARC support, swipe-to-dismiss, image progress and more
+    # ARC support, swipe-to-dismiss, image progress and more (included in )
     pod 'IDMPhotoBrowser'
     # Crash Log
     pod 'Fabric'
@@ -46,9 +47,9 @@ target 'ConversaManager' do
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView'
     # This library provides an async image downloader with cache support
-    pod 'SDWebImage', '~>3.8'
+    pod 'SDWebImage', '4.0.0'
     # The easiest way to add a UIActivityView to your SDWebImage view
-    pod 'UIActivityIndicator-for-SDWebImage'
+    # pod 'UIActivityIndicator-for-SDWebImage'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS

@@ -9,7 +9,6 @@
 #import "CustomChatCell.h"
 
 #import "Colors.h"
-#import "Business.h"
 #import "Constants.h"
 #import "YapMessage.h"
 #import "YapContact.h"
@@ -40,6 +39,7 @@
 
 - (void)configureCellWith:(YapContact *)business position:(NSInteger)position {
     self.business = business;
+    self.position = position;
 
     if (!self.image) {
         position++;
@@ -117,17 +117,6 @@
     
     if (days == 1) {
         dateString = NSLocalizedString(@"chats_cell_date_yesterday", nil);
-    } else if (timeInterval < 60){
-        dateString = NSLocalizedString(@"chats_cell_date_now", nil);
-    } else if (timeInterval < 60*60) {
-        int minsInt = timeInterval/60;
-        NSString * minString = @"mins";
-        
-        if (minsInt == 1) {
-            minString = @"min";
-        }
-        
-        dateString = [NSString stringWithFormat:@"%d %@",minsInt,minString];
     } else if (timeInterval < 60*60*24){
         // show time in format 11:00 PM
         dateString = [NSDateFormatter localizedStringFromDate:messageDate dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
@@ -156,7 +145,10 @@
 - (NSString *)getDisplayText:(YapMessage *)message {
     switch (message.messageType) {
         case kMessageTypeText: {
-            return message.text;
+            return [message.text stringByReplacingOccurrencesOfString:@"[\r\n]"
+                                                           withString:@""
+                                                              options:NSRegularExpressionSearch
+                                                                range:NSMakeRange(0, message.text.length)];
         }
         case kMessageTypeLocation: {
             return NSLocalizedString(@"chats_cell_conversation_location", nil);

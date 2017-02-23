@@ -16,6 +16,7 @@
 @interface ConversationViewController : JSQMessagesViewController
 <JSQMessagesComposerTextViewPasteDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate, ConversationListener>
 
+@property(nonatomic, assign) NSInteger position;
 @property(nonatomic, assign) BOOL checkIfAlreadyAdded;
 @property(nonatomic, strong) YapContact *buddy;
 

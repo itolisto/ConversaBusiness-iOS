@@ -11,6 +11,7 @@
 
 @interface CustomChatCell : UITableViewCell
 
+@property (assign, nonatomic) NSInteger position;
 @property (strong, nonatomic) YapContact *business;
 
 - (void)configureCellWith:(YapContact *)buddy position:(NSInteger)position;

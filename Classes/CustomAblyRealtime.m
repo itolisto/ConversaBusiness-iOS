@@ -10,7 +10,6 @@
 
 #import "Log.h"
 #import "AppJobs.h"
-#import "Business.h"
 #import "YapContact.h"
 #import "YapMessage.h"
 #import "SettingsKeys.h"

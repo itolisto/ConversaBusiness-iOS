@@ -33,7 +33,6 @@
 		A529078A1D6FEA0C0018D74C /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907201D6FEA0C0018D74C /* Account.m */; };
 		A529078C1D6FEA0C0018D74C /* Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907241D6FEA0C0018D74C /* Audio.m */; };
 		A529078D1D6FEA0C0018D74C /* AudioMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907261D6FEA0C0018D74C /* AudioMediaItem.m */; };
-		A529078F1D6FEA0C0018D74C /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A529072A1D6FEA0C0018D74C /* Business.m */; };
 		A52907901D6FEA0C0018D74C /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = A529072C1D6FEA0C0018D74C /* Camera.m */; };
 		A52907931D6FEA0C0018D74C /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907321D6FEA0C0018D74C /* Colors.m */; };
 		A52907941D6FEA0C0018D74C /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907341D6FEA0C0018D74C /* Constants.m */; };
@@ -144,8 +143,6 @@
 		A52907241D6FEA0C0018D74C /* Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Audio.m; sourceTree = "<group>"; };
 		A52907251D6FEA0C0018D74C /* AudioMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMediaItem.h; sourceTree = "<group>"; };
 		A52907261D6FEA0C0018D74C /* AudioMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMediaItem.m; sourceTree = "<group>"; };
-		A52907291D6FEA0C0018D74C /* Business.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Business.h; sourceTree = "<group>"; };
-		A529072A1D6FEA0C0018D74C /* Business.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Business.m; sourceTree = "<group>"; };
 		A529072B1D6FEA0C0018D74C /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		A529072C1D6FEA0C0018D74C /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		A52907311D6FEA0C0018D74C /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
@@ -411,8 +408,6 @@
 			children = (
 				A529071F1D6FEA0C0018D74C /* Account.h */,
 				A52907201D6FEA0C0018D74C /* Account.m */,
-				A52907291D6FEA0C0018D74C /* Business.h */,
-				A529072A1D6FEA0C0018D74C /* Business.m */,
 				A52907411D6FEA0C0018D74C /* Customer.h */,
 				A52907421D6FEA0C0018D74C /* Customer.m */,
 				A5160B7F1E033C0500E001E7 /* ParseValidation.h */,
@@ -648,6 +643,7 @@
 				A52906FC1D6FE93D0018D74C /* Frameworks */,
 				A52906FD1D6FE93D0018D74C /* Resources */,
 				A5F1C02B1DA9C9E900E366AF /* Fabric */,
+				A50ABCBB1E5F747200774627 /* Localization BartyCrouch */,
 			);
 			buildRules = (
 			);
@@ -679,6 +675,9 @@
 								enabled = 0;
 							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -769,6 +768,20 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A50ABCBB1E5F747200774627 /* Localization BartyCrouch */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Localization BartyCrouch";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR\" -v\n\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s -v\n\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
+		};
 		A5F1C02B1DA9C9E900E366AF /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -827,7 +840,6 @@
 				A52907A91D6FEA0C0018D74C /* NotificationPermissions.m in Sources */,
 				A5AAD6851E12CF5A00060E73 /* RegisterCompleteViewController.m in Sources */,
 				A53530E81E0B904B0001BDED /* UIStateButton.m in Sources */,
-				A529078F1D6FEA0C0018D74C /* Business.m in Sources */,
 				A52907BD1D6FEA0C0018D74C /* YapContact.m in Sources */,
 				A52907901D6FEA0C0018D74C /* Camera.m in Sources */,
 				A52907071D6FE93D0018D74C /* AppDelegate.m in Sources */,

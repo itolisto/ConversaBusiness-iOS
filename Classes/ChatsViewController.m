@@ -12,7 +12,6 @@
 #import "Log.h"
 #import "Colors.h"
 #import "AppJobs.h"
-#import "Business.h"
 #import "Constants.h"
 #import "AppDelegate.h"
 #import "DatabaseView.h"
@@ -452,6 +451,7 @@
         // Get reference to the destination view controller
         ConversationViewController *destinationViewController = [segue destinationViewController];
         // Pass any objects to the view controller here, like...
+        destinationViewController.position = ((CustomChatCell*)sender).position;
         [destinationViewController initWithBuddy:bs];
     }
 }

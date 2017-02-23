@@ -33,7 +33,6 @@
 #import "AppJobs.h"
 #import "MapView.h"
 #import "Incoming.h"
-#import "Business.h"
 #import "Constants.h"
 #import "Utilities.h"
 #import "YapContact.h"
@@ -55,6 +54,8 @@
 
 #import "ConversaManager-Swift.h"
 
+#include <stdlib.h>
+
 #define kYapDatabaseRangeLength    25
 #define kYapDatabaseRangeMaxLength 300
 #define kYapDatabaseRangeMinLength 20
@@ -74,6 +75,7 @@
 
 @property (nonatomic, strong) NSMutableArray *messages;
 
+@property (nonatomic, strong) UIImageView *avatarView;
 @property (nonatomic, strong) UILabel *titleView;
 @property (nonatomic, strong) UILabel *subTitle;
 
@@ -82,7 +84,7 @@
 @property(nonatomic) BOOL visible;
 @property(nonatomic) BOOL typingFlag;
 
-@property(nonatomic,weak) NSTimer* timeWaiting;
+@property(nonatomic, strong) NSTimer *timeWaiting;
 
 @end
 
@@ -98,10 +100,6 @@
     
     // Bar tint
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
-    
-    // JSQMessagesController variables setup
-    self.senderId = ([[SettingsKeys getBusinessId] length] == 0) ? @"" : [SettingsKeys getBusinessId];
-    self.senderDisplayName = @"user";
 
     /**
      *  Set up message accessory button delegate and configuration
@@ -221,6 +219,13 @@
 #pragma mark - Setup Methods -
 
 - (void)loadNavigationBarInformation {
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,38,38)];
+    logo.image = [self getConversationAvatar:self.position];
+    logo.layer.cornerRadius = 19;
+    logo.layer.masksToBounds = YES;
+    self.avatarView = logo;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:logo];
+
     UIView *view = [[NSBundle mainBundle] loadNibNamed:@"ChatNavBarView" owner:self options:nil][0];
     self.titleView = (UILabel *)[view viewWithTag:120];
     [self.titleView setText:self.buddy.displayName];
@@ -239,8 +244,33 @@
 }
 
 - (void)refreshNavigationBarInformation:(YapContact *)buddy {
+    self.avatarView.image = [self getConversationAvatar:self.position];
     [self.titleView setText:buddy.displayName];
     self.subTitle.hidden = YES;
+}
+
+- (UIImage*)getConversationAvatar:(NSInteger)position {
+    if (position == -1) {
+        position = arc4random_uniform(14) + 1;
+    } else {
+        position++;
+    }
+
+    if (position % 7 == 0) {
+        return [UIImage imageNamed:@"ic_user_one"];
+    } else if (position % 6 == 0) {
+        return [UIImage imageNamed:@"ic_user_two"];
+    } else if (position % 5 == 0) {
+        return [UIImage imageNamed:@"ic_user_three"];
+    } else if (position % 4 == 0) {
+        return [UIImage imageNamed:@"ic_user_four"];
+    } else if (position % 3 == 0) {
+        return [UIImage imageNamed:@"ic_user_five"];
+    } else if (position % 2 == 0) {
+        return [UIImage imageNamed:@"ic_user_six"];
+    } else {
+        return [UIImage imageNamed:@"ic_user_seven"];
+    }
 }
 
 - (void)setupMessageMapping {
@@ -282,6 +312,7 @@
             self.messageMappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[buddy.uniqueId] view:ChatDatabaseViewExtensionName];
             
             self.page = 0;
+            self.position = -1;
             [self updateRangeOptionsForPage:self.page];
             
             [self.editingDatabaseConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
@@ -327,7 +358,7 @@
     // Set a maximum height for the input toolbar
     self.inputToolbar.maximumHeight = kInputToolbarMaximumHeight;
     // The library will call the correct selector for each button, based on this value
-    self.inputToolbar.sendButtonOnRight = YES;
+    //self.inputToolbar.sendButtonOnRight = YES;
     // Attachment Button
     UIButton *customLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -624,6 +655,14 @@
 
 #pragma mark - JSQMessagesCollectionViewDataSource Methods -
 
+- (NSString *)senderDisplayName {
+    return @"user";
+}
+
+- (NSString *)senderId {
+    return ([[SettingsKeys getBusinessId] length] == 0) ? @"" : [SettingsKeys getBusinessId];
+}
+
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.messages objectAtIndex:indexPath.item];
@@ -896,7 +935,6 @@
                                                                 object:nil
                                                               userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
         }];
-        self.subTitle.hidden = YES;
     } else {
         YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
         [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
@@ -1016,10 +1054,6 @@
 }
 
 #pragma mark - Actions Methods -
-
-- (IBAction)logoTapped:(id)sender {
-    // TODO: Implement action for logo tap
-}
 
 - (IBAction)goToProfile:(id)sender {
     // TODO: Implement action for profile tap
@@ -1450,14 +1484,14 @@
             if (isInserting) {
                 if (isIncoming) {
                     [self finishReceivingMessage];
-                    self.subTitle.text = @"";
+                    self.subTitle.hidden = YES;
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        //[JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        //[JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }

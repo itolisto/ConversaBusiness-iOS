@@ -8,8 +8,10 @@
 
 #import "Account.h"
 
+#import "EDQueue.h"
 #import "YapAccount.h"
 #import "DatabaseManager.h"
+#import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
 #import <Parse/PFObject+Subclass.h>
 
@@ -27,12 +29,14 @@
 
 + (void)logOut {
     [[CustomAblyRealtime sharedInstance] logout];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[OneSignalService sharedInstance] unsubscribeFromAllChannels];
     [[DatabaseManager sharedInstance].newConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
      {
          [YapAccount deleteAccountWithTransaction:transaction];
      }];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[EDQueue sharedInstance] empty];
     [super logOut];
 }
 
