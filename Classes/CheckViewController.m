@@ -122,14 +122,13 @@
 
          } else {
              NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                     options:NSJSONReadingMutableContainers
-                                                                       error:&error];
+             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:&error];
 
              if (error) {
 
              } else {
-                 NSArray *results = [jsonDic valueForKeyPath:@"results"];
                  NSUInteger size = [results count];
 
                  for (int i = 0; i < size; i++) {

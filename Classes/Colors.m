@@ -85,6 +85,11 @@
     return [UIColor colorWithRed:140.0f/255.0f green:235.0f/255.0f blue:255.0f/255.0f alpha:1.0];
 }
 
++ (UIColor*)darkerPurple {
+    // purple: #9e7cd9
+    return [UIColor colorWithRed:158.0f/255.0f green:124.0f/255.0f blue:217.0f/255.0f alpha:1.0];
+}
+
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value {
     NSUInteger totalComponents = CGColorGetNumberOfComponents(color.CGColor);
     BOOL isGreyscale = (totalComponents == 2) ? YES : NO;

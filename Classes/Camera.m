@@ -9,9 +9,8 @@
 #import "Camera.h"
 
 #import "Constants.h"
-#import <OHQBImagePicker/QBImagePicker.h>
 #import <AVFoundation/AVFoundation.h>
-#import <AssetsLibrary/AssetsLibrary.h>
+#import <OHQBImagePicker/QBImagePicker.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 void PresentPhotoCamera(id target, BOOL canEdit) {
@@ -62,8 +61,8 @@ void PresentPhotoCamera(id target, BOOL canEdit) {
 }
 
 void PresentPhotoLibrary(id target, BOOL canEdit, int max) {
-    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-    if (status == ALAuthorizationStatusAuthorized || status == ALAuthorizationStatusNotDetermined) {
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusAuthorized) {
         QBImagePickerController *imagePickerController = [QBImagePickerController new];
         imagePickerController.delegate = target;
         imagePickerController.allowsMultipleSelection = YES;
@@ -78,19 +77,24 @@ void PresentPhotoLibrary(id target, BOOL canEdit, int max) {
 
         [target presentViewController:imagePickerController animated:YES completion:NULL];
     } else {
-        UIAlertController * alert =  [UIAlertController
-                                      alertControllerWithTitle:nil
-                                      message:@"No tienes permiso para ver la libreria. Ve a ajustes para cambiar el estado."
-                                      preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"Ok"
-                                                     style:UIAlertActionStyleCancel
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [alert dismissViewControllerAnimated:YES completion:nil];
-                             }];
+        //No permission. Trying to normally request it
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            if (status != PHAuthorizationStatusAuthorized) {
+                //User don't give us permission. Showing alert with redirection to settings
+                //Getting description string from info.plist file
+                NSString *accessDescription = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSPhotoLibraryUsageDescription"];
+                UIAlertController * alertController = [UIAlertController alertControllerWithTitle:accessDescription message:@"To give permissions tap on 'Change Settings' button" preferredStyle:UIAlertControllerStyleAlert];
 
-        [alert addAction:ok];
-        [target presentViewController:alert animated:YES completion:nil];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+                [alertController addAction:cancelAction];
+
+                UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Change Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                }];
+                [alertController addAction:settingsAction];
+                [target presentViewController:alertController animated:YES completion:nil];
+            }
+        }];
     }
 }
 

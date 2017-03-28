@@ -28,6 +28,8 @@
 + (UIColor*)pieChartReceived;
 + (UIColor*)pieChartSent;
 
++ (UIColor*)darkerPurple;
+
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value;
 
 @end

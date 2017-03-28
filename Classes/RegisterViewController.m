@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (assign, nonatomic) BOOL originalImage;
+@property (strong, nonatomic) NSString *localIdentifier;
 @property (strong, nonatomic) nCategory *categoryPicked;
 @property (weak, nonatomic) UITextField *activeTextField;
 @property (strong, nonatomic) UIPickerView *categoryPickerView;
@@ -79,30 +80,23 @@
         language = @"en"; // Set to default language
     }
 
-    [PFCloud callFunctionInBackground:@"getCategories"
-                       withParameters:@{@"language":language, @"no": @(0)}
+    [PFCloud callFunctionInBackground:@"getOnlyCategories"
+                       withParameters:@{@"language":language}
                                 block:^(NSString * _Nullable json, NSError * _Nullable error)
     {
         if (self.isViewLoaded && self.view.window) {
             if (error) {
                 [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
             } else {
-                id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                NSArray *results = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
                                                             options:0
                                                               error:&error];
                 if (error) {
                     [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
                 } else {
-                    NSDictionary *results = object;
-
-                    NSArray *unsortedIds;
                     __block NSMutableArray *sortedCategory = [NSMutableArray arrayWithCapacity:30];
 
-                    if ([results objectForKey:@"ids"] && [results objectForKey:@"ids"] != [NSNull null]) {
-                        unsortedIds = [results objectForKey:@"ids"];
-                    }
-
-                    [unsortedIds enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [results enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         nCategory *category = [[nCategory alloc] init];
                         category.objectId = [obj objectForKey:@"id"];
                         category.name = [obj objectForKey:@"na"];
@@ -322,6 +316,9 @@
              if (imageData) {
                  self.avatarImageView.image = compressImage([UIImage imageWithData:imageData], NO);
                  self.originalImage = NO;
+                 self.localIdentifier = asset.localIdentifier;
+                 //NSURL* fileURL = [info objectForKey:@"PHImageFileURLKey"];
+                 //NSLog(@"File exist?: %d", [[NSFileManager defaultManager] fileExistsAtPath:[fileURL relativePath]]);
              }
          }];
     }
@@ -355,7 +352,7 @@
         {
             [hudError hideAnimated:YES];
 
-            if(error) {
+            if (error) {
                 MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
                 hudError.mode = MBProgressHUDModeText;
                 [self.view addSubview:hudError];
@@ -378,14 +375,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"continueSignupSegue"]) {
         RegisterCompleteViewController *destination = [segue destinationViewController];
-        if (self.originalImage) {
-            destination.avatar = nil;
-        } else {
-            destination.avatar = self.avatarImageView.image;
-        }
         destination.businessName = self.nameTextField.text;
         destination.conversaId = self.idTextField.text;
         destination.categoryId = [self.categoryPicked getObjectId];
+        destination.localIdentifier = self.localIdentifier;
     }
 }
 

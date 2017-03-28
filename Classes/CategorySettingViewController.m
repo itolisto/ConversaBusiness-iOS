@@ -60,7 +60,7 @@
     }
 
     [PFCloud callFunctionInBackground:@"getBusinessCategories"
-                       withParameters:@{@"objectId": [SettingsKeys getBusinessId], @"language": language}
+                       withParameters:@{@"businessId": ([SettingsKeys getBusinessId]) ? [SettingsKeys getBusinessId] : @"", @"language": language}
                                 block:^(NSString*  _Nullable json, NSError * _Nullable error)
     {
         if (error) {
@@ -301,7 +301,7 @@
 
     [PFCloud callFunctionInBackground:@"updateBusinessCategory"
                        withParameters:@{@"categories": select,
-                                        @"objectId": [SettingsKeys getBusinessId],
+                                        @"businessId": [SettingsKeys getBusinessId],
                                         @"limit": @(self.limit)}
                                 block:^(id  _Nullable object, NSError * _Nullable error)
     {

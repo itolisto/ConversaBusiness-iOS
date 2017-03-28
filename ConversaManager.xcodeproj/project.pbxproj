@@ -85,6 +85,7 @@
 		A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD68B1E12F9F100060E73 /* CustomBusinessCell.m */; };
 		A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */; };
 		A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */; };
+		A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F92D1E6E068B0078F31C /* HelpViewController.m */; };
 		A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */; };
 /* End PBXBuildFile section */
 
@@ -209,7 +210,6 @@
 		A53530E71E0B904B0001BDED /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
 		A53962961D70D0E800D557FE /* CustomAblyRealtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAblyRealtime.h; sourceTree = "<group>"; };
 		A53962971D70D0E800D557FE /* CustomAblyRealtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAblyRealtime.m; sourceTree = "<group>"; };
-		A54703C91E272C380090A073 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		A54703CC1E2758E80090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86B1E106E6500ECC891 /* CheckViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckViewController.h; sourceTree = "<group>"; };
 		A547C86C1E106E6500ECC891 /* CheckViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckViewController.m; sourceTree = "<group>"; };
@@ -226,6 +226,7 @@
 		A56EB3521E0A523900532231 /* CategorySettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySettingViewController.m; sourceTree = "<group>"; };
 		A56EB3551E0A5E2100532231 /* nCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nCategory.h; sourceTree = "<group>"; };
 		A56EB3561E0A5E2100532231 /* nCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nCategory.m; sourceTree = "<group>"; };
+		A570200D1E5FD9A60003A000 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5713BDC1E0B0E8B00FACCD4 /* StatusSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusSettingViewController.h; sourceTree = "<group>"; };
 		A5713BDD1E0B0E8B00FACCD4 /* StatusSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusSettingViewController.m; sourceTree = "<group>"; };
 		A5AAD6791E12CE7000060E73 /* BusinessListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessListViewController.h; sourceTree = "<group>"; };
@@ -244,6 +245,8 @@
 		A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		A5C70CA21E0DAEB800F8D0D4 /* ProfileDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDialogViewController.h; sourceTree = "<group>"; };
 		A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
+		A5D4F92C1E6E068B0078F31C /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		A5D4F92D1E6E068B0078F31C /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification_manager.mp3; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -608,6 +611,8 @@
 				A508C7D71E13632600BC758C /* ConversaViewController.m */,
 				A52907491D6FEA0C0018D74C /* DetailAccountViewController.h */,
 				A529074A1D6FEA0C0018D74C /* DetailAccountViewController.m */,
+				A5D4F92C1E6E068B0078F31C /* HelpViewController.h */,
+				A5D4F92D1E6E068B0078F31C /* HelpViewController.m */,
 				A5160B9F1E033D9B00E001E7 /* NotificationsViewController.h */,
 				A5160BA01E033D9B00E001E7 /* NotificationsViewController.m */,
 				A5C70CA21E0DAEB800F8D0D4 /* ProfileDialogViewController.h */,
@@ -689,7 +694,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				es,
 			);
@@ -780,7 +784,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR\" -v\n\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s -v\n\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
+			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
 		A5F1C02B1DA9C9E900E366AF /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -828,6 +832,7 @@
 				A5160BA41E033D9B00E001E7 /* AccountSettingViewController.m in Sources */,
 				A52907941D6FEA0C0018D74C /* Constants.m in Sources */,
 				A52907AD1D6FEA0C0018D74C /* OneSignalController.m in Sources */,
+				A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */,
 				A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */,
 				A56EB3501E0A50DA00532231 /* CustomCategoryCell.m in Sources */,
 				A52907BB1D6FEA0C0018D74C /* WhisperBridge.swift in Sources */,
@@ -882,7 +887,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5160B741E03327500E001E7 /* Base */,
-				A54703C91E272C380090A073 /* es */,
+				A570200D1E5FD9A60003A000 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

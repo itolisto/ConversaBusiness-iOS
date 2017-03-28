@@ -24,7 +24,7 @@
     [super viewDidLoad];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 
-    self.conversaId.text = [SettingsKeys getConversaId];
+    self.conversaId.text = [@"conversa.link/" stringByAppendingString:([SettingsKeys getConversaId]) ? [SettingsKeys getConversaId] : @""];
 
     // Add border to Button
     [self.shareButton setBackgroundColor:[Colors secondaryPurple] forState:UIControlStateNormal];

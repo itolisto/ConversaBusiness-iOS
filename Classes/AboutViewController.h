@@ -9,7 +9,8 @@
 @import UIKit;
 
 #import "BaseTableViewController.h"
+#import <SafariServices/SafariServices.h>
 
-@interface AboutViewController : BaseTableViewController
+@interface AboutViewController : BaseTableViewController <SFSafariViewControllerDelegate>
 
 @end

@@ -107,7 +107,7 @@
         [self validateTextField:self.contactTextField text:self.contactTextField.text select:YES] )
     {
         [PFCloud callFunctionInBackground:@"businessClaimRequest"
-                           withParameters:@{@"objectId":self.objectId,
+                           withParameters:@{@"businessId":self.objectId,
                                             @"name":self.nameTextField.text,
                                             @"email":self.emailTextField.text,
                                             @"position":self.businessTextField.text,

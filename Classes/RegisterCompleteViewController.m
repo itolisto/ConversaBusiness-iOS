@@ -17,6 +17,7 @@
 #import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
+#import <Photos/Photos.h>
 
 @interface RegisterCompleteViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *countryTextField;
 @property (weak, nonatomic) IBOutlet UIStateButton *registerButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *termsPrivacyLabel;
 
 @property (strong, nonatomic) nCountry *countryPicked;
 @property (weak, nonatomic) UITextField *activeTextField;
@@ -61,6 +63,48 @@
     self.countryPickerView.showsSelectionIndicator = YES;
     self.countryTextField.inputView = self.countryPickerView;
 
+    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:self.termsPrivacyLabel.text
+                                                                                attributes:nil];
+
+    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+    NSRange start, startPrivacy;
+
+    if ([language isEqualToString:@"es"]) {
+        start = [self.termsPrivacyLabel.text rangeOfString:@"TERMINOS"];
+        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"POLITICAS"].location, 23);
+    } else {
+        start = [self.termsPrivacyLabel.text rangeOfString:@"TERMS"];
+        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"PRIVACY"].location, 16);
+    }
+
+    // Rest of Text normal
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}
+                     range:NSMakeRange(0, start.location)];
+    // Only "Y" (es) or "AND" (en) need a range because is in the middle
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}
+                     range:NSMakeRange(start.location + start.length, ([language isEqualToString:@"es"]) ? 3 : 5)];
+    // Green
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[Colors green]}
+                     range:start];
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[Colors green]}
+                     range:startPrivacy];
+
+    self.termsPrivacyLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+    self.termsPrivacyLabel.linkAttributes = @{NSForegroundColorAttributeName: [Colors green],
+                                              NSUnderlineStyleAttributeName: [NSNumber numberWithBool:NO]
+                                              };
+
+    NSURL *url = [NSURL URLWithString:@"http://manager.conversachat.com/terms"];
+    NSURL *urlPrivacy = [NSURL URLWithString:@"http://manager.conversachat.com/privacy"];
+
+    self.termsPrivacyLabel.attributedText = attrStr;
+
+    [self.termsPrivacyLabel addLinkToURL:url withRange:start];
+    [self.termsPrivacyLabel addLinkToURL:urlPrivacy withRange:startPrivacy];
+
+    self.termsPrivacyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    self.termsPrivacyLabel.delegate = self;
+
     [PFCloud callFunctionInBackground:@"getCountries"
                        withParameters:@{}
                                 block:^(NSString * _Nullable json, NSError * _Nullable error)
@@ -69,29 +113,28 @@
              if (error) {
                  [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
              } else {
-                 id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
-                                                             options:0
-                                                               error:&error];
+                 NSArray *array = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                                                                  options:0
+                                                                    error:&error];
                  if (error) {
                      [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
                  } else {
-                     NSMutableArray *array = object;
-                     __block NSMutableArray *unsorted = [NSMutableArray arrayWithCapacity:[array count]];
+                     __block NSMutableArray *sortedCountries = [NSMutableArray arrayWithCapacity:[array count]];
 
                      [array enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                          nCountry *category = [[nCountry alloc] init];
                          category.objectId = [obj objectForKey:@"id"];
                          category.name = [obj objectForKey:@"na"];
-                         [unsorted addObject:category];
+                         [sortedCountries addObject:category];
                      }];
 
-                     [unsorted sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                     [sortedCountries sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                          NSString *first = [(nCountry*)obj1 getName];
                          NSString *second = [(nCountry*)obj2 getName];
                          return [first compare:second];
                      }];
 
-                     [self.countryData addObjectsFromArray:unsorted];
+                     [self.countryData addObjectsFromArray:sortedCountries];
                      [self.countryPickerView reloadAllComponents];
                  }
              }
@@ -112,6 +155,19 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    SFSafariViewController *svc = [[SFSafariViewController alloc]initWithURL:url
+                                                     entersReaderIfAvailable:NO];
+    svc.delegate = self;
+    [self presentViewController:svc animated:YES completion:nil];
+}
+
+#pragma mark - UIGestureRecognizerDelegate Method -
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return ![touch.view isKindOfClass:[TTTAttributedLabel class]];
 }
 
 #pragma mark - Observer Methods -
@@ -327,16 +383,32 @@
 - (void)doRegister {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    if (self.avatar) {
-        PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg" data:UIImageJPEGRepresentation(self.avatar, 1)];
-
-        [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            if (error) {
-                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
-            } else {
-                [self completeRegister:filePicture];
-            }
+    if (self.localIdentifier) {
+        __block PHAsset *assetR;
+        PHFetchResult *savedAssets = [PHAsset fetchAssetsWithLocalIdentifiers:@[self.localIdentifier] options:nil];
+        [savedAssets enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            assetR = asset;
         }];
+        PHImageManager *manager = [PHImageManager defaultManager];
+        [manager requestImageDataForAsset:assetR
+                                  options:PHImageRequestOptionsVersionCurrent
+                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+         {
+             if (imageData) {
+                 PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg"
+                                                       data:UIImageJPEGRepresentation([UIImage imageWithData:imageData], 0.5)];
+
+                 [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                     if (error) {
+                         [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
+                     } else {
+                         [self completeRegister:filePicture];
+                     }
+                 }];
+             } else {
+                 [self completeRegister:nil];
+             }
+         }];
     } else {
         [self completeRegister:nil];
     }
@@ -350,10 +422,10 @@
     user.password = self.passwordTextField.text;
     // Extra fields
     user[kUserTypeKey] = @(2);
-    user[kUserTypeBusinessName] = self.businessName;
-    user[kUserTypeBusinessConversaId] = self.conversaId;
-    user[kUserTypeBusinessCategory] = self.categoryId;
-    user[kUserTypeBusinessCountry] = [self.countryPicked getObjectId];
+    user[@"displayName"] = self.businessName;
+    user[@"conversaID"] = self.conversaId;
+    user[@"categoryId"] = self.categoryId;
+    user[@"countryId"] = [self.countryPicked getObjectId];
 
     if (file) {
         user[kUserTypeBusinessAvatar] = file;

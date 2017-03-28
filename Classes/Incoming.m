@@ -55,7 +55,7 @@
     NSDate   *date   = item.date;
     NSString *text   = item.text;
 
-    return [[JSQMessage alloc] initWithSenderId:userId senderDisplayName:name date:date text:text];
+    return [[JSQMessage alloc] initWithSenderId:userId senderDisplayName:name date:date text:(text == nil) ? @"" : text];
 }
 
 - (JSQMessage *)createVideoMessage:(YapMessage *)item {

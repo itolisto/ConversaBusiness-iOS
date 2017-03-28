@@ -141,13 +141,10 @@
 
     switch (status.current) {
         case ARTRealtimeInitialized:
-            DDLogError(@"onConnectionStateChgd: Initialized");
             break;
         case ARTRealtimeConnecting:
-            DDLogError(@"onConnectionStateChgd: Connecting");
             break;
         case ARTRealtimeConnected:
-            DDLogError(@"onConnectionStateChgd: Connected");
             if (self.firstLoad) {
                 // Subscribe to all Channels
                 [self subscribeToChannels];
@@ -165,20 +162,16 @@
             }
             break;
         case ARTRealtimeDisconnected:
-            DDLogError(@"onConnectionStateChgd: Disconnected");
             break;
         case ARTRealtimeSuspended:
-            DDLogError(@"onConnectionStateChgd: Suspended");
             break;
         case ARTRealtimeClosing:
-            DDLogError(@"onConnectionStateChgd: Closing");
             for (ARTRealtimeChannel * channel in self.ably.channels) {
                 [channel unsubscribe];
                 [[channel getPresence] unsubscribe];
             }
             break;
         case ARTRealtimeClosed:
-            DDLogError(@"onConnectionStateChgd: Closed");
             break;
         case ARTRealtimeFailed:
             DDLogError(@"onConnectionStateChgd: Failed --> %@", status);
@@ -187,7 +180,6 @@
 }
 
 - (void)onMessage:(NSDictionary *)results {
-    //DDLogError(@"onMessage: message received --> %@", [results allKeys]);
     if ([results valueForKey:@"appAction"]) {
         int action = [[results valueForKey:@"appAction"] intValue];
         switch (action) {
@@ -313,8 +305,19 @@
 #pragma mark - Process message Method -
 
 - (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact {
-    // 2. Save to Local Database
-    YapMessage *message = [[YapMessage alloc] initWithId:messageId];
+    __block YapMessage *message = nil;
+
+    // Check if message exists
+    [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+        message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
+    }];
+
+    if (message != nil) {
+        return;
+    }
+
+    // Save to Local Database
+    message = [[YapMessage alloc] initWithId:messageId];
     message.delivered = statusReceived;
     message.buddyUniqueId = contactId;
     message.messageType = messageType;
@@ -358,15 +361,28 @@
     }
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
-        [self.delegate messageReceived:message from:contact];
-    } else {
-        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-         {
-             [message saveWithTransaction:transaction];
-             contact.lastMessageDate = message.date;
-             [contact saveWithTransaction:transaction];
-         }];
+        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+        {
+            [self.delegate messageReceived:message from:contact];
+            return;
+        }
     }
+
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+     {
+         [message saveWithTransaction:transaction];
+         contact.lastMessageDate = message.date;
+         [contact saveWithTransaction:transaction];
+     } completionBlock:^{
+         // We are not active, so use a local notification instead
+         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+         localNotification.alertAction = @"Ver";
+         localNotification.soundName = UILocalNotificationDefaultSoundName;
+         localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
+         localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
+         localNotification.userInfo = @{@"contact":contact.uniqueId};
+         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+     }];
 }
 
 #pragma mark - Class Methods -
@@ -380,10 +396,8 @@
         {
             if (error) {
                 DDLogError(@"Error sending typing state: %@", error);
-            } else {
-                DDLogError(@"typing success \n success \n success");
             }
-         }];
+        }];
     }
 }
 

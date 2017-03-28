@@ -23,8 +23,8 @@
 
 #import "ConversationViewController.h"
 
+@import AVKit;
 @import YapDatabase;
-@import MediaPlayer;
 @import AVFoundation;
 #import "Log.h"
 #import "Image.h"
@@ -39,6 +39,7 @@
 #import "YapMessage.h"
 #import "SettingsKeys.h"
 #import "DatabaseView.h"
+#import "UIStateButton.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "NSNumber+Conversa.h"
@@ -101,9 +102,7 @@
     // Bar tint
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
 
-    /**
-     *  Set up message accessory button delegate and configuration
-     */
+    //Set up message accessory button delegate and configuration
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     self.automaticallyScrollsToMostRecentMessage = YES;
     
@@ -368,14 +367,24 @@
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
 
-    UIButton *customRightButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    customRightButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    customRightButton.backgroundColor = [UIColor clearColor];
+    // Add sign up button properties
+    UIStateButton *customRightButton = [UIStateButton buttonWithType:UIButtonTypeCustom];
     customRightButton.frame = CGRectMake(0, 0, 32, 32);
     customRightButton.layer.cornerRadius = customRightButton.frame.size.width / 2;
-    UIImage * sendImage = [UIImage imageNamed:@"ic_send"];
-    [customRightButton setContentMode:UIViewContentModeScaleAspectFit];
-    [customRightButton setBackgroundImage:sendImage forState:UIControlStateNormal];
+    customRightButton.clipsToBounds = YES;
+
+    [customRightButton setBackgroundColor:[Colors purple] forState:UIControlStateNormal];
+    [customRightButton setBackgroundColor:[Colors darkerPurple] forState:UIControlStateHighlighted];
+    [customRightButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
+    UIImage *sendImage = [UIImage imageNamed:@"ic_send"];
+    UIImage *scaledImage = [UIImage imageWithCGImage:[sendImage CGImage]
+                                               scale:(sendImage.scale * 1.2)
+                                         orientation:(sendImage.imageOrientation)];
+    [customRightButton setImage:scaledImage forState:UIControlStateNormal];
+    [customRightButton setImage:scaledImage forState:UIControlStateDisabled];
+    [customRightButton setImage:scaledImage forState:UIControlStateHighlighted];
+
     self.inputToolbar.contentView.rightBarButtonItem = customRightButton;
 }
 
@@ -886,9 +895,7 @@
                 if (mediaItem.status == STATUS_FAILED) {
                 
                 } else if (mediaItem.status == STATUS_SUCCEED) {
-                    MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                    [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                    [moviePlayer.moviePlayer play];
+                    [self playMediaWithURL:mediaItem.fileURL];
                 }
             } else if ([message.media isKindOfClass:[JSQLocationMediaItem class]]) {
                 JSQLocationMediaItem *mediaItem = (JSQLocationMediaItem *)message.media;
@@ -900,9 +907,7 @@
                 if (mediaItem.status == STATUS_FAILED) {
 
                 } else if (mediaItem.status == STATUS_SUCCEED) {
-                    MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                    [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                    [moviePlayer.moviePlayer play];
+                    [self playMediaWithURL:mediaItem.fileURL];
                 }
             }
         }
@@ -982,13 +987,13 @@
                      CFRelease(cfString);
                  }
 
-                 [WhisperBridge shout:from.displayName
-                             subtitle:text
-                      backgroundColor:[UIColor clearColor]
-               toNavigationController:self.navigationController
-                                image:nil
-                         silenceAfter:1.8
-                               action:nil];
+                 [[WhisperBridge sharedInstance] shout:from.displayName
+                                              subtitle:text
+                                       backgroundColor:[UIColor clearColor]
+                                toNavigationController:self.navigationController
+                                                 image:nil
+                                          silenceAfter:1.8
+                                                action:nil];
              }
          }];
     }
@@ -1102,6 +1107,30 @@
     }];
 }
 
+- (void)playMediaWithURL:(NSURL*)mediaUrl {
+    // Create an AVPlayer
+    AVPlayer *moviePlayer = [AVPlayer playerWithURL:mediaUrl];
+    // Option: 1
+//    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:mediaUrl];
+//    moviePlayer = [AVPlayer playerWithPlayerItem:playerItem];
+//    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:moviePlayer];
+//    layer.frame = CGRectMake(0, 0, 320 , 480);
+//    [self.view.layer addSublayer: layer];
+//    moviePlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+//    [moviePlayer play];
+    // Option 2
+    // Create a player view controller
+    AVPlayerViewController *controller = [[AVPlayerViewController alloc]init];
+    // Show the view controller
+    controller.view.frame = self.view.frame;
+    [self presentViewController:controller animated:YES completion:nil];
+    // Play
+    controller.player = moviePlayer;
+    moviePlayer.closedCaptionDisplayEnabled = NO;
+    moviePlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    [moviePlayer play];
+}
+
 #pragma mark - Send messages Methods -
 
 - (void)sendLocation {
@@ -1158,8 +1187,8 @@
         {
             NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
                                                @{
-                                                 @"user" : self.buddy.uniqueId,
-                                                 @"business" : [SettingsKeys getBusinessId],
+                                                 @"customerId" : self.buddy.uniqueId,
+                                                 @"businessId" : [SettingsKeys getBusinessId],
                                                  @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
                                                  }];
 
@@ -1539,10 +1568,7 @@
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action) {
                                            AudioMediaItem *mediaItem = (AudioMediaItem *)jsqMessage.media;
-                                           MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                                           [view dismissViewControllerAnimated:YES completion:nil];
-                                           [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                                           [moviePlayer.moviePlayer play];
+                                           [self playMediaWithURL:mediaItem.fileURL];
                                        }];
             [view addAction:audio];
             

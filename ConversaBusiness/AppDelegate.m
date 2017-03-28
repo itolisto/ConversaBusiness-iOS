@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 
 #import "Log.h"
-#import "Branch.h"
 #import "Account.h"
 #import "AppJobs.h"
 #import "Customer.h"
@@ -57,18 +56,14 @@
     [Account registerSubclass];
     [Customer registerSubclass];
     
-    // [Optional] Power your app with Local Datastore. For more info, go to
-    // https://parse.com/docs/ios/guide#local-datastore
-    [Parse enableLocalDatastore];
-    
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        //configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        //configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        //configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
-        configuration.applicationId = @"b15c83";
-        configuration.server = @"http://localhost:1337/parse";
+//        configuration.applicationId = @"b15c83";
+//        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -111,19 +106,8 @@
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
     
-    Branch *branch = [Branch getInstance];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        if (!error && params) {
-            // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
-            // params will be empty if no data found
-            // ... insert custom logic here ...
-            // Change view controller to go
-            NSLog(@"deep link data: %@", params.description);
-        }
-    }];
-    
     [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
-    
+
     return YES;
 }
 
@@ -194,20 +178,6 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
-}
-
-#pragma mark - Branch methods -
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    // pass the url to the handle deep link call
-    [[Branch getInstance] handleDeepLink:url];
-    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
-    return handledByBranch;
 }
 
 #pragma mark - EDQueueDelegate method -
@@ -460,7 +430,7 @@
 
             NSError *error;
             [PFCloud callFunction:@"updateBusinessStatus"
-                   withParameters:@{@"status": @(status), @"objectId": [SettingsKeys getBusinessId]}
+                   withParameters:@{@"status": @(status), @"businessId": [SettingsKeys getBusinessId]}
                             error:&error];
 
             if (error) {
@@ -480,7 +450,7 @@
 
             NSError *error;
             [PFCloud callFunction:@"updateBusinessRedirect"
-                   withParameters:@{@"redirect": @(redirect), @"objectId": [SettingsKeys getBusinessId]}
+                   withParameters:@{@"redirect": @(redirect), @"businessId": [SettingsKeys getBusinessId]}
                             error:&error];
 
             if (error) {

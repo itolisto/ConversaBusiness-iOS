@@ -50,7 +50,7 @@
 
          if (payload.additionalData) {
              NSDictionary* additionalData = payload.additionalData;
-             [[CustomAblyRealtime sharedInstance] onMessage:additionalData];
+             [self performSelector:@selector(processMessage:) withObject:additionalData afterDelay:0.9];
          }
      }
             handleNotificationAction:^(OSNotificationOpenedResult *result)
@@ -59,6 +59,10 @@
          DDLogWarn(@"handleNotificationAction (:");
      }
                             settings:@{kOSSettingsKeyInAppAlerts: @NO, kOSSettingsKeyAutoPrompt: @NO}];
+}
+
+- (void)processMessage:(NSDictionary*)additionalData {
+    [[CustomAblyRealtime sharedInstance] onMessage:additionalData];
 }
 
 - (void)registerForPushNotifications

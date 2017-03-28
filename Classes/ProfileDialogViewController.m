@@ -80,7 +80,7 @@
     self.chatButton.enabled = NO;
 
     [PFCloud callFunctionInBackground:@"getBusinessProfile"
-                       withParameters:@{@"business": [SettingsKeys getBusinessId], @"count": @(NO)}
+                       withParameters:@{@"businessId": [SettingsKeys getBusinessId], @"count": @(NO)}
                                 block:^(NSString * _Nullable result, NSError * _Nullable error)
      {
          if (error) {
@@ -287,6 +287,9 @@
     if ([self isSelected]) {
         [self changeFavorite:NO];
         self.followers--;
+        if (self.followers <= 0) {
+            self.followers = 0;
+        }
         self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     } else {
         [self changeFavorite:YES];

@@ -1,124 +1,280 @@
-/* 
-  Localizable.strings
-  ConversaManager
-
-  Created by Edgar Gomez on 12/15/16.
-  Copyright © 2016 Conversa. All rights reserved.
-*/
-
-"signup_check_empty_search" = "Can't search for empty field";
-"signup_contact_success" = "Great! We'll be in contact\nwith you as soon as possible";
-"signup_contact_error" = "Oops, the reclaim couldn't be filed, please try again later";
-"signup_conversaid_error" = "Conversa ID is already\ntaken, try with another";
-"signup_email_error" = "This email is\nalready taken";
-"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
-"signup_checking_conversa_id" = "Verifying information...";
-"signup_register_categories_error" = "Unable to find categories, go back and try again";
-"signup_register_countries_error" = "Unable to find countries, go back and try again";
-
-"recover_password_failed_message" = "Couldn't find any email assocciated with this account";
-"recover_password_sent_message" = "Password recovery link sent";
-"signup_birhtday_toolbar_done" = "Done";
-"sign_failed_message" = "Email and password didn't match any account";
-
-"token_session_error" = "Another device has started session, this device will log out";
-"no_internet_connection_message" = "No internet connection";
-
-"chats_cell_action_title" = "More";
-"chats_cell_action_delete" = "Delete";
-"chats_alert_action_unmute" = "Unmute";
-"chats_alert_action_mute" = "Mute";
-"chats_alert_action_unblock" = "Unblock";
-"chats_alert_action_block" = "Block";
-"chats_alert_action_clear_conversation" = "Clear conversation";
-"chats_alert_action_twelve_hours" = "12 hours";
-"chats_alert_action_one_day" = "1 day";
-"chats_alert_action_three_day" = "3 days";
-
-"chats_cell_conversation_location" = "Location";
-"chats_cell_conversation_image" = "Image";
-"chats_cell_conversation_video" = "Video";
-"chats_cell_conversation_audio" = "Audio";
-"chats_cell_conversation_message" = "Message";
-"chats_cell_conversation_empty" = "Start chatting";
-"chats_cell_date_now" = "Now";
-"chats_cell_date_yesterday" = "Yesterday";
-
-"conversation_inputtoolbar_placeholder" = "Write a message";
-"conversation_menu_item_copy" = "Copy";
-"conversation_menu_item_delete" = "Delete";
-"conversation_more_alert_action_library" = "Library";
-"conversation_more_alert_action_camara" = "Camara";
-"conversation_more_alert_action_location" = "Send location";
-"conversation_message_info_sending" = "Sending";
-"conversation_message_info_uploading" = "Uploading";
-"conversation_message_info_downloading" = "Downloading";
-"conversation_message_info_sent" = "Sent";
-"conversation_message_info_failed" = "Failed";
-"conversation_subtitle_writing" = "typing...";
-"conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
-"conversation_alert_action_unblock" = "Unblock";
-"conversation_alert_action_location_title" = "We couldn't find your location";
-"conversation_alert_action_camara_title" = "Image couldn't be saved";
-
-"conversation_unsent_alert_action_view" = "View image";
-"conversation_unsent_alert_action_map" = "Show map";
-"conversation_unsent_alert_action_play" = "Play";
-"conversation_unsent_alert_action_resend" = "Resend";
-"conversation_unsent_alert_action_delete" = "Delete";
 
 "categories_searchbar_placeholder" = "Search for business, stores, etc";
+
 "category" = "Category";
 
-"stats_pie_chart_sent_label" = "Sent";
-"stats_pie_chart_received_label" = "Received";
-"stats_pie_chart_title_label" = "Messages";
+"chats_alert_action_block" = "Block";
 
-"mapview_controller_title" = "Map";
+/* No comment provided by engineer. */
+"chats_alert_action_clear_conversation" = "Clear conversation";
 
-"settings_home_profile_hi" = "Hi";
-"settings_home_share_text" = "Download this app to talk to almost any business";
+/* No comment provided by engineer. */
+"chats_alert_action_mute" = "Mute";
 
-"settings_account_blocked_loading" = "Loading";
-"settings_account_alert_change_empty_title" = "Field can't be empty";
-"settings_account_alert_password_title" = "Are you sure you want to change your password?";
-"settings_account_alert_password_action_change" = "Change";
-"settings_account_alert_password_changed" = "Password changed";
-"settings_account_alert_password_not_changed" = "We're sorry, password couldn't be changed. Please try again later";
-"settings_account_alert_displayname_changed" = "Name changed";
-"settings_account_alert_displayname_not_changed" = "We're sorry, name couldn't be changed. Please try again later";
-"settings_account_alert_conversa_id_changed" = "Conversa ID changed";
-"settings_account_alert_conversa_id_not_changed" = "We're sorry, Conversa ID couldn't be changed because is already taken";
-"settings_account_logout_alert_action_logout" = "Log Out";
+/* No comment provided by engineer. */
+"chats_alert_action_one_day" = "1 day";
 
-"settings_account_avatar" = "Avatar changed";
-"settings_account_avatar_error_link" = "Avatar not changed";
-"settings_account_avatar_error" = "An error occurred while saving the avatar";
+/* No comment provided by engineer. */
+"chats_alert_action_three_day" = "3 days";
 
-"settings_account_status_online" = "Online";
-"settings_account_status_offline" = "Offline";
-"settings_account_status_away" = "Away";
-"settings_account_status_conversa" = "Messages redirect to Conversa";
+/* No comment provided by engineer. */
+"chats_alert_action_twelve_hours" = "12 hours";
 
-"settings_account_category_limit" = "You can select up to %li categories";
+"chats_alert_action_unblock" = "Unblock";
 
-"settings_account_status_message_fail" = "Status couldn't be changed. Please try again later or contact Conversa Support for more information";
+/* No comment provided by engineer. */
+"chats_alert_action_unmute" = "Unmute";
 
-"settings_account_redirect_message_enable_fail" = "We couldn't enable redirection. Please try again later or contact Conversa Support for more information";
-"settings_account_redirect_message_disable_fail" = "We couldn't disable redirection. Please try again later or contact Conversa Support for more information";
-"settings_account_redirect_message" = "All your incoming messages will be redirect to Conversa to handle your communication. Are you sure you want to enable this feature?";
+/* No comment provided by engineer. */
+"chats_cell_action_delete" = "Delete";
 
-"settings_account_profile_category_selected" = "My Categories";
-"settings_account_profile_category_category" = "Categories";
+/* No comment provided by engineer. */
+"chats_cell_action_title" = "More";
 
-"settings_chat_quality_alert_action_high" = "High";
-"settings_chat_quality_alert_action_medium" = "Medium";
-"settings_chat_quality_alert_action_low" = "Low";
+/* No comment provided by engineer. */
+"chats_cell_conversation_audio" = "Audio";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_empty" = "Start chatting";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_image" = "Image";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_location" = "Location";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_message" = "Message";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_video" = "Video";
+
+"chats_cell_date_now" = "Now";
+
+/* No comment provided by engineer. */
+"chats_cell_date_yesterday" = "Yesterday";
+
+/* No comment provided by engineer. */
+"common_action_cancel" = "Cancelar";
 
 /*
  * Common strings
  */
 "common_action_done" = "Done";
-"common_action_cancel" = "Cancelar";
-"common_field_required" = "Required field";
+
+/* No comment provided by engineer. */
 "common_field_invalid" = "Invalid field";
+
+/* No comment provided by engineer. */
+"common_field_required" = "Required field";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_camara_title" = "Image couldn't be saved";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_location_title" = "We couldn't find your location";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock" = "Unblock";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
+
+/* No comment provided by engineer. */
+"conversation_inputtoolbar_placeholder" = "Write a message";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_copy" = "Copy";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_delete" = "Delete";
+
+/* No comment provided by engineer. */
+"conversation_message_info_downloading" = "Downloading";
+
+/* No comment provided by engineer. */
+"conversation_message_info_failed" = "Failed";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sending" = "Sending";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sent" = "Sent";
+
+/* No comment provided by engineer. */
+"conversation_message_info_uploading" = "Uploading";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_camara" = "Camara";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_library" = "Library";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_location" = "Send location";
+
+/* No comment provided by engineer. */
+"conversation_subtitle_writing" = "typing...";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_delete" = "Delete";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_map" = "Show map";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_play" = "Play";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_resend" = "Resend";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_view" = "View image";
+
+/* No comment provided by engineer. */
+"mapview_controller_title" = "Map";
+
+/* No comment provided by engineer. */
+"no_internet_connection_message" = "No internet connection";
+
+/* No comment provided by engineer. */
+"recover_password_failed_message" = "Couldn't find any email assocciated with this account";
+
+/* No comment provided by engineer. */
+"recover_password_sent_message" = "Password recovery link sent";
+
+/* No comment provided by engineer. */
+"settings_account_alert_change_empty_title" = "Field can't be empty";
+
+/* No comment provided by engineer. */
+"settings_account_alert_conversa_id_changed" = "Conversa ID changed";
+
+/* No comment provided by engineer. */
+"settings_account_alert_conversa_id_not_changed" = "We're sorry, Conversa ID couldn't be changed because is already taken";
+
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_changed" = "Name changed";
+
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_not_changed" = "We're sorry, name couldn't be changed. Please try again later";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_action_change" = "Change";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_changed" = "Password changed";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_not_changed" = "We're sorry, password couldn't be changed. Please try again later";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_title" = "Are you sure you want to change your password?";
+
+/* No comment provided by engineer. */
+"settings_account_avatar" = "Avatar changed";
+
+/* No comment provided by engineer. */
+"settings_account_avatar_error" = "An error occurred while saving the avatar";
+
+/* No comment provided by engineer. */
+"settings_account_avatar_error_link" = "Avatar not changed";
+
+"settings_account_blocked_loading" = "Loading";
+
+/* No comment provided by engineer. */
+"settings_account_category_limit" = "You can select up to %li categories";
+
+/* No comment provided by engineer. */
+"settings_account_logout_alert_action_logout" = "Log Out";
+
+/* No comment provided by engineer. */
+"settings_account_profile_category_category" = "Categories";
+
+/* No comment provided by engineer. */
+"settings_account_profile_category_selected" = "My Categories";
+
+/* No comment provided by engineer. */
+"settings_account_redirect_message" = "All your incoming messages will be redirect to Conversa to handle your communication. Are you sure you want to enable this feature?";
+
+/* No comment provided by engineer. */
+"settings_account_redirect_message_disable_fail" = "We couldn't disable redirection. Please try again later or contact Conversa Support for more information";
+
+/* No comment provided by engineer. */
+"settings_account_redirect_message_enable_fail" = "We couldn't enable redirection. Please try again later or contact Conversa Support for more information";
+
+/* No comment provided by engineer. */
+"settings_account_status_away" = "Away";
+
+/* No comment provided by engineer. */
+"settings_account_status_conversa" = "Messages redirect to Conversa";
+
+/* No comment provided by engineer. */
+"settings_account_status_message_fail" = "Status couldn't be changed. Please try again later or contact Conversa Support for more information";
+
+/* No comment provided by engineer. */
+"settings_account_status_offline" = "Offline";
+
+/* No comment provided by engineer. */
+"settings_account_status_online" = "Online";
+
+/* No comment provided by engineer. */
+"settings_chat_quality_alert_action_high" = "High";
+
+/* No comment provided by engineer. */
+"settings_chat_quality_alert_action_low" = "Low";
+
+/* No comment provided by engineer. */
+"settings_chat_quality_alert_action_medium" = "Medium";
+
+/* No comment provided by engineer. */
+"settings_home_profile_hi" = "Hi";
+
+"settings_home_share_text" = "Download this app to talk to almost any business";
+
+/* No comment provided by engineer. */
+"sign_failed_message" = "Email and password didn't match any account";
+
+"signup_birhtday_toolbar_done" = "Done";
+
+"signup_check_empty_search" = "Can't search for empty field";
+
+/* No comment provided by engineer. */
+"signup_checking_conversa_id" = "Verifying information...";
+
+/* No comment provided by engineer. */
+"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
+
+/* No comment provided by engineer. */
+"signup_contact_error" = "Oops, the reclaim couldn't be filed, please try again later";
+
+/* No comment provided by engineer. */
+"signup_contact_success" = "Great! We'll be in contact\nwith you as soon as possible";
+
+/* No comment provided by engineer. */
+"signup_conversaid_error" = "Conversa ID is already\ntaken, try with another";
+
+/* No comment provided by engineer. */
+"signup_email_error" = "This email is\nalready taken";
+
+/* No comment provided by engineer. */
+"signup_register_categories_error" = "Unable to find categories, go back and try again";
+
+/* No comment provided by engineer. */
+"signup_register_countries_error" = "Unable to find countries, go back and try again";
+
+/* No comment provided by engineer. */
+"stats_pie_chart_received_label" = "Received";
+
+/* No comment provided by engineer. */
+"stats_pie_chart_sent_label" = "Sent";
+
+"stats_pie_chart_title_label" = "Messages";
+
+/* No comment provided by engineer. */
+"token_session_error" = "Another device has started session, this device will log out";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "";

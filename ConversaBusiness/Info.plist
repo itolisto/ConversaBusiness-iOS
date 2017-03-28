@@ -20,19 +20,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>io.branch.sdk</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>conversamanager</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Fabric</key>
@@ -67,24 +54,38 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>files.parsetfss.com</key>
+			<key>192.168.1.6:1337</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<string>YES</string>
+				<key>NSIncludesSubdomains</key>
+				<string>YES</string>
+			</dict>
+			<key>ec2-52-71-125-28.compute-1.amazonaws.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>localhost:1337</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<string>YES</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Capture images</string>
+	<string>$(PRODUCT_NAME) wants to access camera to capture images</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We want to send your location data to the NSA, nah, just kidding</string>
+	<string>$(PRODUCT_NAME) want to send your location data to the NSA, nah, just kidding</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Send images</string>
+	<string>$(PRODUCT_NAME) wants to access your photo library to send images</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -102,12 +103,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>branch_key</key>
-	<dict>
-		<key>live</key>
-		<string>key_live_jojZlVD6NzEDS0I8yINt5fmpxsb6Jdms</string>
-		<key>test</key>
-		<string>key_test_jlh0fVE5OwrAI8P2yVGwRagmttb6Hahk</string>
-	</dict>
 </dict>
 </plist>

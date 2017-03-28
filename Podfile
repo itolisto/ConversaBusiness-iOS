@@ -18,17 +18,15 @@ target 'ConversaManager' do
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
-    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'develop'
+    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'release_7.3'
     # A fancy Obj-C wrapper for Cocoa System Sound Services
-    pod 'JSQSystemSoundPlayer'
+    # pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
     pod 'OHQBImagePicker'
     # Report a bug; bug reports will be sent directly to your email address!
     pod 'Buglife'
-    # Branch is the most robust deep linking platform for your mobile app.
-    pod 'Branch'
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
@@ -56,4 +54,8 @@ target 'ConversaManager' do
     pod 'AFNetworking', '~> 3.0'
     # Beautiful charts for iOS/tvOS/OSX!
     pod 'Charts'
+    # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
+    pod 'TTTAttributedLabel'
+    # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
+    pod 'VTAcknowledgementsViewController'
 end

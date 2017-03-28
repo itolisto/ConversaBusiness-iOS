@@ -141,13 +141,13 @@
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
 
-    if ([[SettingsKeys getBusinessId] length] == 0) {
-        [AppJobs addBusinessDataJob];
-    } else {
+    if ([SettingsKeys getBusinessId] && [[SettingsKeys getBusinessId] length] > 0) {
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[OneSignalService sharedInstance] registerForPushNotifications];
         [[OneSignalService sharedInstance] startTags];
+    } else {
+        [AppJobs addBusinessDataJob];
     }
 }
 

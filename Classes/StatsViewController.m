@@ -136,7 +136,7 @@
         } else {
             [self.activityIndicatorView startAnimating];
             [PFCloud callFunctionInBackground:@"getBusinessStatisticsAll"
-                               withParameters:@{@"business": [SettingsKeys getBusinessId]}
+                               withParameters:@{@"businessId": [SettingsKeys getBusinessId]}
                                         block:^(NSString*  _Nullable jsonData, NSError * _Nullable error)
              {
                  [self.activityIndicatorView stopAnimating];

@@ -9,9 +9,12 @@
 import UIKit
 import Whisper
 
-@objc open class WhisperBridge: NSObject {
+class WhisperBridge : NSObject {
 
-    static open func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval)
+    static let sharedInstance = WhisperBridge()
+    var navigationControllers = [UINavigationController]()
+
+    func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval)
     {
         let message = Message(title: text, textColor: UIColor.white, backgroundColor: backgroundColor, images: nil)
         show(whisper: message, to: toNavigationController)
@@ -21,7 +24,7 @@ import Whisper
         }
     }
 
-    static open func shout(_ text: String, subtitle: String, backgroundColor: UIColor, toNavigationController: UINavigationController, image: UIImage? = nil, silenceAfter: TimeInterval, action: (() -> Void)? = nil)
+    func shout(_ text: String, subtitle: String, backgroundColor: UIColor, toNavigationController: UINavigationController, image: UIImage? = nil, silenceAfter: TimeInterval, action: (() -> Void)? = nil)
     {
         let announcement = Announcement(title: text, subtitle: subtitle, image: image)
         show(shout: announcement, to: toNavigationController, completion: action)
@@ -31,17 +34,27 @@ import Whisper
         }
     }
 
-    static open func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
+    func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
     {
+        let index = navigationControllers.index(of: toNavigationController)
+        if index != nil {
+            return;
+        }
+        navigationControllers.append(toNavigationController)
         let message = Message(title: title, textColor: titleColor, backgroundColor: backgroundColor, images: nil)
         // Present a permanent message
         show(whisper: message, to: toNavigationController, action: .present)
     }
 
-    static open func hidePermanentShout(_ toNavigationController: UINavigationController)
+    func hidePermanentShout(_ toNavigationController: UINavigationController)
     {
-        // Hide a permanent message
-        hide(whisperFrom: toNavigationController)
+        let index = navigationControllers.index(of: toNavigationController)
+        if index != nil {
+            navigationControllers.remove(at: index!)
+            // Hide a permanent message
+            hide(whisperFrom: toNavigationController)
+        }
     }
     
 }
+

@@ -112,7 +112,7 @@
             NSString *temp = textField.text;
 
             [PFCloud callFunctionInBackground:@"updateBusinessName"
-                               withParameters:@{@"displayName" : temp, @"objectId": [SettingsKeys getBusinessId]}
+                               withParameters:@{@"displayName" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
                  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
@@ -142,7 +142,7 @@
             NSString *temp = textField.text;
 
             [PFCloud callFunctionInBackground:@"updateBusinessId"
-                               withParameters:@{@"conversaID" : temp, @"objectId": [SettingsKeys getBusinessId]}
+                               withParameters:@{@"conversaId" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
                  MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
@@ -302,7 +302,7 @@
                  self.avatarImageView.image = [UIImage imageWithData:picture];
 
                  [PFCloud callFunctionInBackground:@"updateBusinessAvatar"
-                                    withParameters:@{@"avatar" : filePicture, @"objectId": [SettingsKeys getBusinessId]}
+                                    withParameters:@{@"avatar" : filePicture, @"businessId": [SettingsKeys getBusinessId]}
                                              block:^(id  _Nullable object, NSError * _Nullable error)
                   {
                       MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];

@@ -8,7 +8,6 @@
 
 #import "BaseTableViewController.h"
 
-#import "Reachability.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface BaseTableViewController ()
@@ -23,24 +22,6 @@
 {
     [super viewDidAppear:animated];
     [CustomAblyRealtime sharedInstance].delegate = self;
-
-    if (self.navigationController != nil) {
-        Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-        NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-        if (networkStatus == NotReachable) {
-            [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                                   titleColor:[UIColor whiteColor]
-                              backgroundColor:[UIColor redColor]
-                       toNavigationController:self.navigationController];
-        } else {
-            [WhisperBridge hidePermanentShout:self.navigationController];
-        }
-    }
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - ConversationListener Methods -
@@ -92,13 +73,13 @@
                  CFRelease(cfString);
              }
 
-             [WhisperBridge shout:from.displayName
-                         subtitle:text
-                  backgroundColor:[UIColor clearColor]
-           toNavigationController:self.navigationController
-                            image:nil
-                     silenceAfter:1.8
-                           action:nil];
+             [[WhisperBridge sharedInstance] shout:from.displayName
+                                          subtitle:text
+                                   backgroundColor:[UIColor clearColor]
+                            toNavigationController:self.navigationController
+                                             image:nil
+                                      silenceAfter:1.8
+                                            action:nil];
          }
      }];
 }

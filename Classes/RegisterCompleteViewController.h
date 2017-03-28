@@ -7,12 +7,15 @@
 //
 
 @import UIKit;
+#import <SafariServices/SafariServices.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
-@interface RegisterCompleteViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
+@interface RegisterCompleteViewController : UIViewController <TTTAttributedLabelDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, SFSafariViewControllerDelegate>
 
-@property(strong, nullable, nonatomic) UIImage *avatar;
+//@property(strong, nullable, nonatomic) UIImage *avatar;
 @property(strong, nonnull, nonatomic) NSString *businessName;
 @property(strong, nonnull, nonatomic) NSString *conversaId;
 @property(strong, nonnull, nonatomic) NSString *categoryId;
+@property(strong, nonnull, nonatomic) NSString *localIdentifier;
 
 @end
