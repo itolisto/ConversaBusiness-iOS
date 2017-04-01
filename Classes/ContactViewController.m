@@ -228,6 +228,10 @@
 
 #pragma mark - Navigation Method -
 
+- (IBAction)backButtonPressed:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)closeButtonPressed:(UIButton *)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

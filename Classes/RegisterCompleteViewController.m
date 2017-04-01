@@ -90,7 +90,7 @@
                      range:startPrivacy];
 
     self.termsPrivacyLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
-    self.termsPrivacyLabel.linkAttributes = @{NSForegroundColorAttributeName: [Colors green],
+    self.termsPrivacyLabel.linkAttributes = @{NSForegroundColorAttributeName: [Colors purple],
                                               NSUnderlineStyleAttributeName: [NSNumber numberWithBool:NO]
                                               };
 

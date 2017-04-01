@@ -209,7 +209,19 @@
                      [self changeFavorite:YES];
                  }
 
-                 self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+                 if (self.followers > 999) {
+                     NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+                     formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+                     [formatterCurrency setMinimumFractionDigits:1];
+                     [formatterCurrency setMaximumFractionDigits:1];
+
+                     NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+                     self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+                 } else {
+                     self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+                 }
              }
          }
 
@@ -228,14 +240,18 @@
         [self.view.window addGestureRecognizer:self.tapOutsideRecognizer];
     }
 
-    UIColor *myBackground = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.3];
     UIView* baseView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                 0,
                                                                 [[UIScreen mainScreen] bounds].size.width,
                                                                 [[UIScreen mainScreen] bounds].size.height)];
     baseView.tag = 512;
-    baseView.backgroundColor = myBackground;
+    baseView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.45];
+    baseView.alpha = 0.0;
     [self.view insertSubview:baseView atIndex:0];
+
+    [UIView animateWithDuration:0.20 animations:^{
+        baseView.alpha = 1.0;
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -286,11 +302,22 @@
 
     if ([self isSelected]) {
         [self changeFavorite:NO];
-        self.followers--;
-        if (self.followers <= 0) {
-            self.followers = 0;
+        if (self.followers > 0) {
+            self.followers--;
+            if (self.followers > 999) {
+                NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+                formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+                [formatterCurrency setMinimumFractionDigits:1];
+                [formatterCurrency setMaximumFractionDigits:1];
+
+                NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+                self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+            } else {
+                self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+            }
         }
-        self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     } else {
         [self changeFavorite:YES];
         self.followers++;

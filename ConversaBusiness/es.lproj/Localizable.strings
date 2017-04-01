@@ -3,6 +3,9 @@
 
 "category" = "Categoría";
 
+/* No comment provided by engineer. */
+"chat_searchbar_placeholder" = "Busca en tus chats";
+
 "chats_alert_action_block" = "Bloquear";
 
 /* No comment provided by engineer. */
@@ -67,6 +70,12 @@
 
 /* No comment provided by engineer. */
 "common_field_required" = "Campo requerido";
+
+/* No comment provided by engineer. */
+"conversalink_share_copy" = "Link copiado 🤖";
+
+/* No comment provided by engineer. */
+"conversalink_share_text" = "Chatea con nosotros en Conversa. %1$@";
 
 /* No comment provided by engineer. */
 "conversation_alert_action_camara_title" = "La imagen no pudo ser guardada";
@@ -263,6 +272,9 @@
 "signup_register_countries_error" = "No se han podido obtener los países, ve atrás e intenta de nuevo";
 
 /* No comment provided by engineer. */
+"stats_chart_no_data" = "No hay información disponible por el momento";
+
+/* No comment provided by engineer. */
 "stats_pie_chart_received_label" = "Recibidos";
 
 /* No comment provided by engineer. */
@@ -272,6 +284,36 @@
 
 /* No comment provided by engineer. */
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
+
+/* No comment provided by engineer. */
+"tutorial_message_five" = "Conéctate con tu audiencia donde sea, cuando quieras";
+
+/* No comment provided by engineer. */
+"tutorial_message_four" = "Haz crecer tu negocio através de chat";
+
+/* No comment provided by engineer. */
+"tutorial_message_one" = "Con Conversa alcanzar tu audiencia es más fácil que nunca";
+
+/* No comment provided by engineer. */
+"tutorial_message_three" = "Crea tu ID, obtén tu conversa.link y compártelo en todos lados";
+
+/* No comment provided by engineer. */
+"tutorial_message_two" = "Permite a tus clientes chatear contigo sin ninguna complicación";
+
+/* No comment provided by engineer. */
+"tutorial_title_five" = "Excepcional atención al cliente";
+
+/* No comment provided by engineer. */
+"tutorial_title_four" = "Aumenta tu alcance";
+
+/* No comment provided by engineer. */
+"tutorial_title_one" = "Bienvenido a Manager";
+
+/* No comment provided by engineer. */
+"tutorial_title_three" = "Sé social";
+
+/* No comment provided by engineer. */
+"tutorial_title_two" = "Mensajería instantánea";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_message_error" = "";

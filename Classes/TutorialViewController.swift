@@ -19,11 +19,23 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        self.pageTitles = NSArray(objects: "¿QUE ES CONVERSA?", "¿PARA QUE PUEDE SERVIR?", "ENCUENTRA", "¿QUE ES UN ID?")
-        
-        self.pageImages = NSArray(objects: "Cam1", "Cam1", "Cam1", "Cam1")
-        
-        self.pageInfos = NSArray(objects: "Es como WhatsApp pero para que puedas chatear con empresas en tiempo real y GRATIS", "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc.", "Con quien necesites chatear buscando por el ID de la empresa o explora en las categorias", "El ID de una empresa es su nombre de usuario, ejemplo: '@tunegocio'. Puedes buscarlo con o sin el Arroba '@'.")
+        self.pageTitles = NSArray(objects:
+            NSLocalizedString("tutorial_title_one", comment: ""),
+            NSLocalizedString("tutorial_title_two", comment: ""),
+            NSLocalizedString("tutorial_title_three", comment: ""),
+            NSLocalizedString("tutorial_title_four", comment: ""),
+            NSLocalizedString("tutorial_title_five", comment: "")
+        )
+
+        self.pageImages = NSArray(objects: "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one")
+
+        self.pageInfos = NSArray(objects:
+            NSLocalizedString("tutorial_message_one", comment: ""),
+            NSLocalizedString("tutorial_message_two", comment: ""),
+            NSLocalizedString("tutorial_message_three", comment: ""),
+            NSLocalizedString("tutorial_message_four", comment: ""),
+            NSLocalizedString("tutorial_message_five", comment: "")
+        )
 
         self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as! UIPageViewController
         self.pageViewController.dataSource = self
@@ -34,7 +46,6 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         self.pageViewController.setViewControllers(viewControllers as? [UIViewController], direction: .forward, animated: true, completion: nil)
         
         self.pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.size.height)
-        self.pageViewController.view.backgroundColor = UIColor(red: 0.22, green: 1.00, blue: 0.47, alpha: 1.0)
         
         self.addChildViewController(self.pageViewController)
         self.view.addSubview(self.pageViewController.view)

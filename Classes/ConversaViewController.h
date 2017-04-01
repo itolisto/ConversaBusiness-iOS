@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface ConversaViewController : BaseViewController
+@interface ConversaViewController : BaseViewController <UIGestureRecognizerDelegate>
 
 @end

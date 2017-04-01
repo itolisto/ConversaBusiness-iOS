@@ -168,6 +168,7 @@
             CGRect newFrame = self.inputToolbar.contentView.textView.frame;
             newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
             self.inputToolbar.contentView.textView.frame = newFrame;
+            self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
         }
     }
     
@@ -398,6 +399,7 @@
 
 - (void)initializeCollectionViewLayout {
     if (self.collectionView) {
+        self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0, 7.0, 0.0, 7.0);
         self.collectionView.showsVerticalScrollIndicator = NO;
         self.collectionView.showsHorizontalScrollIndicator = NO;
         [self updateLoadEarlierVisible];
@@ -737,10 +739,13 @@
             if (error) {
                 [attributedString insertAttributedString:[[NSAttributedString alloc]
                                                           initWithString:progressString
-                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}]
+                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor],
+                                                                       NSFontAttributeName: [UIFont systemFontOfSize:10.0]}]
                                                  atIndex:0];
             } else {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString]
+                [attributedString insertAttributedString:[[NSAttributedString alloc]
+                                                          initWithString:progressString
+                                                          attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.0]}]
                                                  atIndex:0];
             }
         }

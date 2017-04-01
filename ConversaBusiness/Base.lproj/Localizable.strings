@@ -3,6 +3,9 @@
 
 "category" = "Category";
 
+/* No comment provided by engineer. */
+"chat_searchbar_placeholder" = "Search in your chats";
+
 "chats_alert_action_block" = "Block";
 
 /* No comment provided by engineer. */
@@ -67,6 +70,12 @@
 
 /* No comment provided by engineer. */
 "common_field_required" = "Required field";
+
+/* No comment provided by engineer. */
+"conversalink_share_copy" = "Link copied 🤖";
+
+/* No comment provided by engineer. */
+"conversalink_share_text" = "Chat with us on Conversa. %1$@";
 
 /* No comment provided by engineer. */
 "conversation_alert_action_camara_title" = "Image couldn't be saved";
@@ -263,6 +272,9 @@
 "signup_register_countries_error" = "Unable to find countries, go back and try again";
 
 /* No comment provided by engineer. */
+"stats_chart_no_data" = "No data available at the moment";
+
+/* No comment provided by engineer. */
 "stats_pie_chart_received_label" = "Received";
 
 /* No comment provided by engineer. */
@@ -272,6 +284,36 @@
 
 /* No comment provided by engineer. */
 "token_session_error" = "Another device has started session, this device will log out";
+
+/* No comment provided by engineer. */
+"tutorial_message_five" = "Connect with your audience anywhere, anytime";
+
+/* No comment provided by engineer. */
+"tutorial_message_four" = "Growth your business through chat";
+
+/* No comment provided by engineer. */
+"tutorial_message_one" = "With Conversa reaching your audience is more easy than ever";
+
+/* No comment provided by engineer. */
+"tutorial_message_three" = "Create your ID, get your conversa.link and share them everywhere";
+
+/* No comment provided by engineer. */
+"tutorial_message_two" = "Let your customers chat with you without any hassle";
+
+/* No comment provided by engineer. */
+"tutorial_title_five" = "Exceptional customer service";
+
+/* No comment provided by engineer. */
+"tutorial_title_four" = "Boost your reach";
+
+/* No comment provided by engineer. */
+"tutorial_title_one" = "Welcome to Manager";
+
+/* No comment provided by engineer. */
+"tutorial_title_three" = "Be social";
+
+/* No comment provided by engineer. */
+"tutorial_title_two" = "Instant messaging";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_message_error" = "";

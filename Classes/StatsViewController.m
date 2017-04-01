@@ -13,22 +13,23 @@
 #import "Reachability.h"
 #import "UIStateButton.h"
 #import "ParseValidation.h"
-
 #import <Parse/Parse.h>
-#import <Charts/Charts-Swift.h>
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
-@interface StatsViewController () <ChartViewDelegate>
+@interface StatsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (weak, nonatomic) IBOutlet UIView *loadingChartView;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
-@property (weak, nonatomic) IBOutlet PieChartView *pieChart;
 @property (weak, nonatomic) IBOutlet UILabel *sentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *receivedLabel;
 @property (weak, nonatomic) IBOutlet UILabel *favsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *viewsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *conversationsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *linksLabel;
 @property (weak, nonatomic) IBOutlet UIStateButton *retryButton;
+
 @property (strong, nonatomic) DGActivityIndicatorView *activityIndicatorView;
 
 @end
@@ -40,7 +41,7 @@
 
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
+    label.font = [UIFont boldSystemFontOfSize:20];
     label.shadowColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
@@ -49,8 +50,6 @@
     [label sizeToFit];
 
     self.scrollView.contentInset = UIEdgeInsetsMake(14.0, 0.0, 14.0, 0.0);
-
-    [self setupPieChartView:_pieChart];
 
     // Add border to Button
     [self.retryButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
@@ -95,7 +94,7 @@
     if (!self.infoView.isHidden) {
         self.infoView.hidden = YES;
     }
-    _pieChart.data = nil;
+//    _pieChart.data = nil;
     [self loadData:nil];
 }
 
@@ -119,6 +118,9 @@
         if (self.infoView.isHidden) {
             self.infoView.hidden = NO;
         }
+        if (self.loadingChartView.isHidden) {
+            self.loadingChartView.hidden = NO;
+        }
         if (refreshControl) {
             [refreshControl endRefreshing];
         }
@@ -130,13 +132,23 @@
             if (self.infoView.isHidden) {
                 self.infoView.hidden = NO;
             }
+            if (self.loadingChartView.isHidden) {
+                self.loadingChartView.hidden = NO;
+            }
             if (refreshControl) {
                 [refreshControl endRefreshing];
             }
         } else {
             [self.activityIndicatorView startAnimating];
+
+            NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+
+            if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
+                language = @"en"; // Set to default language
+            }
+
             [PFCloud callFunctionInBackground:@"getBusinessStatisticsAll"
-                               withParameters:@{@"businessId": [SettingsKeys getBusinessId]}
+                               withParameters:@{@"businessId":[SettingsKeys getBusinessId], @"language":language}
                                         block:^(NSString*  _Nullable jsonData, NSError * _Nullable error)
              {
                  [self.activityIndicatorView stopAnimating];
@@ -155,13 +167,15 @@
                          if (self.infoView.isHidden) {
                              self.infoView.hidden = NO;
                          }
+                         if (self.loadingChartView.isHidden) {
+                             self.loadingChartView.hidden = NO;
+                         }
                      }
                  } else {
-                     self.loadingView.hidden = YES;
-                     self.infoView.hidden = YES;
                      id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
                                                                  options:0
                                                                    error:&error];
+
                      if (error) {
                          if (self.loadingView.isHidden) {
                              self.loadingView.hidden = NO;
@@ -169,67 +183,63 @@
                          if (self.infoView.isHidden) {
                              self.infoView.hidden = NO;
                          }
+                         if (self.loadingChartView.isHidden) {
+                             self.loadingChartView.hidden = NO;
+                         }
                      } else {
-                         NSDictionary *results = object;
+                         NSMutableDictionary *results = [object mutableCopy];
 
-                         int sent = 0, received = 0, favs = 0, views = 0;
+                         long long sent = 0, received = 0, favs = 0, views = 0, conversations = 0, links = 0;
 
-                         if ([results objectForKey:@"ms"] && [results objectForKey:@"ms"] != [NSNull null]) {
-                             sent = [[results objectForKey:@"ms"] doubleValue];
+                         if ([results objectForKey:@"all"]) {
+                             NSDictionary *all = [results objectForKey:@"all"];
+
+                             if ([all objectForKey:@"ms"]) {
+                                 sent = [[all objectForKey:@"ms"] longLongValue];
+                             }
+
+                             if ([all objectForKey:@"mr"]) {
+                                 received = [[all objectForKey:@"mr"] longLongValue];
+                             }
+
+                             if ([all objectForKey:@"nf"]) {
+                                 favs = [[all objectForKey:@"nf"] longLongValue];
+                             }
+
+                             if ([all objectForKey:@"np"]) {
+                                 views = [[all objectForKey:@"np"] longLongValue];
+                             }
+
+                             if ([all objectForKey:@"cn"]) {
+                                 conversations = [[all objectForKey:@"cn"] longLongValue];
+                             }
+
+                             if ([all objectForKey:@"lc"]) {
+                                 links = [[all objectForKey:@"lc"] longLongValue];
+                             }
+
+                             [results removeObjectForKey:@"all"];
                          }
 
-                         if ([results objectForKey:@"mr"] && [results objectForKey:@"mr"] != [NSNull null]) {
-                             received = [[results objectForKey:@"mr"] doubleValue];
+                         [self setLabelText:self.sentLabel withValue:sent];
+                         [self setLabelText:self.receivedLabel withValue:received];
+                         [self setLabelText:self.favsLabel withValue:favs];
+                         [self setLabelText:self.viewsLabel withValue:views];
+                         [self setLabelText:self.conversationsLabel withValue:conversations];
+                         [self setLabelText:self.linksLabel withValue:links];
+
+                         self.loadingView.hidden = YES;
+                         self.infoView.hidden = YES;
+                         self.loadingChartView.hidden = YES;
+
+                         if ([results objectForKey:@"charts"]) {
+                             NSDictionary *charts = [results objectForKey:@"charts"];
+                             if ([self.childViewControllers count] > 0 && [charts count] > 0) {
+                                 // At this point is always sure first child view controller is the one we want
+                                 ChartPageViewController *vc = (ChartPageViewController*)[self.childViewControllers objectAtIndex:0];
+                                 [vc loadChartsWithData:charts];
+                             }
                          }
-
-                         if ([results objectForKey:@"nf"] && [results objectForKey:@"nf"] != [NSNull null]) {
-                             favs = [[results objectForKey:@"nf"] doubleValue];
-                         }
-
-                         if ([results objectForKey:@"np"] && [results objectForKey:@"np"] != [NSNull null]) {
-                             views = [[results objectForKey:@"np"] doubleValue];
-                         }
-
-                         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-
-                         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                         [formatter setMaximumFractionDigits:1];
-                         [formatter setMinimumFractionDigits:1];
-                         [formatter setRoundingMode:NSNumberFormatterRoundDown];
-
-                         NSString *sentString, *receivedString, *favsString, *viewsString;
-
-                         if (sent > 999) {
-                             sentString = [[formatter stringFromNumber:[NSNumber numberWithDouble:sent/1000.0]] stringByAppendingString:@"K"];
-                         } else {
-                             sentString = [NSString stringWithFormat:@"%d", sent];
-                         }
-
-                         if (received > 999) {
-                             receivedString = [[formatter stringFromNumber:[NSNumber numberWithDouble:received/1000.0]] stringByAppendingString:@"K"];
-                         } else {
-                             receivedString = [NSString stringWithFormat:@"%d", received];
-                         }
-
-                         if (favs > 999) {
-                             favsString = [[formatter stringFromNumber:[NSNumber numberWithDouble:favs/1000.0]] stringByAppendingString:@"K"];
-                         } else {
-                             favsString = [NSString stringWithFormat:@"%d", favs];
-                         }
-
-                         if (views > 999) {
-                             viewsString = [[formatter stringFromNumber:[NSNumber numberWithDouble:views/1000.0]] stringByAppendingString:@"K"];
-                         } else {
-                             viewsString = [NSString stringWithFormat:@"%d", views];
-                         }
-
-
-                         self.sentLabel.text = sentString;
-                         self.receivedLabel.text = receivedString;
-                         self.favsLabel.text = favsString;
-                         self.viewsLabel.text = viewsString;
-
-                         [self updateChartData:sent received:received];
                      }
                  }
              }];
@@ -237,70 +247,19 @@
     }
 }
 
-- (void)setupPieChartView:(PieChartView *)chartView
-{
-    chartView.usePercentValuesEnabled = YES;
-    chartView.drawSlicesUnderHoleEnabled = YES;
-    chartView.holeRadiusPercent = 0.58;
-    chartView.transparentCircleRadiusPercent = 0.61;
-    chartView.chartDescription.enabled = NO;
+- (void)setLabelText:(UILabel*)label withValue:(long long)value {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 
-    chartView.drawHoleEnabled = NO;
-    chartView.rotationAngle = 0.0;
-    chartView.rotationEnabled = NO;
-    chartView.highlightPerTapEnabled = YES;
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setMaximumFractionDigits:1];
+    [formatter setMinimumFractionDigits:1];
+    [formatter setRoundingMode:NSNumberFormatterRoundDown];
 
-    ChartLegend *l = chartView.legend;
-    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
-    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
-    l.orientation = ChartLegendOrientationVertical;
-    l.drawInside = NO;
-    l.xEntrySpace = 0.0;
-    l.yEntrySpace = 0.0;
-    l.yOffset = 0.0;
-
-    chartView.delegate = self;
-
-    // entry label styling
-    chartView.entryLabelColor = UIColor.whiteColor;
-    chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
-    [chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
-}
-
-- (void)updateChartData:(double)sent received:(double)received
-{
-    NSMutableArray *values = [[NSMutableArray alloc] init];
-
-    [values addObject:[[PieChartDataEntry alloc] initWithValue:sent
-                                                         label:NSLocalizedString(@"stats_pie_chart_sent_label", nil)]];
-    [values addObject:[[PieChartDataEntry alloc] initWithValue:received
-                                                         label:NSLocalizedString(@"stats_pie_chart_received_label", nil)]];
-
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:values
-                                                                 label:nil];
-    dataSet.sliceSpace = 3.0;
-
-    // add a lot of colors
-    NSMutableArray *colors = [[NSMutableArray alloc] initWithCapacity:2];
-    [colors addObject:[Colors pieChartReceived]];
-    [colors addObject:[Colors pieChartSent]];
-
-    dataSet.colors = colors;
-
-    PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
-
-    NSNumberFormatter *pFormatter = [[NSNumberFormatter alloc] init];
-    pFormatter.numberStyle = NSNumberFormatterPercentStyle;
-    pFormatter.maximumFractionDigits = 1;
-    pFormatter.multiplier = @1.f;
-    pFormatter.percentSymbol = @"%";
-    [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:pFormatter]];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
-    [data setValueTextColor:[Colors black]];
-
-    _pieChart.data = data;
-    [_pieChart highlightValues:nil];
-    [_pieChart setNeedsDisplay];
+    if (value > 999) {
+        label.text = [[formatter stringFromNumber:[NSNumber numberWithDouble:value/1000.0]] stringByAppendingString:@"K"];
+    } else {
+        label.text = [NSString stringWithFormat:@"%lld", value];
+    }
 }
 
 @end

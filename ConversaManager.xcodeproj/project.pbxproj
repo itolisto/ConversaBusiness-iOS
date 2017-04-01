@@ -72,11 +72,14 @@
 		A547C86D1E106E6500ECC891 /* CheckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86C1E106E6500ECC891 /* CheckViewController.m */; };
 		A56192391E08775100D2AAFB /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56192381E08775100D2AAFB /* BaseViewController.m */; };
 		A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A561923E1E08886000D2AAFB /* BaseTableViewController.m */; };
+		A56861771E8DE0090069E87D /* ChartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56861761E8DE0090069E87D /* ChartPageViewController.swift */; };
 		A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */ = {isa = PBXBuildFile; fileRef = A56BAD3A1E16E2E400BF428B /* nCountry.m */; };
 		A56EB3501E0A50DA00532231 /* CustomCategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB34F1E0A50DA00532231 /* CustomCategoryCell.m */; };
 		A56EB3531E0A523900532231 /* CategorySettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB3521E0A523900532231 /* CategorySettingViewController.m */; };
 		A56EB3571E0A5E2100532231 /* nCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB3561E0A5E2100532231 /* nCategory.m */; };
 		A5713BDE1E0B0E8B00FACCD4 /* StatusSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5713BDD1E0B0E8B00FACCD4 /* StatusSettingViewController.m */; };
+		A57CAE5D1E8C3B910025D0A4 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57CAE5C1E8C3B910025D0A4 /* PageViewController.swift */; };
+		A57CAE631E8C96BE0025D0A4 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A57CAE621E8C96BE0025D0A4 /* ChartViewController.m */; };
 		A5AAD67B1E12CE7000060E73 /* BusinessListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD67A1E12CE7000060E73 /* BusinessListViewController.m */; };
 		A5AAD67E1E12CE8C00060E73 /* BusinessEmptyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD67D1E12CE8C00060E73 /* BusinessEmptyListViewController.m */; };
 		A5AAD6821E12CF2500060E73 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD6811E12CF2500060E73 /* ContactViewController.m */; };
@@ -218,6 +221,8 @@
 		A56192381E08775100D2AAFB /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		A561923D1E08886000D2AAFB /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
 		A561923E1E08886000D2AAFB /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		A56861761E8DE0090069E87D /* ChartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartPageViewController.swift; sourceTree = "<group>"; };
+		A56861781E8DFE2D0069E87D /* ChartType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChartType.h; sourceTree = "<group>"; };
 		A56BAD391E16E2E400BF428B /* nCountry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nCountry.h; sourceTree = "<group>"; };
 		A56BAD3A1E16E2E400BF428B /* nCountry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nCountry.m; sourceTree = "<group>"; };
 		A56EB34E1E0A50DA00532231 /* CustomCategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCategoryCell.h; sourceTree = "<group>"; };
@@ -229,6 +234,9 @@
 		A570200D1E5FD9A60003A000 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5713BDC1E0B0E8B00FACCD4 /* StatusSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusSettingViewController.h; sourceTree = "<group>"; };
 		A5713BDD1E0B0E8B00FACCD4 /* StatusSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusSettingViewController.m; sourceTree = "<group>"; };
+		A57CAE5C1E8C3B910025D0A4 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		A57CAE611E8C96BE0025D0A4 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
+		A57CAE621E8C96BE0025D0A4 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		A5AAD6791E12CE7000060E73 /* BusinessListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessListViewController.h; sourceTree = "<group>"; };
 		A5AAD67A1E12CE7000060E73 /* BusinessListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusinessListViewController.m; sourceTree = "<group>"; };
 		A5AAD67C1E12CE8C00060E73 /* BusinessEmptyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessEmptyListViewController.h; sourceTree = "<group>"; };
@@ -400,6 +408,7 @@
 				A59AF7061DB676BB0018BCE7 /* Login */,
 				A59AF7091DB676EE0018BCE7 /* Settings */,
 				A5C70C9E1E0DAA2400F8D0D4 /* Stats */,
+				A57CAE5C1E8C3B910025D0A4 /* PageViewController.swift */,
 				A52907351D6FEA0C0018D74C /* ContentViewController.swift */,
 				A52907771D6FEA0C0018D74C /* TutorialViewController.swift */,
 			);
@@ -628,8 +637,12 @@
 		A5C70C9E1E0DAA2400F8D0D4 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				A56861781E8DFE2D0069E87D /* ChartType.h */,
+				A57CAE611E8C96BE0025D0A4 /* ChartViewController.h */,
+				A57CAE621E8C96BE0025D0A4 /* ChartViewController.m */,
 				A5C70C9F1E0DAA4200F8D0D4 /* StatsViewController.h */,
 				A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */,
+				A56861761E8DE0090069E87D /* ChartPageViewController.swift */,
 			);
 			name = Stats;
 			sourceTree = "<group>";
@@ -798,7 +811,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/Fabric/run 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -832,6 +845,7 @@
 				A5160BA41E033D9B00E001E7 /* AccountSettingViewController.m in Sources */,
 				A52907941D6FEA0C0018D74C /* Constants.m in Sources */,
 				A52907AD1D6FEA0C0018D74C /* OneSignalController.m in Sources */,
+				A57CAE631E8C96BE0025D0A4 /* ChartViewController.m in Sources */,
 				A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */,
 				A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */,
 				A56EB3501E0A50DA00532231 /* CustomCategoryCell.m in Sources */,
@@ -841,6 +855,7 @@
 				A5160BAB1E033E5B00E001E7 /* AppJobs.m in Sources */,
 				A56EB3531E0A523900532231 /* CategorySettingViewController.m in Sources */,
 				A5AAD67B1E12CE7000060E73 /* BusinessListViewController.m in Sources */,
+				A56861771E8DE0090069E87D /* ChartPageViewController.swift in Sources */,
 				A5160B931E033D3700E001E7 /* LoginHandler.m in Sources */,
 				A52907A91D6FEA0C0018D74C /* NotificationPermissions.m in Sources */,
 				A5AAD6851E12CF5A00060E73 /* RegisterCompleteViewController.m in Sources */,
@@ -857,6 +872,7 @@
 				A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */,
 				A53530E31E0B6DDA0001BDED /* SheetView.m in Sources */,
 				A529079A1D6FEA0C0018D74C /* Customer.m in Sources */,
+				A57CAE5D1E8C3B910025D0A4 /* PageViewController.swift in Sources */,
 				A529078A1D6FEA0C0018D74C /* Account.m in Sources */,
 				A5AAD6891E12F68900060E73 /* nBusiness.m in Sources */,
 				A529079D1D6FEA0C0018D74C /* DatabaseView.m in Sources */,
@@ -1028,6 +1044,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;

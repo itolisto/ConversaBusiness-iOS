@@ -24,9 +24,7 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
         self.imageView.image = UIImage(named: self.imageFile)
         self.titleLabel.text = self.titleText
-        //self.titleLabel.textColor = Colors.blackColor()
         self.infoTextView.text = infoText
-        self.viewBackground.backgroundColor = UIColor(red: 0.22, green: 1.00, blue: 0.47, alpha: 1.0)
     }
     
 }

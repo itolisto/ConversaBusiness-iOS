@@ -21,8 +21,8 @@
 }
 
 + (UIColor*)outgoing {
-    // purple: #BA92FF
-    return [UIColor colorWithRed:186.0f/255.0f green:146.0f/255.0f blue:255.0f/255.0f alpha:1.0];
+    // purple: #DBCFFF
+    return [UIColor colorWithRed:219.0f/255.0f green:207.0f/255.0f blue:255.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)incoming {
