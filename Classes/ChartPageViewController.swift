@@ -41,6 +41,7 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
                 }
 
                 let page = storyboard?.instantiateViewController(withIdentifier: "ChartViewController") as! ChartViewController
+                page.loadViewIfNeeded()
 
                 switch type {
                 case "pie":

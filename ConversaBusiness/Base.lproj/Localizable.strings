@@ -221,6 +221,9 @@
 "settings_account_status_message_fail" = "Status couldn't be changed. Please try again later or contact Conversa Support for more information";
 
 /* No comment provided by engineer. */
+"settings_account_status_message_success" = "Status updated";
+
+/* No comment provided by engineer. */
 "settings_account_status_offline" = "Offline";
 
 /* No comment provided by engineer. */

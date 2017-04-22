@@ -121,8 +121,8 @@
         [self onPresenceMessage:message];
     }];
 
-    [channel on:^(ARTErrorInfo * _Nullable error) {
-        [self onChannelStateChanged:channel.state error:error];
+    [channel on:^(ARTChannelStateChange * _Nullable state) {
+        [self onChannelStateChanged:state.current error:state.reason];
     }];
 }
 
@@ -192,11 +192,13 @@
                     return;
                 }
 
+                NSString *customerId = [results valueForKey:@"customerId"];
+
                 YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
                 __block YapContact *buddy = nil;
 
                 [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                    buddy = [YapContact fetchObjectWithUniqueID:contactId transaction:transaction];
+                    buddy = [YapContact fetchObjectWithUniqueID:(customerId)?customerId:contactId transaction:transaction];
                 }];
 
                 if (buddy == nil) {
@@ -204,7 +206,8 @@
                     [query whereKey:kCustomerActiveKey equalTo:@(YES)];
                     [query selectKeys:@[kCustomerDisplayNameKey]];
 
-                    [query getObjectInBackgroundWithId:contactId block:^(PFObject * _Nullable object, NSError * _Nullable error)
+                    [query getObjectInBackgroundWithId:(customerId)?customerId:contactId
+                                                 block:^(PFObject * _Nullable object, NSError * _Nullable error)
                      {
                          if (error) {
                              if ([ParseValidation validateError:error]) {
@@ -213,7 +216,7 @@
                          } else {
                              Customer *business = (Customer*)object;
 
-                             YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:contactId];
+                             YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:(customerId)?customerId:contactId];
                              newBuddy.accountUniqueId = [Account currentUser].objectId;
                              newBuddy.displayName = business.displayName;
                              newBuddy.composingMessageString = @"";
@@ -224,12 +227,12 @@
                              [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
                                  [newBuddy saveWithTransaction:transaction];
                              } completionBlock:^{
-                                 [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
+                                 [self messageId:messageId contactId:(customerId)?customerId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
                              }];
                          }
                      }];
                 } else {
-                    [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:buddy];
+                    [self messageId:messageId contactId:(customerId)?customerId:contactId messageType:messageType results:results connection:connection withContact:buddy];
                 }
                 break;
             }
@@ -281,6 +284,8 @@
             break;
         case ARTRealtimeChannelDetached:
             break;
+        case ARTRealtimeChannelSuspended:
+            break;
         case ARTRealtimeChannelFailed:
             break;
     }
@@ -318,13 +323,15 @@
 
     // Save to Local Database
     message = [[YapMessage alloc] initWithId:messageId];
-    message.delivered = statusReceived;
-    message.buddyUniqueId = contactId;
     message.messageType = messageType;
 
     if ([[SettingsKeys getBusinessId] isEqualToString:contactId]) {
+        message.buddyUniqueId = contact.uniqueId;
+        message.delivered = statusAllDelivered;
         message.incoming = NO;
     } else {
+        message.buddyUniqueId = contactId;
+        message.delivered = statusReceived;
         message.incoming = YES;
     }
 
@@ -360,13 +367,13 @@
         }
     }
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
-        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-        {
-            [self.delegate messageReceived:message from:contact];
-            return;
-        }
-    }
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+//        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+//        {
+//            [self.delegate messageReceived:message from:contact];
+//            return;
+//        }
+//    }
 
     [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
      {
@@ -374,14 +381,22 @@
          contact.lastMessageDate = message.date;
          [contact saveWithTransaction:transaction];
      } completionBlock:^{
-         // We are not active, so use a local notification instead
-         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-         localNotification.alertAction = @"Ver";
-         localNotification.soundName = UILocalNotificationDefaultSoundName;
-         localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
-         localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
-         localNotification.userInfo = @{@"contact":contact.uniqueId};
-         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+         if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+             if(self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)])
+             {
+                 [self.delegate messageReceived:message from:contact];
+                 return;
+             }
+         } else {
+             // We are not active, so use a local notification instead
+             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+             localNotification.alertAction = @"Ver";
+             localNotification.soundName = UILocalNotificationDefaultSoundName;
+             localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
+             localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
+             localNotification.userInfo = @{@"contact":contact.uniqueId};
+             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+         }
      }];
 }
 

@@ -11,6 +11,7 @@
 #import "Colors.h"
 #import "AppJobs.h"
 #import "SettingsKeys.h"
+#import "MBProgressHUD.h"
 
 @interface StatusSettingViewController ()
 
@@ -81,20 +82,14 @@
         UIViewController *presenting = [self topViewController];
 
         if (presenting != nil && presenting.presentedViewController == nil) {
-            // Enable redirect
-            UIAlertController * view =   [UIAlertController
-                                          alertControllerWithTitle:nil
-                                          message:NSLocalizedString(@"settings_account_status_message_fail", nil)
-                                          preferredStyle:UIAlertControllerStyleAlert];
-
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"Ok"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [view addAction:ok];
-            [presenting presentViewController:view animated:YES completion:nil];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.square = YES;
+            UIImage *image;
+            image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            hud.label.text = NSLocalizedString(@"settings_account_status_message_fail", nil);
+            hud.customView = [[UIImageView alloc] initWithImage:image];
+            [hud hideAnimated:YES afterDelay:2.f];
         }
     }
 }
@@ -114,6 +109,16 @@
             self.originalStatus = [[change valueForKey:NSKeyValueChangeNewKey] integerValue];
             self.status = self.originalStatus;
             [self.tableView reloadData];
+
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.square = YES;
+            UIImage *image;
+            // Show notification
+            image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            hud.label.text = NSLocalizedString(@"settings_account_status_message_success", nil);
+            hud.customView = [[UIImageView alloc] initWithImage:image];
+            [hud hideAnimated:YES afterDelay:2.f];
         }
     }
 }

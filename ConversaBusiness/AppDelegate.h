@@ -12,6 +12,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSTimer *timer;
 
 @end
 

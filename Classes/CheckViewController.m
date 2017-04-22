@@ -191,6 +191,7 @@
     if ([segue.identifier isEqualToString:@"businessListSegue"]) {
         BusinessListViewController *destination = [segue destinationViewController];
         destination.businessList = [self.businessList copy];
+        [self.businessList removeAllObjects];
     }
 }
 

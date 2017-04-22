@@ -146,7 +146,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[OneSignalService sharedInstance] registerForPushNotifications];
-        [[OneSignalService sharedInstance] startTags];
+        //[[OneSignalService sharedInstance] startTags];
     } else {
         [AppJobs addBusinessDataJob];
     }
@@ -198,6 +198,7 @@
         [[OneSignalService sharedInstance] registerForPushNotifications];
         [[OneSignalService sharedInstance] startTags];
         [AppJobs addDownloadAvatarJob:[SettingsKeys getAvatarUrl]];
+        [((AppDelegate *)[[UIApplication sharedApplication] delegate]).timer fire];
     }
 }
 
@@ -520,18 +521,59 @@
 }
 
 - (NSArray *)createMoreActions:(NSIndexPath *)indexPath {
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
+                                                                          title:NSLocalizedString(@"chats_cell_action_title", nil)
+                                                                        handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+    {
+        UIAlertController * view =  [UIAlertController
+                                     alertControllerWithTitle:nil
+                                     message:nil
+                                     preferredStyle:UIAlertControllerStyleActionSheet];
+
+        YapContact *contact = [self contactForIndexPath:indexPath];
+
+        UIAlertAction* clean = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_clear_conversation", nil)
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction * action)
+                                {
+                                    [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                                     {
+                                         [YapMessage deleteAllMessagesForBuddyId:contact.uniqueId transaction:transaction];
+                                     } completionBlock:^{
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
+                                                                                             object:nil
+                                                                                           userInfo:@{UPDATE_CELL_DIC_KEY: contact.uniqueId}];
+                                     }];
+
+                                    [view dismissViewControllerAnimated:YES completion:nil];
+                                    [self.tableView setEditing:NO animated:YES];
+                                }];
+
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:^(UIAlertAction * action)
+                                 {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                     [self.tableView setEditing:NO animated:YES];
+                                 }];
+
+        [view addAction:clean];
+        [view addAction:cancel];
+        [self presentViewController:view animated:YES completion:nil];
+    }];
+
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
                                                                             title:NSLocalizedString(@"chats_cell_action_delete", nil)
                                                                           handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
-                                          {
-                                              YapContact *cellBuddy = [self contactForIndexPath:indexPath];
-                                              
-                                              [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                                                  [cellBuddy removeWithTransaction:transaction];
-                                              }];
-                                          }];
-    
-    return @[deleteAction];
+    {
+        YapContact *cellBuddy = [self contactForIndexPath:indexPath];
+
+        [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            [cellBuddy removeWithTransaction:transaction];
+        }];
+    }];
+
+    return @[deleteAction, editAction];
 }
 
 #pragma mark - Setup Mappings Methods -
@@ -540,7 +582,7 @@
     if (self.mappings) {
         return;
     }
-    
+
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         if ([transaction ext:ConversaDatabaseViewExtensionName]) {
             self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[ConversationGroup]

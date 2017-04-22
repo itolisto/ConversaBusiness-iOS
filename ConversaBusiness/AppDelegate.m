@@ -108,6 +108,13 @@
     
     [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
 
+    self.timer = [NSTimer timerWithTimeInterval:300.0
+                                         target:self
+                                       selector:@selector(refreshLastConnection:)
+                                       userInfo:nil
+                                        repeats:YES];
+    [self.timer fire];
+
     return YES;
 }
 
@@ -141,6 +148,24 @@
     }
 }
 
+- (void)refreshLastConnection:(NSTimer *)timer {
+    NSString *bId = [SettingsKeys getBusinessId];
+    if (bId) {
+        [PFCloud callFunctionInBackground:@"updateBusinessLastConnection"
+                           withParameters:@{@"businessId":bId}
+                                    block:^(id  _Nullable object, NSError * _Nullable error)
+         {
+             if (error) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     if ([ParseValidation validateError:error]) {
+                         [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                     }
+                 });
+             }
+         }];
+    }
+}
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{ }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -166,6 +191,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

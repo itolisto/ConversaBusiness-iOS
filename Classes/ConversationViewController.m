@@ -946,61 +946,108 @@
                                                               userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
         }];
     } else {
-        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
-        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-         {
-             [message saveWithTransaction:transaction];
-             from.lastMessageDate = message.date;
-             [from saveWithTransaction:transaction];
-         } completionBlock:^{
-             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
-                 NSString *text = nil;
+        if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+            NSString *text = nil;
 
-                 switch (message.messageType) {
-                     case kMessageTypeText: {
-                         text = message.text;
-                         break;
-                     }
-                     case kMessageTypeLocation: {
-                         text = NSLocalizedString(@"chats_cell_conversation_location", nil);
-                         break;
-                     }
-                     case kMessageTypeVideo: {
-                         text = NSLocalizedString(@"chats_cell_conversation_video", nil);
-                         break;
-                     }
-                     case kMessageTypeAudio: {
-                         text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
-                         break;
-                     }
-                     case kMessageTypeImage: {
-                         text = NSLocalizedString(@"chats_cell_conversation_image", nil);
-                         break;
-                     }
-                     default: {
-                         text = NSLocalizedString(@"chats_cell_conversation_message", nil);
-                         break;
-                     }
-                 }
+            switch (message.messageType) {
+                case kMessageTypeText: {
+                    text = message.text;
+                    break;
+                }
+                case kMessageTypeLocation: {
+                    text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+                    break;
+                }
+                case kMessageTypeVideo: {
+                    text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+                    break;
+                }
+                case kMessageTypeAudio: {
+                    text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+                    break;
+                }
+                case kMessageTypeImage: {
+                    text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+                    break;
+                }
+                default: {
+                    text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+                    break;
+                }
+            }
 
-                 if ([SettingsKeys getNotificationSoundInApp:YES]) {
-                     NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
-                     CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
-                     SystemSoundID soundID;
-                     AudioServicesCreateSystemSoundID(cfString, &soundID);
-                     AudioServicesPlaySystemSound (soundID);
-                     CFRelease(cfString);
-                 }
+            if ([SettingsKeys getNotificationSoundInApp:YES]) {
+                NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+                CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+                SystemSoundID soundID;
+                AudioServicesCreateSystemSoundID(cfString, &soundID);
+                AudioServicesPlaySystemSound (soundID);
+                CFRelease(cfString);
+            }
 
-                 [[WhisperBridge sharedInstance] shout:from.displayName
-                                              subtitle:text
-                                       backgroundColor:[UIColor clearColor]
-                                toNavigationController:self.navigationController
-                                                 image:nil
-                                          silenceAfter:1.8
-                                                action:nil];
-             }
-         }];
+            [[WhisperBridge sharedInstance] shout:from.displayName
+                                         subtitle:text
+                                  backgroundColor:[UIColor clearColor]
+                           toNavigationController:self.navigationController
+                                            image:nil
+                                     silenceAfter:1.8
+                                           action:nil];
+        }
+//        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+//        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//         {
+//             [message saveWithTransaction:transaction];
+//             from.lastMessageDate = message.date;
+//             [from saveWithTransaction:transaction];
+//         } completionBlock:^{
+//             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+//                 NSString *text = nil;
+//
+//                 switch (message.messageType) {
+//                     case kMessageTypeText: {
+//                         text = message.text;
+//                         break;
+//                     }
+//                     case kMessageTypeLocation: {
+//                         text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+//                         break;
+//                     }
+//                     case kMessageTypeVideo: {
+//                         text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+//                         break;
+//                     }
+//                     case kMessageTypeAudio: {
+//                         text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+//                         break;
+//                     }
+//                     case kMessageTypeImage: {
+//                         text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+//                         break;
+//                     }
+//                     default: {
+//                         text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+//                         break;
+//                     }
+//                 }
+//
+//                 if ([SettingsKeys getNotificationSoundInApp:YES]) {
+//                     NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+//                     CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+//                     SystemSoundID soundID;
+//                     AudioServicesCreateSystemSoundID(cfString, &soundID);
+//                     AudioServicesPlaySystemSound (soundID);
+//                     CFRelease(cfString);
+//                 }
+//
+//                 [[WhisperBridge sharedInstance] shout:from.displayName
+//                                              subtitle:text
+//                                       backgroundColor:[UIColor clearColor]
+//                                toNavigationController:self.navigationController
+//                                                 image:nil
+//                                          silenceAfter:1.8
+//                                                action:nil];
+//             }
+//         }];
     }
 }
 

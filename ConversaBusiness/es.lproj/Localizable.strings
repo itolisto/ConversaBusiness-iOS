@@ -221,6 +221,9 @@
 "settings_account_status_message_fail" = "Estado no se ha cambiado. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información.";
 
 /* No comment provided by engineer. */
+"settings_account_status_message_success" = "Estado actualizado";
+
+/* No comment provided by engineer. */
 "settings_account_status_offline" = "Desconectado";
 
 /* No comment provided by engineer. */

@@ -77,7 +77,7 @@
     [self addConstraintsToChart:chartsView];
 
     // Setting data
-    if (messagesSent > 0 && messagesReceived > 0) {
+    if (messagesSent > 0 || messagesReceived > 0) {
         NSMutableArray *values = [[NSMutableArray alloc] init];
 
         [values addObject:[[PieChartDataEntry alloc] initWithValue:messagesSent
