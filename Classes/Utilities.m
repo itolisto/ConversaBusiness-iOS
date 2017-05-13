@@ -89,3 +89,21 @@ NSString * platformType(NSString *platform)
     if ([platform isEqualToString:@"x86_64"])       return @"Simulator";
     return platform;
 }
+
+NSString * numberWithFormat(NSInteger number) {
+    NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+    formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+    [formatterCurrency setMinimumFractionDigits:1];
+    [formatterCurrency setMaximumFractionDigits:1];
+
+    if (number > 999999) {
+        NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(number/1000000.0)]];
+        return [NSString stringWithFormat:@"%@M", newString];
+    } else if (number > 999) {
+        NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(number/1000.0)]];
+        return [NSString stringWithFormat:@"%@K", newString];
+    } else {
+        return [NSString stringWithFormat:@"%ld", (long)number];
+    }
+}

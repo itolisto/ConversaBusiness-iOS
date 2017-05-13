@@ -660,7 +660,6 @@
 				A52906FB1D6FE93D0018D74C /* Sources */,
 				A52906FC1D6FE93D0018D74C /* Frameworks */,
 				A52906FD1D6FE93D0018D74C /* Resources */,
-				A5F1C02B1DA9C9E900E366AF /* Fabric */,
 				A50ABCBB1E5F747200774627 /* Localization BartyCrouch */,
 			);
 			buildRules = (
@@ -798,20 +797,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
-		};
-		A5F1C02B1DA9C9E900E366AF /* Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Fabric;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
 		};
 /* End PBXShellScriptBuildPhase section */
 

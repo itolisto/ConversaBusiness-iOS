@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Account.h"
 #import "AppJobs.h"
 #import "Customer.h"
@@ -24,10 +25,7 @@
 #import "NSFileManager+Conversa.h"
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
-@import Fabric;
-@import Buglife;
 @import GoogleMaps;
-@import Crashlytics;
 
 @interface AppDelegate ()
 
@@ -40,9 +38,14 @@
     
     // Set Google Maps
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
-    
-    // Set Fabric
-    [Fabric with:@[[Answers class], [Crashlytics class]]];
+
+    FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+                                        withLogLevel:FlurryLogLevelCriticalOnly]
+                                       withCrashReporting:YES]
+                                      withSessionContinueSeconds:10]
+                                     withAppVersion:@"1.3.5"];
+
+    [Flurry startSession:@"HBKZ9288WGRQ9FPV4MSK" withSessionBuilder:builder];
 
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -99,14 +102,11 @@
     // The number to display as the app’s icon badge.
     application.applicationIconBadgeNumber = 0;
     
-    [[Buglife sharedBuglife] startWithAPIKey:@"16odhSYLVoCFcrgZh3q8dwtt"];
-    [Buglife sharedBuglife].invocationOptions = LIFEInvocationOptionsShake;
-    
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
     
-    [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
+//    [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
 
     self.timer = [NSTimer timerWithTimeInterval:300.0
                                          target:self
@@ -127,7 +127,6 @@
     
     if (account) {
         hasAccount = YES;
-        [SettingsKeys setNotificationsCheck:NO];
     }
     
     /**
@@ -196,7 +195,11 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
+    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+    if (ably) {
+        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken");
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -204,7 +207,10 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+    if (ably) {
+        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+    }
 }
 
 #pragma mark - EDQueueDelegate method -

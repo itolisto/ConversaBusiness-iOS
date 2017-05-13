@@ -9,6 +9,7 @@
 #import "StatsViewController.h"
 
 #import "Colors.h"
+#import "Utilities.h"
 #import "SettingsKeys.h"
 #import "Reachability.h"
 #import "UIStateButton.h"
@@ -20,7 +21,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *loadingView;
-@property (weak, nonatomic) IBOutlet UIView *loadingChartView;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UILabel *sentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *receivedLabel;
@@ -60,11 +60,9 @@
     self.activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeThreeDots
                                                                      tintColor:[Colors purple]
                                                                           size:50.0f];
-    self.activityIndicatorView.frame = CGRectMake((self.loadingView.frame.size.width/2) - 35,
-                                                  (self.loadingView.frame.size.height/2) - 35,
-                                                  70.0f,
-                                                  70.0f);
+    self.activityIndicatorView.frame = CGRectMake(0, 0, 70.0f, 70.0f);
     [self.loadingView addSubview:self.activityIndicatorView];
+    [self addConstraintsToLoading];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
@@ -118,9 +116,6 @@
         if (self.infoView.isHidden) {
             self.infoView.hidden = NO;
         }
-        if (self.loadingChartView.isHidden) {
-            self.loadingChartView.hidden = NO;
-        }
         if (refreshControl) {
             [refreshControl endRefreshing];
         }
@@ -131,9 +126,6 @@
             }
             if (self.infoView.isHidden) {
                 self.infoView.hidden = NO;
-            }
-            if (self.loadingChartView.isHidden) {
-                self.loadingChartView.hidden = NO;
             }
             if (refreshControl) {
                 [refreshControl endRefreshing];
@@ -167,9 +159,6 @@
                          if (self.infoView.isHidden) {
                              self.infoView.hidden = NO;
                          }
-                         if (self.loadingChartView.isHidden) {
-                             self.loadingChartView.hidden = NO;
-                         }
                      }
                  } else {
                      id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
@@ -182,9 +171,6 @@
                          }
                          if (self.infoView.isHidden) {
                              self.infoView.hidden = NO;
-                         }
-                         if (self.loadingChartView.isHidden) {
-                             self.loadingChartView.hidden = NO;
                          }
                      } else {
                          NSMutableDictionary *results = [object mutableCopy];
@@ -230,7 +216,6 @@
 
                          self.loadingView.hidden = YES;
                          self.infoView.hidden = YES;
-                         self.loadingChartView.hidden = YES;
 
                          if ([results objectForKey:@"charts"]) {
                              NSDictionary *charts = [results objectForKey:@"charts"];
@@ -248,18 +233,35 @@
 }
 
 - (void)setLabelText:(UILabel*)label withValue:(long long)value {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    label.text = numberWithFormat(value);
+}
 
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    [formatter setMaximumFractionDigits:1];
-    [formatter setMinimumFractionDigits:1];
-    [formatter setRoundingMode:NSNumberFormatterRoundDown];
+- (void)addConstraintsToLoading {
+    UIView *parent = self.loadingView;
+    self.activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    if (value > 999) {
-        label.text = [[formatter stringFromNumber:[NSNumber numberWithDouble:value/1000.0]] stringByAppendingString:@"K"];
-    } else {
-        label.text = [NSString stringWithFormat:@"%lld", value];
-    }
+    //CenterX
+    NSLayoutConstraint *centerx =[NSLayoutConstraint
+                                   constraintWithItem:self.activityIndicatorView
+                                   attribute:NSLayoutAttributeCenterX
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:parent
+                                   attribute:NSLayoutAttributeCenterX
+                                   multiplier:1.0f
+                                   constant:0.0f];
+
+    //CenterY
+    NSLayoutConstraint *centery =[NSLayoutConstraint
+                                 constraintWithItem:self.activityIndicatorView
+                                 attribute:NSLayoutAttributeCenterY
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:parent
+                                 attribute:NSLayoutAttributeCenterY
+                                 multiplier:1.0f
+                                 constant:0.0f];
+
+    [parent addConstraint:centerx];
+    [parent addConstraint:centery];
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Log.h"
 #import "Colors.h"
 #import "Account.h"
+#import "Utilities.h"
 #import "Constants.h"
 #import "SettingsKeys.h"
 #import "ParseValidation.h"
@@ -98,19 +99,6 @@
 
                  self.followers = 0;
                  NSString *header = nil;
-                 NSString *daySpecial = nil;
-                 NSString *website = nil;
-                 bool delivery = NO;//
-                 NSArray *openOn;
-                 NSString *number;
-                 bool multiple = NO;
-                 bool online = NO;
-                 NSString *promo = nil;
-                 NSString *promoTextColor = nil;
-                 NSString *promoBackground = nil;
-                 NSArray *tags;
-                 bool verified = NO;
-                 long since = 0L;
                  bool favorite = NO;
                  int status = 0;
 
@@ -122,58 +110,6 @@
                      self.followers = [[results objectForKey:@"followers"] unsignedIntegerValue];
                  } else {
                      self.followers = 0;
-                 }
-
-                 if ([results objectForKey:@"daySpecial"] && [results objectForKey:@"daySpecial"] != [NSNull null]) {
-                     daySpecial = [results objectForKey:@"daySpecial"];
-                 }
-
-                 if ([results objectForKey:@"website"] && [results objectForKey:@"website"] != [NSNull null]) {
-                     website = [results objectForKey:@"website"];
-                 }
-
-                 if ([results objectForKey:@"delivery"] && [results objectForKey:@"delivery"] != [NSNull null]) {
-                     delivery = [[results objectForKey:@"delivery"] boolValue];
-                 }
-
-                 if ([results objectForKey:@"openOn"] && [results objectForKey:@"openOn"] != [NSNull null]) {
-                     openOn = [results objectForKey:@"openOn"];
-                 }
-
-                 if ([results objectForKey:@"number"] && [results objectForKey:@"number"] != [NSNull null]) {
-                     number = [results objectForKey:@"number"];
-                 }
-
-                 if ([results objectForKey:@"multiple"] && [results objectForKey:@"multiple"] != [NSNull null]) {
-                     multiple = [[results objectForKey:@"multiple"] boolValue];
-                 }
-
-                 if ([results objectForKey:@"online"] && [results objectForKey:@"online"] != [NSNull null]) {
-                     online = [[results objectForKey:@"online"] boolValue];
-                 }
-
-                 if ([results objectForKey:@"promo"] && [results objectForKey:@"promo"] != [NSNull null]) {
-                     promo = [results objectForKey:@"promo"];
-                 }
-
-                 if ([results objectForKey:@"promoColor"] && [results objectForKey:@"promoColor"] != [NSNull null]) {
-                     promoTextColor = [results objectForKey:@"promoColor"];
-                 }
-
-                 if ([results objectForKey:@"promoBack"] && [results objectForKey:@"promoBack"] != [NSNull null]) {
-                     promoBackground = [results objectForKey:@"promoBack"];
-                 }
-
-                 if ([results objectForKey:@"tags"] && [results objectForKey:@"tags"] != [NSNull null]) {
-                     tags = [results objectForKey:@"tags"];
-                 }
-
-                 if ([results objectForKey:@"verified"] && [results objectForKey:@"verified"] != [NSNull null]) {
-                     verified = [[results objectForKey:@"verified"] boolValue];
-                 }
-
-                 if ([results objectForKey:@"since"] && [results objectForKey:@"since"] != [NSNull null]) {
-                     since = [[results objectForKey:@"since"] longValue];
                  }
 
                  if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
@@ -209,19 +145,7 @@
                      [self changeFavorite:YES];
                  }
 
-                 if (self.followers > 999) {
-                     NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
-
-                     formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
-                     [formatterCurrency setMinimumFractionDigits:1];
-                     [formatterCurrency setMaximumFractionDigits:1];
-
-                     NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
-
-                     self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
-                 } else {
-                     self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
-                 }
+                 self.followersLabel.text = numberWithFormat(self.followers);
              }
          }
 
@@ -302,29 +226,50 @@
 
     if ([self isSelected]) {
         [self changeFavorite:NO];
-        if (self.followers > 0) {
+        if (self.followers > 0)
             self.followers--;
-            if (self.followers > 999) {
-                NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
-
-                formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
-                [formatterCurrency setMinimumFractionDigits:1];
-                [formatterCurrency setMaximumFractionDigits:1];
-
-                NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
-
-                self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
-            } else {
-                self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
-            }
-        }
     } else {
         [self changeFavorite:YES];
         self.followers++;
+    }
+
+    if (self.followers > 999) {
+        NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+        formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+        [formatterCurrency setMinimumFractionDigits:1];
+        [formatterCurrency setMaximumFractionDigits:1];
+
+        NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+        self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+    } else {
         self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     }
 
     sender.enabled  = YES;
+}
+
+- (IBAction)sharePressed:(UIButton *)sender {
+    NSString *link = [@"https://conversa.link/" stringByAppendingString:[SettingsKeys getConversaId]];
+
+    NSString *textToShare = [NSString stringWithFormat:NSLocalizedString(@"profile_share_text", nil), [SettingsKeys getDisplayName], link];
+
+    NSArray *objectsToShare = @[textToShare, link];
+
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+
+    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList,
+                                   UIActivityTypePostToFlickr,
+                                   UIActivityTypePostToVimeo];
+
+    activityVC.excludedActivityTypes = excludeActivities;
+
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 - (IBAction)closePressed:(UIButton *)sender {

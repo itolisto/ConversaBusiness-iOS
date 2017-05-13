@@ -10,7 +10,7 @@ import UIKit
 
 class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    var pages = [UIViewController]()
+    var pages = [ChartViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +69,7 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        var currentIndex = pages.index(of: viewController)!
+        var currentIndex = pages.index(of: viewController as! ChartViewController)!
 
         if currentIndex == NSNotFound {
             return nil
@@ -85,7 +85,7 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        var currentIndex = pages.index(of: viewController)!
+        var currentIndex = pages.index(of: viewController as! ChartViewController)!
 
         if currentIndex == 0 || currentIndex == NSNotFound {
             return nil

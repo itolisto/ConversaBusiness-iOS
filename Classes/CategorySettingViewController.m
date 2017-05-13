@@ -198,6 +198,25 @@
 
 #pragma mark - UITableViewDelegate Methods -
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if ([view isKindOfClass:[UITableViewHeaderFooterView class]]) {
+        UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView*)view;
+        headerView.textLabel.textAlignment = NSTextAlignmentCenter;
+
+        NSString *text;
+        if (section == 0) {
+            text = ([self.selectedCategories count] == 0) ? NSLocalizedString(@"settings_account_profile_category_category", nil) : NSLocalizedString(@"settings_account_profile_category_selected", nil);
+        } else {
+            text = NSLocalizedString(@"settings_account_profile_category_category", nil);
+        }
+
+        headerView.textLabel.text = text;
+        //headerView.textLabel.textColor = UIColor ( red: 0.0902, green: 0.2745, blue: 0.2745, alpha: 1.0 )
+//        headerView.textLabel.font = UIFont(name: UIDecorator.sharedInstance.PRIMARY_FONT, size: 14.0)
+//        headerView.contentView.backgroundColor = UIDecorator.sharedInstance.currentTheme.lightShadeColor
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
@@ -269,7 +288,7 @@
             float Y_Co = self.view.frame.size.height - 80;
             [goToTop setFrame:CGRectMake(X_Co, Y_Co, 60, 60)];
 
-            [goToTop setTitle:@"Save" forState:UIControlStateNormal];
+            [goToTop setTitle:NSLocalizedString(@"sett_category_save", nil) forState:UIControlStateNormal];
 
             [goToTop setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [goToTop setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];

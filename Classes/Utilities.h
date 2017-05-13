@@ -19,3 +19,4 @@
 
 BOOL isEmailValid(NSString *email);
 NSString * platformType(NSString *platform);
+NSString * numberWithFormat(NSInteger number);

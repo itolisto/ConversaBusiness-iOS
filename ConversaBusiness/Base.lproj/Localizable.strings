@@ -3,6 +3,9 @@
 
 "category" = "Category";
 
+/* Information message when chart data won't display in a correct way */
+"chart_no_data_message" = "We still don't have enough data to generate your charts :(";
+
 /* No comment provided by engineer. */
 "chat_searchbar_placeholder" = "Search in your chats";
 
@@ -147,10 +150,19 @@
 "no_internet_connection_message" = "No internet connection";
 
 /* No comment provided by engineer. */
+"profile_share_text" = "Chat now with %1$@, follow the link: %2$@";
+
+/* No comment provided by engineer. */
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
 
 /* No comment provided by engineer. */
 "recover_password_sent_message" = "Password recovery link sent";
+
+/* No comment provided by engineer. */
+"sett_category_save" = "Done";
+
+/* No comment provided by engineer. */
+"sett_redirect_premium" = "This is a premium feature. Please contact tech support to activate it.";
 
 /* No comment provided by engineer. */
 "settings_account_alert_change_empty_title" = "Field can't be empty";

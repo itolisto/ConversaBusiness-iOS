@@ -15,6 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *noDataView;
+@property (weak, nonatomic) IBOutlet UIView *uivChartInfo;
+@property (weak, nonatomic) IBOutlet UILabel *uilMessage;
 
 @end
 
@@ -40,44 +42,47 @@
     double messagesSent = ([numbers objectForKey:@"ms"]) ? [[numbers objectForKey:@"ms"] doubleValue] : 0;
     double messagesReceived = ([numbers objectForKey:@"mr"]) ? [[numbers objectForKey:@"mr"] doubleValue] : 0;
 
-    // Create chart
-    PieChartView *chartsView = [[PieChartView alloc] init];
-
-    chartsView.noDataText = NSLocalizedString(@"stats_chart_no_data", nil);
-
-    chartsView.usePercentValuesEnabled = YES;
-    chartsView.drawSlicesUnderHoleEnabled = YES;
-    chartsView.holeRadiusPercent = 0.58;
-    chartsView.transparentCircleRadiusPercent = 0.61;
-    chartsView.chartDescription.enabled = NO;
-
-    chartsView.drawHoleEnabled = NO;
-    chartsView.rotationAngle = 0.0;
-    chartsView.rotationEnabled = NO;
-    chartsView.highlightPerTapEnabled = YES;
-
-    ChartLegend *l = chartsView.legend;
-    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
-    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
-    l.orientation = ChartLegendOrientationVertical;
-    l.drawInside = NO;
-    l.xEntrySpace = 0.0;
-    l.yEntrySpace = 0.0;
-    l.yOffset = 0.0;
-
-    chartsView.delegate = self;
-
-    // entry label styling
-    chartsView.entryLabelColor = UIColor.whiteColor;
-    chartsView.entryLabelFont = [UIFont systemFontOfSize:12.0f weight:UIFontWeightLight];
-    [chartsView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
-
-    // Add constraints
-    [self.view addSubview:chartsView];
-    [self addConstraintsToChart:chartsView];
-
     // Setting data
     if (messagesSent > 0 || messagesReceived > 0) {
+        // Create chart
+        self.uivChartInfo.hidden = YES;
+        PieChartView *chartsView = [[PieChartView alloc] init];
+
+        chartsView.noDataText = NSLocalizedString(@"stats_chart_no_data", nil);
+
+        chartsView.usePercentValuesEnabled = YES;
+        chartsView.drawSlicesUnderHoleEnabled = YES;
+        chartsView.holeRadiusPercent = 0.58;
+        chartsView.transparentCircleRadiusPercent = 0.61;
+        chartsView.chartDescription.enabled = NO;
+
+        chartsView.drawHoleEnabled = NO;
+        chartsView.rotationAngle = 0.0;
+        chartsView.rotationEnabled = NO;
+        chartsView.highlightPerTapEnabled = YES;
+
+        ChartLegend *l = chartsView.legend;
+        l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+        l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+        l.orientation = ChartLegendOrientationVertical;
+        l.drawInside = NO;
+        l.xEntrySpace = 0.0;
+        l.yEntrySpace = 0.0;
+        l.yOffset = 0.0;
+
+        chartsView.delegate = self;
+
+        // entry label styling
+        chartsView.entryLabelColor = UIColor.whiteColor;
+        chartsView.entryLabelFont = [UIFont systemFontOfSize:12.0f weight:UIFontWeightLight];
+        [chartsView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
+
+        // Add constraints
+//        [self.view addSubview:chartsView];
+        [self.view insertSubview:chartsView belowSubview:self.titleLabel];
+        [self addConstraintsToChart:chartsView];
+        self.noDataView.hidden = YES;
+
         NSMutableArray *values = [[NSMutableArray alloc] init];
 
         [values addObject:[[PieChartDataEntry alloc] initWithValue:messagesSent
@@ -108,10 +113,12 @@
         [data setValueTextColor:[Colors black]];
         
         chartsView.data = data;
-    }
 
-    [chartsView highlightValues:nil];
-    [chartsView setNeedsDisplay];
+        [chartsView highlightValues:nil];
+        [chartsView setNeedsDisplay];
+    } else {
+        self.uilMessage.text = NSLocalizedString(@"chart_no_data_message", @"Information message when chart data won't display in a correct way");
+    }
 }
 
 - (void)addConstraintsToChart:(ChartViewBase*)chart {

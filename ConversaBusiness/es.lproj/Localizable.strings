@@ -3,6 +3,9 @@
 
 "category" = "Categoría";
 
+/* Information message when chart data won't display in a correct way */
+"chart_no_data_message" = "Aún no tenemos suficientes datos para generar tus gráficas :(";
+
 /* No comment provided by engineer. */
 "chat_searchbar_placeholder" = "Busca en tus chats";
 
@@ -147,10 +150,19 @@
 "no_internet_connection_message" = "Sin conexión a internet";
 
 /* No comment provided by engineer. */
+"profile_share_text" = "Chatea ahora con %1$@, sigue el link: %2$@";
+
+/* No comment provided by engineer. */
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
 
 /* No comment provided by engineer. */
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
+
+/* No comment provided by engineer. */
+"sett_category_save" = "Listo";
+
+/* No comment provided by engineer. */
+"sett_redirect_premium" = "Esta es una función premium. Contacta a soporte técnico para poder activarla.";
 
 /* No comment provided by engineer. */
 "settings_account_alert_change_empty_title" = "Campo no puede estar vacío";
@@ -212,7 +224,7 @@
 "settings_account_redirect_message_enable_fail" = "No pudimos habilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información";
 
 /* No comment provided by engineer. */
-"settings_account_status_away" = "Fuera";
+"settings_account_status_away" = "Ausente";
 
 /* No comment provided by engineer. */
 "settings_account_status_conversa" = "Mensajes redirigidos a Conversa";

@@ -28,6 +28,7 @@
 @import AVFoundation;
 #import "Log.h"
 #import "Image.h"
+#import "Flurry.h"
 #import "Camera.h"
 #import "Colors.h"
 #import "AppJobs.h"
@@ -190,6 +191,9 @@
     }];
     
     self.collectionView.collectionViewLayout.springinessEnabled = NO;
+
+    NSString *business_id = [SettingsKeys getBusinessId];
+    [Flurry logEvent:@"manager_chat_duration" withParameters:@{@"business": (business_id) ? business_id : @""} timed:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -201,6 +205,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.visible = false;
+    [Flurry endTimedEvent:@"manager_chat_duration" withParameters:nil];
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
@@ -1243,6 +1248,11 @@
                                                  @"businessId" : [SettingsKeys getBusinessId],
                                                  @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
                                                  }];
+
+            NSString *connectionId = [[CustomAblyRealtime sharedInstance] getPublicConnectionId];
+            if (connectionId) {
+                [messageNSD addEntriesFromDictionary:@{@"connectionId" : connectionId}];
+            }
 
             switch (yapMessage.messageType) {
                 case kMessageTypeText: {

@@ -19,7 +19,7 @@
     - (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
 @end
 
-@interface CustomAblyRealtime : NSObject
+@interface CustomAblyRealtime : NSObject <ARTPushRegistererDelegate>
 
 // Stores reference on PubNub client to make sure what it won't be released.
 @property(strong, nonatomic) ARTRealtime *ably;
@@ -27,9 +27,11 @@
 @property(nonatomic, weak) id<ConversationListener> delegate;
 
 + (CustomAblyRealtime *)sharedInstance;
+- (ARTRealtime*)getAblyRealtime;
 - (void)initAbly;
 - (void)logout;
 
+- (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;
 - (void)sendTypingStateOnChannel:(NSString*)channel isTyping:(BOOL)value;
 

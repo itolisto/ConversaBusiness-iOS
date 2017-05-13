@@ -75,11 +75,11 @@ UIImage* compressImage(UIImage *image, BOOL isThumb) {
 CGFloat compressionRate() {
     switch ([SettingsKeys getMessageImageQuality]) {
         case ConversaImageQualityHigh:
-            return 0.8f;
+            return 0.9f;
         case ConversaImageQualityMedium:
-            return 0.5f;
+            return 0.7f;
         case ConversaImageQualityLow:
-            return 0.2f;
+            return 0.5f;
         default:
             break;
     }
