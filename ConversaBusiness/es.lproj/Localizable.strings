@@ -215,13 +215,7 @@
 "settings_account_profile_category_selected" = "Mis Categorías";
 
 /* No comment provided by engineer. */
-"settings_account_redirect_message" = "Todos tus mensajes entrantes serán dirigidos a Conversa para que maneje tu comunicación ¿Deseas activar esta característica?";
-
-/* No comment provided by engineer. */
-"settings_account_redirect_message_disable_fail" = "No pudimos deshabilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información";
-
-/* No comment provided by engineer. */
-"settings_account_redirect_message_enable_fail" = "No pudimos habilitar la redirección a Conversa. Por favor intenta de nuevo más tarde o contacta a Soporte de Conversa para más información";
+"settings_account_redirect_message" = "Esta es una función premium, chatea con nosotros para conocer más.";
 
 /* No comment provided by engineer. */
 "settings_account_status_away" = "Ausente";
@@ -325,7 +319,7 @@
 "tutorial_title_one" = "Bienvenido a Manager";
 
 /* No comment provided by engineer. */
-"tutorial_title_three" = "Sé social";
+"tutorial_title_three" = "Se social";
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Mensajería instantánea";

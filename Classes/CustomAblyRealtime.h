@@ -1,5 +1,5 @@
 //
-//  CustomSinchService.h
+//  CustomAblyRealtime.h
 //  Conversa
 //
 //  Created by Edgar Gomez on 7/18/16.
@@ -30,6 +30,8 @@
 - (ARTRealtime*)getAblyRealtime;
 - (void)initAbly;
 - (void)logout;
+
+- (void)subscribeToChannels;
 
 - (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;

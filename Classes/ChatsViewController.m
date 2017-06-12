@@ -19,7 +19,6 @@
 #import "UIStateButton.h"
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
-#import "OneSignalService.h"
 #import "SettingsViewController.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
@@ -145,8 +144,8 @@
     if ([SettingsKeys getBusinessId] && [[SettingsKeys getBusinessId] length] > 0) {
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
-        [[OneSignalService sharedInstance] registerForPushNotifications];
-        //[[OneSignalService sharedInstance] startTags];
+        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [NotificationPermissions canSendNotifications];
     } else {
         [AppJobs addBusinessDataJob];
     }
@@ -195,8 +194,7 @@
     if ([[job objectForKey:@"task"] isEqualToString:@"businessDataJob"]) {
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
-        [[OneSignalService sharedInstance] registerForPushNotifications];
-        [[OneSignalService sharedInstance] startTags];
+        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
         [AppJobs addDownloadAvatarJob:[SettingsKeys getAvatarUrl]];
         [((AppDelegate *)[[UIApplication sharedApplication] delegate]).timer fire];
     }

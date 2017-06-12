@@ -50,8 +50,6 @@
 		A52907A91D6FEA0C0018D74C /* NotificationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = A529075E1D6FEA0C0018D74C /* NotificationPermissions.m */; };
 		A52907AB1D6FEA0C0018D74C /* NSFileManager+Conversa.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907621D6FEA0C0018D74C /* NSFileManager+Conversa.m */; };
 		A52907AC1D6FEA0C0018D74C /* NSNumber+Conversa.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907641D6FEA0C0018D74C /* NSNumber+Conversa.m */; };
-		A52907AD1D6FEA0C0018D74C /* OneSignalController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907661D6FEA0C0018D74C /* OneSignalController.m */; };
-		A52907AE1D6FEA0C0018D74C /* OneSignalService.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907681D6FEA0C0018D74C /* OneSignalService.m */; };
 		A52907B01D6FEA0C0018D74C /* PhotoMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A529076B1D6FEA0C0018D74C /* PhotoMediaItem.m */; };
 		A52907B41D6FEA0C0018D74C /* SettingsKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907731D6FEA0C0018D74C /* SettingsKeys.m */; };
 		A52907B71D6FEA0C0018D74C /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52907771D6FEA0C0018D74C /* TutorialViewController.swift */; };
@@ -180,10 +178,6 @@
 		A52907621D6FEA0C0018D74C /* NSFileManager+Conversa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Conversa.m"; sourceTree = "<group>"; };
 		A52907631D6FEA0C0018D74C /* NSNumber+Conversa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Conversa.h"; sourceTree = "<group>"; };
 		A52907641D6FEA0C0018D74C /* NSNumber+Conversa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Conversa.m"; sourceTree = "<group>"; };
-		A52907651D6FEA0C0018D74C /* OneSignalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalController.h; sourceTree = "<group>"; };
-		A52907661D6FEA0C0018D74C /* OneSignalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalController.m; sourceTree = "<group>"; };
-		A52907671D6FEA0C0018D74C /* OneSignalService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalService.h; sourceTree = "<group>"; };
-		A52907681D6FEA0C0018D74C /* OneSignalService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalService.m; sourceTree = "<group>"; };
 		A529076A1D6FEA0C0018D74C /* PhotoMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoMediaItem.h; sourceTree = "<group>"; };
 		A529076B1D6FEA0C0018D74C /* PhotoMediaItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoMediaItem.m; sourceTree = "<group>"; };
 		A52907721D6FEA0C0018D74C /* SettingsKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsKeys.h; sourceTree = "<group>"; };
@@ -520,10 +514,6 @@
 			children = (
 				A529075D1D6FEA0C0018D74C /* NotificationPermissions.h */,
 				A529075E1D6FEA0C0018D74C /* NotificationPermissions.m */,
-				A52907651D6FEA0C0018D74C /* OneSignalController.h */,
-				A52907661D6FEA0C0018D74C /* OneSignalController.m */,
-				A52907671D6FEA0C0018D74C /* OneSignalService.h */,
-				A52907681D6FEA0C0018D74C /* OneSignalService.m */,
 				A529077E1D6FEA0C0018D74C /* WhisperBridge.swift */,
 			);
 			name = Notification;
@@ -818,7 +808,6 @@
 				A5160BA31E033D9B00E001E7 /* AboutViewController.m in Sources */,
 				A5160B941E033D3700E001E7 /* LoginViewController.m in Sources */,
 				A5160B871E033CEE00E001E7 /* ConversationViewController.m in Sources */,
-				A52907AE1D6FEA0C0018D74C /* OneSignalService.m in Sources */,
 				A5AAD6821E12CF2500060E73 /* ContactViewController.m in Sources */,
 				A547C86D1E106E6500ECC891 /* CheckViewController.m in Sources */,
 				A52907B71D6FEA0C0018D74C /* TutorialViewController.swift in Sources */,
@@ -829,7 +818,6 @@
 				A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */,
 				A5160BA41E033D9B00E001E7 /* AccountSettingViewController.m in Sources */,
 				A52907941D6FEA0C0018D74C /* Constants.m in Sources */,
-				A52907AD1D6FEA0C0018D74C /* OneSignalController.m in Sources */,
 				A57CAE631E8C96BE0025D0A4 /* ChartViewController.m in Sources */,
 				A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */,
 				A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */,

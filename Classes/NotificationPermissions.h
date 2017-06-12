@@ -11,6 +11,6 @@
 @interface NotificationPermissions : NSObject
 
 + (BOOL)checkPermissions:(UIViewController *)controller;
-+ (bool)canSendNotifications;
++ (void)canSendNotifications;
 
 @end

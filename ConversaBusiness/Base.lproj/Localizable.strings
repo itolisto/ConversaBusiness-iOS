@@ -215,13 +215,7 @@
 "settings_account_profile_category_selected" = "My Categories";
 
 /* No comment provided by engineer. */
-"settings_account_redirect_message" = "All your incoming messages will be redirect to Conversa to handle your communication. Are you sure you want to enable this feature?";
-
-/* No comment provided by engineer. */
-"settings_account_redirect_message_disable_fail" = "We couldn't disable redirection. Please try again later or contact Conversa Support for more information";
-
-/* No comment provided by engineer. */
-"settings_account_redirect_message_enable_fail" = "We couldn't enable redirection. Please try again later or contact Conversa Support for more information";
+"settings_account_redirect_message" = "This is a premium function, chat with us to know more.";
 
 /* No comment provided by engineer. */
 "settings_account_status_away" = "Away";

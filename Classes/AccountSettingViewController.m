@@ -100,39 +100,7 @@
     NSDictionary *job = [notification valueForKey:@"object"];
 
     if ([[job objectForKey:@"task"] isEqualToString:@"redirectToConversaJob"]) {
-        NSDictionary *data = [job objectForKey:@"data"];
-        BOOL redirect = [[data objectForKey:@"redirect"] boolValue];
 
-        NSString *message;
-
-        if (redirect) {
-            message = NSLocalizedString(@"settings_account_redirect_message_enable_fail", nil);
-        } else {
-            message = NSLocalizedString(@"settings_account_redirect_message_disable_fail", nil);
-        }
-
-        if (self.conversaSwitch) {
-            [self.conversaSwitch setOn:!redirect animated:YES];
-        }
-
-        UIViewController *presenting = [self topViewController];
-
-        if (presenting != nil && presenting.presentedViewController == nil) {
-            // Enable redirect
-            UIAlertController * view =   [UIAlertController
-                                          alertControllerWithTitle:nil
-                                          message:message
-                                          preferredStyle:UIAlertControllerStyleAlert];
-
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"Ok"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [view addAction:ok];
-            [presenting presentViewController:view animated:YES completion:nil];
-        }
     }
 }
 
@@ -209,28 +177,12 @@
                                    actionWithTitle:@"Ok"
                                    style:UIAlertActionStyleDestructive
                                    handler:^(UIAlertAction * action) {
-                                       if (![SettingsKeys getRedirect]) {
-                                           [AppJobs addRedirectToConversaJob:YES];
-                                       }
+                                       [sender setOn:NO animated:YES];
                                        [view dismissViewControllerAnimated:YES completion:nil];
                                    }];
-        UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
-                                 style:UIAlertActionStyleCancel
-                                 handler:^(UIAlertAction * action) {
-                                     [self.conversaSwitch setOn:NO animated:YES];
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-
 
         [view addAction:redirect];
-        [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
-    } else {
-        // Remove redirect
-        if ([SettingsKeys getRedirect]) {
-            [AppJobs addRedirectToConversaJob:NO];
-        }
     }
 }
 

@@ -20,7 +20,6 @@
 #import "SettingsKeys.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
-#import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import <AFNetworking/AFNetworking.h>
@@ -61,12 +60,12 @@
     
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+//        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
-//        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://localhost:1337/parse";
+        configuration.applicationId = @"b15c83";
+        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -105,8 +104,6 @@
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
-    
-//    [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
 
     self.timer = [NSTimer timerWithTimeInterval:300.0
                                          target:self
@@ -165,8 +162,6 @@
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{ }
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -194,11 +189,12 @@
     self.timer = nil;
 }
 
+#pragma mark - Push Notification Methods -
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken");
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
     }
 }
 
@@ -209,7 +205,7 @@
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
     }
 }
 

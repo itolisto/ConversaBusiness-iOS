@@ -7,16 +7,18 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'ConversaManager' do
+    pod 'Reachability'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     #pod 'Parse'
-    pod 'Parse', :git => 'https://github.com/ParsePlatform/Parse-SDK-iOS-OSX.git'
+    pod 'Parse'
     # PushNotifications Service
-    pod 'OneSignal'
+    # pod 'OneSignal'
     # Ably Realtime Client Library
     pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
+    # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
-    pod 'YapDatabase/SQLCipher'
+    pod 'YapDatabase/SQLCipher', '~> 2.9.3'
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
