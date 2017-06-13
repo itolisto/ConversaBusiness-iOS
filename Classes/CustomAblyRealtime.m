@@ -150,12 +150,13 @@
         [self onPresenceMessage:message];
     }];
 
-    [channel on:^(ARTChannelStateChange * _Nullable state) {
-        [self onChannelStateChanged:state.current error:state.reason];
-    }];
-//    [channel on:^(ARTErrorInfo * _Nullable error) {
-//        [self onChannelStateChanged:channel.state error:error];
+//    [channel on:^(ARTChannelStateChange * _Nullable state) {
+//        [self onChannelStateChanged:state.current error:state.reason];
 //    }];
+
+    [channel on:^(ARTErrorInfo * _Nullable error) {
+        [self onChannelStateChanged:channel.state error:error];
+    }];
 }
 
 #pragma mark - ARTConnection Methods -
