@@ -36,7 +36,7 @@
     //[Appirater setAppId:@"464200063"];
     
     // Set Google Maps
-    [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
+    [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
 
     FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
                                         withLogLevel:FlurryLogLevelCriticalOnly]
@@ -60,12 +60,12 @@
     
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
-        configuration.applicationId = @"b15c83";
-        configuration.server = @"http://localhost:1337/parse";
+//        configuration.applicationId = @"b15c83";
+//        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR

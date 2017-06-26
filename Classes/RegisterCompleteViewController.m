@@ -136,6 +136,9 @@
 
                      [self.countryData addObjectsFromArray:sortedCountries];
                      [self.countryPickerView reloadAllComponents];
+                     if ([sortedCountries count]) {
+                         [self pickerView:self.countryPickerView didSelectRow:0 inComponent:0];
+                     }
                  }
              }
          }

@@ -5,6 +5,6 @@
   Created by Edgar Gomez on 12/15/16.
   Copyright © 2016 Conversa. All rights reserved.
 */
-"NSCameraUsageDescription" = "Capturar imágenes";
-"NSLocationWhenInUseUsageDescription" = "Queremos usar tu ubicación para enviarla a la NSA, no, solo bromeamos";
-"NSPhotoLibraryUsageDescription" = "Enviar imágenes";
+"NSCameraUsageDescription" = "$(PRODUCT_NAME) uso de cámara";
+"NSLocationWhenInUseUsageDescription" = "$(PRODUCT_NAME) uso de ubicación";
+"NSPhotoLibraryUsageDescription" = "$(PRODUCT_NAME) uso de librería";

@@ -61,7 +61,7 @@
 "chats_cell_date_yesterday" = "Yesterday";
 
 /* No comment provided by engineer. */
-"common_action_cancel" = "Cancelar";
+"common_action_cancel" = "Cancel";
 
 /*
  * Common strings
@@ -325,7 +325,7 @@
 "tutorial_title_two" = "Instant messaging";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "";
+"sett_help_dialog_message_error" = "Couldn't find support informartion, please try again later";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_support_message" = "";
+"sett_help_dialog_support_message" = "Retrieving support information";

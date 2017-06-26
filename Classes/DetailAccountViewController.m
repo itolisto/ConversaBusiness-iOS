@@ -134,6 +134,7 @@
                  }
 
                  hud.customView = [[UIImageView alloc] initWithImage:image];
+                 [hud showAnimated:YES];
                  [hud hideAnimated:YES afterDelay:2.f];
              }];
         }
@@ -164,6 +165,7 @@
                  }
 
                  hud.customView = [[UIImageView alloc] initWithImage:image];
+                 [hud showAnimated:YES];
                  [hud hideAnimated:YES afterDelay:2.f];
              }];
         }
@@ -197,6 +199,7 @@
                                          }
 
                                          hud.customView = [[UIImageView alloc] initWithImage:image];
+                                         [hud showAnimated:YES];
                                          [hud hideAnimated:YES afterDelay:2.f];
                                      }];
                                  }];
@@ -222,7 +225,7 @@
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* viewPhotho = [UIAlertAction
-                                 actionWithTitle:@"Ver imagen"
+                                 actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_view", nil)
                                  style:UIAlertActionStyleDefault
                                  handler:^(UIAlertAction * action) {
                                      //Do some thing here
@@ -234,7 +237,7 @@
                                      [self presentViewController:browser animated:YES completion:nil];
                                  }];
     UIAlertAction* photoLibrary = [UIAlertAction
-                                   actionWithTitle:@"Librería"
+                                   actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_library", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction * action) {
                                        //Do some thing here
@@ -242,7 +245,7 @@
                                        [view dismissViewControllerAnimated:YES completion:nil];
                                    }];
     UIAlertAction* camera = [UIAlertAction
-                             actionWithTitle:@"Cámara"
+                             actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_camara", nil)
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  //Do some thing here
@@ -250,7 +253,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -331,6 +334,7 @@
                       }
 
                       hud.customView = [[UIImageView alloc] initWithImage:image];
+                      [hud showAnimated:YES];
                       [hud hideAnimated:YES afterDelay:2.f];
                   }];
              } else {

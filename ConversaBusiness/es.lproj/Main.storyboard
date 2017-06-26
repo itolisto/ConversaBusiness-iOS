@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Bqb-Ge-egQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Bqb-Ge-egQ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -76,7 +76,7 @@
                                     <action selector="closeButtonPressed:" destination="81y-Zm-j26" eventType="touchUpInside" id="eLd-Lo-Y6o"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRONICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="EE9-3h-K2J" customClass="JVFloatLabeledTextField">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="EE9-3h-K2J" customClass="JVFloatLabeledTextField">
                                 <rect key="frame" x="23" y="97" width="274" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="g5b-sg-9Yk"/>
@@ -1476,14 +1476,14 @@
                                 <rect key="frame" x="21" y="25" width="278" height="538"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zru-R0-PCW">
-                                <rect key="frame" x="0.0" y="438" width="320" height="130"/>
+                                <rect key="frame" x="0.0" y="408" width="320" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REF-1z-mAp">
                                         <rect key="frame" x="8" y="17" width="304" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="Lod-e4-WWF"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1501,7 +1501,7 @@
                                 <constraints>
                                     <constraint firstItem="REF-1z-mAp" firstAttribute="leading" secondItem="zru-R0-PCW" secondAttribute="leading" constant="8" id="1zf-HB-dD5"/>
                                     <constraint firstItem="xjt-tk-AOl" firstAttribute="top" secondItem="REF-1z-mAp" secondAttribute="bottom" constant="5" id="5xa-wh-D9d"/>
-                                    <constraint firstAttribute="height" constant="130" id="Bfa-1B-jar"/>
+                                    <constraint firstAttribute="height" constant="160" id="Bfa-1B-jar"/>
                                     <constraint firstAttribute="trailing" secondItem="REF-1z-mAp" secondAttribute="trailing" constant="8" id="R2U-Fo-zkd"/>
                                     <constraint firstItem="REF-1z-mAp" firstAttribute="top" secondItem="zru-R0-PCW" secondAttribute="top" constant="17" id="Xgh-sK-6Tv"/>
                                     <constraint firstItem="xjt-tk-AOl" firstAttribute="centerX" secondItem="zru-R0-PCW" secondAttribute="centerX" id="aLw-Lz-O36"/>
@@ -1543,9 +1543,9 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fCY-VX-Yay">
-                                <rect key="frame" x="100.5" y="501" width="119" height="32"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <state key="normal" title="Empezar Ahora">
+                                <rect key="frame" x="104" y="498" width="112" height="35"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                <state key="normal" title="Empecemos">
                                     <color key="titleColor" red="0.72941176470000002" green="0.57254901960000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -2368,7 +2368,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xz7-g7-Ekn" userLabel="Email View">
                                                 <rect key="frame" x="22" y="223" width="276" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRONICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="xQD-yk-FKz" userLabel="EMAIL" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="xQD-yk-FKz" userLabel="EMAIL" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="KLj-Jc-ed6"/>
@@ -2442,7 +2442,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XM3-Rw-g84" userLabel="Number View">
                                                 <rect key="frame" x="22" y="337" width="276" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="NUMERO DE CONTACTO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="J6Q-3q-c9b" userLabel="CONTACT" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="NÚMERO DE CONTACTO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="J6Q-3q-c9b" userLabel="CONTACT" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="mA3-ge-Yyx"/>
@@ -3344,7 +3344,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8V-IJ-M2m" userLabel="Email View">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRONICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="asJ-wl-OWe" customClass="JVFloatLabeledTextField">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="asJ-wl-OWe" customClass="JVFloatLabeledTextField">
                                                                 <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="hFO-E9-ZIW"/>
@@ -3630,7 +3630,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o8O-Da-wx0" userLabel="Country View">
                                                 <rect key="frame" x="22" y="338" width="276" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ELIGE UNA CATEGORIA" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="hTo-CZ-d71" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ELIGE UNA CATEGORÍA" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="hTo-CZ-d71" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="Jdp-LR-cZc"/>
@@ -3822,7 +3822,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBf-aJ-CQO" userLabel="Email View">
                                                 <rect key="frame" x="22" y="84" width="276" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRONICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="uCB-8c-biY" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="uCB-8c-biY" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="WJk-2S-XFm"/>
@@ -3896,7 +3896,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlR-Ct-oba" userLabel="Country View">
                                                 <rect key="frame" x="22" y="198" width="276" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PAIS" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="YSv-DL-in4" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PAÍS" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="YSv-DL-in4" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="276" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="27b-DW-oCX"/>
@@ -3960,7 +3960,7 @@
                                                     <action selector="registerButtonPressed:" destination="hek-FQ-Lhx" eventType="touchUpInside" id="kub-ld-VHA"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TERMINOS Y POLITICAS DE PRIVACIDAD" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dB-Gy-B7T" customClass="TTTAttributedLabel">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TÉRMINOS Y POLÍTICAS DE PRIVACIDAD" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dB-Gy-B7T" customClass="TTTAttributedLabel">
                                                 <rect key="frame" x="31.5" y="365" width="258.5" height="27"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4611,6 +4611,6 @@
         <image name="tab_stats_inactive" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lf5-Yd-7Dh"/>
+        <segue reference="h67-Oh-fgr"/>
     </inferredMetricsTieBreakers>
 </document>
