@@ -162,6 +162,12 @@
 "sett_category_save" = "Listo";
 
 /* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "No se pudo encontrar información de soporte, por favor intente de nuevo más tarde";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "Buscando información de soporte";
+
+/* No comment provided by engineer. */
 "sett_redirect_premium" = "Esta es una función premium. Contacta a soporte técnico para poder activarla.";
 
 /* No comment provided by engineer. */
@@ -323,9 +329,3 @@
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Mensajería instantánea";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "No se pudo encontrar información de soporte, por favor intente de nuevo más tarde";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_support_message" = "Buscando información de soporte";

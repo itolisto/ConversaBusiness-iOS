@@ -65,33 +65,21 @@
 }
 
 - (void)initAbly {
-    ARTClientOptions *artoptions = [[ARTClientOptions alloc] init];
-    artoptions.key = @"T6z9Ew.9a7FmQ:NYh49uPgi78dbMYH";
-    artoptions.logLevel = ARTLogLevelError;
-    artoptions.echoMessages = NO;
-    artoptions.clientId = self.clientId;
-    self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
-    [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
-        [self onConnectionStateChanged:status];
-        [self.ably.push activate];
-    }];
+    PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-6200baf9-6b96-4196-854d-110c764a8e63"
+                                                                     subscribeKey:@"sub-c-af90faac-3851-11e7-887b-02ee2ddab7fe"];
+    configuration.uuid = self.clientId;
+    self.ably = [PubNub clientWithConfiguration:configuration];
+    //self.ably.filterExpression = [NSString stringWithFormat:@"(senderID!=’%@’)", self.clientId];
+    [self.ably addListener:self];
 }
 
-- (ARTRealtime*)getAblyRealtime {
+- (PubNub*)getAblyRealtime {
     return self.ably;
-}
-
-- (ARTRealtimeConnectionState)ablyConnectionStatus {
-    if (self.ably == nil) {
-        return ARTRealtimeDisconnected;
-    }
-
-    return self.ably.connection.state;
 }
 
 - (NSString *)getPublicConnectionId {
     if (self.ably != nil) {
-        return self.ably.connection.key;
+        return self.ably.uuid;
     }
 
     return nil;
@@ -102,167 +90,158 @@
         return;
     }
 
-    [self.ably.push deactivate];
-    [self.ably close];
+    [self.ably unsubscribeFromAll];
+//    [self.ably removeAllPushNotificationsFromDeviceWithPushToken:[SettingsKeys getAbout]                                                andCompletion:^(PNAcknowledgmentStatus *status) {
+//
+//        if (!status.isError) {
+//
+//            /**
+//             Handle successful push notification disabling for all channels associated with
+//             specified device push token.
+//             */
+//        }
+//        else {
+//
+//            /**
+//             Handle modification error. Check 'category' property
+//             to find out possible reason because of which request did fail.
+//             Review 'errorData' property (which has PNErrorData data type) of status
+//             object to get additional information about issue.
+//             
+//             Request can be resent using: [status retry];
+//             */
+//        }
+//    }];
 }
 
 - (void)subscribeToChannels {
-    NSString * channelname = [SettingsKeys getBusinessId];
-    if ([channelname length] > 0) {
-        for (int i = 0; i < 2; i++) {
-            ARTRealtimeChannel * channel;
-            NSString * channelname;
-
-            if (i == 0) {
-                channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
-                channel = [[self.ably channels] get:channelname];
-            } else {
-                channelname = [@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]];
-                channel = [[self.ably channels] get:channelname];
-            }
-
-            [self reattach:channel];
-        }
-    }
+    [self.ably subscribeToChannels:[self getChannels] withPresence:NO];
 }
 
-- (void)reattach:(ARTRealtimeChannel *)channel {
-    if (channel == nil) {
-        DDLogError(@"reattach ARTRealtimeChannel channel nil");
-        return;
-    }
+- (void)subscribeToPushNotifications:(NSData *)devicePushToken {
+    [self.ably addPushNotificationsOnChannels:[self getChannels]
+                          withDevicePushToken:devicePushToken
+                                andCompletion:^(PNAcknowledgmentStatus *status)
+     {
+         if (!status.isError) {
 
-    [channel subscribe:^(ARTMessage * _Nonnull message) {
-        NSError *error;
-        id object = [NSJSONSerialization JSONObjectWithData:[message.data dataUsingEncoding:NSUTF8StringEncoding]
-                                                    options:0
-                                                      error:&error];
-        if (error) {
-            DDLogError(@"onMessage ARTMessage error: %@", error);
-        } else {
-            if ([object isKindOfClass:[NSDictionary class]]) {
-                [self onMessage:object];
-            }
-        }
-    }];
+             // Handle successful push notification enabling on passed channels.
+         }
+         else {
 
-    [[channel presence] subscribe:^(ARTPresenceMessage * _Nonnull message) {
-        [self onPresenceMessage:message];
-    }];
+             /**
+              Handle modification error. Check 'category' property
+              to find out possible reason because of which request did fail.
+              Review 'errorData' property (which has PNErrorData data type) of status
+              object to get additional information about issue.
 
-//    [channel on:^(ARTChannelStateChange * _Nullable state) {
-//        [self onChannelStateChanged:state.current error:state.reason];
-//    }];
+              Request can be resent using: [status retry];
+              */
+             [status retry];
+         }
+     }];
+}
 
-    [channel on:^(ARTErrorInfo * _Nullable error) {
-        [self onChannelStateChanged:channel.state error:error];
-    }];
+- (NSArray<NSString*>*)getChannels {
+    NSString * channelname = [SettingsKeys getBusinessId];
+    return @[
+             [@"bpbc_" stringByAppendingString:channelname],
+             [@"bpvt_" stringByAppendingString:channelname]
+             ];
 }
 
 #pragma mark - ARTConnection Methods -
 
-- (void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
-    if (status == nil) {
-        return;
+// Handle new message from one of channels on which client has been subscribed.
+- (void)client:(PubNub *)client didReceiveMessage:(PNMessageResult *)message {
+
+    // Handle new message stored in message.data.message
+    if (![message.data.channel isEqualToString:message.data.subscription]) {
+        // Message has been received on channel group stored in message.data.subscription.
+    } else {
+        // Message has been received on channel stored in message.data.channel.
     }
 
-    switch (status.current) {
-        case ARTRealtimeInitialized:
-            break;
-        case ARTRealtimeConnecting:
-            break;
-        case ARTRealtimeConnected:
-            if (self.firstLoad) {
-                // Subscribe to all Channels
-                [self subscribeToChannels];
-                // Change first load
-                self.firstLoad = NO;
-            } else {
-                NSString * channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
-                if (![self.ably.channels exists:channelname]) {
-                    [self subscribeToChannels];
-                } else {
-                    for (ARTRealtimeChannel * channel in self.ably.channels) {
-                        [self reattach:channel];
-                    }
-                }
-            }
-            break;
-        case ARTRealtimeDisconnected:
-            break;
-        case ARTRealtimeSuspended:
-            break;
-        case ARTRealtimeClosing:
-            for (ARTRealtimeChannel * channel in self.ably.channels) {
-                [channel unsubscribe];
-                [[channel presence] unsubscribe];
-            }
-            break;
-        case ARTRealtimeClosed:
-            break;
-        case ARTRealtimeFailed:
-            DDLogError(@"onConnectionStateChgd: Failed --> %@", status);
-            break;
+    NSError *error;
+    NSDictionary *results = (NSDictionary *)message.data.message;
+
+    NSDictionary *messages = [NSJSONSerialization JSONObjectWithData:[[results objectForKey:@"message"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                           options:0
+                                                             error:&error];
+    if (error) {
+
+    } else {
+        [self onMessage:messages];
     }
 }
 
-- (void)onPresenceMessage:(ARTPresenceMessage *)messages {
-    if (messages == nil) {
-        DDLogError(@"onPresenceMessage messages nil");
-        return;
+// New presence event handling.
+- (void)client:(PubNub *)client didReceivePresenceEvent:(PNPresenceEventResult *)event {
+
+    if (![event.data.channel isEqualToString:event.data.subscription]) {
+        // Presence event has been received on channel group stored in event.data.subscription.
+    } else {
+        // Presence event has been received on channel stored in event.data.channel.
     }
 
-    if (messages.data) {
-        NSDictionary *data = (NSDictionary*)messages.data;
-        NSString *from = [data valueForKey:@"from"];
-        bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
-        if (from) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
-                [self.delegate fromUser:from userIsTyping:isTyping];
+    if (![event.data.presenceEvent isEqualToString:@"state-change"]) {
+        NSLog(@"%@ \"%@'ed\"\nat: %@ on %@ (Occupancy: %@)", event.data.presence.uuid,
+              event.data.presenceEvent, event.data.presence.timetoken, event.data.channel,
+              event.data.presence.occupancy);
+    } else {
+        NSLog(@"%@ changed state at: %@ on %@ to: %@", event.data.presence.uuid,
+              event.data.presence.timetoken, event.data.channel, event.data.presence.state);
+    }
+
+
+}
+
+// Handle subscription status change.
+- (void)client:(PubNub *)client didReceiveStatus:(PNStatus *)status {
+
+    if (status.operation == PNSubscribeOperation) {
+        // Check whether received information about successful subscription or restore.
+        if (status.category == PNConnectedCategory || status.category == PNReconnectedCategory) {
+            // Status object for those categories can be casted to `PNSubscribeStatus` for use below.
+            PNSubscribeStatus *subscribeStatus = (PNSubscribeStatus *)status;
+            if (subscribeStatus.category == PNConnectedCategory) {
+                // This is expected for a subscribe, this means there is no error or issue whatsoever.
+            } else {
+
+                /**
+                 This usually occurs if subscribe temporarily fails but reconnects. This means there was
+                 an error but there is no longer any issue.
+                 */
+            }
+        } else if (status.category == PNUnexpectedDisconnectCategory) {
+
+            /**
+             This is usually an issue with the internet connection, this is an error, handle
+             appropriately retry will be called automatically.
+             */
+        }
+        // Looks like some kind of issues happened while client tried to subscribe or disconnected from
+        // network.
+        else {
+
+            PNErrorStatus *errorStatus = (PNErrorStatus *)status;
+            if (errorStatus.category == PNAccessDeniedCategory) {
+
+                /**
+                 This means that PAM does allow this client to subscribe to this channel and channel group
+                 configuration. This is another explicit error.
+                 */
+            }
+            else {
+
+                /**
+                 More errors can be directly specified by creating explicit cases for other error categories
+                 of `PNStatusCategory` such as: `PNDecryptionErrorCategory`,
+                 `PNMalformedFilterExpressionCategory`, `PNMalformedResponseCategory`, `PNTimeoutCategory`
+                 or `PNNetworkIssuesCategory`
+                 */
             }
         }
-    }
-}
-
-- (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *)reason {
-    if (reason != nil) {
-        DDLogError(@"onChannelStateChanged --> %@", reason.message);
-    }
-}
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
-- (void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-
-        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error) {
-             // Check error.
-         }];
-
-        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error) {
-             // Check error.
-         }];
-    }
-}
-
-- (void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
-- (void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail");
     }
 }
 
@@ -322,6 +301,16 @@
                      }];
                 } else {
                     [self messageId:messageId contactId:(customerId)?customerId:contactId messageType:messageType results:results connection:connection withContact:buddy];
+                }
+                break;
+            }
+            case 2: {
+                NSString *from = [results valueForKey:@"from"];
+                bool isTyping = [[results valueForKey:@"isTyping"] boolValue];
+                if (from) {
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
+                        [self.delegate fromUser:from userIsTyping:isTyping];
+                    }
                 }
                 break;
             }
@@ -415,17 +404,27 @@
 #pragma mark - Class Methods -
 
 - (void)sendTypingStateOnChannel:(NSString*)channelName isTyping:(BOOL)value {
-//    ARTRealtimeChannel *channel = [self.ably.channels get:channelName];
-//    if (channel) {
-//        [channel.presence updateClient:self.clientId
-//                                  data:@{@"isTyping": @(value), @"from": [SettingsKeys getBusinessId]}
-//                              callback:^(ARTErrorInfo * _Nullable error)
-//        {
-//            if (error) {
-//                DDLogError(@"Error sending typing state: %@", error);
-//            }
-//        }];
-//    }
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+
+    if (value) {
+        [parameters setValue:[SettingsKeys getBusinessId] forKey:@"userId"];
+        [parameters setValue:channelName forKey:@"channelName"];
+        [parameters setValue:@(YES) forKey:@"isTyping"];
+    } else {
+        [parameters setValue:[SettingsKeys getBusinessId] forKey:@"userId"];
+        [parameters setValue:channelName forKey:@"channelName"];
+    }
+
+    [PFCloud callFunctionInBackground:@"sendPresenceMessage"
+                       withParameters:parameters
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+    {
+        if (error) {
+            if ([ParseValidation validateError:error]) {
+                //[ParseValidation _handleInvalidSessionTokenError:nil];
+            }
+        }
+    }];
 }
 
 #pragma mark - Help Methods -

@@ -13,8 +13,7 @@ target 'ConversaManager' do
     # Parse Community Framework
     pod 'Parse'
     # Ably Realtime Client Library
-    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
-    # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
+    pod 'PubNub', '~> 4'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher', '~> 2.9.3'
     # Google Maps for iOS

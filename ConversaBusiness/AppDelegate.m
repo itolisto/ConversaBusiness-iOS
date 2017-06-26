@@ -191,23 +191,7 @@
 
 #pragma mark - Push Notification Methods -
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-    }
-}
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-    }
-}
 
 #pragma mark - EDQueueDelegate method -
 

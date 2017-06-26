@@ -162,6 +162,12 @@
 "sett_category_save" = "Done";
 
 /* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "Couldn't find support informartion, please try again later";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "Retrieving support information";
+
+/* No comment provided by engineer. */
 "sett_redirect_premium" = "This is a premium feature. Please contact tech support to activate it.";
 
 /* No comment provided by engineer. */
@@ -323,9 +329,3 @@
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Instant messaging";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "Couldn't find support informartion, please try again later";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_support_message" = "Retrieving support information";
