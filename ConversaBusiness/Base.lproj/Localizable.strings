@@ -162,7 +162,7 @@
 "sett_category_save" = "Done";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "Couldn't find support informartion, please try again later";
+"sett_help_dialog_message_error" = "Couldn't find support information, please try again later";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_support_message" = "Retrieving support information";
@@ -256,7 +256,7 @@
 "settings_home_share_text" = "Download this app to talk to almost any business";
 
 /* No comment provided by engineer. */
-"sign_failed_message" = "Email and password didn't match any account";
+"sign_failed_message" = "Your email or password is incorrect. Try again.";
 
 "signup_birhtday_toolbar_done" = "Done";
 

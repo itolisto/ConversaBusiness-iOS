@@ -5,6 +5,6 @@
   Created by Edgar Gomez on 12/15/16.
   Copyright © 2016 Conversa. All rights reserved.
 */
-"NSCameraUsageDescription" = "$(PRODUCT_NAME) camera use";
-"NSLocationWhenInUseUsageDescription" = "$(PRODUCT_NAME) location use";
-"NSPhotoLibraryUsageDescription" = "$(PRODUCT_NAME) media library use";
+"NSCameraUsageDescription" = "Manager camera use";
+"NSLocationWhenInUseUsageDescription" = "Manager location use";
+"NSPhotoLibraryUsageDescription" = "Manager media library use";

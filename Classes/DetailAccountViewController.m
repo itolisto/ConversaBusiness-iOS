@@ -115,7 +115,7 @@
                                withParameters:@{@"displayName" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                  hud.mode = MBProgressHUDModeCustomView;
                  hud.square = YES;
                  UIImage *image;
@@ -134,7 +134,6 @@
                  }
 
                  hud.customView = [[UIImageView alloc] initWithImage:image];
-                 [hud showAnimated:YES];
                  [hud hideAnimated:YES afterDelay:2.f];
              }];
         }
@@ -146,7 +145,7 @@
                                withParameters:@{@"conversaId" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                  hud.mode = MBProgressHUDModeCustomView;
                  hud.square = YES;
                  UIImage *image;
@@ -165,7 +164,6 @@
                  }
 
                  hud.customView = [[UIImageView alloc] initWithImage:image];
-                 [hud showAnimated:YES];
                  [hud hideAnimated:YES afterDelay:2.f];
              }];
         }
@@ -199,7 +197,6 @@
                                          }
 
                                          hud.customView = [[UIImageView alloc] initWithImage:image];
-                                         [hud showAnimated:YES];
                                          [hud hideAnimated:YES afterDelay:2.f];
                                      }];
                                  }];
@@ -308,7 +305,7 @@
                                     withParameters:@{@"avatar" : filePicture, @"businessId": [SettingsKeys getBusinessId]}
                                              block:^(id  _Nullable object, NSError * _Nullable error)
                   {
-                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                       hud.mode = MBProgressHUDModeCustomView;
                       hud.square = YES;
                       UIImage *image;
@@ -334,7 +331,6 @@
                       }
 
                       hud.customView = [[UIImageView alloc] initWithImage:image];
-                      [hud showAnimated:YES];
                       [hud hideAnimated:YES afterDelay:2.f];
                   }];
              } else {
