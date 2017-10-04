@@ -191,7 +191,22 @@
 
 #pragma mark - Push Notification Methods -
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"deviceToken: %@", deviceToken);
+    NSData *oldToken = [[NSUserDefaults standardUserDefaults] dataForKey:@"DeviceToken"];
 
+    if (oldToken && [oldToken isEqualToData:deviceToken]) {
+        // registration token hasn't changed - carry on
+        return;
+    }
+
+    [[CustomAblyRealtime sharedInstance] unsubscribeToPushNotification:oldToken];
+    [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+}
 
 #pragma mark - EDQueueDelegate method -
 

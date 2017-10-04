@@ -11,6 +11,7 @@
 @import YapDatabase;
 #import "Log.h"
 #import "Account.h"
+#import "Customer.h"
 #import "Constants.h"
 #import "YapMessage.h"
 #import "YapAccount.h"
@@ -27,6 +28,44 @@ const struct YapContactEdges YapContactEdges = {
 };
 
 @implementation YapContact
+
++ (void)saveContactWithBusiness:(Customer*)customer block:(CompletionResult)block {
+    YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:customer.objectId];
+    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.displayName = customer.displayName;
+    newBuddy.composingMessageString = @"";
+    newBuddy.blocked = NO;
+    newBuddy.mute = NO;
+    newBuddy.lastMessageDate = [NSDate date];
+
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+        [newBuddy saveWithTransaction:transaction];
+    } completionBlock:^{
+        if (block != nil) {
+            block(newBuddy);
+        }
+    }];
+}
+
++ (void)saveContactWithDictionary:(NSDictionary*)customer block:(CompletionResult)block {
+    YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:customer[@"id"]];
+    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.displayName = customer[@"dn"];
+    newBuddy.composingMessageString = @"";
+    newBuddy.blocked = NO;
+    newBuddy.mute = NO;
+    newBuddy.lastMessageDate = [NSDate date];
+
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+        [newBuddy saveWithTransaction:transaction];
+    } completionBlock:^{
+        if (block != nil) {
+            block(newBuddy);
+        }
+    }];
+}
 
 - (void)programActionInHours:(NSInteger)hours
                     isMuting:(BOOL)isMuting

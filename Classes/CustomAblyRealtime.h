@@ -33,6 +33,7 @@
 
 - (void)subscribeToChannels;
 - (void)subscribeToPushNotifications:(NSData *)devicePushToken;
+- (void)unsubscribeToPushNotification:(NSData *)deviceToken;
 
 - (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;

@@ -194,6 +194,26 @@
 
     NSString *business_id = [SettingsKeys getBusinessId];
     [Flurry logEvent:@"manager_chat_duration" withParameters:@{@"business": (business_id) ? business_id : @""} timed:YES];
+
+    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
+                       withParameters:@{@"customerId": self.buddy.uniqueId,
+                                        @"businessId": [SettingsKeys getBusinessId],
+                                        @"fromCustomer": @NO}
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+     {
+         if (!error) {
+             NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+                                                                 options:0
+                                                                   error:&error];
+
+             if (!error) {
+                 [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                     NSDictionary *message = (NSDictionary*)obj;
+                     [YapMessage saveMessageWithDictionary:message block:nil];
+                 }];
+             }
+         }
+     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -226,6 +246,25 @@
 - (void)loadNavigationBarInformation {
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,38,38)];
     logo.image = [self getConversationAvatar:self.position];
+
+    // Width constraint
+    [logo addConstraint:[NSLayoutConstraint constraintWithItem:logo
+                                                     attribute:NSLayoutAttributeWidth
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:38]];
+
+    // Height constraint
+    [logo addConstraint:[NSLayoutConstraint constraintWithItem:logo
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:38]];
+
     logo.layer.cornerRadius = 19;
     logo.layer.masksToBounds = YES;
     self.avatarView = logo;

@@ -8,3 +8,4 @@
 "NSCameraUsageDescription" = "Manager uso de cámara";
 "NSLocationWhenInUseUsageDescription" = "Manager uso de ubicación";
 "NSPhotoLibraryUsageDescription" = "Manager uso de librería";
+"NSMicrophoneUsageDescription" = "Conversa quiere usar el micrófono para llamar a Soporte";

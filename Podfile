@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 target 'ConversaManager' do
     pod 'Reachability'
+    # Audio SDK
+    pod 'SinchRTC'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -54,4 +56,6 @@ target 'ConversaManager' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
+    # Skygear
+    pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
 end

@@ -20,9 +20,9 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
 
         let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [ChartPageViewController.self])
 
-        pageControl.pageIndicatorTintColor = UIColor.init(colorLiteralRed: 158.0/255.0, green: 124.0/255.0, blue: 217.0/255.0, alpha: 0.4)
+        pageControl.pageIndicatorTintColor = UIColor(red: 158.0/255.0, green: 124.0/255.0, blue: 217.0/255.0, alpha: 0.4)
 
-        pageControl.currentPageIndicatorTintColor = UIColor.init(colorLiteralRed: 158.0/255.0, green: 124.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+        pageControl.currentPageIndicatorTintColor = UIColor(red: 158.0/255.0, green: 124.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     }
 
     func loadCharts(data: Dictionary<String, Any>) {

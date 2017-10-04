@@ -119,6 +119,10 @@
 }
 
 - (void)subscribeToPushNotifications:(NSData *)devicePushToken {
+    if (devicePushToken == nil) {
+        return;
+    }
+    
     [self.ably addPushNotificationsOnChannels:[self getChannels]
                           withDevicePushToken:devicePushToken
                                 andCompletion:^(PNAcknowledgmentStatus *status)
@@ -142,6 +146,19 @@
      }];
 }
 
+- (void)unsubscribeToPushNotification:(NSData *)deviceToken {
+    [self.ably addPushNotificationsOnChannels:[self getChannels]
+                          withDevicePushToken:deviceToken andCompletion:^(PNAcknowledgmentStatus *status)
+     {
+         NSLog(@"status: %@", status);
+         [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"DeviceToken"];
+         // Check whether request successfully completed or not.
+         // if (status.isError) // Handle modification error.
+         //     Check 'category' property to find out possible issue because
+         //     of which request did fail. Request can be resent using: [status retry];
+     }];
+}
+
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getBusinessId];
     return @[
@@ -154,95 +171,23 @@
 
 // Handle new message from one of channels on which client has been subscribed.
 - (void)client:(PubNub *)client didReceiveMessage:(PNMessageResult *)message {
-
-    // Handle new message stored in message.data.message
-    if (![message.data.channel isEqualToString:message.data.subscription]) {
-        // Message has been received on channel group stored in message.data.subscription.
-    } else {
-        // Message has been received on channel stored in message.data.channel.
-    }
-
     NSError *error;
     NSDictionary *results = (NSDictionary *)message.data.message;
 
     NSDictionary *messages = [NSJSONSerialization JSONObjectWithData:[[results objectForKey:@"message"] dataUsingEncoding:NSUTF8StringEncoding]
                                                            options:0
                                                              error:&error];
-    if (error) {
-
-    } else {
+    if (!error) {
         [self onMessage:messages];
     }
 }
 
 // New presence event handling.
 - (void)client:(PubNub *)client didReceivePresenceEvent:(PNPresenceEventResult *)event {
-
-    if (![event.data.channel isEqualToString:event.data.subscription]) {
-        // Presence event has been received on channel group stored in event.data.subscription.
-    } else {
-        // Presence event has been received on channel stored in event.data.channel.
-    }
-
-    if (![event.data.presenceEvent isEqualToString:@"state-change"]) {
-        NSLog(@"%@ \"%@'ed\"\nat: %@ on %@ (Occupancy: %@)", event.data.presence.uuid,
-              event.data.presenceEvent, event.data.presence.timetoken, event.data.channel,
-              event.data.presence.occupancy);
-    } else {
-        NSLog(@"%@ changed state at: %@ on %@ to: %@", event.data.presence.uuid,
-              event.data.presence.timetoken, event.data.channel, event.data.presence.state);
-    }
-
-
 }
 
 // Handle subscription status change.
 - (void)client:(PubNub *)client didReceiveStatus:(PNStatus *)status {
-
-    if (status.operation == PNSubscribeOperation) {
-        // Check whether received information about successful subscription or restore.
-        if (status.category == PNConnectedCategory || status.category == PNReconnectedCategory) {
-            // Status object for those categories can be casted to `PNSubscribeStatus` for use below.
-            PNSubscribeStatus *subscribeStatus = (PNSubscribeStatus *)status;
-            if (subscribeStatus.category == PNConnectedCategory) {
-                // This is expected for a subscribe, this means there is no error or issue whatsoever.
-            } else {
-
-                /**
-                 This usually occurs if subscribe temporarily fails but reconnects. This means there was
-                 an error but there is no longer any issue.
-                 */
-            }
-        } else if (status.category == PNUnexpectedDisconnectCategory) {
-
-            /**
-             This is usually an issue with the internet connection, this is an error, handle
-             appropriately retry will be called automatically.
-             */
-        }
-        // Looks like some kind of issues happened while client tried to subscribe or disconnected from
-        // network.
-        else {
-
-            PNErrorStatus *errorStatus = (PNErrorStatus *)status;
-            if (errorStatus.category == PNAccessDeniedCategory) {
-
-                /**
-                 This means that PAM does allow this client to subscribe to this channel and channel group
-                 configuration. This is another explicit error.
-                 */
-            }
-            else {
-
-                /**
-                 More errors can be directly specified by creating explicit cases for other error categories
-                 of `PNStatusCategory` such as: `PNDecryptionErrorCategory`,
-                 `PNMalformedFilterExpressionCategory`, `PNMalformedResponseCategory`, `PNTimeoutCategory`
-                 or `PNNetworkIssuesCategory`
-                 */
-            }
-        }
-    }
 }
 
 #pragma mark - Process message Method -
@@ -252,6 +197,13 @@
         int action = [[results valueForKey:@"appAction"] intValue];
         switch (action) {
             case 1: {
+                NSString *connectionId = [results valueForKey:@"connectionId"];
+                NSString *selfConnectionId = self.getPublicConnectionId;
+
+                if (connectionId!= nil && selfConnectionId!= nil && [connectionId isEqualToString:selfConnectionId]) {
+                    return;
+                }
+
                 NSString *messageId = [results valueForKey:@"messageId"];
                 NSString *contactId = [results valueForKey:@"contactId"];
                 NSInteger messageType = [[results valueForKey:@"messageType"] integerValue];
@@ -270,35 +222,18 @@
                 }];
 
                 if (buddy == nil) {
-                    PFQuery *query = [Customer query];
-                    [query whereKey:kCustomerActiveKey equalTo:@(YES)];
-                    [query selectKeys:@[kCustomerDisplayNameKey]];
-
-                    [query getObjectInBackgroundWithId:(customerId)?customerId:contactId
-                                                 block:^(PFObject * _Nullable object, NSError * _Nullable error)
-                     {
-                         if (error) {
-                             if ([ParseValidation validateError:error]) {
-                                 [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
-                             }
-                         } else {
-                             Customer *business = (Customer*)object;
-
-                             YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:(customerId)?customerId:contactId];
-                             newBuddy.accountUniqueId = [Account currentUser].objectId;
-                             newBuddy.displayName = business.displayName;
-                             newBuddy.composingMessageString = @"";
-                             newBuddy.blocked = NO;
-                             newBuddy.mute = NO;
-                             newBuddy.lastMessageDate = [NSDate date];
-
-                             [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                                 [newBuddy saveWithTransaction:transaction];
-                             } completionBlock:^{
-                                 [self messageId:messageId contactId:(customerId)?customerId:contactId messageType:messageType results:results connection:connection withContact:newBuddy];
-                             }];
-                         }
-                     }];
+                    [Customer queryForCustomer:(customerId)?customerId:contactId
+                                         block:^(Customer * _Nullable customer, NSError * _Nullable error) {
+                        if (error) {
+                            if ([ParseValidation validateError:error]) {
+                                [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                            }
+                        } else {
+                            [YapContact saveContactWithBusiness:customer block:^(YapContact *contact) {
+                                [self messageId:messageId contactId:contactId messageType:messageType results:results connection:connection withContact:contact];
+                            }];
+                        }
+                    }];
                 } else {
                     [self messageId:messageId contactId:(customerId)?customerId:contactId messageType:messageType results:results connection:connection withContact:buddy];
                 }
@@ -318,7 +253,8 @@
     }
 }
 
-- (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact {
+- (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact
+{
     __block YapMessage *message = nil;
 
     // Check if message exists
@@ -330,75 +266,71 @@
         return;
     }
 
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:5];
+
     // Save to Local Database
-    message = [[YapMessage alloc] initWithId:messageId];
-    message.messageType = messageType;
+    [dictionary setObject:messageId forKey:@"messageId"];
+    [dictionary setObject:[NSNumber numberWithInteger:messageType] forKey:@"messageType"];
 
     if ([[SettingsKeys getBusinessId] isEqualToString:contactId]) {
-        message.buddyUniqueId = contact.uniqueId;
+        [dictionary setObject:contact.uniqueId forKey:@"contactId"];
         message.delivered = statusAllDelivered;
-        message.incoming = NO;
+        [dictionary setObject:@NO forKey:@"incoming"];
     } else {
-        message.buddyUniqueId = contactId;
+        [dictionary setObject:contactId forKey:@"contactId"];
         message.delivered = statusReceived;
-        message.incoming = YES;
+        [dictionary setObject:@YES forKey:@"incoming"];
     }
 
     switch (messageType) {
         case kMessageTypeText: {
-            message.text = [results objectForKey:@"message"];
+            [dictionary setObject:[results objectForKey:@"message"] forKey:@"text"];
             break;
         }
         case kMessageTypeLocation: {
-            CLLocation *location = [[CLLocation alloc]
-                                    initWithLatitude:[[results objectForKey:@"latitude"] doubleValue]
-                                    longitude:[[results objectForKey:@"longitude"] doubleValue]];
-            message.location = location;
+            [dictionary setObject:[results objectForKey:@"latitude"] forKey:@"latitude"];
+            [dictionary setObject:[results objectForKey:@"longitude"] forKey:@"longitude"];
             break;
         }
         case kMessageTypeVideo:
         case kMessageTypeAudio: {
-            message.delivered = statusDownloading;
-            message.bytes = [[results objectForKey:@"size"] floatValue];
-            message.duration = [NSNumber numberWithInteger:[[results objectForKey:@"duration"] integerValue]];
-            message.remoteUrl = [results objectForKey:@"file"];
-            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            [dictionary setObject:[results objectForKey:@"size"] forKey:@"bytes"];
+            [dictionary setObject:[results objectForKey:@"duration"] forKey:@"duration"];
+            [dictionary setObject:[results objectForKey:@"file"] forKey:@"file"];
             break;
         }
         case kMessageTypeImage: {
-            message.delivered = statusDownloading;
-            message.bytes = [[results objectForKey:@"size"] floatValue];
-            message.width = [[results objectForKey:@"width"] floatValue];
-            message.height = [[results objectForKey:@"height"] floatValue];
-            message.remoteUrl = [results objectForKey:@"file"];
-            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            [dictionary setObject:[results objectForKey:@"size"] forKey:@"bytes"];
+            [dictionary setObject:[results objectForKey:@"width"] forKey:@"width"];
+            [dictionary setObject:[results objectForKey:@"height"] forKey:@"height"];
+            [dictionary setObject:[results objectForKey:@"file"] forKey:@"file"];
             break;
         }
     }
 
-    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-     {
-         [message saveWithTransaction:transaction];
-         contact.lastMessageDate = message.date;
-         [contact saveWithTransaction:transaction];
-     } completionBlock:^{
-         if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-             if(self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)])
-             {
-                 [self.delegate messageReceived:message from:contact];
-                 return;
-             }
-         } else {
-             // We are not active, so use a local notification instead
-             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-             localNotification.alertAction = @"Ver";
-             localNotification.soundName = UILocalNotificationDefaultSoundName;
-             localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
-             localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
-             localNotification.userInfo = @{@"contact":contact.uniqueId};
-             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-         }
-     }];
+    [YapMessage saveMessageWithDictionary:dictionary block:^(YapMessage *message) {
+        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+            contact.lastMessageDate = message.date;
+            [contact saveWithTransaction:transaction];
+        } completionBlock:^{
+            if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+                if(self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)])
+                {
+                    [self.delegate messageReceived:message from:contact];
+                    return;
+                }
+            } else {
+                // We are not active, so use a local notification instead
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                localNotification.alertAction = @"Ver";
+                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
+                localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
+                localNotification.userInfo = @{@"contact":contact.uniqueId};
+                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+            }
+        }];
+    }];
 }
 
 #pragma mark - Class Methods -
