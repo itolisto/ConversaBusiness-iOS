@@ -95,7 +95,7 @@
                     [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
                 } else {
                     __block NSMutableArray *sortedCategory = [NSMutableArray arrayWithCapacity:30];
-
+//
                     [results enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         nCategory *category = [[nCategory alloc] init];
                         category.objectId = [obj objectForKey:@"id"];
@@ -111,6 +111,9 @@
 
                     [self.categoryData addObjectsFromArray:sortedCategory];
                     [self.categoryPickerView reloadAllComponents];
+                    if ([sortedCategory count]) {
+                        [self pickerView:self.categoryPickerView didSelectRow:0 inComponent:0];
+                    }
                 }
             }
         }

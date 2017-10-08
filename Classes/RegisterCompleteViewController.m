@@ -70,8 +70,8 @@
     NSRange start, startPrivacy;
 
     if ([language isEqualToString:@"es"]) {
-        start = [self.termsPrivacyLabel.text rangeOfString:@"TERMINOS"];
-        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"POLITICAS"].location, 23);
+        start = [self.termsPrivacyLabel.text rangeOfString:@"TÉRMINOS"];
+        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"POLÍTICAS"].location, 23);
     } else {
         start = [self.termsPrivacyLabel.text rangeOfString:@"TERMS"];
         startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"PRIVACY"].location, 16);
@@ -136,6 +136,9 @@
 
                      [self.countryData addObjectsFromArray:sortedCountries];
                      [self.countryPickerView reloadAllComponents];
+                     if ([sortedCountries count]) {
+                         [self pickerView:self.countryPickerView didSelectRow:0 inComponent:0];
+                     }
                  }
              }
          }

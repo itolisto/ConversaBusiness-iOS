@@ -162,6 +162,12 @@
 "sett_category_save" = "Listo";
 
 /* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "No se pudo encontrar información de soporte, por favor intenta de nuevo más tarde";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "Buscando información de soporte";
+
+/* No comment provided by engineer. */
 "sett_redirect_premium" = "Esta es una función premium. Contacta a soporte técnico para poder activarla.";
 
 /* No comment provided by engineer. */
@@ -250,7 +256,7 @@
 "settings_home_share_text" = "Descarga esta aplicación para hablar con casi cualquier negocio";
 
 /* No comment provided by engineer. */
-"sign_failed_message" = "Correo electrónico y contraseña no encuentran una cuenta. Por favor verifica los datos";
+"sign_failed_message" = "El correo electrónico o la contraseña es incorrecta. Intenta de nuevo.";
 
 "signup_birhtday_toolbar_done" = "Listo";
 
@@ -323,9 +329,3 @@
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Mensajería instantánea";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "";
-
-/* No comment provided by engineer. */
-"sett_help_dialog_support_message" = "";

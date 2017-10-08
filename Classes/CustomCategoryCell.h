@@ -13,6 +13,6 @@
 
 @property (strong, nonatomic) nCategory *category;
 
-- (void)configureCellWith:(nCategory*)category;
+- (void)configureCellWith:(nCategory*)category detailText:(BOOL)show;
 
 @end

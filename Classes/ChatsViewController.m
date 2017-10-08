@@ -145,6 +145,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
         [NotificationPermissions canSendNotifications];
     } else {
         [AppJobs addBusinessDataJob];
@@ -173,6 +174,24 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
+
+    [PFCloud callFunctionInBackground:@"getLatestManagerConversations"
+                       withParameters:@{@"businessId": [SettingsKeys getBusinessId]}
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+     {
+         if (!error) {
+             NSArray *contacts = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+                                                                 options:0
+                                                                   error:&error];
+
+             if (!error) {
+                 [contacts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                     NSDictionary *customer = (NSDictionary*)obj;
+                     [YapContact saveContactWithDictionary:customer block:nil];
+                 }];
+             }
+         }
+     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -195,6 +214,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
         [AppJobs addDownloadAvatarJob:[SettingsKeys getAvatarUrl]];
         [((AppDelegate *)[[UIApplication sharedApplication] delegate]).timer fire];
     }

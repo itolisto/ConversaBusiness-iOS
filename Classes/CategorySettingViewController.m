@@ -181,12 +181,12 @@
 
     if ([indexPath section] == 0) {
         if ([self.selectedCategories count] == 0) {
-            [cell configureCellWith:[self.categories objectAtIndex:[indexPath row]]];
+            [cell configureCellWith:[self.categories objectAtIndex:[indexPath row]] detailText:YES];
         } else {
-            [cell configureCellWith:[self.selectedCategories objectAtIndex:[indexPath row]]];
+            [cell configureCellWith:[self.selectedCategories objectAtIndex:[indexPath row]] detailText:NO];
         }
     } else {
-        [cell configureCellWith:[self.categories objectAtIndex:[indexPath row]]];
+        [cell configureCellWith:[self.categories objectAtIndex:[indexPath row]] detailText:YES];
     }
 
     return cell;
@@ -211,9 +211,6 @@
         }
 
         headerView.textLabel.text = text;
-        //headerView.textLabel.textColor = UIColor ( red: 0.0902, green: 0.2745, blue: 0.2745, alpha: 1.0 )
-//        headerView.textLabel.font = UIFont(name: UIDecorator.sharedInstance.PRIMARY_FONT, size: 14.0)
-//        headerView.contentView.backgroundColor = UIDecorator.sharedInstance.currentTheme.lightShadeColor
     }
 }
 
@@ -333,7 +330,6 @@
                 [ParseValidation _handleInvalidSessionTokenError:self];
             }
         } else {
-
             if (self.isViewLoaded && self.view.window) {
                 [self.navigationController popViewControllerAnimated:YES];
             }

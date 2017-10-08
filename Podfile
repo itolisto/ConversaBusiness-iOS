@@ -12,17 +12,12 @@ target 'ConversaManager' do
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
     pod 'Parse'
-    # Ably Realtime Client Library
-    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
-    # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher', '~> 2.9.3'
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
     pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'release_7.3'
-    # A fancy Obj-C wrapper for Cocoa System Sound Services
-    # pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
@@ -55,4 +50,8 @@ target 'ConversaManager' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
+    # Skygear
+    pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
+    # Crashes log
+    pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end

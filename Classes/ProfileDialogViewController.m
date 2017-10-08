@@ -92,9 +92,7 @@
              id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:0
                                                            error:&error];
-             if (error) {
-                 DDLogError(@"%@", error);
-             } else {
+             if (!error) {
                  NSDictionary *results = object;
 
                  self.followers = 0;

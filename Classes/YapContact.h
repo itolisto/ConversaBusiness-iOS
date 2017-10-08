@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-@class YapMessage, YapAccount;
+@class YapMessage, YapAccount, YapContact, Customer;
 #import "Customer.h"
 #import "YapDatabaseObject.h"
 #import <YapDatabase/YapDatabaseRelationshipNode.h>
@@ -19,6 +19,8 @@ extern const struct YapContactAttributes {
 extern const struct YapContactEdges {
     __unsafe_unretained NSString *account;
 } YapContactEdges;
+
+typedef void (^CompletionResult)(YapContact* contact);
 
 @interface YapContact : YapDatabaseObject <YapDatabaseRelationshipNode>
 
@@ -33,6 +35,8 @@ extern const struct YapContactEdges {
                                  andConnection:(YapDatabaseConnection*)editingConnection
                                        andSave:(BOOL)save;
 + (NSUInteger)numberOfBlockedContacts;
++ (void)saveContactWithBusiness:(Customer*)customer block:(CompletionResult)block;
++ (void)saveContactWithDictionary:(NSDictionary*)customer block:(CompletionResult)block;
 
 - (void)programActionInHours:(NSInteger)hours
                     isMuting:(BOOL)isMuting;

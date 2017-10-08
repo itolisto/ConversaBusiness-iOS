@@ -115,7 +115,7 @@
                                withParameters:@{@"displayName" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                  hud.mode = MBProgressHUDModeCustomView;
                  hud.square = YES;
                  UIImage *image;
@@ -145,7 +145,7 @@
                                withParameters:@{@"conversaId" : temp, @"businessId": [SettingsKeys getBusinessId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
              {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                  hud.mode = MBProgressHUDModeCustomView;
                  hud.square = YES;
                  UIImage *image;
@@ -222,7 +222,7 @@
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* viewPhotho = [UIAlertAction
-                                 actionWithTitle:@"Ver imagen"
+                                 actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_view", nil)
                                  style:UIAlertActionStyleDefault
                                  handler:^(UIAlertAction * action) {
                                      //Do some thing here
@@ -234,7 +234,7 @@
                                      [self presentViewController:browser animated:YES completion:nil];
                                  }];
     UIAlertAction* photoLibrary = [UIAlertAction
-                                   actionWithTitle:@"Librería"
+                                   actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_library", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction * action) {
                                        //Do some thing here
@@ -242,7 +242,7 @@
                                        [view dismissViewControllerAnimated:YES completion:nil];
                                    }];
     UIAlertAction* camera = [UIAlertAction
-                             actionWithTitle:@"Cámara"
+                             actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_camara", nil)
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  //Do some thing here
@@ -250,7 +250,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -305,7 +305,7 @@
                                     withParameters:@{@"avatar" : filePicture, @"businessId": [SettingsKeys getBusinessId]}
                                              block:^(id  _Nullable object, NSError * _Nullable error)
                   {
-                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
+                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                       hud.mode = MBProgressHUDModeCustomView;
                       hud.square = YES;
                       UIImage *image;

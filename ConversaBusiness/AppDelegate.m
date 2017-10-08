@@ -22,6 +22,7 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -36,7 +37,7 @@
     //[Appirater setAppId:@"464200063"];
     
     // Set Google Maps
-    [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
+    [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
 
     FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
                                         withLogLevel:FlurryLogLevelCriticalOnly]
@@ -62,7 +63,7 @@
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
 //        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
 //        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+//        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
         configuration.applicationId = @"b15c83";
         configuration.server = @"http://localhost:1337/parse";
@@ -90,6 +91,26 @@
     }
     
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
+
+    [[[SKYContainer defaultContainer] push] registerDeviceCompletionHandler:^(NSString *deviceID, NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register device: %@", error);
+            return;
+        }
+
+        // Anything you want to do in the callback can be added here
+    }];
+
+    // This will prompt the user for permission to send remote notification
+    [application registerForRemoteNotifications];
+
+    NSError *error = nil;
+    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
+    SentryClient.sharedClient = client;
+    [SentryClient.sharedClient startCrashHandlerWithError:&error];
+    if (nil != error) {
+        NSLog(@"%@", error);
+    }
     
     // Define controller to take action
     UIViewController *rootViewController = nil;
@@ -191,22 +212,29 @@
 
 #pragma mark - Push Notification Methods -
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-    }
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"Registered for Push notifications with token: %@", deviceToken.description);
+    [[[SKYContainer defaultContainer] push] registerRemoteNotificationDeviceToken:deviceToken completionHandler:^(NSString *deviceID, NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register device token: %@", error);
+            return;
+        }
+    }];
+//    NSLog(@"deviceToken: %@", deviceToken);
+//    NSData *oldToken = [[NSUserDefaults standardUserDefaults] dataForKey:@"DeviceToken"];
+//
+//    if (oldToken && [oldToken isEqualToData:deviceToken]) {
+//        // registration token hasn't changed - carry on
+//        return;
+//    }
+//
+//    [[CustomAblyRealtime sharedInstance] unsubscribeToPushNotification:oldToken];
+//    [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-    }
+    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
 }
 
 #pragma mark - EDQueueDelegate method -

@@ -23,4 +23,19 @@
     return kClassCustomer;
 }
 
++ (void)queryForCustomer:(NSString*)customerId block:(CustomerQueryResult)block {
+    PFQuery *query = [Customer query];
+    [query whereKey:kCustomerActiveKey equalTo:@(YES)];
+    [query selectKeys:@[kCustomerDisplayNameKey]];
+    [query getObjectInBackgroundWithId:customerId
+                                 block:^(PFObject * _Nullable object, NSError * _Nullable error)
+     {
+         if (error) {
+             block(nil, error);
+         } else {
+             block((Customer*)object, nil);
+         }
+     }];
+}
+
 @end

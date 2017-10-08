@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Chris Ballinger. All rights reserved.
 //
 
-@class YapContact, YapDatabaseReadTransaction;
+@class YapContact, YapDatabaseReadTransaction, YapMessage;
 #import "YapDatabaseObject.h"
 #import <CoreLocation/CoreLocation.h>
 #import <YapDatabase/YapDatabaseRelationshipNode.h>
@@ -28,6 +28,8 @@ extern const struct YapMessageAttributes {
 extern const struct YapMessageEdges {
     __unsafe_unretained NSString *buddy;
 } YapMessageEdges;
+
+typedef void (^YapMessageCompletionResult)(YapMessage* message);
 
 @interface YapMessage : YapDatabaseObject <YapDatabaseRelationshipNode>
 
@@ -62,6 +64,7 @@ extern const struct YapMessageEdges {
 + (void)enumerateMessagesWithMessageId:(NSString *)messageId
                            transaction:(YapDatabaseReadTransaction *)transaction usingBlock:(void (^)(YapMessage *message,BOOL *stop))block;
 + (void)showLocalNotificationForMessage:(YapMessage *)message;
++ (void)saveMessageWithDictionary:(NSDictionary*)messageDic block:(YapMessageCompletionResult)block;
 
 - (void)touchMessage;
 - (void)touchMessageWithTransaction:(YapDatabaseReadWriteTransaction *)transaction;

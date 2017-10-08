@@ -95,7 +95,6 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    NSLog(@"KVO: %@ changed property %@ to value %@", object, keyPath, change);
     if (keyPath == nil || change == nil || [keyPath length] == 0 || [change count] == 0) {
         return;
     }
@@ -105,20 +104,13 @@
     }
 
     if ([keyPath isEqualToString:businessStatus]) {
-        if (self.originalStatus != [[change valueForKey:NSKeyValueChangeNewKey] integerValue]) {
-            self.originalStatus = [[change valueForKey:NSKeyValueChangeNewKey] integerValue];
-            self.status = self.originalStatus;
-            [self.tableView reloadData];
-
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[self topViewController].view animated:YES];
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.square = YES;
-            UIImage *image;
-            // Show notification
-            image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            hud.label.text = NSLocalizedString(@"settings_account_status_message_success", nil);
-            hud.customView = [[UIImageView alloc] initWithImage:image];
-            [hud hideAnimated:YES afterDelay:2.f];
+        if (self.originalStatus == [[change valueForKey:NSKeyValueChangeNewKey] integerValue]) {
+            if (self.isViewLoaded && self.view.window) {
+                // Just change this value so next time we skip this code, thus we
+                // ensure we only pop this view controller once
+                self.originalStatus = (self.originalStatus != Conversa) ? Online : Conversa;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }
     }
 }
