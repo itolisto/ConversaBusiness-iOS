@@ -7,7 +7,7 @@
 //
 
 @import Foundation;
-#import <SKYKit/SKYKit.h>
+@import Ably;
 
 @class YapContact, YapMessage;
 
@@ -19,15 +19,15 @@
     - (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
 @end
 
-@interface CustomAblyRealtime : NSObject
+@interface CustomAblyRealtime : NSObject <ARTPushRegistererDelegate>
 
 // Stores reference on PubNub client to make sure what it won't be released.
-@property(strong, nonatomic) SKYContainer *ably;
+@property(strong, nonatomic) ARTRealtime *ably;
 @property(strong, nonatomic) NSString *clientId;
 @property(nonatomic, weak) id<ConversationListener> delegate;
 
 + (CustomAblyRealtime *)sharedInstance;
-- (SKYContainer*)getAblyRealtime;
+- (ARTRealtime*)getAblyRealtime;
 - (void)initAbly;
 - (void)logout;
 

@@ -92,18 +92,6 @@
     
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
 
-    [[[SKYContainer defaultContainer] push] registerDeviceCompletionHandler:^(NSString *deviceID, NSError *error) {
-        if (error) {
-            NSLog(@"Failed to register device: %@", error);
-            return;
-        }
-
-        // Anything you want to do in the callback can be added here
-    }];
-
-    // This will prompt the user for permission to send remote notification
-    [application registerForRemoteNotifications];
-
     NSError *error = nil;
     SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
     SentryClient.sharedClient = client;
@@ -213,28 +201,20 @@
 #pragma mark - Push Notification Methods -
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    NSLog(@"Registered for Push notifications with token: %@", deviceToken.description);
-    [[[SKYContainer defaultContainer] push] registerRemoteNotificationDeviceToken:deviceToken completionHandler:^(NSString *deviceID, NSError *error) {
-        if (error) {
-            NSLog(@"Failed to register device token: %@", error);
-            return;
+    {
+        ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+        if (ably) {
+            //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
+            //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
         }
-    }];
-//    NSLog(@"deviceToken: %@", deviceToken);
-//    NSData *oldToken = [[NSUserDefaults standardUserDefaults] dataForKey:@"DeviceToken"];
-//
-//    if (oldToken && [oldToken isEqualToData:deviceToken]) {
-//        // registration token hasn't changed - carry on
-//        return;
-//    }
-//
-//    [[CustomAblyRealtime sharedInstance] unsubscribeToPushNotification:oldToken];
-//    [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:deviceToken];
-}
+    }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+    if (ably) {
+        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+    }
 }
 
 #pragma mark - EDQueueDelegate method -
