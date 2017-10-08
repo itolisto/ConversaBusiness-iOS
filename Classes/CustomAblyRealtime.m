@@ -114,10 +114,10 @@
             NSString * channelname;
 
             if (i == 0) {
-                channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getCustomerId]];
+                channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
                 channel = [[self.ably channels] get:channelname];
             } else {
-                channelname = [@"bpvt:" stringByAppendingString:[SettingsKeys getCustomerId]];
+                channelname = [@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]];
                 channel = [[self.ably channels] get:channelname];
             }
 
@@ -206,7 +206,7 @@
             // Change first load
             self.firstLoad = NO;
         } else {
-            NSString * channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getCustomerId]];
+            NSString * channelname = [@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]];
             if (![self.ably.channels exists:channelname]) {
                 [self subscribeToChannels];
             } else {
@@ -266,13 +266,13 @@
     } else {
         DDLogError(@"didActivateAblyPush succeded");
 
-        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
          subscribeDevice:^(ARTErrorInfo *_Nullable error)
          {
              // Check error.
          }];
 
-        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
          subscribeDevice:^(ARTErrorInfo *_Nullable error)
          {
              // Check error.
