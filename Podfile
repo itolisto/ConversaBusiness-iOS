@@ -52,8 +52,6 @@ target 'ConversaManager' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
-    # Skygear
-    pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
     # Crashes log
     pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end

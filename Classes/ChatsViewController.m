@@ -146,7 +146,7 @@
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
         [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
-        [NotificationPermissions canSendNotifications];
+        //[NotificationPermissions canSendNotifications];
     } else {
         [AppJobs addBusinessDataJob];
     }

@@ -66,7 +66,7 @@
 //        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
         configuration.applicationId = @"b15c83";
-        configuration.server = @"http://localhost:1337/parse";
+        configuration.server = @"http://172.20.10.3:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
