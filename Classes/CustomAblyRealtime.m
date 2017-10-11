@@ -126,24 +126,26 @@
     }
 }
 
-- (void)subscribeToPushNotifications:(NSData *)devicePushToken {
-    if (devicePushToken == nil) {
-        return;
+- (void)subscribeToPushNotifications {
+    NSString * channelname = [SettingsKeys getBusinessId];
+    if (channelname && [channelname length] > 0) {
+        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+         {
+             if (error) {
+                 NSLog(@"Public channel subscribe error");
+             }
+         }];
+        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+         {
+             if (error) {
+                 NSLog(@"Private channel subscribe error");
+             }
+         }];
     }
-
 }
 
-- (void)unsubscribeToPushNotification:(NSData *)deviceToken {
-//    [self.ably addPushNotificationsOnChannels:[self getChannels]
-//                          withDevicePushToken:deviceToken andCompletion:^(PNAcknowledgmentStatus *status)
-//     {
-//         NSLog(@"status: %@", status);
-//         [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"DeviceToken"];
-//         // Check whether request successfully completed or not.
-//         // if (status.isError) // Handle modification error.
-//         //     Check 'category' property to find out possible issue because
-//         //     of which request did fail. Request can be resent using: [status retry];
-//     }];
+- (void)unsubscribeToPushNotification {
+
 }
 
 -(void)reattach:(ARTRealtimeChannel *)channel {
@@ -170,10 +172,6 @@
         [self onPresenceMessage:message];
     }];
 
-    //    [channel on:^(ARTChannelStateChange * _Nullable state) {
-    //        [self onChannelStateChanged:state.current error:state.reason];
-    //    }];
-
     [channel on:^(ARTErrorInfo * _Nullable error) {
         [self onChannelStateChanged:channel.state error:error];
     }];
@@ -182,8 +180,8 @@
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getBusinessId];
     return @[
-             [@"bpbc_" stringByAppendingString:channelname],
-             [@"bpvt_" stringByAppendingString:channelname]
+             [@"bpbc:" stringByAppendingString:channelname],
+             [@"bpvt:" stringByAppendingString:channelname]
              ];
 }
 
@@ -266,17 +264,7 @@
     } else {
         DDLogError(@"didActivateAblyPush succeded");
 
-        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             // Check error.
-         }];
-
-        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getBusinessId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             // Check error.
-         }];
+        [self subscribeToPushNotifications];
     }
 }
 

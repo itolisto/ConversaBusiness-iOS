@@ -9,8 +9,7 @@ inhibit_all_warnings!
 target 'ConversaManager' do
     pod 'Reachability'
     # Ably Realtime Client Library
-    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
-    # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
+    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework

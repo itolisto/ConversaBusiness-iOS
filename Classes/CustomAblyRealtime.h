@@ -32,8 +32,8 @@
 - (void)logout;
 
 - (void)subscribeToChannels;
-- (void)subscribeToPushNotifications:(NSData *)devicePushToken;
-- (void)unsubscribeToPushNotification:(NSData *)deviceToken;
+- (void)subscribeToPushNotifications;
+- (void)unsubscribeToPushNotification;
 
 - (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;
