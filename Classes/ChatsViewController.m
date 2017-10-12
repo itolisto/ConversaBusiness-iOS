@@ -145,7 +145,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
         [NotificationPermissions canSendNotifications];
     } else {
         [AppJobs addBusinessDataJob];
@@ -214,7 +214,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
         [AppJobs addDownloadAvatarJob:[SettingsKeys getAvatarUrl]];
         [((AppDelegate *)[[UIApplication sharedApplication] delegate]).timer fire];
     }

@@ -22,7 +22,6 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
-#import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -91,14 +90,6 @@
     }
     
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
-
-    NSError *error = nil;
-    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
-    SentryClient.sharedClient = client;
-    [SentryClient.sharedClient startCrashHandlerWithError:&error];
-    if (nil != error) {
-        NSLog(@"%@", error);
-    }
     
     // Define controller to take action
     UIViewController *rootViewController = nil;
