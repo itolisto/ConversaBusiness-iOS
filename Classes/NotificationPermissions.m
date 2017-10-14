@@ -8,11 +8,9 @@
 
 #import "NotificationPermissions.h"
 
-#import "AppDelegate.h"
 @import UserNotifications;
+#import "AppDelegate.h"
 #include <CoreLocation/CoreLocation.h>
-
-static const UIUserNotificationType USER_NOTIFICATION_TYPES_REQUIRED = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
 
 @implementation NotificationPermissions
 
@@ -90,7 +88,6 @@ static const UIUserNotificationType USER_NOTIFICATION_TYPES_REQUIRED = UIUserNot
                 }
                     break;
             }
-
         }];
     } else if ((systemVersion < 10) || (systemVersion >= 8)) {
         UIUserNotificationType types = (UIUserNotificationTypeBadge | UIUserNotificationTypeSound |

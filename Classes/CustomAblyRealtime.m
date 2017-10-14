@@ -71,10 +71,13 @@
     artoptions.echoMessages = NO;
     artoptions.clientId = self.clientId;
     self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
+    [self.ably.push activate];
+}
+
+- (void)listen {
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
-    [self.ably.push activate];
 }
 
 - (ARTRealtime*)getAblyRealtime {
@@ -172,9 +175,9 @@
         [self onPresenceMessage:message];
     }];
 
-//    [channel on:^(ARTErrorInfo * _Nullable error) {
-//        [self onChannelStateChanged:channel.state error:error];
-//    }];
+    [channel on:^(ARTChannelStateChange * _Nullable state) {
+        [self onChannelStateChanged:state.current error:state.reason];
+    }];
 }
 
 - (NSArray<NSString*>*)getChannels {
@@ -255,35 +258,6 @@
         DDLogError(@"onChannelStateChanged --> %@", reason.message);
     }
 }
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
--(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-
-        [self subscribeToPushNotifications];
-    }
-}
-
--(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
--(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail");
-    }
-}
-
 
 #pragma mark - Process message Method -
 

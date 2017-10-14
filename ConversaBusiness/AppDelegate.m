@@ -22,6 +22,7 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import "NotificationPermissions.h"
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -90,7 +91,13 @@
     }
     
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
-    
+
+    // Set Appirater settings
+    [Appirater setOpenInAppStore:NO];
+    [Appirater appLaunched:YES];
+
+    [[CustomAblyRealtime sharedInstance] initAbly];
+
     // Define controller to take action
     UIViewController *rootViewController = nil;
     rootViewController = [self defaultNavigationController];
@@ -100,10 +107,6 @@
     [self.window makeKeyAndVisible];
     // The number to display as the app’s icon badge.
     application.applicationIconBadgeNumber = 0;
-    
-    // Set Appirater settings
-    [Appirater setOpenInAppStore:NO];
-    [Appirater appLaunched:YES];
 
     self.timer = [NSTimer timerWithTimeInterval:300.0
                                          target:self
@@ -111,6 +114,8 @@
                                        userInfo:nil
                                         repeats:YES];
     [self.timer fire];
+
+    [NotificationPermissions canSendNotifications];
 
     return YES;
 }
@@ -195,7 +200,7 @@
 {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:[ably rest]];
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
     }
 }
 
@@ -203,6 +208,33 @@
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
         [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+    }
+}
+
+#pragma mark - ARTPushRegistererDelegate Methods -
+
+-(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didActivateAblyPush fail: --> %@", error);
+    } else {
+        DDLogError(@"didActivateAblyPush succeded");
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+    }
+}
+
+-(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
+    } else {
+        DDLogError(@"didDeactivateAblyPush succeded");
+    }
+}
+
+-(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
+    } else {
+        DDLogError(@"didAblyPushRegistrationFail succeded");
     }
 }
 

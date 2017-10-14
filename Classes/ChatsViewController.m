@@ -20,7 +20,6 @@
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
 #import "SettingsViewController.h"
-#import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
 #import <Parse/Parse.h>
@@ -141,14 +140,11 @@
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
 
-    if ([SettingsKeys getBusinessId] && [[SettingsKeys getBusinessId] length] > 0) {
+    if ([SettingsKeys getBusinessId] == nil || [[SettingsKeys getBusinessId] length] == 0) {
         // Register for push notifications and send tags
-        [[CustomAblyRealtime sharedInstance] initAbly];
-        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
-        [NotificationPermissions canSendNotifications];
-    } else {
         [AppJobs addBusinessDataJob];
+    } else {
+        [[CustomAblyRealtime sharedInstance] listen];
     }
 }
 
@@ -212,9 +208,7 @@
 
     if ([[job objectForKey:@"task"] isEqualToString:@"businessDataJob"]) {
         // Register for push notifications and send tags
-        [[CustomAblyRealtime sharedInstance] initAbly];
-        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+        [[CustomAblyRealtime sharedInstance] listen];
         [AppJobs addDownloadAvatarJob:[SettingsKeys getAvatarUrl]];
         [((AppDelegate *)[[UIApplication sharedApplication] delegate]).timer fire];
     }

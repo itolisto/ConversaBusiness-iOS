@@ -19,7 +19,7 @@
     - (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
 @end
 
-@interface CustomAblyRealtime : NSObject <ARTPushRegistererDelegate>
+@interface CustomAblyRealtime : NSObject
 
 // Stores reference on PubNub client to make sure what it won't be released.
 @property(strong, nonatomic) ARTRealtime *ably;
@@ -29,6 +29,7 @@
 + (CustomAblyRealtime *)sharedInstance;
 - (ARTRealtime*)getAblyRealtime;
 - (void)initAbly;
+- (void)listen;
 - (void)logout;
 
 - (void)subscribeToChannels;
