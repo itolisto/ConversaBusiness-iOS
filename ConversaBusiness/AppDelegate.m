@@ -22,6 +22,7 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import "NotificationPermissions.h"
 #import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
@@ -92,6 +93,12 @@
     
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
 
+    // Set Appirater settings
+    [Appirater setOpenInAppStore:NO];
+    [Appirater appLaunched:YES];
+
+    [NotificationPermissions canSendNotifications];
+
     NSError *error = nil;
     SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
     SentryClient.sharedClient = client;
@@ -99,7 +106,7 @@
     if (nil != error) {
         NSLog(@"%@", error);
     }
-    
+
     // Define controller to take action
     UIViewController *rootViewController = nil;
     rootViewController = [self defaultNavigationController];
@@ -109,10 +116,6 @@
     [self.window makeKeyAndVisible];
     // The number to display as the app’s icon badge.
     application.applicationIconBadgeNumber = 0;
-    
-    // Set Appirater settings
-    [Appirater setOpenInAppStore:NO];
-    [Appirater appLaunched:YES];
 
     self.timer = [NSTimer timerWithTimeInterval:300.0
                                          target:self

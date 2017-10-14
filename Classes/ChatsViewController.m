@@ -20,7 +20,6 @@
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
 #import "SettingsViewController.h"
-#import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
 #import <Parse/Parse.h>
@@ -146,7 +145,6 @@
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
         [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
-        //[NotificationPermissions canSendNotifications];
     } else {
         [AppJobs addBusinessDataJob];
     }
