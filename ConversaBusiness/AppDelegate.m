@@ -23,7 +23,8 @@
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
-#import <Sentry/Sentry.h>
+#import <HockeySDK/HockeySDK.h>
+#import <Taplytics/Taplytics.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -44,10 +45,16 @@
                                         withLogLevel:FlurryLogLevelCriticalOnly]
                                        withCrashReporting:YES]
                                       withSessionContinueSeconds:10]
-                                     withAppVersion:@"1.3.5"];
+                                     withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 
-    [Flurry startSession:@"HBKZ9288WGRQ9FPV4MSK" withSessionBuilder:builder];
+    [Flurry startSession:@"TTNCBGMJXFZ53MXG4Q53" withSessionBuilder:builder];
 
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"cc7fa61cba974a6fbc4a46782cc6e8bb"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+
+    [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
+    
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
     
@@ -62,12 +69,12 @@
     
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"https://api.conversachat.com/parse";
+        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
-        configuration.applicationId = @"b15c83";
-        configuration.server = @"http://172.20.10.3:1337/parse";
+//        configuration.applicationId = @"b15c83";
+//        configuration.server = @"http://172.20.10.3:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -98,14 +105,6 @@
     [Appirater appLaunched:YES];
 
     [NotificationPermissions canSendNotifications];
-
-    NSError *error = nil;
-    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
-    SentryClient.sharedClient = client;
-    [SentryClient.sharedClient startCrashHandlerWithError:&error];
-    if (nil != error) {
-        NSLog(@"%@", error);
-    }
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
@@ -218,6 +217,36 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+}
+
+#pragma mark - Taplytics Methods -
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return NO;
+}
+
+// Method will be called if the app is open when it recieves the push notification
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // "userInfo" will give you the notification information
+}
+
+// Method will be called when the app recieves a push notification
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // "userInfo" will give you the notification information
+    completionHandler(UIBackgroundFetchResultNoData);
+}
+
+// Method will be called if the app is open when it recieves the push notification
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+    // "notification.request.content.userInfo" will give you the notification information
+    completionHandler(UNNotificationPresentationOptionBadge);
+}
+
+// Method will be called if the user opens the push notification
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    // "response.notification.request.content.userInfo" will give you the notification information
+    completionHandler();
 }
 
 #pragma mark - EDQueueDelegate method -

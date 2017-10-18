@@ -7,9 +7,10 @@
 //
 
 @import UIKit;
+@import UserNotifications;
 #import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSTimer *timer;

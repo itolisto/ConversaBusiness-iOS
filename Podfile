@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 target 'ConversaManager' do
     pod 'Reachability'
+    # Push notifications engagement
+    pod 'Taplytics'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -24,8 +26,6 @@ target 'ConversaManager' do
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
     pod 'OHQBImagePicker'
-    # Report a bug; bug reports will be sent directly to your email address!
-    pod 'Buglife'
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
@@ -52,6 +52,4 @@ target 'ConversaManager' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
-    # Crashes log
-    pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end

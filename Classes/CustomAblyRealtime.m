@@ -68,6 +68,7 @@
     PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-6200baf9-6b96-4196-854d-110c764a8e63"
                                                                      subscribeKey:@"sub-c-af90faac-3851-11e7-887b-02ee2ddab7fe"];
     configuration.uuid = self.clientId;
+    //configuration.shouldStripMobilePayload = NO;
     self.ably = [PubNub clientWithConfiguration:configuration];
     //self.ably.filterExpression = [NSString stringWithFormat:@"(senderID!=’%@’)", self.clientId];
     [self.ably addListener:self];
@@ -152,10 +153,10 @@
 
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getBusinessId];
-    return @[
+    return (channelname) ? @[
              [@"bpbc_" stringByAppendingString:channelname],
              [@"bpvt_" stringByAppendingString:channelname]
-             ];
+             ] : @[];
 }
 
 #pragma mark - PubNub Methods -

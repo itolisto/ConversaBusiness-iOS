@@ -88,13 +88,40 @@
 		A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */; };
 		A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F92D1E6E068B0078F31C /* HelpViewController.m */; };
 		A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */; };
+		A5D81D8A1F97010D0004A561 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D81D821F96DAE60004A561 /* HockeySDK.framework */; };
+		A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D831F96DAE60004A561 /* HockeySDKResources.bundle */; };
+		A5D81DA31F971B370004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81DA21F971B370004A561 /* NotificationService.swift */; };
+		A5D81DA71F971B370004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81DA01F971B370004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A5D81DA51F971B370004A561 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A52906F71D6FE93D0018D74C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5D81D9F1F971B370004A561;
+			remoteInfo = NotificationService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A5D81DAB1F971B370004A561 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A5D81DA71F971B370004A561 /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		076DC5C1FEEECA85A05D7B41 /* Pods-ConversaBusiness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.release.xcconfig"; sourceTree = "<group>"; };
 		67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager.debug.xcconfig"; sourceTree = "<group>"; };
 		6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaManager/Pods-ConversaManager.release.xcconfig"; sourceTree = "<group>"; };
-		7730C5B5D12C6FE017C2ADAC /* Pods_ConversaBusiness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConversaBusiness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConversaManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9950EF1EF05AD2B025F75956 /* Pods-ConversaBusiness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConversaBusiness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConversaBusiness/Pods-ConversaBusiness.debug.xcconfig"; sourceTree = "<group>"; };
 		A508C7D61E13632600BC758C /* ConversaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversaViewController.h; sourceTree = "<group>"; };
@@ -250,6 +277,11 @@
 		A5D4F92C1E6E068B0078F31C /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		A5D4F92D1E6E068B0078F31C /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification_manager.mp3; sourceTree = "<group>"; };
+		A5D81D821F96DAE60004A561 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
+		A5D81D831F96DAE60004A561 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
+		A5D81DA01F971B370004A561 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5D81DA21F971B370004A561 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		A5D81DA41F971B370004A561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,7 +290,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5D81D8A1F97010D0004A561 /* HockeySDK.framework in Frameworks */,
 				2A38FC518ACEE46AEAE39000 /* Pods_ConversaManager.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5D81D9D1F971B370004A561 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +319,7 @@
 		7E524557B5AC6044DECDD43F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7730C5B5D12C6FE017C2ADAC /* Pods_ConversaBusiness.framework */,
+				A5D81D811F96DAE60004A561 /* HockeySDK.embeddedframework */,
 				864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */,
 			);
 			name = Frameworks;
@@ -309,6 +349,7 @@
 			children = (
 				A529071C1D6FEA0C0018D74C /* Classes */,
 				A52907011D6FE93D0018D74C /* ConversaBusiness */,
+				A5D81DA11F971B370004A561 /* NotificationService */,
 				A52907001D6FE93D0018D74C /* Products */,
 				1C536EA9DA22CE7AC01A4EC8 /* Pods */,
 				7E524557B5AC6044DECDD43F /* Frameworks */,
@@ -319,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				A52906FF1D6FE93D0018D74C /* ConversaManager.app */,
+				A5D81DA01F971B370004A561 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -637,6 +679,25 @@
 			name = Stats;
 			sourceTree = "<group>";
 		};
+		A5D81D811F96DAE60004A561 /* HockeySDK.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				A5D81D821F96DAE60004A561 /* HockeySDK.framework */,
+				A5D81D831F96DAE60004A561 /* HockeySDKResources.bundle */,
+			);
+			name = HockeySDK.embeddedframework;
+			path = "HockeySDK-iOS/HockeySDK.embeddedframework";
+			sourceTree = "<group>";
+		};
+		A5D81DA11F971B370004A561 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				A5D81DA21F971B370004A561 /* NotificationService.swift */,
+				A5D81DA41F971B370004A561 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -651,15 +712,34 @@
 				A52906FC1D6FE93D0018D74C /* Frameworks */,
 				A52906FD1D6FE93D0018D74C /* Resources */,
 				A50ABCBB1E5F747200774627 /* Localization BartyCrouch */,
+				A5D81DAB1F971B370004A561 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A5D81DA61F971B370004A561 /* PBXTargetDependency */,
 			);
 			name = ConversaManager;
 			productName = ConversaBusiness;
 			productReference = A52906FF1D6FE93D0018D74C /* ConversaManager.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A5D81D9F1F971B370004A561 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5D81DA81F971B370004A561 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				A5D81D9C1F971B370004A561 /* Sources */,
+				A5D81D9D1F971B370004A561 /* Frameworks */,
+				A5D81D9E1F971B370004A561 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = A5D81DA01F971B370004A561 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -667,6 +747,7 @@
 		A52906F71D6FE93D0018D74C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Conversa;
 				TargetAttributes = {
@@ -689,6 +770,11 @@
 							};
 						};
 					};
+					A5D81D9F1F971B370004A561 = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = K5WP7YH5E4;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = A52906FA1D6FE93D0018D74C /* Build configuration list for PBXProject "ConversaManager" */;
@@ -705,6 +791,7 @@
 			projectRoot = "";
 			targets = (
 				A52906FE1D6FE93D0018D74C /* ConversaManager */,
+				A5D81D9F1F971B370004A561 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -721,8 +808,16 @@
 				A54703CD1E2758E80090A073 /* ChatNavBarView.xib in Resources */,
 				A52907A61D6FEA0C0018D74C /* MapView.xib in Resources */,
 				A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */,
+				A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */,
 				A52907121D6FE93D0018D74C /* Assets.xcassets in Resources */,
 				A5160B731E03327500E001E7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5D81D9E1F971B370004A561 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,7 +863,6 @@
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework",
-				"${BUILT_PRODUCTS_DIR}/KSCrash/KSCrash.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Mantle/Mantle.framework",
 				"${BUILT_PRODUCTS_DIR}/OHQBImagePicker/OHQBImagePicker.framework",
@@ -778,7 +872,6 @@
 				"${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
-				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/VTAcknowledgementsViewController/VTAcknowledgementsViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Whisper/Whisper.framework",
@@ -801,7 +894,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JVFloatLabeledTextField.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KSCrash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mantle.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHQBImagePicker.framework",
@@ -811,7 +903,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SAMKeychain.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VTAcknowledgementsViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whisper.framework",
@@ -936,7 +1027,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5D81D9C1F971B370004A561 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5D81DA31F971B370004A561 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A5D81DA61F971B370004A561 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5D81D9F1F971B370004A561 /* NotificationService */;
+			targetProxy = A5D81DA51F971B370004A561 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A5160B751E03327500E001E7 /* Main.storyboard */ = {
@@ -1072,11 +1179,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1093,11 +1205,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
+				);
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1106,6 +1223,67 @@
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		A5D81DA91F971B370004A561 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversamanager.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A5D81DAA1F971B370004A561 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversamanager.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1126,6 +1304,15 @@
 			buildConfigurations = (
 				A529071A1D6FE93D0018D74C /* Debug */,
 				A529071B1D6FE93D0018D74C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5D81DA81F971B370004A561 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5D81DA91F971B370004A561 /* Debug */,
+				A5D81DAA1F971B370004A561 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
