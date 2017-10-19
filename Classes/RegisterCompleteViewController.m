@@ -419,8 +419,7 @@
 
 - (void)completeRegister:(PFFile*)file {
     Account *user = [Account object];
-    NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
-    user.username = [emailPieces objectAtIndex: 0];
+    user.username = self.emailTextField.text;
     user.email = self.emailTextField.text;
     user.password = self.passwordTextField.text;
     // Extra fields
