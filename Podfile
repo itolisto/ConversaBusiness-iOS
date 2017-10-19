@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 target 'ConversaManager' do
     pod 'Reachability'
+    # Push notifications engagement
+    pod 'Taplytics'
     # Ably Realtime Client Library
     pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # Analytics Pod
