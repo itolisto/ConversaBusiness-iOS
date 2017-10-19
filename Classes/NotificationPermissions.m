@@ -8,7 +8,6 @@
 
 #import "NotificationPermissions.h"
 
-@import UserNotifications;
 #import "AppDelegate.h"
 #include <CoreLocation/CoreLocation.h>
 

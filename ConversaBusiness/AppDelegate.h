@@ -9,9 +9,10 @@
 @import UIKit;
 
 @import Ably;
+@import UserNotifications;
 #import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, ARTPushRegistererDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, ARTPushRegistererDelegate, UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSTimer *timer;

@@ -182,13 +182,13 @@
 
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getBusinessId];
-    return @[
+    return (channelname) ? @[
              [@"bpbc:" stringByAppendingString:channelname],
              [@"bpvt:" stringByAppendingString:channelname]
-             ];
+             ] : @[];
 }
 
-#pragma mark - ARTConnection Methods -
+#pragma mark - PubNub Methods -
 
 -(void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
     if (status == nil) {
