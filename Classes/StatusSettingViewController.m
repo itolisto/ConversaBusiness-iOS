@@ -105,12 +105,14 @@
 
     if ([keyPath isEqualToString:businessStatus]) {
         if (self.originalStatus == [[change valueForKey:NSKeyValueChangeNewKey] integerValue]) {
-            if (self.isViewLoaded && self.view.window) {
-                // Just change this value so next time we skip this code, thus we
-                // ensure we only pop this view controller once
-                self.originalStatus = (self.originalStatus != Conversa) ? Online : Conversa;
-                [self.navigationController popViewControllerAnimated:YES];
-            }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (self.isViewLoaded && self.view.window) {
+                    // Just change this value so next time we skip this code, thus we
+                    // ensure we only pop this view controller once
+                    self.originalStatus = (self.originalStatus != Conversa) ? Online : Conversa;
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            });
         }
     }
 }

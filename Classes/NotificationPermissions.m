@@ -59,7 +59,9 @@
                         // You might want to remove this, or handle errors differently in production
                         //NSAssert(error == nil, @"There should be no error");
                         if (granted) {
-                            [[UIApplication sharedApplication] registerForRemoteNotifications];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                            });
                         }
                     }];
                 }
@@ -68,22 +70,26 @@
                 case UNAuthorizationStatusAuthorized:
                 {
                     // Just try and register for remote notifications
-                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[UIApplication sharedApplication] registerForRemoteNotifications];
+                    });
                 }
                     break;
                     // We are denied User Notifications
                 case UNAuthorizationStatusDenied:
                 {
-                    // Possibly display something to the user
-                    UIAlertController *useNotificationsController = [UIAlertController alertControllerWithTitle:@"Turn on notifications" message:@"This app needs notifications turned on for the best user experience" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *goToSettingsAction = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Possibly display something to the user
+                        UIAlertController *useNotificationsController = [UIAlertController alertControllerWithTitle:@"Turn on notifications" message:@"This app needs notifications turned on for the best user experience" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *goToSettingsAction = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
-                    }];
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-                    [useNotificationsController addAction:goToSettingsAction];
-                    [useNotificationsController addAction:cancelAction];
-                    [((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController presentViewController:useNotificationsController animated:true completion:nil];
-                    NSLog(@"We cannot use notifications because the user has denied permissions");
+                        }];
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+                        [useNotificationsController addAction:goToSettingsAction];
+                        [useNotificationsController addAction:cancelAction];
+                        [((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController presentViewController:useNotificationsController animated:true completion:nil];
+                        NSLog(@"We cannot use notifications because the user has denied permissions");
+                    });
                 }
                     break;
             }

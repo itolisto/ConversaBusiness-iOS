@@ -5,8 +5,8 @@
         "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 400,
-          "height" : 400
+          "width" : 1667,
+          "height" : 1596
         },
         "cap-insets" : {
           "bottom" : 0,
@@ -16,7 +16,7 @@
         }
       },
       "idiom" : "universal",
-      "filename" : "help_pattern.png",
+      "filename" : "new-pattern.jpg",
       "scale" : "1x"
     },
     {

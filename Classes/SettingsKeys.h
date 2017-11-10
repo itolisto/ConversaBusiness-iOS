@@ -65,7 +65,6 @@ typedef NS_ENUM(NSUInteger, BusinessStatus) {
 + (NSString*)getAvatarUrl;
 + (void)setStatus:(NSInteger)status;
 + (BusinessStatus)getStatus;
-
 + (void)setAccountReadSetting:(BOOL)state;
 + (BOOL)getAccountReadSetting;
 

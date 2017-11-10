@@ -113,28 +113,30 @@
         return;
     }
 
-    if ([keyPath isEqualToString:businessStatus]) {
-        self.statusLabel.text = [self getStatusText:[[change valueForKey:NSKeyValueChangeNewKey] integerValue]];
-    } else if ([keyPath isEqualToString:businessRedirect]) {
-        if (self.conversaSwitch.on != [[change valueForKey:NSKeyValueChangeNewKey] boolValue]) {
-            [self.conversaSwitch setOn:[[change valueForKey:NSKeyValueChangeNewKey] boolValue] animated:YES];
-        }
-    } else if ([keyPath isEqualToString:businessAvatarUrl]) {
-        UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:kAccountAvatarName];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if ([keyPath isEqualToString:businessStatus]) {
+            self.statusLabel.text = [self getStatusText:[[change valueForKey:NSKeyValueChangeNewKey] integerValue]];
+        } else if ([keyPath isEqualToString:businessRedirect]) {
+            if (self.conversaSwitch.on != [[change valueForKey:NSKeyValueChangeNewKey] boolValue]) {
+                [self.conversaSwitch setOn:[[change valueForKey:NSKeyValueChangeNewKey] boolValue] animated:YES];
+            }
+        } else if ([keyPath isEqualToString:businessAvatarUrl]) {
+            UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:kAccountAvatarName];
 
-        if (image) {
-            self.avatarImageView.image = image;
-        } else {
-            self.avatarImageView.image = [UIImage imageNamed:@"ic_business_default"];
+            if (image) {
+                self.avatarImageView.image = image;
+            } else {
+                self.avatarImageView.image = [UIImage imageNamed:@"ic_business_default"];
+            }
+        } else if ([keyPath isEqualToString:businessConversaId]) {
+            NSString *conversaid = [SettingsKeys getConversaId];
+            if (conversaid) {
+                self.conversaIdLabel.text = [@"@" stringByAppendingString:conversaid];
+            }
+        } else if ([keyPath isEqualToString:businessDisplayName]) {
+            self.displayNameLabel.text = [SettingsKeys getDisplayName];
         }
-    } else if ([keyPath isEqualToString:businessConversaId]) {
-        NSString *conversaid = [SettingsKeys getConversaId];
-        if (conversaid) {
-            self.conversaIdLabel.text = [@"@" stringByAppendingString:conversaid];
-        }
-    } else if ([keyPath isEqualToString:businessDisplayName]) {
-        self.displayNameLabel.text = [SettingsKeys getDisplayName];
-    }
+    });
 }
 
 #pragma mark - UITableViewDelegate Methods -
