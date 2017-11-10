@@ -504,6 +504,9 @@
                 break;
             }
         }
+
+        // UpdateBadge after having mark as read a conversation
+        [self updateBadge];
     } else if ([[notification name] isEqualToString:UPDATE_CHATS_NOTIFICATION_NAME]) {
         // Reload data with boolean flag
         self.reloadData = YES;

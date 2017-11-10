@@ -436,7 +436,7 @@
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (error) {
-            if (error.code == kPFErrorUserEmailTaken) {
+            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
                 [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
             } else {
                 [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];

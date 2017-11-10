@@ -27,7 +27,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
             NSLocalizedString("tutorial_title_five", comment: "")
         )
 
-        self.pageImages = NSArray(objects: "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one")
+        self.pageImages = NSArray(objects: "im_tutorial_1", "im_tutorial_2", "im_tutorial_3", "im_tutorial_4", "im_tutorial_5")
 
         self.pageInfos = NSArray(objects:
             NSLocalizedString("tutorial_message_one", comment: ""),

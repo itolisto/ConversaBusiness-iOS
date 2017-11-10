@@ -991,107 +991,56 @@
         }];
     } else {
         if ([SettingsKeys getNotificationPreviewInApp:YES]) {
-            NSString *text = nil;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSString *text = nil;
 
-            switch (message.messageType) {
-                case kMessageTypeText: {
-                    text = message.text;
-                    break;
+                switch (message.messageType) {
+                    case kMessageTypeText: {
+                        text = message.text;
+                        break;
+                    }
+                    case kMessageTypeLocation: {
+                        text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+                        break;
+                    }
+                    case kMessageTypeVideo: {
+                        text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+                        break;
+                    }
+                    case kMessageTypeAudio: {
+                        text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+                        break;
+                    }
+                    case kMessageTypeImage: {
+                        text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+                        break;
+                    }
+                    default: {
+                        text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+                        break;
+                    }
                 }
-                case kMessageTypeLocation: {
-                    text = NSLocalizedString(@"chats_cell_conversation_location", nil);
-                    break;
-                }
-                case kMessageTypeVideo: {
-                    text = NSLocalizedString(@"chats_cell_conversation_video", nil);
-                    break;
-                }
-                case kMessageTypeAudio: {
-                    text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
-                    break;
-                }
-                case kMessageTypeImage: {
-                    text = NSLocalizedString(@"chats_cell_conversation_image", nil);
-                    break;
-                }
-                default: {
-                    text = NSLocalizedString(@"chats_cell_conversation_message", nil);
-                    break;
-                }
-            }
 
-            if ([SettingsKeys getNotificationSoundInApp:YES]) {
-                NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
-                CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
-                SystemSoundID soundID;
-                AudioServicesCreateSystemSoundID(cfString, &soundID);
-                AudioServicesPlaySystemSound (soundID);
-                CFRelease(cfString);
-            }
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    if ([SettingsKeys getNotificationSoundInApp:YES]) {
+                        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
+                        CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+                        SystemSoundID soundID;
+                        AudioServicesCreateSystemSoundID(cfString, &soundID);
+                        AudioServicesPlaySystemSound (soundID);
+                        CFRelease(cfString);
+                    }
 
-            [[WhisperBridge sharedInstance] shout:from.displayName
-                                         subtitle:text
-                                  backgroundColor:[UIColor clearColor]
-                           toNavigationController:self.navigationController
-                                            image:nil
-                                     silenceAfter:1.8
-                                           action:nil];
+                    [[WhisperBridge sharedInstance] shout:from.displayName
+                                                 subtitle:text
+                                          backgroundColor:[UIColor clearColor]
+                                   toNavigationController:self.navigationController
+                                                    image:nil
+                                             silenceAfter:1.8
+                                                   action:nil];
+                });
+            });
         }
-//        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
-//        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-//         {
-//             [message saveWithTransaction:transaction];
-//             from.lastMessageDate = message.date;
-//             [from saveWithTransaction:transaction];
-//         } completionBlock:^{
-//             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
-//                 NSString *text = nil;
-//
-//                 switch (message.messageType) {
-//                     case kMessageTypeText: {
-//                         text = message.text;
-//                         break;
-//                     }
-//                     case kMessageTypeLocation: {
-//                         text = NSLocalizedString(@"chats_cell_conversation_location", nil);
-//                         break;
-//                     }
-//                     case kMessageTypeVideo: {
-//                         text = NSLocalizedString(@"chats_cell_conversation_video", nil);
-//                         break;
-//                     }
-//                     case kMessageTypeAudio: {
-//                         text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
-//                         break;
-//                     }
-//                     case kMessageTypeImage: {
-//                         text = NSLocalizedString(@"chats_cell_conversation_image", nil);
-//                         break;
-//                     }
-//                     default: {
-//                         text = NSLocalizedString(@"chats_cell_conversation_message", nil);
-//                         break;
-//                     }
-//                 }
-//
-//                 if ([SettingsKeys getNotificationSoundInApp:YES]) {
-//                     NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification_manager" ofType:@"mp3"];
-//                     CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
-//                     SystemSoundID soundID;
-//                     AudioServicesCreateSystemSoundID(cfString, &soundID);
-//                     AudioServicesPlaySystemSound (soundID);
-//                     CFRelease(cfString);
-//                 }
-//
-//                 [[WhisperBridge sharedInstance] shout:from.displayName
-//                                              subtitle:text
-//                                       backgroundColor:[UIColor clearColor]
-//                                toNavigationController:self.navigationController
-//                                                 image:nil
-//                                          silenceAfter:1.8
-//                                                action:nil];
-//             }
-//         }];
     }
 }
 
@@ -1130,9 +1079,8 @@
 
         if ([self.inputToolbar.contentView.textView hasText]) {
             if (!self.typingFlag) {
-                NSLog(@"Try to send typing started update");
                 self.typingFlag = YES;
-                [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:[self.buddy getPublicChannel]
+                [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:self.buddy.uniqueId
                                                                      isTyping:YES];
             }
 
@@ -1148,9 +1096,8 @@
 }
 
 - (void)userHasEndedTyping {
-    NSLog(@"Try to send typing ended update");
     self.typingFlag = NO;
-    [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:[self.buddy getPublicChannel]
+    [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:self.buddy.uniqueId
                                                          isTyping:NO];
 }
 
@@ -1616,12 +1563,12 @@
                     [self finishReceivingMessage];
                     self.subTitle.hidden = YES;
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        //[JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        //[JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }
