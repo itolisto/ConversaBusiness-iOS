@@ -25,7 +25,7 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
         pageControl.currentPageIndicatorTintColor = UIColor(red: 158.0/255.0, green: 124.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     }
 
-    func loadCharts(data: Dictionary<String, Any>) {
+    @objc func loadCharts(data: Dictionary<String, Any>) {
         if pages.count > 0 {
             pages.removeAll()
         }

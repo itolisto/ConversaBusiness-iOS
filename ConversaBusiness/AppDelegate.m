@@ -23,8 +23,10 @@
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+#import <Fabric/Fabric.h>
 #import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
+#import <Crashlytics/Crashlytics.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -37,6 +39,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //[Appirater setAppId:@"464200063"];
+
+    [Fabric with:@[[Crashlytics class]]];
     
     // Set Google Maps
     [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
@@ -69,12 +73,12 @@
     
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"https://api.conversachat.com/parse";
+        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
 //        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://172.20.10.3:1337/parse";
+//        configuration.server = @"http://192.168.1.5:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR

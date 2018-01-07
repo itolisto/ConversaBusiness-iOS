@@ -17,7 +17,7 @@ target 'ConversaManager' do
     # Parse Community Framework
     pod 'Parse'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
-    pod 'YapDatabase/SQLCipher', '~> 2.9.3'
+    pod 'YapDatabase/SQLCipher', '~> 3.0.2'
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
@@ -31,7 +31,7 @@ target 'ConversaManager' do
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
-    pod 'MBProgressHUD', '~> 1.0.0'
+    pod 'MBProgressHUD', '~> 1.1.0'
     # For app reviews
     pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more (included in )
@@ -43,7 +43,7 @@ target 'ConversaManager' do
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView'
     # This library provides an async image downloader with cache support
-    pod 'SDWebImage', '4.0.0'
+    pod 'SDWebImage', '~> 4.0'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS
@@ -54,4 +54,7 @@ target 'ConversaManager' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
+    # The most powerful, yet lightest weight crash reporting solution.
+    pod 'Fabric'
+    pod 'Crashlytics'
 end

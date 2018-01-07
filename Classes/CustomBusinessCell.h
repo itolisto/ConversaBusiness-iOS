@@ -13,6 +13,7 @@
 @interface CustomBusinessCell : UITableViewCell
 
 @property (strong, nonatomic) nBusiness *business;
+
 - (void)configureCellWith:(nBusiness*)business;
 
 @end

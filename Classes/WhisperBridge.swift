@@ -11,10 +11,10 @@ import Whisper
 
 class WhisperBridge : NSObject {
 
-    static let sharedInstance = WhisperBridge()
+    @objc static let sharedInstance = WhisperBridge()
     var navigationControllers = [UINavigationController]()
 
-    func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval)
+    @objc func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval)
     {
         let message = Message(title: text, textColor: UIColor.white, backgroundColor: backgroundColor, images: nil)
         show(whisper: message, to: toNavigationController)
@@ -24,7 +24,7 @@ class WhisperBridge : NSObject {
         }
     }
 
-    func shout(_ text: String, subtitle: String, backgroundColor: UIColor, toNavigationController: UINavigationController, image: UIImage? = nil, silenceAfter: TimeInterval, action: (() -> Void)? = nil)
+    @objc func shout(_ text: String, subtitle: String, backgroundColor: UIColor, toNavigationController: UINavigationController, image: UIImage? = nil, silenceAfter: TimeInterval, action: (() -> Void)? = nil)
     {
         let announcement = Announcement(title: text, subtitle: subtitle, image: image)
         show(shout: announcement, to: toNavigationController, completion: action)
@@ -34,7 +34,7 @@ class WhisperBridge : NSObject {
         }
     }
 
-    func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
+    @objc func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
     {
         let index = navigationControllers.index(of: toNavigationController)
         if index != nil {
@@ -46,7 +46,7 @@ class WhisperBridge : NSObject {
         show(whisper: message, to: toNavigationController, action: .present)
     }
 
-    func hidePermanentShout(_ toNavigationController: UINavigationController)
+    @objc func hidePermanentShout(_ toNavigationController: UINavigationController)
     {
         let index = navigationControllers.index(of: toNavigationController)
         if index != nil {

@@ -12,6 +12,7 @@
 
 // General
 NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
+NSString *clientIdKey = @"clientIdKey";
 
 // Account settings
 NSString *businessObjectId  = @"businessObjectId";
@@ -56,6 +57,17 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 + (BOOL)getTutorialShownSetting {
     NSUserDefaults *defaults = [self getDefaults];
     return [defaults boolForKey:tutorialAlreadyShown];
+}
+
++ (void)setClientIdKey:(NSString*)clientId {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:clientId forKey:clientIdKey];
+    [defaults synchronize];
+}
+
++ (NSString*)getClientIdKey {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:clientIdKey];
 }
 
 #pragma mark - Account settings -

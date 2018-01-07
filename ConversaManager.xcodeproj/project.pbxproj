@@ -713,6 +713,7 @@
 				A52906FD1D6FE93D0018D74C /* Resources */,
 				A50ABCBB1E5F747200774627 /* Localization BartyCrouch */,
 				A5D81DAB1F971B370004A561 /* Embed App Extensions */,
+				A59F07B91FEEFDB000B2F0D7 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -954,6 +955,20 @@
 			shellPath = /bin/sh;
 			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
+		A59F07B91FEEFDB000B2F0D7 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1187,7 +1202,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1205,7 +1220,7 @@
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1213,7 +1228,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1230,7 +1245,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

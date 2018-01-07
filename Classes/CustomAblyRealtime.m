@@ -58,7 +58,14 @@
 {
     if (self = [super init]) {
         self.firstLoad = NO;
-        self.clientId = [self sha1:[[NSUUID UUID] UUIDString]];
+        NSString *localId = [SettingsKeys getClientIdKey];
+        if (localId == nil) {
+            DDLogError(@"NEW CLIENT ID");
+            localId = [self sha1:[[NSUUID UUID] UUIDString]];
+            [SettingsKeys setClientIdKey:localId];
+        }
+        DDLogError(@"LOCAL ID: %@", localId);
+        self.clientId = localId;
     }
 
     return self;
@@ -67,17 +74,17 @@
 - (void)initAbly {
     ARTClientOptions *artoptions = [[ARTClientOptions alloc] init];
     artoptions.key = @"T6z9Ew.9a7FmQ:NYh49uPgi78dbMYH";
-    artoptions.logLevel = ARTLogLevelError;
+    artoptions.logLevel = ARTLogLevelVerbose;
     artoptions.echoMessages = NO;
     artoptions.clientId = self.clientId;
     self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
-    [self.ably.push activate];
 }
 
 - (void)listen {
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
+    [self.ably.push activate];
 }
 
 - (ARTRealtime*)getAblyRealtime {
@@ -136,12 +143,16 @@
          {
              if (error) {
                  NSLog(@"Public channel subscribe error");
+             } else {
+                 NSLog(@"Public channel subscribe success");
              }
          }];
         [[self.ably.channels get:[@"bpvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
          {
              if (error) {
                  NSLog(@"Private channel subscribe error");
+             } else {
+                 NSLog(@"Private channel subscribe success");
              }
          }];
     }

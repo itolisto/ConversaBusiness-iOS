@@ -31,6 +31,7 @@
     self.business = business;
     self.nameLabel.text = business.displayName;
     self.idLabel.text = [@"@" stringByAppendingString:business.conversaId];
+
     [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:business.avatarUrl]
                             placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
 }

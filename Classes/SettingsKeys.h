@@ -12,6 +12,7 @@
 // General
 extern NSString *tutorialAlreadyShown;
 extern NSString *firstCategoriesLoad;
+extern NSString *clientIdKey;
 // Account settings
 extern NSString *readReceiptsSwitch;
 extern NSString *businessObjectId;
@@ -43,6 +44,8 @@ typedef NS_ENUM(NSUInteger, BusinessStatus) {
 // General
 + (void)setTutorialShownSetting:(BOOL)state;
 + (BOOL)getTutorialShownSetting;
++ (void)setClientIdKey:(NSString*)clientId;
++ (NSString*)getClientIdKey;
 
 // Account settings
 + (void)setBusinessId:(NSString*)objectId;
