@@ -11,17 +11,15 @@ target 'ConversaManager' do
     # Push notifications engagement
     pod 'Taplytics'
     # Ably Realtime Client Library
-    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
+    pod 'Ably', '~> 1.0'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
-    # Parse Community Framework
-    pod 'Parse'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
-    pod 'YapDatabase/SQLCipher', '~> 3.0.2'
+    pod 'YapDatabase/SQLCipher'
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
-    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'release_7.3'
+    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'develop'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
@@ -39,7 +37,7 @@ target 'ConversaManager' do
     # Simple Objective-C wrapper for the keychain that works on Mac and iOS
     pod 'SAMKeychain'
     # Model framework for Cocoa and Cocoa Touch
-    pod 'Mantle', '~> 2.0'
+    pod 'Mantle', '~> 2.1.0'
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView'
     # This library provides an async image downloader with cache support
@@ -47,7 +45,7 @@ target 'ConversaManager' do
     # A persistent background job queue for iOS.
     pod 'EDQueue'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS
-    pod 'AFNetworking', '~> 3.0'
+    # pod 'AFNetworking', '~> 3.0'
     # Beautiful charts for iOS/tvOS/OSX!
     pod 'Charts'
     # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
@@ -55,6 +53,20 @@ target 'ConversaManager' do
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
     # The most powerful, yet lightest weight crash reporting solution.
-    pod 'Fabric'
-    pod 'Crashlytics'
+    pod 'Fabric', '~> 1.7.2'
+    pod 'Crashlytics', '~> 3.9.3'
+    # Elegant HTTP Networking in Swift
+    pod 'Alamofire', '~> 4.5'
+    # Firebase libraries
+    pod 'Firebase/Performance'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Storage'
+    # OneSignal
+    pod 'OneSignal', '>= 2.6.2', '< 3.0'
 end
+
+#target 'OneSignalNotificationServiceExtension' do
+#    pod 'OneSignal', '>= 2.6.2', '< 3.0'
+#end

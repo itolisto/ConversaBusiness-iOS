@@ -28,7 +28,8 @@
 #import <Taplytics/Taplytics.h>
 #import <Crashlytics/Crashlytics.h>
 #import <AFNetworking/AFNetworking.h>
-@import Parse;
+
+@import Firebase;
 @import GoogleMaps;
 
 @interface AppDelegate ()
@@ -67,19 +68,8 @@
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     [DDLog addLogger:fileLogger];
     
-    // Register subclassing for using as Parse objects
-    [Account registerSubclass];
-    [Customer registerSubclass];
-    
-    // Initialize Parse.
-    [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        configuration.server = @"https://api.conversachat.com/parse";
-        // To work with localhost
-//        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://192.168.1.5:1337/parse";
-    }]];
+    // Initialize Parse
+    [FIRApp configure];
     
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"Home directory: %@",NSHomeDirectory());

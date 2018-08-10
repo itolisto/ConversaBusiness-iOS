@@ -153,10 +153,10 @@
 "profile_share_text" = "Chat now with %1$@, follow the link: %2$@";
 
 /* No comment provided by engineer. */
-"recover_password_failed_message" = "Couldn't find any email assocciated with this account";
+"recover_password_failed_message" = "Couldn't find an account associated with this email!";
 
 /* No comment provided by engineer. */
-"recover_password_sent_message" = "Password recovery link sent";
+"recover_password_sent_message" = "Password sent to your email address";
 
 /* No comment provided by engineer. */
 "sett_category_save" = "Done";

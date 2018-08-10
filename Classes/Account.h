@@ -8,9 +8,8 @@
 
 
 @import Foundation;
-#import <Parse/Parse.h>
 
-@interface Account : PFUser
+@interface Account : NSObject
 
 + (NSString *)parseClassName;
 
