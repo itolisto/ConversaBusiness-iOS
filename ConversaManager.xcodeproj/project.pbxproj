@@ -86,6 +86,16 @@
 		A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5AAD68B1E12F9F100060E73 /* CustomBusinessCell.m */; };
 		A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */; };
 		A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */; };
+		A5D286932127FBBD001BDFCF /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286892127FBBC001BDFCF /* Extension.swift */; };
+		A5D286942127FBBD001BDFCF /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868A2127FBBC001BDFCF /* RequestProtocol.swift */; };
+		A5D286952127FBBD001BDFCF /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868B2127FBBC001BDFCF /* Operations.swift */; };
+		A5D286962127FBBD001BDFCF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868C2127FBBC001BDFCF /* Commons.swift */; };
+		A5D286972127FBBD001BDFCF /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868D2127FBBC001BDFCF /* ServiceConfig.swift */; };
+		A5D286982127FBBD001BDFCF /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868E2127FBBC001BDFCF /* Service.swift */; };
+		A5D286992127FBBD001BDFCF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2868F2127FBBC001BDFCF /* Request.swift */; };
+		A5D2869A2127FBBD001BDFCF /* ResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286902127FBBC001BDFCF /* ResponseProtocol.swift */; };
+		A5D2869B2127FBBD001BDFCF /* OperationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286912127FBBC001BDFCF /* OperationProtocol.swift */; };
+		A5D2869C2127FBBD001BDFCF /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286922127FBBD001BDFCF /* ServiceProtocol.swift */; };
 		A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F92D1E6E068B0078F31C /* HelpViewController.m */; };
 		A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */; };
 		A5D81D8A1F97010D0004A561 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D81D821F96DAE60004A561 /* HockeySDK.framework */; };
@@ -277,6 +287,16 @@
 		A5C70CA01E0DAA4200F8D0D4 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		A5C70CA21E0DAEB800F8D0D4 /* ProfileDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDialogViewController.h; sourceTree = "<group>"; };
 		A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
+		A5D286892127FBBC001BDFCF /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		A5D2868A2127FBBC001BDFCF /* RequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		A5D2868B2127FBBC001BDFCF /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		A5D2868C2127FBBC001BDFCF /* Commons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		A5D2868D2127FBBC001BDFCF /* ServiceConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
+		A5D2868E2127FBBC001BDFCF /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		A5D2868F2127FBBC001BDFCF /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		A5D286902127FBBC001BDFCF /* ResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseProtocol.swift; sourceTree = "<group>"; };
+		A5D286912127FBBC001BDFCF /* OperationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationProtocol.swift; sourceTree = "<group>"; };
+		A5D286922127FBBD001BDFCF /* ServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		A5D4F92C1E6E068B0078F31C /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		A5D4F92D1E6E068B0078F31C /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification_manager.mp3; sourceTree = "<group>"; };
@@ -401,6 +421,7 @@
 		A529071C1D6FEA0C0018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A5D286742127FB90001BDFCF /* Networking */,
 				A59AF6FB1DB674C90018BCE7 /* Cells */,
 				A59AF7051DB676930018BCE7 /* Connection */,
 				A59AF7031DB676340018BCE7 /* Custom */,
@@ -687,6 +708,23 @@
 			name = Stats;
 			sourceTree = "<group>";
 		};
+		A5D286742127FB90001BDFCF /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				A5D2868C2127FBBC001BDFCF /* Commons.swift */,
+				A5D286892127FBBC001BDFCF /* Extension.swift */,
+				A5D286912127FBBC001BDFCF /* OperationProtocol.swift */,
+				A5D2868B2127FBBC001BDFCF /* Operations.swift */,
+				A5D2868F2127FBBC001BDFCF /* Request.swift */,
+				A5D2868A2127FBBC001BDFCF /* RequestProtocol.swift */,
+				A5D286902127FBBC001BDFCF /* ResponseProtocol.swift */,
+				A5D2868E2127FBBC001BDFCF /* Service.swift */,
+				A5D2868D2127FBBC001BDFCF /* ServiceConfig.swift */,
+				A5D286922127FBBD001BDFCF /* ServiceProtocol.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
 		A5D81D811F96DAE60004A561 /* HockeySDK.embeddedframework */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +921,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
 				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework",
@@ -896,7 +935,9 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
 				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/ULID/ULID.framework",
 				"${BUILT_PRODUCTS_DIR}/VTAcknowledgementsViewController/VTAcknowledgementsViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Whisper/Whisper.framework",
 				"${BUILT_PRODUCTS_DIR}/YapDatabase/YapDatabase.framework",
@@ -920,6 +961,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JVFloatLabeledTextField.framework",
@@ -933,7 +975,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ULID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VTAcknowledgementsViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whisper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YapDatabase.framework",
@@ -990,7 +1034,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1002,6 +1046,7 @@
 				A52907A11D6FEA0C0018D74C /* Incoming.m in Sources */,
 				A52907AB1D6FEA0C0018D74C /* NSFileManager+Conversa.m in Sources */,
 				A508C7D81E13632600BC758C /* ConversaViewController.m in Sources */,
+				A5D2869B2127FBBD001BDFCF /* OperationProtocol.swift in Sources */,
 				A52907AC1D6FEA0C0018D74C /* NSNumber+Conversa.m in Sources */,
 				A52907C01D6FEA0C0018D74C /* YapTag.m in Sources */,
 				A52907BA1D6FEA0C0018D74C /* VideoMediaItem.m in Sources */,
@@ -1016,6 +1061,7 @@
 				A547C86D1E106E6500ECC891 /* CheckViewController.m in Sources */,
 				A52907B71D6FEA0C0018D74C /* TutorialViewController.swift in Sources */,
 				A53962981D70D0E800D557FE /* CustomAblyRealtime.m in Sources */,
+				A5D286992127FBBD001BDFCF /* Request.swift in Sources */,
 				A52907BE1D6FEA0C0018D74C /* YapDatabaseObject.m in Sources */,
 				A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */,
 				A52907BC1D6FEA0C0018D74C /* YapAccount.m in Sources */,
@@ -1036,16 +1082,20 @@
 				A56861771E8DE0090069E87D /* ChartPageViewController.swift in Sources */,
 				A5160B931E033D3700E001E7 /* LoginHandler.m in Sources */,
 				A52907A91D6FEA0C0018D74C /* NotificationPermissions.m in Sources */,
+				A5D286972127FBBD001BDFCF /* ServiceConfig.swift in Sources */,
 				A5AAD6851E12CF5A00060E73 /* RegisterCompleteViewController.m in Sources */,
 				A53530E81E0B904B0001BDED /* UIStateButton.m in Sources */,
 				A52907BD1D6FEA0C0018D74C /* YapContact.m in Sources */,
 				A52907901D6FEA0C0018D74C /* Camera.m in Sources */,
+				A5D2869C2127FBBD001BDFCF /* ServiceProtocol.swift in Sources */,
 				A52907071D6FE93D0018D74C /* AppDelegate.m in Sources */,
+				A5D286962127FBBD001BDFCF /* Commons.swift in Sources */,
 				A52907A51D6FEA0C0018D74C /* MapView.m in Sources */,
 				A52907981D6FEA0C0018D74C /* CustomBlockCell.m in Sources */,
 				A5160BA71E033D9B00E001E7 /* NotificationsViewController.m in Sources */,
 				A529078C1D6FEA0C0018D74C /* Audio.m in Sources */,
 				A52907A01D6FEA0C0018D74C /* Image.m in Sources */,
+				A5D286952127FBBD001BDFCF /* Operations.swift in Sources */,
 				A5160B811E033C0500E001E7 /* ParseValidation.m in Sources */,
 				A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */,
 				A53530E31E0B6DDA0001BDED /* SheetView.m in Sources */,
@@ -1053,6 +1103,7 @@
 				A57CAE5D1E8C3B910025D0A4 /* PageViewController.swift in Sources */,
 				A529078A1D6FEA0C0018D74C /* Account.m in Sources */,
 				A5AAD6891E12F68900060E73 /* nBusiness.m in Sources */,
+				A5D286942127FBBD001BDFCF /* RequestProtocol.swift in Sources */,
 				A529079D1D6FEA0C0018D74C /* DatabaseView.m in Sources */,
 				A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */,
 				A529079E1D6FEA0C0018D74C /* DetailAccountViewController.m in Sources */,
@@ -1063,8 +1114,10 @@
 				A52907B01D6FEA0C0018D74C /* PhotoMediaItem.m in Sources */,
 				A56EB3571E0A5E2100532231 /* nCategory.m in Sources */,
 				A52907B91D6FEA0C0018D74C /* Video.m in Sources */,
+				A5D286982127FBBD001BDFCF /* Service.swift in Sources */,
 				A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */,
 				A5713BDE1E0B0E8B00FACCD4 /* StatusSettingViewController.m in Sources */,
+				A5D2869A2127FBBD001BDFCF /* ResponseProtocol.swift in Sources */,
 				A52907991D6FEA0C0018D74C /* CustomChatCell.m in Sources */,
 				A52907041D6FE93D0018D74C /* main.m in Sources */,
 				A52907BF1D6FEA0C0018D74C /* YapMessage.m in Sources */,
@@ -1072,6 +1125,7 @@
 				A5160BA61E033D9B00E001E7 /* ChatSettingViewController.m in Sources */,
 				A5160B861E033CEE00E001E7 /* ChatsViewController.m in Sources */,
 				A5160B921E033D3700E001E7 /* HomeViewController.m in Sources */,
+				A5D286932127FBBD001BDFCF /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,6 +1282,7 @@
 			baseConfigurationReference = 67E821D0E3AF6E1F2AE253AC /* Pods-ConversaManager.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APP_NAME = ManagerDebug;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1235,10 +1290,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				ENVIRONMENT_NAME = Debug;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1258,6 +1315,7 @@
 			baseConfigurationReference = 6F8FD22F08382FAA7099271F /* Pods-ConversaManager.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APP_NAME = Manager;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ConversaBusiness/ConversaBusiness.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1265,10 +1323,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				ENVIRONMENT_NAME = Release;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

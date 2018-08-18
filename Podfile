@@ -44,8 +44,6 @@ target 'ConversaManager' do
     pod 'SDWebImage', '~> 4.0'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
-    # A delightful networking framework for iOS, OS X, watchOS, and tvOS
-    # pod 'AFNetworking', '~> 3.0'
     # Beautiful charts for iOS/tvOS/OSX!
     pod 'Charts'
     # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
@@ -53,10 +51,8 @@ target 'ConversaManager' do
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods
     pod 'VTAcknowledgementsViewController'
     # The most powerful, yet lightest weight crash reporting solution.
-    pod 'Fabric', '~> 1.7.2'
-    pod 'Crashlytics', '~> 3.9.3'
-    # Elegant HTTP Networking in Swift
-    pod 'Alamofire', '~> 4.5'
+    pod 'Fabric', '~> 1.7.11'
+    pod 'Crashlytics', '~> 3.10.7'
     # Firebase libraries
     pod 'Firebase/Performance'
     pod 'Firebase/Core'
@@ -65,6 +61,11 @@ target 'ConversaManager' do
     pod 'Firebase/Storage'
     # OneSignal
     pod 'OneSignal', '>= 2.6.2', '< 3.0'
+
+    # Networking
+    pod 'SwiftyJSON', '~> 4.0'
+    pod 'HydraAsync'
+    pod 'Alamofire', '~> 4.5'
 end
 
 #target 'OneSignalNotificationServiceExtension' do

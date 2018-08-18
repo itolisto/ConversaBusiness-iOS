@@ -58,7 +58,7 @@
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 
-    [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
+    [Taplytics startTaplyticsAPIKey:@"eb6a56a5c8e01464ca0c59157550d7cacf22be1e"];
     
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -196,6 +196,12 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [self.timer invalidate];
     self.timer = nil;
+}
+
+#pragma mark - Branch Methods -
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return NO;
 }
 
 #pragma mark - Push Notification Methods -

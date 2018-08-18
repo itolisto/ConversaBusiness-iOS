@@ -13,7 +13,6 @@
 #import "Constants.h"
 #import "UIStateButton.h"
 #import "MBProgressHUD.h"
-#import <Parse/Parse.h>
 #import "JVFloatLabeledTextField.h"
 
 @interface RecoverViewController ()

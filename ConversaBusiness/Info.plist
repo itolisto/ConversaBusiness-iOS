@@ -35,20 +35,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>33</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>617c5ff8d2055123134c25a4b496d078123ef1da</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlechromes</string>
@@ -66,13 +52,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access camera to capture images</string>
+	<string>$(ENVIRONMENT_NAME) wants to access camera to capture images</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) want to send your location data to the NSA, nah, just kidding</string>
+	<string>$(ENVIRONMENT_NAME) want to send your location data to the NSA, nah, just kidding</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access your microphone to call Support</string>
+	<string>$(ENVIRONMENT_NAME) wants to access your microphone to call Support</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access your photo library to send images</string>
+	<string>$(ENVIRONMENT_NAME) wants to access your photo library to send images</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -90,5 +76,20 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIRequiresFullScreen</key>
+	<false/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+    <key>Endpoint</key>
+    <dict>
+        <key>url</key>
+        <string>$(HOST_NAME)</string>
+        <key>name</key>
+        <string>$(ENVIRONMENT_NAME)</string>
+        <key>headers</key>
+        <dict/>
+    </dict>
 </dict>
 </plist>
