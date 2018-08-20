@@ -13,7 +13,8 @@
 
 + (BOOL)validateError:(NSError *)error {
     switch (error.code) {
-        case kPFErrorInvalidSessionToken: {
+            // TODO: Replace with networking layer
+        case 101: {
             return YES;
         }
         default:

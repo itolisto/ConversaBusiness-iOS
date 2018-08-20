@@ -20,6 +20,8 @@ target 'ConversaManager' do
     pod 'GoogleMaps'
     # Latest on develop
     pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'develop'
+    # Light-weight component to play sound effects
+    pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
@@ -61,7 +63,6 @@ target 'ConversaManager' do
     pod 'Firebase/Storage'
     # OneSignal
     pod 'OneSignal', '>= 2.6.2', '< 3.0'
-
     # Networking
     pod 'SwiftyJSON', '~> 4.0'
     pod 'HydraAsync'

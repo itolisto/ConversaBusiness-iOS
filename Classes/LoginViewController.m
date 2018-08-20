@@ -184,19 +184,20 @@
 
 - (void)doLogin {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [Account logInWithUsernameInBackground:self.emailTextField.text
-                                  password:self.passwordTextField.text
-                                     block:^(PFUser * _Nullable user, NSError * _Nullable error)
-     {
-         [MBProgressHUD hideHUDForView:self.view animated:YES];
-         if(user) {
-             // Successful login
-             [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-         } else {
-             // The login failed. Check error to see why
-             [self showErrorMessage];
-         }
-     }];
+    // TODO: Replace with FIREBASE
+//    [Account logInWithUsernameInBackground:self.emailTextField.text
+//                                  password:self.passwordTextField.text
+//                                     block:^(PFUser * _Nullable user, NSError * _Nullable error)
+//     {
+//         [MBProgressHUD hideHUDForView:self.view animated:YES];
+//         if(user) {
+//             // Successful login
+//             [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+//         } else {
+//             // The login failed. Check error to see why
+//             [self showErrorMessage];
+//         }
+//     }];
 }
 
 - (void)showErrorMessage {

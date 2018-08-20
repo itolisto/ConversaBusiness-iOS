@@ -15,8 +15,6 @@
 #import "ParseValidation.h"
 #import "CustomCategoryCell.h"
 
-#import <Parse/Parse.h>
-
 @interface CategorySettingViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -58,100 +56,100 @@
     if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
         language = @"en"; // Set to default language
     }
-
-    [PFCloud callFunctionInBackground:@"getBusinessCategories"
-                       withParameters:@{@"businessId": ([SettingsKeys getBusinessId]) ? [SettingsKeys getBusinessId] : @"", @"language": language}
-                                block:^(NSString*  _Nullable json, NSError * _Nullable error)
-    {
-        if (error) {
-            if ([ParseValidation validateError:error]) {
-                [ParseValidation _handleInvalidSessionTokenError:self];
-            }
-        } else {
-            id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
-                                                        options:0
-                                                          error:&error];
-            if (error) {
-                // Show error
-            } else {
-                NSDictionary *results = object;
-
-                NSArray *unsortedIds;
-                __block NSMutableArray *unsortedCategory = [NSMutableArray arrayWithCapacity:30];
-                NSMutableArray *selectedIds = [NSMutableArray arrayWithCapacity:3];
-
-                if ([results objectForKey:@"ids"] && [results objectForKey:@"ids"] != [NSNull null]) {
-                    unsortedIds = [results objectForKey:@"ids"];
-                }
-
-                if ([results objectForKey:@"select"] && [results objectForKey:@"select"] != [NSNull null]) {
-                    selectedIds = [NSMutableArray arrayWithArray:[results objectForKey:@"select"]];
-                }
-
-                if ([results objectForKey:@"limit"] && [results objectForKey:@"limit"] != [NSNull null]) {
-                    self.limit = [[results objectForKey:@"limit"] integerValue];
-                }
-
-                self.infoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"settings_account_category_limit", nil), self.limit];
-
-                [unsortedIds enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    nCategory *category = [[nCategory alloc] init];
-                    category.objectId = [obj objectForKey:@"id"];
-                    category.name = [obj objectForKey:@"na"];
-                    [unsortedCategory addObject:category];
-                }];
-
-                NSArray *sortedArray = [unsortedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                    NSString *first = [(nCategory*)obj1 getName];
-                    NSString *second = [(nCategory*)obj2 getName];
-                    return [first compare:second];
-                }];
-
-                NSMutableArray *sortedCategory = [NSMutableArray arrayWithArray:sortedArray];
-
-                NSMutableArray *unsortedSelectedCategory = [NSMutableArray arrayWithCapacity:3];
-
-                NSInteger size = [sortedCategory count];
-                NSInteger selectedSize = [selectedIds count];
-
-                if (selectedSize > 0) {
-                    for (int i = 0; i < size; i++) {
-                        nCategory *category = (nCategory*)[sortedCategory objectAtIndex:i];
-                        if ([category.objectId isEqualToString:[selectedIds objectAtIndex:0]]) {
-                            // Add category to selected
-                            [unsortedSelectedCategory addObject:category];
-                            // Remove from both arrays
-                            [sortedCategory removeObjectAtIndex:i];
-                            [selectedIds removeObjectAtIndex:0];
-                            // Restart counter
-                            i = -1;
-                            // Decrement selected size array count
-                            selectedSize--;
-                            size--;
-
-                            if (selectedSize == 0) {
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                NSArray *sortedSelectedArray = [unsortedSelectedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                    NSString *first = [(nCategory*)obj1 getName];
-                    NSString *second = [(nCategory*)obj2 getName];
-                    return [first compare:second];
-                }];
-
-                self.categories = sortedCategory;
-                self.selectedCategories = [NSMutableArray arrayWithArray:sortedSelectedArray];
-                self.originalCategories = [NSArray arrayWithArray:sortedSelectedArray];
-
-                self.loadingView.hidden = YES;
-                
-                [self reload];
-            }
-        }
-    }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getBusinessCategories"
+//                       withParameters:@{@"businessId": ([SettingsKeys getBusinessId]) ? [SettingsKeys getBusinessId] : @"", @"language": language}
+//                                block:^(NSString*  _Nullable json, NSError * _Nullable error)
+//    {
+//        if (error) {
+//            if ([ParseValidation validateError:error]) {
+//                [ParseValidation _handleInvalidSessionTokenError:self];
+//            }
+//        } else {
+//            id object = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+//                                                        options:0
+//                                                          error:&error];
+//            if (error) {
+//                // Show error
+//            } else {
+//                NSDictionary *results = object;
+//
+//                NSArray *unsortedIds;
+//                __block NSMutableArray *unsortedCategory = [NSMutableArray arrayWithCapacity:30];
+//                NSMutableArray *selectedIds = [NSMutableArray arrayWithCapacity:3];
+//
+//                if ([results objectForKey:@"ids"] && [results objectForKey:@"ids"] != [NSNull null]) {
+//                    unsortedIds = [results objectForKey:@"ids"];
+//                }
+//
+//                if ([results objectForKey:@"select"] && [results objectForKey:@"select"] != [NSNull null]) {
+//                    selectedIds = [NSMutableArray arrayWithArray:[results objectForKey:@"select"]];
+//                }
+//
+//                if ([results objectForKey:@"limit"] && [results objectForKey:@"limit"] != [NSNull null]) {
+//                    self.limit = [[results objectForKey:@"limit"] integerValue];
+//                }
+//
+//                self.infoLabel.text = [NSString stringWithFormat:NSLocalizedString(@"settings_account_category_limit", nil), self.limit];
+//
+//                [unsortedIds enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    nCategory *category = [[nCategory alloc] init];
+//                    category.objectId = [obj objectForKey:@"id"];
+//                    category.name = [obj objectForKey:@"na"];
+//                    [unsortedCategory addObject:category];
+//                }];
+//
+//                NSArray *sortedArray = [unsortedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//                    NSString *first = [(nCategory*)obj1 getName];
+//                    NSString *second = [(nCategory*)obj2 getName];
+//                    return [first compare:second];
+//                }];
+//
+//                NSMutableArray *sortedCategory = [NSMutableArray arrayWithArray:sortedArray];
+//
+//                NSMutableArray *unsortedSelectedCategory = [NSMutableArray arrayWithCapacity:3];
+//
+//                NSInteger size = [sortedCategory count];
+//                NSInteger selectedSize = [selectedIds count];
+//
+//                if (selectedSize > 0) {
+//                    for (int i = 0; i < size; i++) {
+//                        nCategory *category = (nCategory*)[sortedCategory objectAtIndex:i];
+//                        if ([category.objectId isEqualToString:[selectedIds objectAtIndex:0]]) {
+//                            // Add category to selected
+//                            [unsortedSelectedCategory addObject:category];
+//                            // Remove from both arrays
+//                            [sortedCategory removeObjectAtIndex:i];
+//                            [selectedIds removeObjectAtIndex:0];
+//                            // Restart counter
+//                            i = -1;
+//                            // Decrement selected size array count
+//                            selectedSize--;
+//                            size--;
+//
+//                            if (selectedSize == 0) {
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                NSArray *sortedSelectedArray = [unsortedSelectedCategory sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//                    NSString *first = [(nCategory*)obj1 getName];
+//                    NSString *second = [(nCategory*)obj2 getName];
+//                    return [first compare:second];
+//                }];
+//
+//                self.categories = sortedCategory;
+//                self.selectedCategories = [NSMutableArray arrayWithArray:sortedSelectedArray];
+//                self.originalCategories = [NSArray arrayWithArray:sortedSelectedArray];
+//
+//                self.loadingView.hidden = YES;
+//
+//                [self reload];
+//            }
+//        }
+//    }];
 }
 
 #pragma mark - UITableViewDataSource Methods -
@@ -314,27 +312,27 @@
         [select addObject:((nCategory*)obj).objectId];
     }];
 
-
-    [PFCloud callFunctionInBackground:@"updateBusinessCategory"
-                       withParameters:@{@"categories": select,
-                                        @"businessId": [SettingsKeys getBusinessId],
-                                        @"limit": @(self.limit)}
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-    {
-        if (error) {
-            if (self.isViewLoaded && self.view.window) {
-                [[self.view viewWithTag:5971] removeFromSuperview];
-            }
-
-            if ([ParseValidation validateError:error]) {
-                [ParseValidation _handleInvalidSessionTokenError:self];
-            }
-        } else {
-            if (self.isViewLoaded && self.view.window) {
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }
-    }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"updateBusinessCategory"
+//                       withParameters:@{@"categories": select,
+//                                        @"businessId": [SettingsKeys getBusinessId],
+//                                        @"limit": @(self.limit)}
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//    {
+//        if (error) {
+//            if (self.isViewLoaded && self.view.window) {
+//                [[self.view viewWithTag:5971] removeFromSuperview];
+//            }
+//
+//            if ([ParseValidation validateError:error]) {
+//                [ParseValidation _handleInvalidSessionTokenError:self];
+//            }
+//        } else {
+//            if (self.isViewLoaded && self.view.window) {
+//                [self.navigationController popViewControllerAnimated:YES];
+//            }
+//        }
+//    }];
 }
 
 @end

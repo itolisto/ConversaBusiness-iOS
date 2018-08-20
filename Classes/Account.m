@@ -12,18 +12,12 @@
 #import "YapAccount.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
-#import <Parse/PFObject+Subclass.h>
 
 @implementation Account
 
-@dynamic email;
-
-+ (void)load {
-    [self registerSubclass];
-}
-
-+ (NSString *)parseClassName {
-    return [super parseClassName];
++ (Account*)currentUser {
+    // TODO: Fix this
+    return nil;
 }
 
 + (void)logOut {
@@ -35,7 +29,8 @@
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[EDQueue sharedInstance] empty];
-    [super logOut];
+    // TODO: Replace with Firebase logout
+//    [super logOut];
 }
 
 @end

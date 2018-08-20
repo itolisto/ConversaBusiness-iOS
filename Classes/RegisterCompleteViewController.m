@@ -104,45 +104,45 @@
 
     self.termsPrivacyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     self.termsPrivacyLabel.delegate = self;
-
-    [PFCloud callFunctionInBackground:@"getCountries"
-                       withParameters:@{}
-                                block:^(NSString * _Nullable json, NSError * _Nullable error)
-     {
-         if (self.isViewLoaded && self.view.window) {
-             if (error) {
-                 [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
-             } else {
-                 NSArray *array = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
-                                                                  options:0
-                                                                    error:&error];
-                 if (error) {
-                     [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
-                 } else {
-                     __block NSMutableArray *sortedCountries = [NSMutableArray arrayWithCapacity:[array count]];
-
-                     [array enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                         nCountry *category = [[nCountry alloc] init];
-                         category.objectId = [obj objectForKey:@"id"];
-                         category.name = [obj objectForKey:@"na"];
-                         [sortedCountries addObject:category];
-                     }];
-
-                     [sortedCountries sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                         NSString *first = [(nCountry*)obj1 getName];
-                         NSString *second = [(nCountry*)obj2 getName];
-                         return [first compare:second];
-                     }];
-
-                     [self.countryData addObjectsFromArray:sortedCountries];
-                     [self.countryPickerView reloadAllComponents];
-                     if ([sortedCountries count]) {
-                         [self pickerView:self.countryPickerView didSelectRow:0 inComponent:0];
-                     }
-                 }
-             }
-         }
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getCountries"
+//                       withParameters:@{}
+//                                block:^(NSString * _Nullable json, NSError * _Nullable error)
+//     {
+//         if (self.isViewLoaded && self.view.window) {
+//             if (error) {
+//                 [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
+//             } else {
+//                 NSArray *array = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                  options:0
+//                                                                    error:&error];
+//                 if (error) {
+//                     [self showErrorMessage:NSLocalizedString(@"signup_register_countries_error", nil)];
+//                 } else {
+//                     __block NSMutableArray *sortedCountries = [NSMutableArray arrayWithCapacity:[array count]];
+//
+//                     [array enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                         nCountry *category = [[nCountry alloc] init];
+//                         category.objectId = [obj objectForKey:@"id"];
+//                         category.name = [obj objectForKey:@"na"];
+//                         [sortedCountries addObject:category];
+//                     }];
+//
+//                     [sortedCountries sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//                         NSString *first = [(nCountry*)obj1 getName];
+//                         NSString *second = [(nCountry*)obj2 getName];
+//                         return [first compare:second];
+//                     }];
+//
+//                     [self.countryData addObjectsFromArray:sortedCountries];
+//                     [self.countryPickerView reloadAllComponents];
+//                     if ([sortedCountries count]) {
+//                         [self pickerView:self.countryPickerView didSelectRow:0 inComponent:0];
+//                     }
+//                 }
+//             }
+//         }
+//     }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -398,16 +398,17 @@
                             resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
          {
              if (imageData) {
-                 PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg"
-                                                       data:UIImageJPEGRepresentation([UIImage imageWithData:imageData], 0.5)];
-
-                 [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                     if (error) {
-                         [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
-                     } else {
-                         [self completeRegister:filePicture];
-                     }
-                 }];
+                 // TODO: Replace with networking layer
+//                 PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg"
+//                                                       data:UIImageJPEGRepresentation([UIImage imageWithData:imageData], 0.5)];
+//
+//                 [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                     if (error) {
+//                         [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
+//                     } else {
+//                         [self completeRegister:filePicture];
+//                     }
+//                 }];
              } else {
                  [self completeRegister:nil];
              }
@@ -417,34 +418,35 @@
     }
 }
 
-- (void)completeRegister:(PFFile*)file {
-    Account *user = [Account object];
-    user.username = self.emailTextField.text;
-    user.email = self.emailTextField.text;
-    user.password = self.passwordTextField.text;
-    // Extra fields
-    user[kUserTypeKey] = @(2);
-    user[@"displayName"] = self.businessName;
-    user[@"conversaID"] = self.conversaId;
-    user[@"categoryId"] = self.categoryId;
-    user[@"countryId"] = [self.countryPicked getObjectId];
-
-    if (file) {
-        user[kUserTypeBusinessAvatar] = file;
-    }
-
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (error) {
-            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
-                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
-            } else {
-                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
-            }
-        } else {
-            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-        }
-    }];
+- (void)completeRegister:(NSString*)file {
+    // TODO: Replace with networking layer
+//    Account *user = [Account object];
+//    user.username = self.emailTextField.text;
+//    user.email = self.emailTextField.text;
+//    user.password = self.passwordTextField.text;
+//    // Extra fields
+//    user[kUserTypeKey] = @(2);
+//    user[@"displayName"] = self.businessName;
+//    user[@"conversaID"] = self.conversaId;
+//    user[@"categoryId"] = self.categoryId;
+//    user[@"countryId"] = [self.countryPicked getObjectId];
+//
+//    if (file) {
+//        user[kUserTypeBusinessAvatar] = file;
+//    }
+//
+//    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        if (error) {
+//            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
+//                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
+//            } else {
+//                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
+//            }
+//        } else {
+//            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+//        }
+//    }];
 }
 
 @end

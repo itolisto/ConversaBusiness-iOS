@@ -22,7 +22,6 @@
 #import "SettingsViewController.h"
 #import "ConversationViewController.h"
 
-#import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
@@ -170,24 +169,24 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
-
-    [PFCloud callFunctionInBackground:@"getLatestManagerConversations"
-                       withParameters:@{@"businessId": [SettingsKeys getBusinessId]}
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-     {
-         if (!error) {
-             NSArray *contacts = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
-                                                                 options:0
-                                                                   error:&error];
-
-             if (!error) {
-                 [contacts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                     NSDictionary *customer = (NSDictionary*)obj;
-                     [YapContact saveContactWithDictionary:customer block:nil];
-                 }];
-             }
-         }
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getLatestManagerConversations"
+//                       withParameters:@{@"businessId": [SettingsKeys getBusinessId]}
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//     {
+//         if (!error) {
+//             NSArray *contacts = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                 options:0
+//                                                                   error:&error];
+//
+//             if (!error) {
+//                 [contacts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                     NSDictionary *customer = (NSDictionary*)obj;
+//                     [YapContact saveContactWithDictionary:customer block:nil];
+//                 }];
+//             }
+//         }
+//     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

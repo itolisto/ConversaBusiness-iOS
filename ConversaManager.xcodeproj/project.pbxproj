@@ -62,8 +62,6 @@
 		A52907BE1D6FEA0C0018D74C /* YapDatabaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907841D6FEA0C0018D74C /* YapDatabaseObject.m */; };
 		A52907BF1D6FEA0C0018D74C /* YapMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907861D6FEA0C0018D74C /* YapMessage.m */; };
 		A52907C01D6FEA0C0018D74C /* YapTag.m in Sources */ = {isa = PBXBuildFile; fileRef = A52907881D6FEA0C0018D74C /* YapTag.m */; };
-		A53530E31E0B6DDA0001BDED /* SheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = A53530E21E0B6DDA0001BDED /* SheetView.m */; };
-		A53530E51E0B6DE90001BDED /* SheetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A53530E41E0B6DE90001BDED /* SheetView.xib */; };
 		A53530E81E0B904B0001BDED /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A53530E71E0B904B0001BDED /* UIStateButton.m */; };
 		A53962981D70D0E800D557FE /* CustomAblyRealtime.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962971D70D0E800D557FE /* CustomAblyRealtime.m */; };
 		A54703CD1E2758E80090A073 /* ChatNavBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A54703CC1E2758E80090A073 /* ChatNavBarView.xib */; };
@@ -102,7 +100,7 @@
 		A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D831F96DAE60004A561 /* HockeySDKResources.bundle */; };
 		A5D81DA31F971B370004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81DA21F971B370004A561 /* NotificationService.swift */; };
 		A5D81DA71F971B370004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81DA01F971B370004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A5F100C9202A8CF000954684 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5F100C8202A8CF000954684 /* GoogleService-Info.plist */; };
+		A5E5837B212A90C100DFC35B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5E5837A212A90C100DFC35B /* GoogleService-Info.plist */; };
 		A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */; };
 		A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */; };
 /* End PBXBuildFile section */
@@ -240,9 +238,6 @@
 		A52907861D6FEA0C0018D74C /* YapMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapMessage.m; sourceTree = "<group>"; };
 		A52907871D6FEA0C0018D74C /* YapTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YapTag.h; sourceTree = "<group>"; };
 		A52907881D6FEA0C0018D74C /* YapTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapTag.m; sourceTree = "<group>"; };
-		A53530E11E0B6DDA0001BDED /* SheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheetView.h; sourceTree = "<group>"; };
-		A53530E21E0B6DDA0001BDED /* SheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheetView.m; sourceTree = "<group>"; };
-		A53530E41E0B6DE90001BDED /* SheetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SheetView.xib; sourceTree = "<group>"; };
 		A53530E61E0B904B0001BDED /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A53530E71E0B904B0001BDED /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
 		A53962961D70D0E800D557FE /* CustomAblyRealtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAblyRealtime.h; sourceTree = "<group>"; };
@@ -305,7 +300,7 @@
 		A5D81DA01F971B370004A561 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D81DA21F971B370004A561 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		A5D81DA41F971B370004A561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5F100C8202A8CF000954684 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A5E5837A212A90C100DFC35B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCustomException.swift; sourceTree = "<group>"; };
 		A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
@@ -398,12 +393,10 @@
 				A52907051D6FE93D0018D74C /* AppDelegate.h */,
 				A52907061D6FE93D0018D74C /* AppDelegate.m */,
 				A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */,
-				A5160B751E03327500E001E7 /* Main.storyboard */,
-				A52907131D6FE93D0018D74C /* LaunchScreen.storyboard */,
 				A52907111D6FE93D0018D74C /* Assets.xcassets */,
 				A52907161D6FE93D0018D74C /* Info.plist */,
-				A5F100C8202A8CF000954684 /* GoogleService-Info.plist */,
 				A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */,
+				A5E5837A212A90C100DFC35B /* GoogleService-Info.plist */,
 				A52907021D6FE93D0018D74C /* Supporting Files */,
 				A5160BB81E03491900E001E7 /* Strings */,
 			);
@@ -433,7 +426,7 @@
 				A56EB3541E0A5E0B00532231 /* Model */,
 				A5FA7D6C20316501008D3134 /* Networking */,
 				A59AF7021DB676090018BCE7 /* Notification */,
-				A59AF6F91DB674890018BCE7 /* Parse */,
+				A59AF6F91DB674890018BCE7 /* Firebase */,
 				A59AF7041DB676710018BCE7 /* Utils */,
 				A59AF6F81DB674190018BCE7 /* View Controllers */,
 				A59AF6FF1DB675B70018BCE7 /* Views */,
@@ -480,7 +473,7 @@
 			name = "View Controllers";
 			sourceTree = "<group>";
 		};
-		A59AF6F91DB674890018BCE7 /* Parse */ = {
+		A59AF6F91DB674890018BCE7 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
 				A529071F1D6FEA0C0018D74C /* Account.h */,
@@ -490,7 +483,7 @@
 				A5160B7F1E033C0500E001E7 /* ParseValidation.h */,
 				A5160B801E033C0500E001E7 /* ParseValidation.m */,
 			);
-			name = Parse;
+			name = Firebase;
 			sourceTree = "<group>";
 		};
 		A59AF6FA1DB674AD0018BCE7 /* YapDatabase */ = {
@@ -569,13 +562,11 @@
 		A59AF6FF1DB675B70018BCE7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5E5837C212A9DB100DFC35B /* Storyboards */,
 				A54703CC1E2758E80090A073 /* ChatNavBarView.xib */,
 				A52907561D6FEA0C0018D74C /* MapView.h */,
 				A52907571D6FEA0C0018D74C /* MapView.m */,
 				A52907581D6FEA0C0018D74C /* MapView.xib */,
-				A53530E11E0B6DDA0001BDED /* SheetView.h */,
-				A53530E21E0B6DDA0001BDED /* SheetView.m */,
-				A53530E41E0B6DE90001BDED /* SheetView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -744,6 +735,15 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
+		A5E5837C212A9DB100DFC35B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A5160B751E03327500E001E7 /* Main.storyboard */,
+				A52907131D6FE93D0018D74C /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		A5FA7D6C20316501008D3134 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -768,7 +768,7 @@
 				A52906FD1D6FE93D0018D74C /* Resources */,
 				A50ABCBB1E5F747200774627 /* Localization BartyCrouch */,
 				A5D81DAB1F971B370004A561 /* Embed App Extensions */,
-				A59F07B91FEEFDB000B2F0D7 /* Fabric */,
+				A5E583762128C03100DFC35B /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -859,14 +859,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5160BAE1E0348A700E001E7 /* Localizable.strings in Resources */,
-				A53530E51E0B6DE90001BDED /* SheetView.xib in Resources */,
 				A5160BBB1E03495C00E001E7 /* InfoPlist.strings in Resources */,
 				A52907151D6FE93D0018D74C /* LaunchScreen.storyboard in Resources */,
 				A54703CD1E2758E80090A073 /* ChatNavBarView.xib in Resources */,
 				A52907A61D6FEA0C0018D74C /* MapView.xib in Resources */,
 				A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */,
 				A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */,
-				A5F100C9202A8CF000954684 /* GoogleService-Info.plist in Resources */,
+				A5E5837B212A90C100DFC35B /* GoogleService-Info.plist in Resources */,
 				A52907121D6FE93D0018D74C /* Assets.xcassets in Resources */,
 				A5160B731E03327500E001E7 /* Main.storyboard in Resources */,
 			);
@@ -924,6 +923,7 @@
 				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
 				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/KSCrashAblyFork/KSCrashAblyFork.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -964,6 +964,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JVFloatLabeledTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KSCrashAblyFork.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -1022,7 +1023,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
-		A59F07B91FEEFDB000B2F0D7 /* Fabric */ = {
+		A5E583762128C03100DFC35B /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1098,7 +1099,6 @@
 				A5D286952127FBBD001BDFCF /* Operations.swift in Sources */,
 				A5160B811E033C0500E001E7 /* ParseValidation.m in Sources */,
 				A5AAD68C1E12F9F100060E73 /* CustomBusinessCell.m in Sources */,
-				A53530E31E0B6DDA0001BDED /* SheetView.m in Sources */,
 				A529079A1D6FEA0C0018D74C /* Customer.m in Sources */,
 				A57CAE5D1E8C3B910025D0A4 /* PageViewController.swift in Sources */,
 				A529078A1D6FEA0C0018D74C /* Account.m in Sources */,
@@ -1295,6 +1295,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1328,6 +1329,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

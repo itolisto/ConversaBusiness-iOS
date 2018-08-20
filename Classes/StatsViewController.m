@@ -14,7 +14,7 @@
 #import "Reachability.h"
 #import "UIStateButton.h"
 #import "ParseValidation.h"
-#import <Parse/Parse.h>
+
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
 @interface StatsViewController ()
@@ -138,96 +138,96 @@
             if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
                 language = @"en"; // Set to default language
             }
-
-            [PFCloud callFunctionInBackground:@"getBusinessStatisticsAll"
-                               withParameters:@{@"businessId":[SettingsKeys getBusinessId], @"language":language}
-                                        block:^(NSString*  _Nullable jsonData, NSError * _Nullable error)
-             {
-                 [self.activityIndicatorView stopAnimating];
-
-                 if (refreshControl) {
-                     [refreshControl endRefreshing];
-                 }
-
-                 if (error) {
-                     if ([ParseValidation validateError:error]) {
-                         [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
-                     } else {
-                         if (self.loadingView.isHidden) {
-                             self.loadingView.hidden = NO;
-                         }
-                         if (self.infoView.isHidden) {
-                             self.infoView.hidden = NO;
-                         }
-                     }
-                 } else {
-                     id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
-                                                                 options:0
-                                                                   error:&error];
-
-                     if (error) {
-                         if (self.loadingView.isHidden) {
-                             self.loadingView.hidden = NO;
-                         }
-                         if (self.infoView.isHidden) {
-                             self.infoView.hidden = NO;
-                         }
-                     } else {
-                         NSMutableDictionary *results = [object mutableCopy];
-
-                         long long sent = 0, received = 0, favs = 0, views = 0, conversations = 0, links = 0;
-
-                         if ([results objectForKey:@"all"]) {
-                             NSDictionary *all = [results objectForKey:@"all"];
-
-                             if ([all objectForKey:@"ms"]) {
-                                 sent = [[all objectForKey:@"ms"] longLongValue];
-                             }
-
-                             if ([all objectForKey:@"mr"]) {
-                                 received = [[all objectForKey:@"mr"] longLongValue];
-                             }
-
-                             if ([all objectForKey:@"nf"]) {
-                                 favs = [[all objectForKey:@"nf"] longLongValue];
-                             }
-
-                             if ([all objectForKey:@"np"]) {
-                                 views = [[all objectForKey:@"np"] longLongValue];
-                             }
-
-                             if ([all objectForKey:@"cn"]) {
-                                 conversations = [[all objectForKey:@"cn"] longLongValue];
-                             }
-
-                             if ([all objectForKey:@"lc"]) {
-                                 links = [[all objectForKey:@"lc"] longLongValue];
-                             }
-
-                             [results removeObjectForKey:@"all"];
-                         }
-
-                         [self setLabelText:self.sentLabel withValue:sent];
-                         [self setLabelText:self.receivedLabel withValue:received];
-                         [self setLabelText:self.favsLabel withValue:favs];
-                         [self setLabelText:self.viewsLabel withValue:views];
-                         [self setLabelText:self.conversationsLabel withValue:conversations];
-                         [self setLabelText:self.linksLabel withValue:links];
-
-                         self.loadingView.hidden = YES;
-                         self.infoView.hidden = YES;
-
-                         if ([results objectForKey:@"charts"]) {
-                             NSDictionary *charts = [results objectForKey:@"charts"];
-                             if ([self.childViewControllers count] > 0 && [charts count] > 0) {
-                                 // At this point is always sure first child view controller is the one we want
-                                 ChartPageViewController *vc = (ChartPageViewController*)[self.childViewControllers objectAtIndex:0];
-                                 [vc loadChartsWithData:charts];
-                             }
-                         }
-                     }
-                 }
-             }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"getBusinessStatisticsAll"
+//                               withParameters:@{@"businessId":[SettingsKeys getBusinessId], @"language":language}
+//                                        block:^(NSString*  _Nullable jsonData, NSError * _Nullable error)
+//             {
+//                 [self.activityIndicatorView stopAnimating];
+//
+//                 if (refreshControl) {
+//                     [refreshControl endRefreshing];
+//                 }
+//
+//                 if (error) {
+//                     if ([ParseValidation validateError:error]) {
+//                         [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+//                     } else {
+//                         if (self.loadingView.isHidden) {
+//                             self.loadingView.hidden = NO;
+//                         }
+//                         if (self.infoView.isHidden) {
+//                             self.infoView.hidden = NO;
+//                         }
+//                     }
+//                 } else {
+//                     id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                 options:0
+//                                                                   error:&error];
+//
+//                     if (error) {
+//                         if (self.loadingView.isHidden) {
+//                             self.loadingView.hidden = NO;
+//                         }
+//                         if (self.infoView.isHidden) {
+//                             self.infoView.hidden = NO;
+//                         }
+//                     } else {
+//                         NSMutableDictionary *results = [object mutableCopy];
+//
+//                         long long sent = 0, received = 0, favs = 0, views = 0, conversations = 0, links = 0;
+//
+//                         if ([results objectForKey:@"all"]) {
+//                             NSDictionary *all = [results objectForKey:@"all"];
+//
+//                             if ([all objectForKey:@"ms"]) {
+//                                 sent = [[all objectForKey:@"ms"] longLongValue];
+//                             }
+//
+//                             if ([all objectForKey:@"mr"]) {
+//                                 received = [[all objectForKey:@"mr"] longLongValue];
+//                             }
+//
+//                             if ([all objectForKey:@"nf"]) {
+//                                 favs = [[all objectForKey:@"nf"] longLongValue];
+//                             }
+//
+//                             if ([all objectForKey:@"np"]) {
+//                                 views = [[all objectForKey:@"np"] longLongValue];
+//                             }
+//
+//                             if ([all objectForKey:@"cn"]) {
+//                                 conversations = [[all objectForKey:@"cn"] longLongValue];
+//                             }
+//
+//                             if ([all objectForKey:@"lc"]) {
+//                                 links = [[all objectForKey:@"lc"] longLongValue];
+//                             }
+//
+//                             [results removeObjectForKey:@"all"];
+//                         }
+//
+//                         [self setLabelText:self.sentLabel withValue:sent];
+//                         [self setLabelText:self.receivedLabel withValue:received];
+//                         [self setLabelText:self.favsLabel withValue:favs];
+//                         [self setLabelText:self.viewsLabel withValue:views];
+//                         [self setLabelText:self.conversationsLabel withValue:conversations];
+//                         [self setLabelText:self.linksLabel withValue:links];
+//
+//                         self.loadingView.hidden = YES;
+//                         self.infoView.hidden = YES;
+//
+//                         if ([results objectForKey:@"charts"]) {
+//                             NSDictionary *charts = [results objectForKey:@"charts"];
+//                             if ([self.childViewControllers count] > 0 && [charts count] > 0) {
+//                                 // At this point is always sure first child view controller is the one we want
+//                                 ChartPageViewController *vc = (ChartPageViewController*)[self.childViewControllers objectAtIndex:0];
+//                                 [vc loadChartsWithData:charts];
+//                             }
+//                         }
+//                     }
+//                 }
+//             }];
         }
     }
 }

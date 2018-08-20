@@ -79,76 +79,76 @@
     self.favoriteButton.enabled = NO;
     self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav"];
     self.chatButton.enabled = NO;
-
-    [PFCloud callFunctionInBackground:@"getBusinessProfile"
-                       withParameters:@{@"businessId": [SettingsKeys getBusinessId], @"count": @(NO)}
-                                block:^(NSString * _Nullable result, NSError * _Nullable error)
-     {
-         if (error) {
-             if ([ParseValidation validateError:error]) {
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             }
-         } else {
-             id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
-                                                         options:0
-                                                           error:&error];
-             if (!error) {
-                 NSDictionary *results = object;
-
-                 self.followers = 0;
-                 NSString *header = nil;
-                 bool favorite = NO;
-                 int status = 0;
-
-                 if ([results objectForKey:@"header"] && [results objectForKey:@"header"] != [NSNull null]) {
-                     header = [results objectForKey:@"header"];
-                 }
-
-                 if ([results objectForKey:@"followers"] && [results objectForKey:@"followers"] != [NSNull null]) {
-                     self.followers = [[results objectForKey:@"followers"] unsignedIntegerValue];
-                 } else {
-                     self.followers = 0;
-                 }
-
-                 if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
-                     favorite = [[results objectForKey:@"favorite"] boolValue];
-                 }
-
-                 if ([results objectForKey:@"status"] && [results objectForKey:@"status"] != [NSNull null]) {
-                     status = [[results objectForKey:@"status"] intValue];
-                 }
-
-                 if (header != nil) {
-                     [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
-                                         placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
-                 }
-
-                 // Status
-                 switch (status) {
-                     case 0: {
-                         self.statusView.backgroundColor = [Colors profileOnline];
-                         break;
-                     }
-                     case 1: {
-                         self.statusView.backgroundColor = [Colors profileAway];
-                         break;
-                     }
-                     default: {
-                         self.statusView.backgroundColor = [Colors profileOffline];
-                         break;
-                     }
-                 }
-
-                 if (favorite) {
-                     [self changeFavorite:YES];
-                 }
-
-                 self.followersLabel.text = numberWithFormat(self.followers);
-             }
-         }
-
-         self.favoriteButton.enabled = YES;
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getBusinessProfile"
+//                       withParameters:@{@"businessId": [SettingsKeys getBusinessId], @"count": @(NO)}
+//                                block:^(NSString * _Nullable result, NSError * _Nullable error)
+//     {
+//         if (error) {
+//             if ([ParseValidation validateError:error]) {
+//                 [ParseValidation _handleInvalidSessionTokenError:self];
+//             }
+//         } else {
+//             id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
+//                                                         options:0
+//                                                           error:&error];
+//             if (!error) {
+//                 NSDictionary *results = object;
+//
+//                 self.followers = 0;
+//                 NSString *header = nil;
+//                 bool favorite = NO;
+//                 int status = 0;
+//
+//                 if ([results objectForKey:@"header"] && [results objectForKey:@"header"] != [NSNull null]) {
+//                     header = [results objectForKey:@"header"];
+//                 }
+//
+//                 if ([results objectForKey:@"followers"] && [results objectForKey:@"followers"] != [NSNull null]) {
+//                     self.followers = [[results objectForKey:@"followers"] unsignedIntegerValue];
+//                 } else {
+//                     self.followers = 0;
+//                 }
+//
+//                 if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
+//                     favorite = [[results objectForKey:@"favorite"] boolValue];
+//                 }
+//
+//                 if ([results objectForKey:@"status"] && [results objectForKey:@"status"] != [NSNull null]) {
+//                     status = [[results objectForKey:@"status"] intValue];
+//                 }
+//
+//                 if (header != nil) {
+//                     [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
+//                                         placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
+//                 }
+//
+//                 // Status
+//                 switch (status) {
+//                     case 0: {
+//                         self.statusView.backgroundColor = [Colors profileOnline];
+//                         break;
+//                     }
+//                     case 1: {
+//                         self.statusView.backgroundColor = [Colors profileAway];
+//                         break;
+//                     }
+//                     default: {
+//                         self.statusView.backgroundColor = [Colors profileOffline];
+//                         break;
+//                     }
+//                 }
+//
+//                 if (favorite) {
+//                     [self changeFavorite:YES];
+//                 }
+//
+//                 self.followersLabel.text = numberWithFormat(self.followers);
+//             }
+//         }
+//
+//         self.favoriteButton.enabled = YES;
+//     }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

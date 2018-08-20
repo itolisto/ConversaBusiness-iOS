@@ -14,7 +14,6 @@
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 #import "BusinessListViewController.h"
-#import <Parse/Parse.h>
 
 @interface CheckViewController ()
 
@@ -114,43 +113,44 @@
 }
 
 - (void)performSearch {
-    [PFCloud callFunctionInBackground:@"businessClaimSearch"
-                       withParameters:@{@"search": self.nameTextField.text}
-                                block:^(NSString*  _Nullable json, NSError * _Nullable error)
-     {
-         if (error) {
-
-         } else {
-             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&error];
-
-             if (error) {
-
-             } else {
-                 NSUInteger size = [results count];
-
-                 for (int i = 0; i < size; i++) {
-                     NSDictionary *object = [results objectAtIndex:i];
-                     nBusiness *business = [[nBusiness alloc] init];
-                     business.objectId = [object objectForKey:@"oj"];
-                     business.displayName = [object objectForKey:@"dn"];
-                     business.conversaId = [object objectForKey:@"id"];
-                     business.avatarUrl = [object objectForKey:@"av"];
-                     [self.businessList addObject:business];
-                 }
-
-                 if (size > 0) {
-                     // Perform empty segue
-                     [self performSegueWithIdentifier:@"businessListSegue" sender:nil];
-                 } else {
-                     // Perform business list segue
-                     [self performSegueWithIdentifier:@"businessEmptySegue" sender:nil];
-                 }
-             }
-         }
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"businessClaimSearch"
+//                       withParameters:@{@"search": self.nameTextField.text}
+//                                block:^(NSString*  _Nullable json, NSError * _Nullable error)
+//     {
+//         if (error) {
+//
+//         } else {
+//             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+//             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+//                                                                options:NSJSONReadingMutableContainers
+//                                                                  error:&error];
+//
+//             if (error) {
+//
+//             } else {
+//                 NSUInteger size = [results count];
+//
+//                 for (int i = 0; i < size; i++) {
+//                     NSDictionary *object = [results objectAtIndex:i];
+//                     nBusiness *business = [[nBusiness alloc] init];
+//                     business.objectId = [object objectForKey:@"oj"];
+//                     business.displayName = [object objectForKey:@"dn"];
+//                     business.conversaId = [object objectForKey:@"id"];
+//                     business.avatarUrl = [object objectForKey:@"av"];
+//                     [self.businessList addObject:business];
+//                 }
+//
+//                 if (size > 0) {
+//                     // Perform empty segue
+//                     [self performSegueWithIdentifier:@"businessListSegue" sender:nil];
+//                 } else {
+//                     // Perform business list segue
+//                     [self performSegueWithIdentifier:@"businessEmptySegue" sender:nil];
+//                 }
+//             }
+//         }
+//     }];
 }
 
 #pragma mark - UITextFieldDelegate Methods -

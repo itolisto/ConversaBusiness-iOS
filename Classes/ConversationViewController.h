@@ -9,7 +9,7 @@
 @import UIKit;
 @class Business, YapContact, YapMessage;
 #import "CustomAblyRealtime.h"
-#import <Parse/Parse.h>
+
 #import <OHQBImagePicker/QBImagePicker.h>
 #import <JSQMessagesViewController/JSQMessages.h>
 
@@ -22,6 +22,6 @@
 
 - (void)initWithBuddy:(YapContact *)buddy;
 - (void)initWithBusiness:(Business *)business withAvatarUrl:(NSString*)url;
-- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)value withPFFile:(PFFile *)file;
+- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)value withPFFile:(NSString *)file;
 
 @end

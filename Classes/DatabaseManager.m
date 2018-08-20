@@ -78,8 +78,8 @@
                                          deserializer:nil
                                               options:options];
 
-    self.database.defaultObjectPolicy = YapDatabasePolicyShare;
-    self.database.defaultObjectCacheLimit = 900;
+    self.database.connectionDefaults.objectPolicy = YapDatabasePolicyShare;
+    self.database.connectionDefaults.objectCacheLimit = 900;
 
     self.updateDatabaseConnection = [self.database newConnection];
     self.updateDatabaseConnection.name = @"updateDatabaseConnection";

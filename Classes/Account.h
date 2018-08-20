@@ -11,8 +11,10 @@
 
 @interface Account : NSObject
 
-+ (NSString *)parseClassName;
-
+@property (nonatomic, strong) NSString *objectId;
 @property (nonatomic, strong) NSString *email;
+
++ (Account*)currentUser;
++ (void)logOut;
 
 @end

@@ -22,7 +22,6 @@
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 #import "RegisterCompleteViewController.h"
-#import <Parse/Parse.h>
 
 @interface RegisterViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -79,45 +78,45 @@
     if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
         language = @"en"; // Set to default language
     }
-
-    [PFCloud callFunctionInBackground:@"getOnlyCategories"
-                       withParameters:@{@"language":language}
-                                block:^(NSString * _Nullable json, NSError * _Nullable error)
-    {
-        if (self.isViewLoaded && self.view.window) {
-            if (error) {
-                [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
-            } else {
-                NSArray *results = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
-                                                            options:0
-                                                              error:&error];
-                if (error) {
-                    [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
-                } else {
-                    __block NSMutableArray *sortedCategory = [NSMutableArray arrayWithCapacity:30];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getOnlyCategories"
+//                       withParameters:@{@"language":language}
+//                                block:^(NSString * _Nullable json, NSError * _Nullable error)
+//    {
+//        if (self.isViewLoaded && self.view.window) {
+//            if (error) {
+//                [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
+//            } else {
+//                NSArray *results = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+//                                                            options:0
+//                                                              error:&error];
+//                if (error) {
+//                    [self showErrorMessage:NSLocalizedString(@"signup_register_categories_error", nil)];
+//                } else {
+//                    __block NSMutableArray *sortedCategory = [NSMutableArray arrayWithCapacity:30];
+////
+//                    [results enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                        nCategory *category = [[nCategory alloc] init];
+//                        category.objectId = [obj objectForKey:@"id"];
+//                        category.name = [obj objectForKey:@"na"];
+//                        [sortedCategory addObject:category];
+//                    }];
 //
-                    [results enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        nCategory *category = [[nCategory alloc] init];
-                        category.objectId = [obj objectForKey:@"id"];
-                        category.name = [obj objectForKey:@"na"];
-                        [sortedCategory addObject:category];
-                    }];
-
-                    [sortedCategory sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                        NSString *first = [(nCategory*)obj1 getName];
-                        NSString *second = [(nCategory*)obj2 getName];
-                        return [first compare:second];
-                    }];
-
-                    [self.categoryData addObjectsFromArray:sortedCategory];
-                    [self.categoryPickerView reloadAllComponents];
-                    if ([sortedCategory count]) {
-                        [self pickerView:self.categoryPickerView didSelectRow:0 inComponent:0];
-                    }
-                }
-            }
-        }
-    }];
+//                    [sortedCategory sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//                        NSString *first = [(nCategory*)obj1 getName];
+//                        NSString *second = [(nCategory*)obj2 getName];
+//                        return [first compare:second];
+//                    }];
+//
+//                    [self.categoryData addObjectsFromArray:sortedCategory];
+//                    [self.categoryPickerView reloadAllComponents];
+//                    if ([sortedCategory count]) {
+//                        [self pickerView:self.categoryPickerView didSelectRow:0 inComponent:0];
+//                    }
+//                }
+//            }
+//        }
+//    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -348,30 +347,30 @@
         [self.view addSubview:hudError];
         hudError.label.text = NSLocalizedString(@"signup_checking_conversa_id", nil);
         [hudError showAnimated:YES];
-
-        [PFCloud callFunctionInBackground:@"businessValidateId"
-                           withParameters:@{@"conversaID":self.idTextField.text}
-                                    block:^(id  _Nullable object, NSError * _Nullable error)
-        {
-            [hudError hideAnimated:YES];
-
-            if (error) {
-                MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-                hudError.mode = MBProgressHUDModeText;
-                [self.view addSubview:hudError];
-                hudError.label.numberOfLines = 0;
-                hudError.label.text = NSLocalizedString(@"signup_conversaid_error", nil);
-                [hudError showAnimated:YES];
-                [hudError hideAnimated:YES afterDelay:2.5];
-                [self.idTextField becomeFirstResponder];
-                [self.idTextField setFloatingLabelTextColor:[UIColor redColor]];
-                [self.idTextField setFloatingLabelActiveTextColor:[UIColor redColor]];
-            } else {
-                [self.idTextField setFloatingLabelTextColor:[UIColor lightGrayColor]];
-                [self.idTextField setFloatingLabelActiveTextColor:[UIColor lightGrayColor]];
-                [self performSegueWithIdentifier:@"continueSignupSegue" sender:nil];
-            }
-        }];
+        // TODO: Replace with networking layer
+//        [PFCloud callFunctionInBackground:@"businessValidateId"
+//                           withParameters:@{@"conversaID":self.idTextField.text}
+//                                    block:^(id  _Nullable object, NSError * _Nullable error)
+//        {
+//            [hudError hideAnimated:YES];
+//
+//            if (error) {
+//                MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+//                hudError.mode = MBProgressHUDModeText;
+//                [self.view addSubview:hudError];
+//                hudError.label.numberOfLines = 0;
+//                hudError.label.text = NSLocalizedString(@"signup_conversaid_error", nil);
+//                [hudError showAnimated:YES];
+//                [hudError hideAnimated:YES afterDelay:2.5];
+//                [self.idTextField becomeFirstResponder];
+//                [self.idTextField setFloatingLabelTextColor:[UIColor redColor]];
+//                [self.idTextField setFloatingLabelActiveTextColor:[UIColor redColor]];
+//            } else {
+//                [self.idTextField setFloatingLabelTextColor:[UIColor lightGrayColor]];
+//                [self.idTextField setFloatingLabelActiveTextColor:[UIColor lightGrayColor]];
+//                [self performSegueWithIdentifier:@"continueSignupSegue" sender:nil];
+//            }
+//        }];
     }
 }
 

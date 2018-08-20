@@ -110,62 +110,62 @@
     if (textField == self.displayNameTextField) {
         if (![textField.text isEqualToString:[SettingsKeys getDisplayName]]) {
             NSString *temp = textField.text;
-
-            [PFCloud callFunctionInBackground:@"updateBusinessName"
-                               withParameters:@{@"displayName" : temp, @"businessId": [SettingsKeys getBusinessId]}
-                                        block:^(id  _Nullable object, NSError * _Nullable error)
-             {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                 hud.mode = MBProgressHUDModeCustomView;
-                 hud.square = YES;
-                 UIImage *image;
-
-                 if (error) {
-                     self.displayNameTextField.text = [SettingsKeys getDisplayName];
-                     // Show notification
-                     image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
-                 } else {
-                     // Change displayName
-                     [SettingsKeys setDisplayName:temp];
-                     // Show notification
-                     image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
-                 }
-
-                 hud.customView = [[UIImageView alloc] initWithImage:image];
-                 [hud hideAnimated:YES afterDelay:2.f];
-             }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"updateBusinessName"
+//                               withParameters:@{@"displayName" : temp, @"businessId": [SettingsKeys getBusinessId]}
+//                                        block:^(id  _Nullable object, NSError * _Nullable error)
+//             {
+//                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                 hud.mode = MBProgressHUDModeCustomView;
+//                 hud.square = YES;
+//                 UIImage *image;
+//
+//                 if (error) {
+//                     self.displayNameTextField.text = [SettingsKeys getDisplayName];
+//                     // Show notification
+//                     image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
+//                 } else {
+//                     // Change displayName
+//                     [SettingsKeys setDisplayName:temp];
+//                     // Show notification
+//                     image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                     hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
+//                 }
+//
+//                 hud.customView = [[UIImageView alloc] initWithImage:image];
+//                 [hud hideAnimated:YES afterDelay:2.f];
+//             }];
         }
     } else if (textField == self.conversaIdTextField) {
         if (![textField.text isEqualToString:[SettingsKeys getConversaId]]) {
             NSString *temp = textField.text;
-
-            [PFCloud callFunctionInBackground:@"updateBusinessId"
-                               withParameters:@{@"conversaId" : temp, @"businessId": [SettingsKeys getBusinessId]}
-                                        block:^(id  _Nullable object, NSError * _Nullable error)
-             {
-                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                 hud.mode = MBProgressHUDModeCustomView;
-                 hud.square = YES;
-                 UIImage *image;
-
-                 if (error) {
-                     self.conversaIdTextField.text = [SettingsKeys getConversaId];
-                     // Show notification
-                     image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_not_changed", nil);
-                 } else {
-                     // Change displayName
-                     [SettingsKeys setConversaId:temp];
-                     // Show notification
-                     image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_changed", nil);
-                 }
-
-                 hud.customView = [[UIImageView alloc] initWithImage:image];
-                 [hud hideAnimated:YES afterDelay:2.f];
-             }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"updateBusinessId"
+//                               withParameters:@{@"conversaId" : temp, @"businessId": [SettingsKeys getBusinessId]}
+//                                        block:^(id  _Nullable object, NSError * _Nullable error)
+//             {
+//                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                 hud.mode = MBProgressHUDModeCustomView;
+//                 hud.square = YES;
+//                 UIImage *image;
+//
+//                 if (error) {
+//                     self.conversaIdTextField.text = [SettingsKeys getConversaId];
+//                     // Show notification
+//                     image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_not_changed", nil);
+//                 } else {
+//                     // Change displayName
+//                     [SettingsKeys setConversaId:temp];
+//                     // Show notification
+//                     image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                     hud.label.text = NSLocalizedString(@"settings_account_alert_conversa_id_changed", nil);
+//                 }
+//
+//                 hud.customView = [[UIImageView alloc] initWithImage:image];
+//                 [hud hideAnimated:YES afterDelay:2.f];
+//             }];
         }
     } else {
         // Password
@@ -177,28 +177,29 @@
                                  actionWithTitle:NSLocalizedString(@"settings_account_alert_password_action_change", nil)
                                  style:UIAlertActionStyleDestructive
                                  handler:^(UIAlertAction * action) {
-                                     Account *user = [Account currentUser];
-                                     user.password = self.passwordTextField.text;
-                                     self.passwordTextField.text = @"";
-                                     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                                         hud.mode = MBProgressHUDModeCustomView;
-                                         hud.square = YES;
-                                         UIImage *image;
-
-                                         if (error) {
-                                             // Show notification
-                                             image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                             hud.label.text = NSLocalizedString(@"settings_account_alert_password_not_changed", nil);
-                                         } else {
-                                             // Show notification
-                                             image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                             hud.label.text = NSLocalizedString(@"settings_account_alert_password_changed", nil);
-                                         }
-
-                                         hud.customView = [[UIImageView alloc] initWithImage:image];
-                                         [hud hideAnimated:YES afterDelay:2.f];
-                                     }];
+                                     // TODO: Replace with networking layer
+//                                     Account *user = [Account currentUser];
+//                                     user.password = self.passwordTextField.text;
+//                                     self.passwordTextField.text = @"";
+//                                     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                                         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                                         hud.mode = MBProgressHUDModeCustomView;
+//                                         hud.square = YES;
+//                                         UIImage *image;
+//
+//                                         if (error) {
+//                                             // Show notification
+//                                             image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                                             hud.label.text = NSLocalizedString(@"settings_account_alert_password_not_changed", nil);
+//                                         } else {
+//                                             // Show notification
+//                                             image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                                             hud.label.text = NSLocalizedString(@"settings_account_alert_password_changed", nil);
+//                                         }
+//
+//                                         hud.customView = [[UIImageView alloc] initWithImage:image];
+//                                         [hud hideAnimated:YES afterDelay:2.f];
+//                                     }];
                                  }];
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
@@ -295,60 +296,61 @@
 
 - (void)processImage:(NSData *)picture {
     if (picture) {
-        PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg" data:picture];
-        [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-         {
-             if (error == nil) {
-                 self.avatarImageView.image = [UIImage imageWithData:picture];
-
-                 [PFCloud callFunctionInBackground:@"updateBusinessAvatar"
-                                    withParameters:@{@"avatar" : filePicture, @"businessId": [SettingsKeys getBusinessId]}
-                                             block:^(id  _Nullable object, NSError * _Nullable error)
-                  {
-                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                      hud.mode = MBProgressHUDModeCustomView;
-                      hud.square = YES;
-                      UIImage *image;
-
-                      if (error) {
-                          self.conversaIdTextField.text = [SettingsKeys getConversaId];
-                          // Show notification
-                          image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                          hud.label.text = NSLocalizedString(@"settings_account_avatar_error_link", nil);
-                      } else {
-                          // Change displayName
-                          // Show notification
-                          image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                          hud.label.text = NSLocalizedString(@"settings_account_avatar", nil);
-                          // Save image
-                          BOOL result = [[NSFileManager defaultManager] saveDataToLibraryDirectory:picture
-                                                                                          withName:kAccountAvatarName
-                                                                                      andDirectory:kMessageMediaAvatarLocation];
-
-                          if (result) {
-                              [SettingsKeys setAvatarUrl:@""];
-                          }
-                      }
-
-                      hud.customView = [[UIImageView alloc] initWithImage:image];
-                      [hud hideAnimated:YES afterDelay:2.f];
-                  }];
-             } else {
-                 UIAlertController * view=   [UIAlertController
-                                              alertControllerWithTitle:nil
-                                              message:NSLocalizedString(@"settings_account_avatar_error", nil)
-                                              preferredStyle:UIAlertControllerStyleAlert];
-
-                 UIAlertAction* ok = [UIAlertAction
-                                      actionWithTitle:@"Ok"
-                                      style:UIAlertActionStyleDefault
-                                      handler:^(UIAlertAction * action) {
-                                          [view dismissViewControllerAnimated:YES completion:nil];
-                                      }];
-                 [view addAction:ok];
-                 [self presentViewController:view animated:YES completion:nil];
-             }
-         }];
+        // TODO: Replace with Firebase
+//        PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg" data:picture];
+//        [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+//         {
+//             if (error == nil) {
+//                 self.avatarImageView.image = [UIImage imageWithData:picture];
+//
+//                 [PFCloud callFunctionInBackground:@"updateBusinessAvatar"
+//                                    withParameters:@{@"avatar" : filePicture, @"businessId": [SettingsKeys getBusinessId]}
+//                                             block:^(id  _Nullable object, NSError * _Nullable error)
+//                  {
+//                      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                      hud.mode = MBProgressHUDModeCustomView;
+//                      hud.square = YES;
+//                      UIImage *image;
+//
+//                      if (error) {
+//                          self.conversaIdTextField.text = [SettingsKeys getConversaId];
+//                          // Show notification
+//                          image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                          hud.label.text = NSLocalizedString(@"settings_account_avatar_error_link", nil);
+//                      } else {
+//                          // Change displayName
+//                          // Show notification
+//                          image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                          hud.label.text = NSLocalizedString(@"settings_account_avatar", nil);
+//                          // Save image
+//                          BOOL result = [[NSFileManager defaultManager] saveDataToLibraryDirectory:picture
+//                                                                                          withName:kAccountAvatarName
+//                                                                                      andDirectory:kMessageMediaAvatarLocation];
+//
+//                          if (result) {
+//                              [SettingsKeys setAvatarUrl:@""];
+//                          }
+//                      }
+//
+//                      hud.customView = [[UIImageView alloc] initWithImage:image];
+//                      [hud hideAnimated:YES afterDelay:2.f];
+//                  }];
+//             } else {
+//                 UIAlertController * view=   [UIAlertController
+//                                              alertControllerWithTitle:nil
+//                                              message:NSLocalizedString(@"settings_account_avatar_error", nil)
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//
+//                 UIAlertAction* ok = [UIAlertAction
+//                                      actionWithTitle:@"Ok"
+//                                      style:UIAlertActionStyleDefault
+//                                      handler:^(UIAlertAction * action) {
+//                                          [view dismissViewControllerAnimated:YES completion:nil];
+//                                      }];
+//                 [view addAction:ok];
+//                 [self presentViewController:view animated:YES completion:nil];
+//             }
+//         }];
     }
 }
 

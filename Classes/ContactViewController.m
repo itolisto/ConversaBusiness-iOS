@@ -13,7 +13,6 @@
 #import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
-#import <Parse/Parse.h>
 
 @interface ContactViewController ()
 
@@ -106,36 +105,37 @@
         [self validateTextField:self.businessTextField text:self.businessTextField.text select:YES] &&
         [self validateTextField:self.contactTextField text:self.contactTextField.text select:YES] )
     {
-        [PFCloud callFunctionInBackground:@"businessClaimRequest"
-                           withParameters:@{@"businessId":self.objectId,
-                                            @"name":self.nameTextField.text,
-                                            @"email":self.emailTextField.text,
-                                            @"position":self.businessTextField.text,
-                                            @"contact":self.contactTextField.text}
-                                    block:^(id  _Nullable object, NSError * _Nullable error)
-         {
-             NSString* message;
-
-             if (error) {
-                 message = NSLocalizedString(@"signup_contact_error", nil);
-             } else {
-                 message = NSLocalizedString(@"signup_contact_success", nil);
-             }
-
-             if (self.isViewLoaded && self.view.window) {
-                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                                message:message
-                                                                         preferredStyle:UIAlertControllerStyleAlert];
-                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok"
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction * _Nonnull action) {
-                                                                [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                [self.navigationController popToRootViewControllerAnimated:YES];
-                                                            }];
-                 [alert addAction:ok];
-                 [self presentViewController:alert animated:YES completion:nil];
-             }
-         }];
+        // TODO: Replace with networking layer
+//        [PFCloud callFunctionInBackground:@"businessClaimRequest"
+//                           withParameters:@{@"businessId":self.objectId,
+//                                            @"name":self.nameTextField.text,
+//                                            @"email":self.emailTextField.text,
+//                                            @"position":self.businessTextField.text,
+//                                            @"contact":self.contactTextField.text}
+//                                    block:^(id  _Nullable object, NSError * _Nullable error)
+//         {
+//             NSString* message;
+//
+//             if (error) {
+//                 message = NSLocalizedString(@"signup_contact_error", nil);
+//             } else {
+//                 message = NSLocalizedString(@"signup_contact_success", nil);
+//             }
+//
+//             if (self.isViewLoaded && self.view.window) {
+//                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+//                                                                                message:message
+//                                                                         preferredStyle:UIAlertControllerStyleAlert];
+//                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok"
+//                                                              style:UIAlertActionStyleDefault
+//                                                            handler:^(UIAlertAction * _Nonnull action) {
+//                                                                [alert dismissViewControllerAnimated:YES completion:nil];
+//                                                                [self.navigationController popToRootViewControllerAnimated:YES];
+//                                                            }];
+//                 [alert addAction:ok];
+//                 [self presentViewController:alert animated:YES completion:nil];
+//             }
+//         }];
     }
 }
 

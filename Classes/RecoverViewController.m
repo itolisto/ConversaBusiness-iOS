@@ -90,39 +90,40 @@
 }
 
 - (void)recoverPassword {
-    [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {
-            UIAlertController* view = [UIAlertController
-                                       alertControllerWithTitle:nil
-                                       message:NSLocalizedString(@"recover_password_failed_message", nil)
-                                       preferredStyle:UIAlertControllerStyleAlert];
-
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"Ok"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-
-            [view addAction:ok];
-            [self presentViewController:view animated:YES completion:nil];
-        } else {
-            UIAlertController* view = [UIAlertController
-                                       alertControllerWithTitle:nil
-                                       message:NSLocalizedString(@"recover_password_sent_message", nil)
-                                       preferredStyle:UIAlertControllerStyleAlert];
-
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"Ok"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-
-            [view addAction:ok];
-            [self presentViewController:view animated:YES completion:nil];
-        }
-    }];
+    // TODO: Replace with networking layer
+//    [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
+//        if (error) {
+//            UIAlertController* view = [UIAlertController
+//                                       alertControllerWithTitle:nil
+//                                       message:NSLocalizedString(@"recover_password_failed_message", nil)
+//                                       preferredStyle:UIAlertControllerStyleAlert];
+//
+//            UIAlertAction* ok = [UIAlertAction
+//                                 actionWithTitle:@"Ok"
+//                                 style:UIAlertActionStyleDefault
+//                                 handler:^(UIAlertAction * action) {
+//                                     [view dismissViewControllerAnimated:YES completion:nil];
+//                                 }];
+//
+//            [view addAction:ok];
+//            [self presentViewController:view animated:YES completion:nil];
+//        } else {
+//            UIAlertController* view = [UIAlertController
+//                                       alertControllerWithTitle:nil
+//                                       message:NSLocalizedString(@"recover_password_sent_message", nil)
+//                                       preferredStyle:UIAlertControllerStyleAlert];
+//
+//            UIAlertAction* ok = [UIAlertAction
+//                                 actionWithTitle:@"Ok"
+//                                 style:UIAlertActionStyleDefault
+//                                 handler:^(UIAlertAction * action) {
+//                                     [view dismissViewControllerAnimated:YES completion:nil];
+//                                 }];
+//
+//            [view addAction:ok];
+//            [self presentViewController:view animated:YES completion:nil];
+//        }
+//    }];
 }
 
 #pragma mark - Navigation Method -

@@ -53,6 +53,7 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <JSQSystemSoundPlayer/JSQSystemSoundPlayer.h>
 
 #import "ConversaManager-Swift.h"
 
@@ -194,26 +195,26 @@
 
     NSString *business_id = [SettingsKeys getBusinessId];
     [Flurry logEvent:@"manager_chat_duration" withParameters:@{@"business": (business_id) ? business_id : @""} timed:YES];
-
-    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
-                       withParameters:@{@"customerId": self.buddy.uniqueId,
-                                        @"businessId": [SettingsKeys getBusinessId],
-                                        @"fromCustomer": @NO}
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-     {
-         if (!error) {
-             NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
-                                                                 options:0
-                                                                   error:&error];
-
-             if (!error) {
-                 [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                     NSDictionary *message = (NSDictionary*)obj;
-                     [YapMessage saveMessageWithDictionary:message block:nil];
-                 }];
-             }
-         }
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
+//                       withParameters:@{@"customerId": self.buddy.uniqueId,
+//                                        @"businessId": [SettingsKeys getBusinessId],
+//                                        @"fromCustomer": @NO}
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//     {
+//         if (!error) {
+//             NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                 options:0
+//                                                                   error:&error];
+//
+//             if (!error) {
+//                 [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                     NSDictionary *message = (NSDictionary*)obj;
+//                     [YapMessage saveMessageWithDictionary:message block:nil];
+//                 }];
+//             }
+//         }
+//     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -1179,40 +1180,41 @@
 - (void)sendLocation {
     if([NotificationPermissions checkPermissions:self]) {
         __weak typeof(self)weakSelf = self;
-        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-            typeof(weakSelf)sSelf = weakSelf;
-            if (error == nil) {
-                if (sSelf) {
-                    YapMessage *message = [self newYapMessageType:kMessageTypeLocation
-                                                           values:@{MESSAGE_LATI_KEY:[NSNumber numberWithDouble:geoPoint.latitude],
-                                                                    MESSAGE_LONG_KEY:[NSNumber numberWithDouble:geoPoint.longitude]}
-                                                         incoming:NO];
-                    message.transferProgress = 100;
-                    [sSelf sendWithYapMessage:message isLastMessage:YES withPFFile:nil];
-                }
-            } else {
-                if (sSelf) {
-                    UIAlertController* view = [UIAlertController
-                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
-                                               message:nil
-                                               preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction* ok = [UIAlertAction
-                                         actionWithTitle:@"Ok"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [view dismissViewControllerAnimated:YES completion:nil];
-                                         }];
-                    
-                    [view addAction:ok];
-                    [weakSelf presentViewController:view animated:YES completion:nil];
-                }
-            }
-        }];
+        // TODO: Replace with networking layer
+//        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+//            typeof(weakSelf)sSelf = weakSelf;
+//            if (error == nil) {
+//                if (sSelf) {
+//                    YapMessage *message = [self newYapMessageType:kMessageTypeLocation
+//                                                           values:@{MESSAGE_LATI_KEY:[NSNumber numberWithDouble:geoPoint.latitude],
+//                                                                    MESSAGE_LONG_KEY:[NSNumber numberWithDouble:geoPoint.longitude]}
+//                                                         incoming:NO];
+//                    message.transferProgress = 100;
+//                    [sSelf sendWithYapMessage:message isLastMessage:YES withPFFile:nil];
+//                }
+//            } else {
+//                if (sSelf) {
+//                    UIAlertController* view = [UIAlertController
+//                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
+//                                               message:nil
+//                                               preferredStyle:UIAlertControllerStyleAlert];
+//
+//                    UIAlertAction* ok = [UIAlertAction
+//                                         actionWithTitle:@"Ok"
+//                                         style:UIAlertActionStyleDefault
+//                                         handler:^(UIAlertAction * action) {
+//                                             [view dismissViewControllerAnimated:YES completion:nil];
+//                                         }];
+//
+//                    [view addAction:ok];
+//                    [weakSelf presentViewController:view animated:YES completion:nil];
+//                }
+//            }
+//        }];
     }
 }
 
-- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)isLastMessage withPFFile:(PFFile *)file
+- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)isLastMessage withPFFile:(NSString *)file
 {
     YapMessage *message = [yapMessage copy];
     
@@ -1260,31 +1262,31 @@
                     break;
                 }
             }
-
-            [PFCloud callFunctionInBackground:@"sendUserMessage"
-                               withParameters:messageNSD
-                                        block:^(id  _Nullable object, NSError * _Nullable error)
-             {
-                 if(error) {
-                     if ([ParseValidation validateError:error]) {
-                         self.visible = NO;
-                         [ParseValidation _handleInvalidSessionTokenError:self];
-                         return;
-                     } else {
-                         DDLogError(@"Message sent error: %@", error.localizedDescription);
-                         message.delivered = statusParseError;
-                         message.error = error.localizedDescription;
-                     }
-                 } else {
-                     message.delivered = statusAllDelivered;
-                     message.error = nil;
-                 }
-
-                 [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                  {
-                      [message saveWithTransaction:transaction];
-                  }];
-             }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"sendUserMessage"
+//                               withParameters:messageNSD
+//                                        block:^(id  _Nullable object, NSError * _Nullable error)
+//             {
+//                 if(error) {
+//                     if ([ParseValidation validateError:error]) {
+//                         self.visible = NO;
+//                         [ParseValidation _handleInvalidSessionTokenError:self];
+//                         return;
+//                     } else {
+//                         DDLogError(@"Message sent error: %@", error.localizedDescription);
+//                         message.delivered = statusParseError;
+//                         message.error = error.localizedDescription;
+//                     }
+//                 } else {
+//                     message.delivered = statusAllDelivered;
+//                     message.error = nil;
+//                 }
+//
+//                 [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//                  {
+//                      [message saveWithTransaction:transaction];
+//                  }];
+//             }];
         }
 
         if (!self.checkIfAlreadyAdded) {
@@ -1376,29 +1378,30 @@
     }];
     
     // Try to upload message
-    PFFile *filePicture = [PFFile fileWithName:imageName data:imageData];
-    [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error == nil) {
-            message.transferProgress = 100;
-            [self sendWithYapMessage:message isLastMessage:YES withPFFile:filePicture];
-        } else {
-            // Couldn't send image
-            message.delivered = statusParseError;
-            message.transferProgress = 0;
-            message.error = error.localizedDescription;
-            
-            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction)
-             {
-                 [message saveWithTransaction:transaction];
-             }];
-        }
-    } progressBlock:^(int percentDone) {
-        message.transferProgress = percentDone;
-        [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-         {
-             [message saveWithTransaction:transaction];
-         }];
-    }];
+    // TODO: Replace with Firebase
+//    PFFile *filePicture = [PFFile fileWithName:imageName data:imageData];
+//    [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        if (error == nil) {
+//            message.transferProgress = 100;
+//            [self sendWithYapMessage:message isLastMessage:YES withPFFile:filePicture];
+//        } else {
+//            // Couldn't send image
+//            message.delivered = statusParseError;
+//            message.transferProgress = 0;
+//            message.error = error.localizedDescription;
+//
+//            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction)
+//             {
+//                 [message saveWithTransaction:transaction];
+//             }];
+//        }
+//    } progressBlock:^(int percentDone) {
+//        message.transferProgress = percentDone;
+//        [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//         {
+//             [message saveWithTransaction:transaction];
+//         }];
+//    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -1563,12 +1566,14 @@
                     [self finishReceivingMessage];
                     self.subTitle.hidden = YES;
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        // TODO: Replace with sound
+//                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        // TODO: Replace with sound
+//                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }

@@ -193,13 +193,12 @@ NSString *const BlockedGroup = @"BlockedGroup";
 + (void)registerChatSearchingDatabaseView {
     NSArray *propertiesToIndexForMySearch = @[YapContactAttributes.displayName];
 
-    YapDatabaseFullTextSearchHandler *handler = [YapDatabaseFullTextSearchHandler withObjectBlock:^(NSMutableDictionary *dict, NSString *collection, NSString *key, id object)
-                                                 {
-                                                     if ([object isKindOfClass:[YapContact class]]) {
-                                                         __weak YapContact *person = (YapContact *)object;
-                                                         dict[YapContactAttributes.displayName] = person.displayName;
-                                                     }
-                                                 }];
+    YapDatabaseFullTextSearchHandler *handler = [YapDatabaseFullTextSearchHandler withObjectBlock:^(YapDatabaseReadTransaction * _Nonnull transaction, NSMutableDictionary * _Nonnull dict, NSString * _Nonnull collection, NSString * _Nonnull key, id  _Nonnull object) {
+        if ([object isKindOfClass:[YapContact class]]) {
+            __weak YapContact *person = (YapContact *)object;
+            dict[YapContactAttributes.displayName] = person.displayName;
+        }
+    }];
 
     YapDatabaseFullTextSearch *fts = [[YapDatabaseFullTextSearch alloc] initWithColumnNames:propertiesToIndexForMySearch
                                                                                     handler:handler
