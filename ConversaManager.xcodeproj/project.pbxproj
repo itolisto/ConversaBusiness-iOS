@@ -101,6 +101,26 @@
 		A5D81DA31F971B370004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81DA21F971B370004A561 /* NotificationService.swift */; };
 		A5D81DA71F971B370004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81DA01F971B370004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A5E5837B212A90C100DFC35B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5E5837A212A90C100DFC35B /* GoogleService-Info.plist */; };
+		A5F2FE6C21350834004742E3 /* GetBusinessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5821350832004742E3 /* GetBusinessProfile.swift */; };
+		A5F2FE6D21350834004742E3 /* UpdateBusinessId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5921350832004742E3 /* UpdateBusinessId.swift */; };
+		A5F2FE6E21350834004742E3 /* UpdateBusinessCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5A21350832004742E3 /* UpdateBusinessCategory.swift */; };
+		A5F2FE6F21350834004742E3 /* GetOnlyCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5B21350833004742E3 /* GetOnlyCategories.swift */; };
+		A5F2FE7021350834004742E3 /* SendPresenceMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5C21350833004742E3 /* SendPresenceMessage.swift */; };
+		A5F2FE7121350834004742E3 /* GetConversaAccountId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5D21350833004742E3 /* GetConversaAccountId.swift */; };
+		A5F2FE7221350834004742E3 /* UpdateBusinessLastConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5E21350833004742E3 /* UpdateBusinessLastConnection.swift */; };
+		A5F2FE7321350834004742E3 /* UpdateBusinessName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE5F21350833004742E3 /* UpdateBusinessName.swift */; };
+		A5F2FE7421350834004742E3 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6021350833004742E3 /* SignUp.swift */; };
+		A5F2FE7521350834004742E3 /* UpdateBusinessStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6121350833004742E3 /* UpdateBusinessStatus.swift */; };
+		A5F2FE7621350834004742E3 /* UpdateBusinessRedirect.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6221350833004742E3 /* UpdateBusinessRedirect.swift */; };
+		A5F2FE7721350834004742E3 /* UpdateBusinessAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6321350833004742E3 /* UpdateBusinessAvatar.swift */; };
+		A5F2FE7821350834004742E3 /* BusinessValidateId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6421350834004742E3 /* BusinessValidateId.swift */; };
+		A5F2FE7921350834004742E3 /* BusinessClaimRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6521350834004742E3 /* BusinessClaimRequest.swift */; };
+		A5F2FE7A21350834004742E3 /* GetBusinessCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6621350834004742E3 /* GetBusinessCategories.swift */; };
+		A5F2FE7B21350834004742E3 /* GetBusinessId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6721350834004742E3 /* GetBusinessId.swift */; };
+		A5F2FE7C21350834004742E3 /* GetCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6821350834004742E3 /* GetCountries.swift */; };
+		A5F2FE7D21350834004742E3 /* SendUserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6921350834004742E3 /* SendUserMessage.swift */; };
+		A5F2FE7E21350834004742E3 /* GetBusinessStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6A21350834004742E3 /* GetBusinessStatistics.swift */; };
+		A5F2FE7F21350834004742E3 /* GetConversaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */; };
 		A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */; };
 		A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */; };
 /* End PBXBuildFile section */
@@ -301,6 +321,26 @@
 		A5D81DA21F971B370004A561 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		A5D81DA41F971B370004A561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5E5837A212A90C100DFC35B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A5F2FE5821350832004742E3 /* GetBusinessProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessProfile.swift; sourceTree = "<group>"; };
+		A5F2FE5921350832004742E3 /* UpdateBusinessId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessId.swift; sourceTree = "<group>"; };
+		A5F2FE5A21350832004742E3 /* UpdateBusinessCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessCategory.swift; sourceTree = "<group>"; };
+		A5F2FE5B21350833004742E3 /* GetOnlyCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetOnlyCategories.swift; sourceTree = "<group>"; };
+		A5F2FE5C21350833004742E3 /* SendPresenceMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPresenceMessage.swift; sourceTree = "<group>"; };
+		A5F2FE5D21350833004742E3 /* GetConversaAccountId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetConversaAccountId.swift; sourceTree = "<group>"; };
+		A5F2FE5E21350833004742E3 /* UpdateBusinessLastConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessLastConnection.swift; sourceTree = "<group>"; };
+		A5F2FE5F21350833004742E3 /* UpdateBusinessName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessName.swift; sourceTree = "<group>"; };
+		A5F2FE6021350833004742E3 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		A5F2FE6121350833004742E3 /* UpdateBusinessStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessStatus.swift; sourceTree = "<group>"; };
+		A5F2FE6221350833004742E3 /* UpdateBusinessRedirect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessRedirect.swift; sourceTree = "<group>"; };
+		A5F2FE6321350833004742E3 /* UpdateBusinessAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateBusinessAvatar.swift; sourceTree = "<group>"; };
+		A5F2FE6421350834004742E3 /* BusinessValidateId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessValidateId.swift; sourceTree = "<group>"; };
+		A5F2FE6521350834004742E3 /* BusinessClaimRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessClaimRequest.swift; sourceTree = "<group>"; };
+		A5F2FE6621350834004742E3 /* GetBusinessCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessCategories.swift; sourceTree = "<group>"; };
+		A5F2FE6721350834004742E3 /* GetBusinessId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessId.swift; sourceTree = "<group>"; };
+		A5F2FE6821350834004742E3 /* GetCountries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCountries.swift; sourceTree = "<group>"; };
+		A5F2FE6921350834004742E3 /* SendUserMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendUserMessage.swift; sourceTree = "<group>"; };
+		A5F2FE6A21350834004742E3 /* GetBusinessStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessStatistics.swift; sourceTree = "<group>"; };
+		A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetConversaAccount.swift; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCustomException.swift; sourceTree = "<group>"; };
 		A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
@@ -702,6 +742,7 @@
 		A5D286742127FB90001BDFCF /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				A5F2FE57213507F3004742E3 /* Requests */,
 				A5D2868C2127FBBC001BDFCF /* Commons.swift */,
 				A5D286892127FBBC001BDFCF /* Extension.swift */,
 				A5D286912127FBBC001BDFCF /* OperationProtocol.swift */,
@@ -742,6 +783,33 @@
 				A52907131D6FE93D0018D74C /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		A5F2FE57213507F3004742E3 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				A5F2FE6521350834004742E3 /* BusinessClaimRequest.swift */,
+				A5F2FE6421350834004742E3 /* BusinessValidateId.swift */,
+				A5F2FE6621350834004742E3 /* GetBusinessCategories.swift */,
+				A5F2FE6721350834004742E3 /* GetBusinessId.swift */,
+				A5F2FE5821350832004742E3 /* GetBusinessProfile.swift */,
+				A5F2FE6A21350834004742E3 /* GetBusinessStatistics.swift */,
+				A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */,
+				A5F2FE5D21350833004742E3 /* GetConversaAccountId.swift */,
+				A5F2FE6821350834004742E3 /* GetCountries.swift */,
+				A5F2FE5B21350833004742E3 /* GetOnlyCategories.swift */,
+				A5F2FE5C21350833004742E3 /* SendPresenceMessage.swift */,
+				A5F2FE6921350834004742E3 /* SendUserMessage.swift */,
+				A5F2FE6021350833004742E3 /* SignUp.swift */,
+				A5F2FE6321350833004742E3 /* UpdateBusinessAvatar.swift */,
+				A5F2FE5A21350832004742E3 /* UpdateBusinessCategory.swift */,
+				A5F2FE5921350832004742E3 /* UpdateBusinessId.swift */,
+				A5F2FE5E21350833004742E3 /* UpdateBusinessLastConnection.swift */,
+				A5F2FE5F21350833004742E3 /* UpdateBusinessName.swift */,
+				A5F2FE6221350833004742E3 /* UpdateBusinessRedirect.swift */,
+				A5F2FE6121350833004742E3 /* UpdateBusinessStatus.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		A5FA7D6C20316501008D3134 /* Networking */ = {
@@ -1044,18 +1112,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5F2FE7E21350834004742E3 /* GetBusinessStatistics.swift in Sources */,
+				A5F2FE6F21350834004742E3 /* GetOnlyCategories.swift in Sources */,
 				A52907A11D6FEA0C0018D74C /* Incoming.m in Sources */,
 				A52907AB1D6FEA0C0018D74C /* NSFileManager+Conversa.m in Sources */,
+				A5F2FE7021350834004742E3 /* SendPresenceMessage.swift in Sources */,
 				A508C7D81E13632600BC758C /* ConversaViewController.m in Sources */,
 				A5D2869B2127FBBD001BDFCF /* OperationProtocol.swift in Sources */,
+				A5F2FE7821350834004742E3 /* BusinessValidateId.swift in Sources */,
 				A52907AC1D6FEA0C0018D74C /* NSNumber+Conversa.m in Sources */,
 				A52907C01D6FEA0C0018D74C /* YapTag.m in Sources */,
 				A52907BA1D6FEA0C0018D74C /* VideoMediaItem.m in Sources */,
+				A5F2FE7C21350834004742E3 /* GetCountries.swift in Sources */,
 				A52907B81D6FEA0C0018D74C /* Utilities.m in Sources */,
+				A5F2FE7621350834004742E3 /* UpdateBusinessRedirect.swift in Sources */,
 				A5160B951E033D3700E001E7 /* RecoverViewController.m in Sources */,
 				A529079C1D6FEA0C0018D74C /* DatabaseManager.m in Sources */,
 				A52907951D6FEA0C0018D74C /* ContentViewController.swift in Sources */,
 				A5160BA31E033D9B00E001E7 /* AboutViewController.m in Sources */,
+				A5F2FE7921350834004742E3 /* BusinessClaimRequest.swift in Sources */,
 				A5160B941E033D3700E001E7 /* LoginViewController.m in Sources */,
 				A5160B871E033CEE00E001E7 /* ConversationViewController.m in Sources */,
 				A5AAD6821E12CF2500060E73 /* ContactViewController.m in Sources */,
@@ -1070,6 +1145,7 @@
 				A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */,
 				A5160BA41E033D9B00E001E7 /* AccountSettingViewController.m in Sources */,
 				A52907941D6FEA0C0018D74C /* Constants.m in Sources */,
+				A5F2FE7F21350834004742E3 /* GetConversaAccount.swift in Sources */,
 				A57CAE631E8C96BE0025D0A4 /* ChartViewController.m in Sources */,
 				A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */,
 				A5C70CA11E0DAA4200F8D0D4 /* StatsViewController.m in Sources */,
@@ -1078,20 +1154,25 @@
 				A52907B41D6FEA0C0018D74C /* SettingsKeys.m in Sources */,
 				A5160BA81E033D9B00E001E7 /* SettingsViewController.m in Sources */,
 				A5160BAB1E033E5B00E001E7 /* AppJobs.m in Sources */,
+				A5F2FE7521350834004742E3 /* UpdateBusinessStatus.swift in Sources */,
 				A56EB3531E0A523900532231 /* CategorySettingViewController.m in Sources */,
 				A5AAD67B1E12CE7000060E73 /* BusinessListViewController.m in Sources */,
+				A5F2FE6C21350834004742E3 /* GetBusinessProfile.swift in Sources */,
 				A56861771E8DE0090069E87D /* ChartPageViewController.swift in Sources */,
 				A5160B931E033D3700E001E7 /* LoginHandler.m in Sources */,
 				A52907A91D6FEA0C0018D74C /* NotificationPermissions.m in Sources */,
 				A5D286972127FBBD001BDFCF /* ServiceConfig.swift in Sources */,
 				A5AAD6851E12CF5A00060E73 /* RegisterCompleteViewController.m in Sources */,
 				A53530E81E0B904B0001BDED /* UIStateButton.m in Sources */,
+				A5F2FE7721350834004742E3 /* UpdateBusinessAvatar.swift in Sources */,
 				A52907BD1D6FEA0C0018D74C /* YapContact.m in Sources */,
 				A52907901D6FEA0C0018D74C /* Camera.m in Sources */,
 				A5D2869C2127FBBD001BDFCF /* ServiceProtocol.swift in Sources */,
 				A52907071D6FE93D0018D74C /* AppDelegate.m in Sources */,
 				A5D286962127FBBD001BDFCF /* Commons.swift in Sources */,
 				A52907A51D6FEA0C0018D74C /* MapView.m in Sources */,
+				A5F2FE6D21350834004742E3 /* UpdateBusinessId.swift in Sources */,
+				A5F2FE7D21350834004742E3 /* SendUserMessage.swift in Sources */,
 				A52907981D6FEA0C0018D74C /* CustomBlockCell.m in Sources */,
 				A5160BA71E033D9B00E001E7 /* NotificationsViewController.m in Sources */,
 				A529078C1D6FEA0C0018D74C /* Audio.m in Sources */,
@@ -1103,8 +1184,11 @@
 				A57CAE5D1E8C3B910025D0A4 /* PageViewController.swift in Sources */,
 				A529078A1D6FEA0C0018D74C /* Account.m in Sources */,
 				A5AAD6891E12F68900060E73 /* nBusiness.m in Sources */,
+				A5F2FE7421350834004742E3 /* SignUp.swift in Sources */,
 				A5D286942127FBBD001BDFCF /* RequestProtocol.swift in Sources */,
 				A529079D1D6FEA0C0018D74C /* DatabaseView.m in Sources */,
+				A5F2FE6E21350834004742E3 /* UpdateBusinessCategory.swift in Sources */,
+				A5F2FE7221350834004742E3 /* UpdateBusinessLastConnection.swift in Sources */,
 				A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */,
 				A529079E1D6FEA0C0018D74C /* DetailAccountViewController.m in Sources */,
 				A5160B961E033D3700E001E7 /* RegisterViewController.m in Sources */,
@@ -1114,12 +1198,16 @@
 				A52907B01D6FEA0C0018D74C /* PhotoMediaItem.m in Sources */,
 				A56EB3571E0A5E2100532231 /* nCategory.m in Sources */,
 				A52907B91D6FEA0C0018D74C /* Video.m in Sources */,
+				A5F2FE7A21350834004742E3 /* GetBusinessCategories.swift in Sources */,
 				A5D286982127FBBD001BDFCF /* Service.swift in Sources */,
 				A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */,
 				A5713BDE1E0B0E8B00FACCD4 /* StatusSettingViewController.m in Sources */,
 				A5D2869A2127FBBD001BDFCF /* ResponseProtocol.swift in Sources */,
+				A5F2FE7B21350834004742E3 /* GetBusinessId.swift in Sources */,
 				A52907991D6FEA0C0018D74C /* CustomChatCell.m in Sources */,
+				A5F2FE7121350834004742E3 /* GetConversaAccountId.swift in Sources */,
 				A52907041D6FE93D0018D74C /* main.m in Sources */,
+				A5F2FE7321350834004742E3 /* UpdateBusinessName.swift in Sources */,
 				A52907BF1D6FEA0C0018D74C /* YapMessage.m in Sources */,
 				A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */,
 				A5160BA61E033D9B00E001E7 /* ChatSettingViewController.m in Sources */,

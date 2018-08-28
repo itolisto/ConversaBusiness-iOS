@@ -82,14 +82,16 @@
 	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
-    <key>Endpoint</key>
-    <dict>
-        <key>url</key>
-        <string>$(HOST_NAME)</string>
-        <key>name</key>
-        <string>$(ENVIRONMENT_NAME)</string>
-        <key>headers</key>
-        <dict/>
-    </dict>
+	<key>endpoint</key>
+	<dict>
+        <key>base</key>
+        <string>https://us-central1-luminous-inferno-3905.cloudfunctions.net/api/</string>
+		<key>url</key>
+		<string>$(HOST_NAME)</string>
+		<key>name</key>
+		<string>$(ENVIRONMENT_NAME)</string>
+		<key>headers</key>
+		<dict/>
+	</dict>
 </dict>
 </plist>
