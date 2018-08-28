@@ -121,6 +121,7 @@
 		A5F2FE7D21350834004742E3 /* SendUserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6921350834004742E3 /* SendUserMessage.swift */; };
 		A5F2FE7E21350834004742E3 /* GetBusinessStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6A21350834004742E3 /* GetBusinessStatistics.swift */; };
 		A5F2FE7F21350834004742E3 /* GetConversaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */; };
+		A5F2FEA02135224C004742E3 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */; };
 		A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */; };
 		A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */; };
 /* End PBXBuildFile section */
@@ -341,6 +342,7 @@
 		A5F2FE6921350834004742E3 /* SendUserMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendUserMessage.swift; sourceTree = "<group>"; };
 		A5F2FE6A21350834004742E3 /* GetBusinessStatistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessStatistics.swift; sourceTree = "<group>"; };
 		A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetConversaAccount.swift; sourceTree = "<group>"; };
+		A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingManager.swift; path = "../../Conversa-iOS/Classes/NetworkingManager.swift"; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCustomException.swift; sourceTree = "<group>"; };
 		A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
@@ -753,6 +755,7 @@
 				A5D2868E2127FBBC001BDFCF /* Service.swift */,
 				A5D2868D2127FBBC001BDFCF /* ServiceConfig.swift */,
 				A5D286922127FBBD001BDFCF /* ServiceProtocol.swift */,
+				A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -1118,6 +1121,7 @@
 				A52907AB1D6FEA0C0018D74C /* NSFileManager+Conversa.m in Sources */,
 				A5F2FE7021350834004742E3 /* SendPresenceMessage.swift in Sources */,
 				A508C7D81E13632600BC758C /* ConversaViewController.m in Sources */,
+				A5F2FEA02135224C004742E3 /* NetworkingManager.swift in Sources */,
 				A5D2869B2127FBBD001BDFCF /* OperationProtocol.swift in Sources */,
 				A5F2FE7821350834004742E3 /* BusinessValidateId.swift in Sources */,
 				A52907AC1D6FEA0C0018D74C /* NSNumber+Conversa.m in Sources */,

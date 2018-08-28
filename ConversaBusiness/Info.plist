@@ -90,8 +90,6 @@
 		<string>$(HOST_NAME)</string>
 		<key>name</key>
 		<string>$(ENVIRONMENT_NAME)</string>
-		<key>headers</key>
-		<dict/>
 	</dict>
 </dict>
 </plist>
