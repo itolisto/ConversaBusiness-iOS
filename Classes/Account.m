@@ -13,11 +13,12 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 
+@import Firebase;
+
 @implementation Account
 
-+ (Account*)currentUser {
-    // TODO: Fix this
-    return nil;
++ (FIRUser*)currentUser {
+    return [FIRAuth auth].currentUser;
 }
 
 + (void)logOut {
@@ -29,8 +30,8 @@
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[EDQueue sharedInstance] empty];
-    // TODO: Replace with Firebase logout
-//    [super logOut];
+    NSError *signOutError;
+    BOOL status = [[FIRAuth auth] signOut:&signOutError];
 }
 
 @end

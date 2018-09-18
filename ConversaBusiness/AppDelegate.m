@@ -21,8 +21,10 @@
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
+#import "ConversaManager-Swift.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+
 #import <Fabric/Fabric.h>
 #import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
@@ -137,6 +139,8 @@
     if (account) {
         hasAccount = YES;
     }
+
+    [NetworkingManager searchBusiness];
     
     /**
      * Proceso para nombrar controladores en Storyboard

@@ -123,7 +123,6 @@
 		A5F2FE7F21350834004742E3 /* GetConversaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE6B21350834004742E3 /* GetConversaAccount.swift */; };
 		A5F2FEA02135224C004742E3 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */; };
 		A5FA7D7B20316593008D3134 /* FirebaseCustomException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */; };
-		A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -345,7 +344,6 @@
 		A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkingManager.swift; path = "../../Conversa-iOS/Classes/NetworkingManager.swift"; sourceTree = "<group>"; };
 		A5F78A881D6FF22600A3ADD8 /* ConversaManager-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ConversaManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseCustomException.swift; sourceTree = "<group>"; };
-		A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				A529071C1D6FEA0C0018D74C /* Classes */,
+				A59AF6FF1DB675B70018BCE7 /* Views */,
 				A52907011D6FE93D0018D74C /* ConversaBusiness */,
 				A5D81DA11F971B370004A561 /* NotificationService */,
 				A52907001D6FE93D0018D74C /* Products */,
@@ -466,12 +465,10 @@
 				A59AF6FE1DB6759F0018BCE7 /* Media */,
 				A59AF6FD1DB675180018BCE7 /* MediaItems */,
 				A56EB3541E0A5E0B00532231 /* Model */,
-				A5FA7D6C20316501008D3134 /* Networking */,
 				A59AF7021DB676090018BCE7 /* Notification */,
 				A59AF6F91DB674890018BCE7 /* Firebase */,
 				A59AF7041DB676710018BCE7 /* Utils */,
 				A59AF6F81DB674190018BCE7 /* View Controllers */,
-				A59AF6FF1DB675B70018BCE7 /* Views */,
 				A59AF6FA1DB674AD0018BCE7 /* YapDatabase */,
 			);
 			path = Classes;
@@ -611,6 +608,7 @@
 				A52907581D6FEA0C0018D74C /* MapView.xib */,
 			);
 			name = Views;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		A59AF7021DB676090018BCE7 /* Notification */ = {
@@ -756,6 +754,7 @@
 				A5D2868D2127FBBC001BDFCF /* ServiceConfig.swift */,
 				A5D286922127FBBD001BDFCF /* ServiceProtocol.swift */,
 				A5F2FE9F2135224B004742E3 /* NetworkingManager.swift */,
+				A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -813,15 +812,6 @@
 				A5F2FE6121350833004742E3 /* UpdateBusinessStatus.swift */,
 			);
 			path = Requests;
-			sourceTree = "<group>";
-		};
-		A5FA7D6C20316501008D3134 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				A5FA7D7820316593008D3134 /* FirebaseCustomException.swift */,
-				A5FA7D7C2031659F008D3134 /* NetworkingManager.swift */,
-			);
-			name = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1143,7 +1133,6 @@
 				A53962981D70D0E800D557FE /* CustomAblyRealtime.m in Sources */,
 				A5D286992127FBBD001BDFCF /* Request.swift in Sources */,
 				A52907BE1D6FEA0C0018D74C /* YapDatabaseObject.m in Sources */,
-				A5FA7D7D2031659F008D3134 /* NetworkingManager.swift in Sources */,
 				A52907BC1D6FEA0C0018D74C /* YapAccount.m in Sources */,
 				A56192391E08775100D2AAFB /* BaseViewController.m in Sources */,
 				A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */,

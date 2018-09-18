@@ -14,11 +14,13 @@
 #import "SettingsKeys.h"
 #import "DatabaseManager.h"
 
+@import Firebase;
+
 @implementation LoginHandler
 
-+ (void) proccessLoginForAccount:(Account *)account fromViewController:(UIViewController*)controller {
++ (void) proccessLoginForAccount:(FIRUser *)account fromViewController:(UIViewController*)controller {
     // Save as YapAccount
-    YapAccount *newAccount = [[YapAccount alloc]initWithUniqueId:account.objectId];
+    YapAccount *newAccount = [[YapAccount alloc]initWithUniqueId:account.uid];
     [[DatabaseManager sharedInstance].newConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
     {
         [newAccount saveWithTransaction:transaction];
