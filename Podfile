@@ -19,7 +19,7 @@ target 'ConversaManager' do
     pod 'Buglife', '2.8.1'
     #
     # Beautiful charts for iOS/tvOS/OSX!
-    pod 'Charts'
+    pod 'Charts', '3.2.0'
     # 
     pod 'Crashlytics', '3.10.7'
     # Great way to make loading spinners in your application look nicer

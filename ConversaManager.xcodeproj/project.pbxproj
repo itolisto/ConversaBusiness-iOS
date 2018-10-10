@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A38FC518ACEE46AEAE39000 /* Pods_ConversaManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */; };
 		A508C7D81E13632600BC758C /* ConversaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A508C7D71E13632600BC758C /* ConversaViewController.m */; };
 		A5160B731E03327500E001E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5160B751E03327500E001E7 /* Main.storyboard */; };
 		A5160B811E033C0500E001E7 /* ParseValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = A5160B801E033C0500E001E7 /* ParseValidation.m */; };
@@ -70,6 +69,7 @@
 		A547C86D1E106E6500ECC891 /* CheckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86C1E106E6500ECC891 /* CheckViewController.m */; };
 		A56192391E08775100D2AAFB /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56192381E08775100D2AAFB /* BaseViewController.m */; };
 		A561923F1E08886000D2AAFB /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A561923E1E08886000D2AAFB /* BaseTableViewController.m */; };
+		A56396C6216DB95E003D6948 /* Pods_ConversaManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A56396C5216DB95E003D6948 /* Pods_ConversaManager.framework */; };
 		A56861771E8DE0090069E87D /* ChartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56861761E8DE0090069E87D /* ChartPageViewController.swift */; };
 		A56BAD3B1E16E2E400BF428B /* nCountry.m in Sources */ = {isa = PBXBuildFile; fileRef = A56BAD3A1E16E2E400BF428B /* nCountry.m */; };
 		A56EB3501E0A50DA00532231 /* CustomCategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56EB34F1E0A50DA00532231 /* CustomCategoryCell.m */; };
@@ -88,8 +88,6 @@
 		A5C70CA41E0DAEB800F8D0D4 /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C70CA31E0DAEB800F8D0D4 /* ProfileDialogViewController.m */; };
 		A5D4F92E1E6E068B0078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F92D1E6E068B0078F31C /* HelpViewController.m */; };
 		A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C31E165AA7006F7885 /* sound_notification_manager.mp3 */; };
-		A5D81D8A1F97010D0004A561 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D81D821F96DAE60004A561 /* HockeySDK.framework */; };
-		A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D831F96DAE60004A561 /* HockeySDKResources.bundle */; };
 		A5D81DA31F971B370004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81DA21F971B370004A561 /* NotificationService.swift */; };
 		A5D81DA71F971B370004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81DA01F971B370004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -242,6 +240,7 @@
 		A56192381E08775100D2AAFB /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		A561923D1E08886000D2AAFB /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
 		A561923E1E08886000D2AAFB /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		A56396C5216DB95E003D6948 /* Pods_ConversaManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ConversaManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A56861761E8DE0090069E87D /* ChartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartPageViewController.swift; sourceTree = "<group>"; };
 		A56861781E8DFE2D0069E87D /* ChartType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChartType.h; sourceTree = "<group>"; };
 		A56BAD391E16E2E400BF428B /* nCountry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nCountry.h; sourceTree = "<group>"; };
@@ -290,8 +289,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5D81D8A1F97010D0004A561 /* HockeySDK.framework in Frameworks */,
-				2A38FC518ACEE46AEAE39000 /* Pods_ConversaManager.framework in Frameworks */,
+				A56396C6216DB95E003D6948 /* Pods_ConversaManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +317,7 @@
 		7E524557B5AC6044DECDD43F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A56396C5216DB95E003D6948 /* Pods_ConversaManager.framework */,
 				A5D81D811F96DAE60004A561 /* HockeySDK.embeddedframework */,
 				864D1FD11E0BAD0348514920 /* Pods_ConversaManager.framework */,
 			);
@@ -809,7 +808,6 @@
 				A54703CD1E2758E80090A073 /* ChatNavBarView.xib in Resources */,
 				A52907A61D6FEA0C0018D74C /* MapView.xib in Resources */,
 				A5D5F3C41E165AA7006F7885 /* sound_notification_manager.mp3 in Resources */,
-				A5D81D8B1F9701100004A561 /* HockeySDKResources.bundle in Resources */,
 				A52907121D6FE93D0018D74C /* Assets.xcassets in Resources */,
 				A5160B731E03327500E001E7 /* Main.storyboard in Resources */,
 			);
@@ -959,7 +957,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
+			shellScript = "if which bartycrouch > /dev/null; then\n# Incrementally update all Storyboards/XIBs strings files\nbartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n# Add new keys to Localizable.strings files from NSLocalizedString in code\nbartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/ConversaBusiness\" -a -s\nelse\necho \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi\n";
 		};
 		A59F07B91FEEFDB000B2F0D7 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -973,7 +971,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1142,7 +1140,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1158,6 +1156,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1189,7 +1188,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1200,6 +1199,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1214,10 +1214,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1226,7 +1223,7 @@
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1240,10 +1237,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ConversaBusiness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1251,7 +1245,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/ConversaBusiness/ConversaManager-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1282,7 +1276,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1311,7 +1305,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversamanager.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

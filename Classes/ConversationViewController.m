@@ -53,10 +53,9 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <JSQSystemSoundPlayer/JSQSystemSoundPlayer.h>
 
 #import "ConversaManager-Swift.h"
-
-#include <stdlib.h>
 
 #define kYapDatabaseRangeLength    25
 #define kYapDatabaseRangeMaxLength 300
@@ -1563,12 +1562,14 @@
                     [self finishReceivingMessage];
                     self.subTitle.hidden = YES;
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        // TODO: Replace with sound
+                        //[JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        // TODO: Replace with sound
+                        //[JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }

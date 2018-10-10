@@ -62,7 +62,7 @@ class ChartPageViewController: UIPageViewController, UIPageViewControllerDataSou
 
         if pages.count > 0 {
             setViewControllers([pages.first!],
-                               direction: UIPageViewControllerNavigationDirection.forward,
+                               direction: UIPageViewController.NavigationDirection.forward,
                                animated: false,
                                completion: nil)
         }

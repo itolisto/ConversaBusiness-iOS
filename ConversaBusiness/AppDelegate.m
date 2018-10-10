@@ -23,11 +23,12 @@
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+
 #import <Fabric/Fabric.h>
-#import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
 #import <Crashlytics/Crashlytics.h>
 #import <AFNetworking/AFNetworking.h>
+
 @import Parse;
 @import GoogleMaps;
 
@@ -52,10 +53,6 @@
                                      withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 
     [Flurry startSession:@"TTNCBGMJXFZ53MXG4Q53" withSessionBuilder:builder];
-
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"cc7fa61cba974a6fbc4a46782cc6e8bb"];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 
     [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
     
