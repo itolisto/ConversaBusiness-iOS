@@ -84,7 +84,7 @@
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
-    [self.ably.push activate];
+//    [self.ably.push activate];
 }
 
 - (ARTRealtime*)getAblyRealtime {
@@ -112,7 +112,7 @@
         return;
     }
 
-    [self.ably.push deactivate];
+//    [self.ably.push deactivate];
     [self.ably close];
 }
 
@@ -136,31 +136,31 @@
     }
 }
 
-- (void)subscribeToPushNotifications {
-    NSString * channelname = [SettingsKeys getBusinessId];
-    if (channelname && [channelname length] > 0) {
-        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             if (error) {
-                 NSLog(@"Public channel subscribe error");
-             } else {
-                 NSLog(@"Public channel subscribe success");
-             }
-         }];
-        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             if (error) {
-                 NSLog(@"Private channel subscribe error");
-             } else {
-                 NSLog(@"Private channel subscribe success");
-             }
-         }];
-    }
-}
-
-- (void)unsubscribeToPushNotification {
-
-}
+//- (void)subscribeToPushNotifications {
+//    NSString * channelname = [SettingsKeys getBusinessId];
+//    if (channelname && [channelname length] > 0) {
+//        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+//         {
+//             if (error) {
+//                 NSLog(@"Public channel subscribe error");
+//             } else {
+//                 NSLog(@"Public channel subscribe success");
+//             }
+//         }];
+//        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+//         {
+//             if (error) {
+//                 NSLog(@"Private channel subscribe error");
+//             } else {
+//                 NSLog(@"Private channel subscribe success");
+//             }
+//         }];
+//    }
+//}
+//
+//- (void)unsubscribeToPushNotification {
+//
+//}
 
 -(void)reattach:(ARTRealtimeChannel *)channel {
     if (channel == nil) {

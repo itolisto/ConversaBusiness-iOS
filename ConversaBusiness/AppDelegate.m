@@ -72,7 +72,7 @@
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
         configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        configuration.server = @"https://api.conversachat.com/parse";
+        configuration.server = @"http://35.172.0.182:1337/parse";
         // To work with localhost
 //        configuration.applicationId = @"b15c83";
 //        configuration.server = @"http://192.168.1.5:1337/parse";
@@ -205,49 +205,49 @@
     self.timer = nil;
 }
 
-#pragma mark - Push Notification Methods -
-
+//#pragma mark - Push Notification Methods -
+//
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-    }
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
+//    }
 }
-
+//
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-    }
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+//    }
 }
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
--(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
-    }
-}
-
--(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
--(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail succeded");
-    }
-}
+//
+//#pragma mark - ARTPushRegistererDelegate Methods -
+//
+//-(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didActivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didActivateAblyPush succeded");
+//        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+//    }
+//}
+//
+//-(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didDeactivateAblyPush succeded");
+//    }
+//}
+//
+//-(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didAblyPushRegistrationFail succeded");
+//    }
+//}
 
 #pragma mark - Taplytics Methods -
 

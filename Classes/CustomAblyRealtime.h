@@ -33,8 +33,8 @@
 - (void)logout;
 
 - (void)subscribeToChannels;
-- (void)subscribeToPushNotifications;
-- (void)unsubscribeToPushNotification;
+//- (void)subscribeToPushNotifications;
+//- (void)unsubscribeToPushNotification;
 
 - (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;
